@@ -1,0 +1,1048 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="date" content="13 January 2009"/>
+    <meta name="author" content="fhopecc"/>
+    <meta name="generator" content="Gerbil 3.1.0"/>
+    <title>我的流水帳使用手冊</title>
+
+
+    <style type="text/css" media="screen">
+    <!--
+      body
+{
+  color              : #000000;
+  background-color   : #FFFFFF;
+  line-height        : 1.5em;
+  font-family        : Calibri, Verdana, sans-serif;
+}
+
+/* emphasis */
+
+  em,
+  blockquote
+  {
+    font-family      : Cambria, Georgia, serif;
+  }
+
+  blockquote
+  {
+    margin           : 1em;
+    border           : 5px dotted #ddd;
+    padding          : 1em;
+  }
+
+  hr
+  {
+    height           : 0;
+    border           : 0;
+    border-top       : 2px solid #FF0000;
+  }
+
+/* source code */
+
+  tt,
+  code,
+  pre
+  {
+    font-family      : Consolas, "Lucida Console", monospace;
+  }
+
+  tt
+  {
+    font-weight      : bold;
+    color            : #A52A2A;
+    background-color : #FFFAF0;
+  }
+
+  /* output of the syntax coloring library */
+  .code
+  {
+    background-color : #FFFFF0;
+  }
+
+  pre
+  {
+    cursor           : text;
+    line-height      : normal;
+    border           : 1px dashed #C0C0C0;
+    background-color : #F5FFDF;
+    padding          : 1em;
+    overflow         : auto;
+  }
+
+/* hyperlinks */
+
+  a > img
+  {
+    border           : none;
+  }
+
+  a img
+  {
+    _border          : none; /* for IE6 */
+  }
+
+  a.here:link,
+  a.here:visited
+  {
+    color            : #000000;
+  }
+
+/* lists */
+
+  #content li:first-child
+  {
+    margin-top       : 1em;
+  }
+
+  #content li
+  {
+    margin-bottom    : 1em;
+  }
+
+/* headings */
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .title
+  {
+    font-weight      : lighter;
+    font-family      : Constantia, "Book Antiqua", "URW Bookman L", serif;
+  }
+
+  #lof h1,
+  #lof h2,
+  #lof h3,
+  #lof h4,
+  #lof h5,
+  #lof h6
+  {
+    margin-top       : 1.25em;
+  }
+
+  #content h1,
+  #content h2,
+  #content h3,
+  #content h4,
+  #content h5,
+  #content h6
+  {
+    margin-top       : 2.5em;
+    line-height      : 1.25em;
+  }
+
+  #content h1
+  {
+    font-size        : 2.0em;
+  }
+
+  #content h2
+  {
+    font-size        : 1.8em;
+  }
+
+  #content h3
+  {
+    font-size        : 1.6em;
+  }
+
+  #content h4
+  {
+    font-size        : 1.4em;
+  }
+
+  #content h5
+  {
+    font-size        : 1.2em;
+  }
+
+  #content h6
+  {
+    font-size        : 1.0em;
+  }
+
+/* tables */
+
+  table
+  {
+    border-collapse  : collapse; /* no spacing between cell borders */
+    margin           : auto; /* center horizontally */
+    margin-top       : 1em;
+  }
+
+  th,
+  td
+  {
+    padding          : 1em;
+    border           : 1px solid #bbb;
+    vertical-align   : top;
+    background-color : inherit;
+  }
+
+  th
+  {
+    background-color : #F5F5F5;
+  }
+
+/* document structure */
+
+  .nav
+  {
+    text-align       : center;
+    border-bottom    : thick dotted #DCDCDC;
+    padding-bottom   : 1em;
+    margin-bottom    : 4em;
+  }
+
+  #header
+  {
+    text-align       : center;
+  }
+
+  .header_outside_above,
+  #header,
+  .header_outside_below
+  {
+    margin-bottom    : 5em;
+  }
+
+  .footer_outside_above,
+  #footer,
+  .footer_outside_below
+  {
+    margin-top       : 5em;
+  }
+
+  #header .header_inside_above,
+  #footer .footer_inside_above
+  {
+    margin-bottom    : 4em;
+  }
+
+  #header .header_inside_below,
+  #footer .footer_inside_below
+  {
+    margin-top       : 4em;
+  }
+
+  #Abstract
+  {
+    margin-bottom    : 5em;
+  }
+
+  #Contents li
+  {
+    list-style-type  : none;
+  }
+
+  #Contents li ul
+  {
+    padding-bottom   : 1em;
+    border-left      : thick solid #F5F5F5;
+    _border-left     : none; /* for IE6 */
+  }
+
+  #Contents li ul:hover
+  {
+    border-color     : #DCDCDC;
+  }
+
+  #Contents > ul
+  {
+    padding-left     : 1em;
+  }
+
+  #References
+  {
+    margin-top       : 5em;
+  }
+
+  #footer
+  {
+    border-top       : thick dotted #DCDCDC;
+    padding-top      : 1em;
+    text-align       : center;
+  }
+
+  #footer-credits
+  {
+    margin-top       : 2em;
+  }
+
+/* document nodes */
+
+  .part    > .title,
+  .chapter > .title
+  {
+    padding-bottom   : 0.5em;
+  }
+
+  .part    > .title > big,
+  .chapter > .title > big
+  {
+    display          : block;
+    margin-top       : 0.25em;
+  }
+
+  .part    .title big,
+  .chapter .title big
+  {
+    _display         : block; /* for IE6 */
+    _margin-top      : 0.25em; /* for IE6 */
+    _margin-bottom   : 0.75em; /* for IE6 */
+  }
+
+  .paragraph > .title,
+  .tip       > .title,
+  .note      > .title,
+  .caution   > .title,
+  .warning   > .title,
+  .important > .title,
+  .figure    > .title,
+  .table     > .title,
+  .example   > .title,
+  .equation  > .title,
+  .procedure > .title
+  {
+    font-size        : large;
+    margin-top       : 2em;
+  }
+
+  .paragraph .title,
+  .tip       .title,
+  .note      .title,
+  .caution   .title,
+  .warning   .title,
+  .important .title,
+  .figure    .title,
+  .table     .title,
+  .example   .title,
+  .equation  .title,
+  .procedure .title
+  {
+    _font-size       : large; /* for IE6 */
+    _font-weight     : bold; /* large is not bold in IE6 */
+    _margin-top      : 2em; /* for IE6 */
+  }
+
+  .tip      ,
+  .note     ,
+  .caution  ,
+  .warning  ,
+  .important,
+  .figure   ,
+  .table    ,
+  .example  ,
+  .equation ,
+  .procedure
+  {
+    margin           : 3em;
+  }
+
+  .tip       > .icon,
+  .note      > .icon,
+  .caution   > .icon,
+  .warning   > .icon,
+  .important > .icon
+  {
+    float            : left;
+    margin           : 0 1em 1em 0; /* top right bottom left */
+  }
+
+  .tip       .icon,
+  .note      .icon,
+  .caution   .icon,
+  .warning   .icon,
+  .important .icon
+  {
+    _display         : none; /* IE6 cannot display embedded images */
+  }
+
+  .figure > .title
+  {
+    text-align       : center;
+  }
+
+  .figure .title
+  {
+    _text-align      : center; /* for IE6 */
+  }
+
+  .figure > .content img
+  {
+    display          : block;
+    margin           : auto;
+  }
+
+  .figure .content img
+  {
+    _display         : block; /* for IE6 */
+    _margin          : auto; /* for IE6 */
+  }
+
+      body
+{
+  margin            : auto;
+  padding           : 0.5em;
+  max-width         : 36em;
+}
+
+/* hyperlinks */
+
+  a:link
+  {
+    color           : #0000FF;
+    text-decoration : none;
+  }
+
+  a:visited
+  {
+    color           : #800080;
+    text-decoration : none;
+  }
+
+  a:hover
+  {
+    color           : #FF0000;
+    text-decoration : underline;
+  }
+
+  a:target
+  {
+    color           : #FF0000;
+    font-weight     : bold;
+  }
+
+    -->
+    </style>
+    <style type="text/css" media="print">
+    <!--
+      body
+{
+  color              : #000000;
+  background-color   : #FFFFFF;
+  line-height        : 1.5em;
+  font-family        : Calibri, Verdana, sans-serif;
+}
+
+/* emphasis */
+
+  em,
+  blockquote
+  {
+    font-family      : Cambria, Georgia, serif;
+  }
+
+  blockquote
+  {
+    margin           : 1em;
+    border           : 5px dotted #ddd;
+    padding          : 1em;
+  }
+
+  hr
+  {
+    height           : 0;
+    border           : 0;
+    border-top       : 2px solid #FF0000;
+  }
+
+/* source code */
+
+  tt,
+  code,
+  pre
+  {
+    font-family      : Consolas, "Lucida Console", monospace;
+  }
+
+  tt
+  {
+    font-weight      : bold;
+    color            : #A52A2A;
+    background-color : #FFFAF0;
+  }
+
+  /* output of the syntax coloring library */
+  .code
+  {
+    background-color : #FFFFF0;
+  }
+
+  pre
+  {
+    cursor           : text;
+    line-height      : normal;
+    border           : 1px dashed #C0C0C0;
+    background-color : #F5FFDF;
+    padding          : 1em;
+    overflow         : auto;
+  }
+
+/* hyperlinks */
+
+  a > img
+  {
+    border           : none;
+  }
+
+  a img
+  {
+    _border          : none; /* for IE6 */
+  }
+
+  a.here:link,
+  a.here:visited
+  {
+    color            : #000000;
+  }
+
+/* lists */
+
+  #content li:first-child
+  {
+    margin-top       : 1em;
+  }
+
+  #content li
+  {
+    margin-bottom    : 1em;
+  }
+
+/* headings */
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .title
+  {
+    font-weight      : lighter;
+    font-family      : Constantia, "Book Antiqua", "URW Bookman L", serif;
+  }
+
+  #lof h1,
+  #lof h2,
+  #lof h3,
+  #lof h4,
+  #lof h5,
+  #lof h6
+  {
+    margin-top       : 1.25em;
+  }
+
+  #content h1,
+  #content h2,
+  #content h3,
+  #content h4,
+  #content h5,
+  #content h6
+  {
+    margin-top       : 2.5em;
+    line-height      : 1.25em;
+  }
+
+  #content h1
+  {
+    font-size        : 2.0em;
+  }
+
+  #content h2
+  {
+    font-size        : 1.8em;
+  }
+
+  #content h3
+  {
+    font-size        : 1.6em;
+  }
+
+  #content h4
+  {
+    font-size        : 1.4em;
+  }
+
+  #content h5
+  {
+    font-size        : 1.2em;
+  }
+
+  #content h6
+  {
+    font-size        : 1.0em;
+  }
+
+/* tables */
+
+  table
+  {
+    border-collapse  : collapse; /* no spacing between cell borders */
+    margin           : auto; /* center horizontally */
+    margin-top       : 1em;
+  }
+
+  th,
+  td
+  {
+    padding          : 1em;
+    border           : 1px solid #bbb;
+    vertical-align   : top;
+    background-color : inherit;
+  }
+
+  th
+  {
+    background-color : #F5F5F5;
+  }
+
+/* document structure */
+
+  .nav
+  {
+    text-align       : center;
+    border-bottom    : thick dotted #DCDCDC;
+    padding-bottom   : 1em;
+    margin-bottom    : 4em;
+  }
+
+  #header
+  {
+    text-align       : center;
+  }
+
+  .header_outside_above,
+  #header,
+  .header_outside_below
+  {
+    margin-bottom    : 5em;
+  }
+
+  .footer_outside_above,
+  #footer,
+  .footer_outside_below
+  {
+    margin-top       : 5em;
+  }
+
+  #header .header_inside_above,
+  #footer .footer_inside_above
+  {
+    margin-bottom    : 4em;
+  }
+
+  #header .header_inside_below,
+  #footer .footer_inside_below
+  {
+    margin-top       : 4em;
+  }
+
+  #Abstract
+  {
+    margin-bottom    : 5em;
+  }
+
+  #Contents li
+  {
+    list-style-type  : none;
+  }
+
+  #Contents li ul
+  {
+    padding-bottom   : 1em;
+    border-left      : thick solid #F5F5F5;
+    _border-left     : none; /* for IE6 */
+  }
+
+  #Contents li ul:hover
+  {
+    border-color     : #DCDCDC;
+  }
+
+  #Contents > ul
+  {
+    padding-left     : 1em;
+  }
+
+  #References
+  {
+    margin-top       : 5em;
+  }
+
+  #footer
+  {
+    border-top       : thick dotted #DCDCDC;
+    padding-top      : 1em;
+    text-align       : center;
+  }
+
+  #footer-credits
+  {
+    margin-top       : 2em;
+  }
+
+/* document nodes */
+
+  .part    > .title,
+  .chapter > .title
+  {
+    padding-bottom   : 0.5em;
+  }
+
+  .part    > .title > big,
+  .chapter > .title > big
+  {
+    display          : block;
+    margin-top       : 0.25em;
+  }
+
+  .part    .title big,
+  .chapter .title big
+  {
+    _display         : block; /* for IE6 */
+    _margin-top      : 0.25em; /* for IE6 */
+    _margin-bottom   : 0.75em; /* for IE6 */
+  }
+
+  .paragraph > .title,
+  .tip       > .title,
+  .note      > .title,
+  .caution   > .title,
+  .warning   > .title,
+  .important > .title,
+  .figure    > .title,
+  .table     > .title,
+  .example   > .title,
+  .equation  > .title,
+  .procedure > .title
+  {
+    font-size        : large;
+    margin-top       : 2em;
+  }
+
+  .paragraph .title,
+  .tip       .title,
+  .note      .title,
+  .caution   .title,
+  .warning   .title,
+  .important .title,
+  .figure    .title,
+  .table     .title,
+  .example   .title,
+  .equation  .title,
+  .procedure .title
+  {
+    _font-size       : large; /* for IE6 */
+    _font-weight     : bold; /* large is not bold in IE6 */
+    _margin-top      : 2em; /* for IE6 */
+  }
+
+  .tip      ,
+  .note     ,
+  .caution  ,
+  .warning  ,
+  .important,
+  .figure   ,
+  .table    ,
+  .example  ,
+  .equation ,
+  .procedure
+  {
+    margin           : 3em;
+  }
+
+  .tip       > .icon,
+  .note      > .icon,
+  .caution   > .icon,
+  .warning   > .icon,
+  .important > .icon
+  {
+    float            : left;
+    margin           : 0 1em 1em 0; /* top right bottom left */
+  }
+
+  .tip       .icon,
+  .note      .icon,
+  .caution   .icon,
+  .warning   .icon,
+  .important .icon
+  {
+    _display         : none; /* IE6 cannot display embedded images */
+  }
+
+  .figure > .title
+  {
+    text-align       : center;
+  }
+
+  .figure .title
+  {
+    _text-align      : center; /* for IE6 */
+  }
+
+  .figure > .content img
+  {
+    display          : block;
+    margin           : auto;
+  }
+
+  .figure .content img
+  {
+    _display         : block; /* for IE6 */
+    _margin          : auto; /* for IE6 */
+  }
+
+      /* source code */
+
+  tt
+  {
+    background-color  : inherit;
+    font-weight       : normal;
+  }
+
+  pre,
+  .code
+  {
+    border            : none;
+    background-color  : inherit;
+  }
+
+/* headings */
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6
+  {
+    font-weight       : normal;
+  }
+
+/* hyperlinks */
+
+  /* blend all hyperlinks with normal text */
+  a:link,
+  a:visited
+  {
+    color             : #000000;
+    text-decoration   : none;
+  }
+
+  /* emphasize external and cross-reference hyperlinks */
+  a:not([href^="#"]):link,
+  a:not([href^="#"]):visited,
+  a.xref[title]:link,
+  a.xref[title]:visited
+  {
+    color             : #0000FF;
+    text-decoration   : underline;
+    font-weight       : bolder;
+  }
+
+  /* show URL of destination for external hyperlinks */
+  a:not([href^="#"]):after
+  {
+    content           : " " attr(href);
+    font-family       : Consolas, "Lucida Console", monospace;
+  }
+
+  /* show name of destination for cross-references */
+  a.xref[title]:after
+  {
+    content           : " " attr(title);
+  }
+
+  a:after
+  {
+    font-weight       : normal;
+    font-size         : smaller;
+  }
+
+/* document structure */
+
+  .nav,
+  #lof
+  {
+    display           : none;
+  }
+
+  #Contents,
+  .part,
+  .chapter,
+  #References
+  {
+    page-break-before : always;
+  }
+
+/* document nodes */
+
+  .part    > .title > big,
+  .chapter > .title > big
+  {
+    padding-bottom    : 0.5em;
+  }
+
+  .part    .title big,
+  .chapter .title big
+  {
+    _padding-bottom   : 0.5em; /* for IE6 */
+  }
+
+    -->
+    </style>
+  </head>
+  <body>
+    <div class="nav">
+      <a href="#Contents">Contents</a>
+    </div>
+
+    <br style="display: none"/>
+    <hr style="display: none"/>
+    <br style="display: none"/>
+
+    
+    <div id="header">
+    
+      
+      <h1 class="title"><a class="here" href="#">我的流水帳使用手冊</a></h1>
+      <h2 class="authors"><a href="http://fhopecc.blogspot.com">fhopecc</a></h2>
+      <h3 class="date">13 January 2009</h3>
+    
+    </div>
+    
+
+    
+
+    <br style="display: none"/>
+    <hr style="display: none"/>
+    <br style="display: none"/>
+
+      <div id="Contents">
+        <h1 class="title"><a class="here" href="#Contents">Contents</a></h1>
+        <ul>
+          <li>1&nbsp;&nbsp;<a id="a27860870" href="#a我的記帳本">我的記帳本</a></li><li>2&nbsp;&nbsp;<a id="a27857270" href="#a如何申請一本帳本？">如何申請一本帳本？</a></li><li>3&nbsp;&nbsp;<a id="a27853740" href="#a如何記帳？">如何記帳？</a></li><li>4&nbsp;&nbsp;<a id="a27848580" href="#a何謂「科目」及「科目樹」？">何謂「科目」及「科目樹」？</a></li><li>5&nbsp;&nbsp;<a id="a27844980" href="#a如何組織「科目」？">如何組織「科目」？</a></li>
+
+        </ul>
+      </div>
+
+
+    <br style="display: none"/>
+    <hr style="display: none"/>
+    <br style="display: none"/>
+
+    <div id="content"><div class="section">
+  <h1 class="title">
+    <a class="list" id="a我的記帳本" href="#a27860870">1</a>&nbsp;&nbsp;<a class="here" href="#a我的記帳本">我的記帳本</a>
+  </h1>
+  <div class="content"><div class="paragraph">
+  <p class="title" id="a27859220"><a class="here" href="#a27859220"></a></p>
+  <div class="content">「我的記帳本」是一個小記帳網站，目前僅提供下列幾個功能：<br />
+建立帳本、<br />
+流水帳管理、<br />
+分類帳及<br />
+科目樹等四大功能，<br />
+至於為什麼要建立這個網站，<br />
+是因為我固定會給她一筆家用，<br />
+但她常常透支，我又不好意思問太多她怎麼花的，<br />
+由於她平時有在小筆記本記帳的習慣，<br />
+所以我就寫這個工具讓她記帳，並可以讓我輕易的看看花在那裡。</div>
+</div></div>
+</div><div class="section">
+  <h1 class="title">
+    <a class="list" id="a如何申請一本帳本？" href="#a27857270">2</a>&nbsp;&nbsp;<a class="here" href="#a如何申請一本帳本？">如何申請一本帳本？</a>
+  </h1>
+  <div class="content"><div class="paragraph">
+  <p class="title" id="a27855670"><a class="here" href="#a27855670"></a></p>
+  <div class="content">要使用這個網站，<br />
+首先要申請一本帳本來記帳，<br />
+就等同您要買一本記帳本來記帳是一樣的意思，<br />
+只是這個帳本是網路服務，<br />
+意味著只要您能上網就能記帳。<br />
+申請帳本您必須輸入一個帳號，<br />
+也就是帳本的名稱，<br />
+和一副密碼，<br />
+密碼是用來確認您是這本帳本的主人，<br />
+就像您的私房錢帳本只有您自已知道放在那裡。</div>
+</div></div>
+</div><div class="section">
+  <h1 class="title">
+    <a class="list" id="a如何記帳？" href="#a27853740">3</a>&nbsp;&nbsp;<a class="here" href="#a如何記帳？">如何記帳？</a>
+  </h1>
+  <div class="content"><div class="paragraph">
+  <p class="title" id="a27852110"><a class="here" href="#a27852110"></a></p>
+  <div class="content">當由開啟帳本的畫面，打開帳本後，<br />
+您會看到一片空白，因為新帳本一定是空白嗎！<br />
+這個畫面稱為「流水帳」。<br />
+「流水帳」是記錄的基本單位，<br />
+是由入帳日期、金額、科目和備註 4 種欄位所組成。<br />
+由於帳本是以通常以月為一期，<br />
+所以「流水帳」會顯示某個月份的所有流水帳清單，<br />
+您可以在上方的「月選單」切換顯示指定月份流水帳清單。</div>
+</div><div class="paragraph">
+  <p class="title" id="a27850510"><a class="here" href="#a27850510"></a></p>
+  <div class="content">新增一筆流水帳的操作稱為「入帳」，<br />
+在左方的操作按鈕內，只要按下「入帳」鈕就會開啟入帳畫面，<br />
+入帳畫面包含流水帳的 4 個欄位，<br />
+第一個是「入帳日期欄」，預設會帶入今天的日期，<br />
+在入帳日期旁的是「金額欄」，預設是帶入 0.0。<br />
+下一行的欄位是「科目欄」，<br />
+「科目欄」下方是「科目選單」，<br />
+使用者可以方便的按下「科目選單」的「科目鈕」來輸入科目至「科目欄」。<br />
+最後一個欄位就是「備註欄」，用來輔助說明此筆流水帳。<br />
+當輸入無誤後，請按下「儲存」把輸入資料存到系統內。</div>
+</div></div>
+</div><div class="section">
+  <h1 class="title">
+    <a class="list" id="a何謂「科目」及「科目樹」？" href="#a27848580">4</a>&nbsp;&nbsp;<a class="here" href="#a何謂「科目」及「科目樹」？">何謂「科目」及「科目樹」？</a>
+  </h1>
+  <div class="content"><div class="paragraph">
+  <p class="title" id="a27846920"><a class="here" href="#a27846920"></a></p>
+  <div class="content">每筆流水帳都會分配一至多個「科目」用來把流水帳整理成為「分類帳」。<br />
+「分類帳」的每一個項目就是「流水帳」一種科目的總合。<br />
+「收支帳」是「分類帳」的一種，<br />
+只不過收支帳又將每種科目分為「收入」與「支出」，<br />
+當您開啟「收支帳」作業時，<br />
+會看到兩欄分別為「收入欄」及「支出欄」。<br />
+「收入欄」的第一列指當月流水帳歸屬「收入」的總額，<br />
+其下每一列為當月某一科目歸屬「收入」的「筆數」及「總額」資料。<br />
+「支出欄」的第一列指當月流水帳歸屬「支出」的總額，<br />
+其下每一列為當月科目歸屬「支出」的「筆數」及「總額」資料。<br />
+「收支帳」可看出當月現金流是否透支。</div>
+</div></div>
+</div><div class="section">
+  <h1 class="title">
+    <a class="list" id="a如何組織「科目」？" href="#a27844980">5</a>&nbsp;&nbsp;<a class="here" href="#a如何組織「科目」？">如何組織「科目」？</a>
+  </h1>
+  <div class="content"><div class="paragraph">
+  <p class="title" id="a27843290"><a class="here" href="#a27843290"></a></p>
+  <div class="content">在收支帳裡，「科目」又可再分為「收入」與「支出」，<br />
+所以每個科目形成一種階層關係，<br />
+而控制這種階層關係的稱為「科目樹」，<br />
+開啟「科目樹」作業時，具有不同的操作可以來組織「科目」。</div>
+</div></div>
+</div></div>
+
+
+    <br style="display: none"/>
+    <hr style="display: none"/>
+    <br style="display: none"/>
+
+    
+    <div id="footer">
+    
+      Generated on Tue Jan 13 10:40:42 +0800 2009 by <a href="http://gerbil.rubyforge.org">Gerbil</a> 3.1.0.
+
+    
+    </div>
+    
+  </body>
+</html>

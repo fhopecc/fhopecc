@@ -1,0 +1,39 @@
+<%section "安裝 Ruby" do %>
+<%paragraph do%>
+在 Windows 下安裝 Ruby 很簡單。
+先連到 http://www.ruby-lang.org/en/downloads/。 
+本文章使用的版本是 1.8.6。 
+所以選擇下載 "Ruby 1.8.6 One-Click Installer" 後安裝，
+如同安裝程式名稱所言，妳只要按一下(One-Click)就可以完成安裝。
+<%end%>
+<%figure '選擇安裝模組', 'select_modules' do %>
+<img src='/rails_book/images/select_modules.png'>
+<%end%>
+<%paragraph do%>
+在 Windows 下安裝 Ruby 很簡單。
+如<%=xref 'select_modules'%>所示安裝時可以選不同的模組，
+"Enable RubyGems" 一定要選，
+因為所有的 ruby 套件都是用 gems 系統來管理。
+SciTE 和 FreeRIDE 是 Ruby 的開發工具，
+用用看也不錯，但是真的很慢啦！
+我的建議是用 VIM，因為我是 vimer。
+此安裝程式還會安裝"fxri - Interactive Ruby Help and Console"。
+這個工具很有用，可以用來查 Ruby Class 的 method，
+也可以測試一小段的程式看他跑出來的東西符不符合你的期望。
+要測試 ruby 是否安裝成功，先按[開始/執行]輸入cmd，便開啟命令視窗，
+在視窗輸入以下的指令：
+<%end%>
+<%code 'ruby -v', 'ruby_v', 'command' do %>
+ruby -v
+<%end%>
+<%figure '執行 ruby -v', 'ruby_v_successful' do %>
+<img src='/rails_book/images/ruby_v_successful.png'>
+<%end%>
+<%paragraph do%>
+若螢幕回覆如<%=xref 'ruby_v_successful'%>，就表示安裝 Ruby 成功。
+指令裡的 -v 就是顯示 ruby 版本的意思。
+螢幕回覆裡的 1.8.6 就是現有安裝的版本。
+[i386-mswin32] 指目前的作業系統是 Windows，
+當然別的系統就會顯示自己的系統名稱。
+<%end%>
+<% end %>

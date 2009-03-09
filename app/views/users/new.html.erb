@@ -1,0 +1,17 @@
+<div id='login_form'>
+<h1><%='申請新帳本'%></h1>
+<%= error_messages_for :user %>
+
+<% form_for :user, :url => users_path do |f| -%>
+<p><label for="login">帳號</label><br/>
+<%= f.text_field :login %></p>
+
+<p><label for="password">密碼</label><br/>
+<%= f.password_field :password %></p>
+
+<p><label for="password_confirmation">密碼確認</label><br/>
+<%= f.password_field :password_confirmation %></p>
+
+<p><%= submit_tag '送出申請書' %></p>
+<% end -%>
+</div>

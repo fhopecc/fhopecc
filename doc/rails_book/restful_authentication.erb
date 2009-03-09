@@ -1,0 +1,106 @@
+<% chapter "為程式加入基本的認證功能"  do %>
+<%paragraph do %>
+幾乎所有的應用系統都需要配備有基本的認證功能，
+Rails 有一個增益套件稱為 Restful Authentication 
+可以快速的為系統加入基本的認證功能。
+這個套件需要 Rails 的版本高於 1.2。
+<%end%>
+<%section "安裝 Restful Authentication" do %>
+<%paragraph do %>
+首先先使用 plugin 指令來安裝 Restful Authentication 的 plugin。
+<%end%>
+<%code 'command','command','command' do%>
+ruby script/plugin install http://svn.techno-weenie.net/projects/plugins/restful_authentication 
+<%end%>
+<%paragraph do %>
+Restful Authentication 也是一種 generator，其基本語法如下：
+<%end%>
+<%code 'command','command','command' do%>
+script/generate authenticated user sessions
+<%end%>
+<%paragraph do %>
+*參數 user* 指定帳號主檔的名稱，通常取作 user 或是 account，
+當使用者申請新帳號時，會在這裡建立一筆記錄。
+此命令會依指定的名稱建立對應的 migration 及 controller，
+controller 帶有建立新帳號的 create 動作。
+<%end%>
+<%paragraph do %>
+*參數 sessions* 指定 session controller 名稱，
+session controller 處理網站實際的登入及登出功能。
+<%end%>
+<%paragraph do %>
+generate 除了產出基本的程式碼，
+還會在 route.rb 加上下列程式碼，
+因為我們與 server 的互動上，一次只會有一個 session，
+故 session 是一個 Singular resource，
+利用 map.resource 產出對應的 Restful 方法。
+<%end%>
+<%code 'ruby', 'ruby',"ruby" do%>
+map.resources :users
+map.resource :session
+<%end%>
+<%paragraph do %>
+最後執行 migrate 把資料庫升級就 OK了。
+<%end%>
+<%code 'command','command','command' do%>
+rake db:migrate
+<%end%>
+<%end%>
+<%section "為程式加入認證功能", 'auth' do %>
+<%paragraph do %>
+Restful Authentication 是以議程的 REST 來實作登入登出，
+其功能與 URL 對應架構如<%=xref "restful_authentication_map" %>所述：
+<%end%>
+<%table "認證功能的 REST 架構", "restful_authentication_map" do %>
+<table>
+<tr><td>申請新帳號</td><td>http://localhost:888/users/new</td></tr>
+<tr><td>登入</td><td>http://localhost:888/sessions/new</td></tr>
+<tr><td>登出</td><td>http://localhost:888/sessions/destroy</td></tr>
+</table>
+<%end%>
+<%paragraph do %>
+首先我們要申請一個新帳號，URL 輸入 http://localhost:888/users/new
+回應使用者一個申請新帳號的表格如下圖，輸入完資料按下 Sign up，
+則會回到前一個畫面。
+<%end%>
+<%figure "申請新帳號" do %>
+ <img src="images/signup.jpg"/>
+<%end%>
+<%paragraph do %>
+要讓前面的 hello rails 認證後才能看到，
+首先加入 include AutheticatedSystem 這行把認證功能加入到 controller，
+之後在 before_filter 加入這一句 :login_required, :only => [:rails]，
+表示 rails 方法要認證過才可以，
+這樣URL輸入 http://localhost:888/hello/rails 時，
+會跳到登入，畫面如<%=xref 'login'%>，輸入完帳號密碼後，登入成功後才會顯示<%=xref 'hello_rails'%>，
+程式碼如下：
+<%end%>
+<%code 'ruby','ruby', "ruby" do %>
+class HelloController < ApplicationController
+  include AuthenticatedSystem
+  before_filter :login_required, :only => [:rails]
+  def rails
+    ...
+  end
+end
+<%end%>
+<%figure "登入畫面", 'login' do %>
+<img src="images/login.jpg"/>
+<%end%>
+<%end%>
+<%section "Authenticated generator 的其它功能" do %>
+<%code 'command','command','command' do%>
+--skip_migration
+<%end%>
+<%paragraph do %>
+若加入上述選項，則不會建立對應的資料庫遷移。
+基本程式產生好後，產生器會在 config/routes.rb 加入以下程式碼。
+<%end%>
+<%code 'command','command','command' do%>
+script/generate authenticated user --include-activation
+<%end%>
+<%paragraph do %>
+上述語法會為認證系統加入郵件通知功能。
+<%end%>
+<%end%>
+<%end%>

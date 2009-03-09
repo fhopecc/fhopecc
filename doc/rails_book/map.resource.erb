@@ -1,0 +1,99 @@
+<%section 'map.resource', 'map.resource' do%>
+<%paragraph do%>
+Rails 2 對 REST 的支援就是提供一組工具，
+若使用者使用 REST 的命名法則，
+則會自動產生一組具名路由。
+<%end%>
+<%code 'map.resources :users', 'map.resources :users', 'ruby' do%>
+map.resources :users
+<%end%>
+<%paragraph do%>
+其中最重要的工具是 map.resources，
+語法如<%=xref 'map.resources :users'%>。
+它會接受 1 個符號，
+此符號代表資源的名稱，
+Rails 2 會依照此名稱產生一組符合 REST 的具名路由，
+其輔助方法及產出的路由表如<%=xref 'map.resources :user'%>。
+<% end %>
+<%table 'map.resources :user 產出的路由表', 'map.resources :user' do%>
+<table>
+<tr>
+<th>輔助方法</th><th>GET</th><th>POST</th><th>PUT</th><th>DELETE</th>
+</tr>
+<tr>
+<td>user_url(@user)</td><td>/users/1 show</td>
+<td></td>
+<td>/users/1 update</td><td>/users/1 destroy</td>
+</tr>
+<tr>
+<td>users_url</td><td>/users index</td><td>/users create</td>
+<td></td><td></td>
+</tr>
+<tr>
+<td>edit_user_url(@user)</td><td>/users/1/edit edit</td>
+<td></td><td></td><td></td>
+</tr>
+<tr>
+<td>new_client_url</td><td>/users/new new</td>
+<td></td><td></td><td></td>
+</tr>
+</table>
+<%end%>
+<%paragraph do%>
+用過 Rails 1 的使用者應該知道使用 scaffold generator
+會自動產出針對某個 model 的預設 controller，
+同時根據 table 的欄位產出 list, show, new, create, 
+edit, update, destroy 等 action 來操作資源，
+我們把 controller 視為名詞，而 action 視為動詞，
+路由系統會依照 URL 及 HTTP 動詞來決定該
+HTTP Request 應由那個 action 處理，
+如<%=xref 'map.resources :user'%>所示。
+最右欄為具名路由的輔助方法，會產出 URL，
+同時會依據 HTTP 動詞轉到對應的 action。
+如 users_url 會產出 /users 的路徑。
+<%end%>
+<%paragraph do%>
+至於 HTTP 動詞的原則如下：
+<%end%>
+<%paragraph do%>
+未指定 HTTP 動詞則預設為 GET。
+<%end%>
+<%paragraph do%>
+form_tag 及 form_for 方法動詞則預設為 POST。
+<%end%>
+<%code 'put/delete example', 'put/delete example', 'ruby' do%>
+&lt;%= link_to "Delete this user",:url => user(@user),
+:method => :delete %>
+
+&lt;% form_for "user", :url => user(@auction),
+:html => { :method => :put } do |f| %>
+<%end%>
+<%paragraph do%>
+PUT/DELETE 則需要用 :method 參數指定，
+如<%=xref 'put/delete example'%>。
+但這可不是讓 Browser 執行  PUT 及 DELETE ，
+而是執行 POST，並加一個隱藏參數 _method 來達成。
+<%end%>
+<%paragraph do%>
+從<%=xref 'map.resources :user'%>可以知道 
+Rails 2 的 URL 雖然不會內含名詞，
+但是有單複數之分。 
+單數格式的 URL 通常為 users/:id，
+而針對單數資源的動作有以下幾個。
+show 為顯示指定 user 的資料、
+update 為更新 1 個 user 的資料及 destroy 刪除 1 個 user 的資料。
+<%end%>
+<%paragraph do%>
+針對複數資源的動作有 list 列出所有使用者資料及建立新的 user 資料。
+為什麼建立新 user 資料算複數資源？
+因為建立是針對整個 users 資源加入 1 個新的資源，
+故 Rails 2 把它視為 users。
+<%end%>
+<%paragraph do%>
+edit 及 new 這 2 個動作為顯示一個輸入表格，
+讓使用者輸入要更正的 user 資料及要新增的 user 資料，
+因為他不算是 CRUD 四個標準動作，
+所以用 2 個輔助方法來產出上述的對應 URL，
+輸入 users/1/edit 及 users/new 分別顯示對應的輸入表格。
+<%end%>
+<%end%>

@@ -1,0 +1,162 @@
+# Copyright 2007 Suraj N. Kurapati
+# See the file named LICENSE for details.
+
+desc: web page for the Internet
+
+code: |
+  class Node
+    # Returns the user-defined title for this node's content.
+    def title
+      @title ||= args[0]
+    end
+
+    def isms_no
+      @isms_no ||= args[1]
+    end
+  end
+
+nodes:
+  ##
+  # Structure
+  section:
+    toc: false
+    lof: false
+    index: false
+    number: true
+    output: |
+      selection.endkey WdStory, WdMove
+      selection.insertbreak "Type" => WdPageBreak
+      selection.font.size                 = 20
+      report_title = ic.iconv("<%=$org%><%=$title%>")
+      section_title = ic.iconv("<%=@node.isms_no%>.<%=@node.title%>")
+
+      selection.paragraphFormat.alignment = WdAlignParagraphCenter
+      selection.typeText report_title
+      selection.typeParagraph
+
+      selection.paragraphFormat.alignment = WdAlignParagraphLeft
+      selection.typeText section_title
+
+      selection.endKey WdStory, WdMove
+      selection.font.size                 = 12
+      cur_table = doc.tables.add selection.range, 1, 6
+      cur_table.borders.insidelinestyle  = WdLineStyleSingle
+      cur_table.borders.outsidelinestyle = WdLineStyleSingle
+      cur_table.columns(1).width = 20
+      cur_table.columns(2).width = 200
+      cur_table.columns(3).width = 70
+      cur_table.columns(4).width = 250
+      cur_table.columns(5).width = 140
+      cur_table.columns(6).width = 80
+      row = cur_table.rows(1)
+      row.range.paragraphformat.alignment = WdAlignParagraphDistribute
+      row.cells(1).range.text = ic.iconv("編號")
+      row.cells(2).range.text = ic.iconv("稽核項目")
+      row.cells(3).range.text = ic.iconv("受檢單位")
+      row.cells(4).range.text = ic.iconv("事實狀況")
+      row.cells(5).range.text = ic.iconv("改進建議事項")
+      row.cells(6).range.text = ic.iconv("備註")
+      entry_no = 0
+      <%=@node.content%>
+      ranget = row.cells(1).range
+      ranget.move "Unit" => WdWord, "Count" => 1
+      ranget.select
+      word.selection.rows.headingformat = true
+
+  entry:
+    toc: false
+    lof: false
+    index: false
+    number: true
+    output: |
+      entry_no += 1
+      cur_row = cur_table.rows.add
+      cur_col = 1
+      range = cur_row.cells(cur_col).range
+      range.paragraphformat.alignment = WdAlignParagraphCenter
+      range.text = entry_no.to_s
+      <%=@node.content%>
+
+  audit: &item
+    output: |
+      cur_col += 1
+      range = cur_row.cells(cur_col).range
+      range.paragraphformat.alignment = WdAlignParagraphLeft
+      range.text = ic.iconv("<%=@node.content%>")
+      <%="\n"%>
+
+  unit: *item 
+  fact: *item 
+  refine: *item 
+  suggestion: *item 
+
+output: |
+  require "win32ole" 
+  require 'iconv'  
+  module WordConst
+  end 
+  ic = Iconv.new("big5", "utf-8")  
+  begin 
+    word = WIN32OLE.connect("word.application") 
+  rescue 
+    word = WIN32OLE.new("word.application") 
+    word.documents.add 
+  end 
+  WIN32OLE.const_load word, WordConst
+  include WordConst
+  selection = word.selection
+  doc = word.activedocument
+
+  word.visible = true 
+  pagesetup = doc.pagesetup
+  pagesetup.orientation = WdOrientLandscape
+  pagesetup.topmargin = word.centimeterstopoints(2)
+  pagesetup.bottommargin = word.centimeterstopoints(1)
+  pagesetup.leftmargin = word.centimeterstopoints(2)
+  pagesetup.rightmargin = word.centimeterstopoints(1)
+
+  selection.paragraphFormat.alignment = WdAlignParagraphCenter
+  selection.font.namefareast          = ic.iconv("標楷體")
+  selection.font.nameascii            = "Times New Roman"
+  selection.font.size                 = 32
+  selection.typetext ic.iconv("<%=$org%>")
+  selection.typeparagraph 
+  selection.font.size                 = 28
+  selection.typetext ic.iconv("<%=$title%>")
+  selection.typeparagraph 
+
+  selection.font.size                 = 20
+  cur_table = doc.tables.add selection.range, 7, 2
+  cur_table.borders.insidelinestyle  = WdLineStyleSingle
+  cur_table.borders.outsidelinestyle = WdLineStyleSingle
+
+  col  = cur_table.columns(1)
+  colv = cur_table.columns(2)
+  cur_table.columns(1).width = 200
+  cur_table.columns(2).width = 560
+  col.cells(1).range.text  = ic.iconv("稽核項目")
+  <% 
+    sections = @nodes.select { |n| n.type == 'section' }
+    sections = sections.map { |n| n.isms_no.to_s + "." + n.title }
+    sections = sections.join('、')
+  %>
+  colv.cells(1).range.text = ic.iconv("<%=sections%>")
+  colv.cells(1).range.font.size = 12
+
+  col.cells(2).range.text = ic.iconv("稽核日期")
+  colv.cells(2).range.text = ic.iconv("<%=$audit_date%>")
+
+  col.cells(3).range.text = ic.iconv("稽核人員")
+  col.cells(4).range.text = ic.iconv("複核人員")
+  col.cells(5).range.text = ic.iconv("參與檢討人員")
+  col.cells(6).range.text = ic.iconv("相關稽核文書")
+  cur_table.rows(7).cells.merge
+  note = "    分發：討論用□      供相關單位參考□      納入稽查報告□"
+  range =  cur_table.rows(7).cells(1).range
+  range.text  = ic.iconv(note) 
+  range.paragraphformat.alignment = WdAlignParagraphLeft
+
+  <%=@content%>
+  
+  word.activedocument.saveas "FileName" => 'd:\\moneylog\\public\\isms\\<%=$filename%>.doc'
+  word.quit WdSaveChanges

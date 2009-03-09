@@ -1,0 +1,77 @@
+<% chapter "路由" do %>
+<% paragraph do %>
+Rails 路由主要為了達成 2 個功能，第 1 個功能稱為 *URL 辨識* ，這個功能是把使用者送來的 HTTP Request，依據其 URL 送給對應的 controller 及 action 處理。 
+<% end %>
+<% code 'list items url', 'list_items_url', 'url' do %>
+http://localhost:3000/items/list
+<% end %>
+<% paragraph do %>
+如<%=xref 'list_items_url'%>所展示的 URL 會讓 Server 呼叫 ItemsController 的 list 方法來處理此 Request。
+<% end %>
+<% paragraph do %>
+第 2 個功能稱為 *URL 產出* ，它為 link_to, redirect_to 及 form_tag
+等方法產出對應的 URL。
+<% end %>
+<% code 'list items link_to', 'list_items_link_to', 'ruby' do %>
+&lt;%=link_to "Items", :controller => "items", :action => "list"%>
+<% end %>
+<% paragraph do %>
+上述程式碼便會產出上述 URL。
+路由的處理是由 *路由規則* 所定義，
+所有路由規則存放在 config/route.rb 檔案裡。
+<% end %>
+<% section "路由規則" do %>
+<% code '路由規則', 'route_rule', 'ruby' do %>
+map.connect 'myrecipes/:ingredient',
+            :controller => 'recipes',
+            :action => 'show'
+<% end %>
+<% paragraph do %>
+每條路由規則的形式如<%=xref 'route_rule'%>，定義一個規則必須使用
+map.connect 方法，第 1 個參數為 *URL 樣式*，符合此樣式的 URL
+則會套用此規則。其它參數則為 *限定參數* ，限定參數是一組鍵值對，
+符合限定參數的 URL 產出方法則會套用此規則產出如樣式的 URL。
+<% end %>
+<%paragraph do %>
+當路由執行 URL 辨識中，會找到傳來 URL 所符合 URL 樣式的規則，
+並套用規則的限定參數，使 :controller 鍵，其值一定為 'recipes'，
+而 :action 其值一定為
+'show'。
+"http://localhost:3000/myrecipes/apples" 這個 URL
+會符合<%=xref 'route_rule'%>規則的 URL 樣式，
+所以會將此 HTTP Request 導入給 RecipeController 的 show action 處理。
+<% end %>
+<%paragraph do %>
+在 URL 產出中，會依照 link_to
+方法的限定參數來找到限定參數與之相符的規則，若限定參數對符合 A 規則，則會利用 A 的 URL 樣式來產出 URL。
+<% end %>
+<%code 'link_to show apples', 'link_to_show_apples', 'ruby' do %>
+link_to 'Recipe for apples',
+        :controller  => 'recipes',
+        :action      => 'show',
+        :ingredient  => 'apples' 
+<% end %>
+<%paragraph do %>
+如<%=xref 'link_to_show_apples'%>中 link_to 方法，
+因為指定的限定參數，與上述規則相符，
+則會URL產出為 "http://localhost:3000/myrecipes/apples" 。
+<% end %>
+<%paragraph do %>
+在 URL 樣式中，前置 ':' 字元的識別字稱為 *接收子*，
+如<%=xref 'route_rule'%>就定義一個接收子為 ingredient。
+接收子的功用主要用來接受 URL 字串中，位置相符的值，
+並把它加入到對應的 params 參數，讓 controller 使用。
+"http://localhost:3000/myrecipes/apples" 
+便會讓 ingredient 接受 'apples' 這個字串，
+並定義 params[:ingredient] = 'apples'。
+<% end %>
+<%paragraph do %>
+關於規則定義你所應該知道的最後一件事就是 *靜態字*，
+URL 樣式中以 '/' 分離的元素，除掉接收子，其餘的都是靜態字。
+如<%=xref 'route_rule'%>就定義一個靜態字為 myrecipes，
+靜態字也是用來辨識 URL 所符合的規則。
+<% end %>
+<% end %>
+<%# include doc/rails_book/route.rb.erb #%>
+<%# include doc/rails_book/named_route.erb #%>
+<% end %>

@@ -1,0 +1,44 @@
+<% section "單數資源" do %>
+<%paragraph do%>
+單數資源(Singular Resource)指對使用者而言，
+資源在整個應用程式只會存在一個，
+所以像前述資源的 7 種操作，
+關於複數資源的操作就沒有意義。
+例如通訊錄，你應該只想要一本通訊錄，
+所以一旦你登入系統，只會看到一本通訊錄。
+Rails 將這種資源用單數資源來表示。
+<% end %>
+<% code 'map.resource :address_book','MapResourceAddressBook' ,'ruby' do%>
+map.resource :address_book
+<% end %>
+<%paragraph do%>
+單數資源的語法如 <%=xref 'MapResourceAddressBook'%>，
+我們route.rb 加入 map.resource :address_book 這行，
+來表示 address_book 是單數資源。
+<% end %>
+<%table '單數資源路由表','SingularResourceRoutingTable' do%>
+<table>
+<tr>
+<th>輔助方法</th><th>GET</th><th>POST</th><th>PUT</th><th>DELETE</th>
+</tr>
+<tr>
+<td>address_book_url</td><td>/users/1 show</td>
+<td></td>
+<td>/users/1 update</td><td>/users/1 destroy</td>
+</tr>
+<tr>
+<td>edit_user_url(@user)</td><td>/users/1/edit edit</td>
+<td></td><td></td><td></td>
+</tr>
+<tr>
+<td>new_client_url</td><td>/users/new new</td>
+<td></td><td></td><td></td>
+</tr>
+</table>
+<%end%>
+<%paragraph do%>
+則會產出 REST action 中適用於 singular action，
+上例產出
+這些操作單數個體的動作。
+<% end %>
+<% end %>

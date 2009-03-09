@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title><%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'dba.css' %>
+	<style type="text/css" media="print">
+		.system_tray {display:none}
+		body {font-family: "標楷體";font-size:14}
+    table {border-collapse: collapse;width:80%}
+		tr {width:fixed 100}
+    tr, td, th {border:1px solid black}
+		.sign {border-bottom:none;border-left:none;border-right:none}
+    .sign2 {border:none;margin-top:30px;padding-top:60px}
+
+		h1 { font-size:24px;padding-bottom:28px} /* report title */
+		h2 { color:blue; font-size:16px} /* section title */
+		h3 { color:blue; font-size:16px} /* item title */
+		label {font-weight:bold}
+
+	</style>
+</head>
+<body>
+<div class="system_tray">
+<%=link_to "列印程式館信件",:controller => :ypm, :action => :select_mail%>
+<%=link_to "資料庫檢核表",:controller => :dba, :action => :elt_checklist%>
+</div>
+<%= yield  %>
+<p style="color: green"><%= flash[:notice] %></p>
+</body>
+</html>

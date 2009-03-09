@@ -1,0 +1,27 @@
+<%
+  # parameters for the HTML format
+  $title   = "Run on rails"
+  $subtitle= "輕鬆搭上 Rails 2.0 火車"
+  $authors = { 'fhopecc' => 'http://fhopecc.blogspot.com' }
+  $file    = 'run_on_rails.doc'
+  $feeds   = {'feeds.xml' => "rss"}
+%>
+<%section "前言" do %>
+<%# include restful_rails_intro.erb #%>
+<%end%>
+<%section "範例網站簡介" do %>
+<%paragraph do %>
+本文圍繞著一個範例網站來介紹 Rails，
+使大家能逐步跟著文章學習做出一樣的網站，
+所以本文會先介紹這個範例網站，
+讓讀者了解學習目標是要作出怎樣的網站。
+下面會說明這個網站要解決什麼問題，
+以及為了解決這個問是提供了那些功能。
+<%end%>
+<%# include ../../doc/mlogman/mlogman.erb #%>
+<%end%>
+<%section "準備開發環境" do %>
+<%# include install_ruby_section.erb #%>
+<%# include install_rails_section.erb #%>
+<%end%>
+<%# include mvc.erb #%>

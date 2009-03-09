@@ -1,0 +1,9 @@
+<% form_for :tag_tree, @tag_tree, 
+    :url => tag_trees_path do |f| %>
+<div id="operations">
+<%= link_to_submit "建立" %>
+</div>
+<div id="input">
+<%= render :partial => 'form', :locals => {:f => f} %>
+</div>
+<% end %>

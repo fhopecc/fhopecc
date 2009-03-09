@@ -1,0 +1,12 @@
+<div id="help" class="topbar_button">
+<%=link_to "說明", helper_url("main") %>
+</div>
+<div id="lang" class="topbar_button">
+</div>
+<div id="login" class="topbar_button">
+<%=current_user.login%>
+<%=link_to "關帳", session_url, :method=>:delete %> 
+</div>
+<div id="logo">
+<%=link_to "MoneyLoG", mlogs_url %> 
+</div>

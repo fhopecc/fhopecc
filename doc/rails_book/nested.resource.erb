@@ -1,0 +1,52 @@
+<%section '巢狀資源', 'nested.resource' do%>
+<%paragraph do%>
+巢狀資源在程式設計中常見到，
+通常用來表達某一種資源擁有另一種資源，
+像是一個流水帳程式，
+一本使用者可以擁有很多流水帳。
+<%end%>
+<%code 'map.resources users/mlogs','UsersMlogsMap' ,'ruby' do%>
+map.resources :users do |user|
+  user.resources :mlogs
+end
+<%end%>
+<%paragraph do%>
+<%=xref 'UsersMlogsMap'%>為指定巢狀資源的語法，
+user 所包含的 mlogs 利用碼塊(block)傳給 map.resources，
+這說明 user 包含許多 mlog。
+<%end%>
+<%table 'users/mlogs 的路由表', 'UsersMlogsRoutingTable' do%>
+<table>
+<tr>
+<th>輔助方法</th><th>GET</th><th>POST</th><th>PUT</th><th>DELETE</th>
+</tr>
+<tr>
+<td>user_mlog_url(@user, @mlog)</td>
+<td>/users/1/mlogs/1 show</td>
+<td></td>
+<td>/users/1/mlogs/1 update</td><td>/users/1/mlogs/1 destroy</td>
+</tr>
+<tr>
+<td>user_mlogs_url(@user)</td><td>/users/1/mlogs index</td>
+<td>/users/1/mlogs create</td>
+<td></td><td></td>
+</tr>
+<tr>
+<td>edit_user_mlog_url(@user, @mlog)</td><td>/users/1/mlogs/1/edit edit</td>
+<td></td><td></td><td></td>
+</tr>
+<tr>
+<td>new_user_mlog_url(@user)</td><td>/users/1/mlogs/new new</td>
+<td></td><td></td><td></td>
+</tr>
+</table>
+<%end%>
+<%paragraph do%>
+<%=xref 'UsersMlogsMap'%>則會為 users/mlogs 巢狀資源產出
+<%=xref 'UsersMlogsRoutingTable'%>的路由表。
+因為巢狀資源涉及 2 個資源，
+所以所有的輔助方法都要加上 user 的參數，
+來指定 mlog 資源的擁有者。
+<%end%>
+<%end%>
+

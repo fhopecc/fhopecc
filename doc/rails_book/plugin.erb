@@ -1,0 +1,130 @@
+<% chapter "增益套件"  do %>
+
+  <% section "何謂增益套件" do %>
+    增益套件是一組相關的函式庫，可用來擴展 Rails 的功能，
+    在 Rails 中管理增益套件主要是使用內建的script/plugin程式。
+    下面我們會作一翻介紹。
+  <% end %>
+
+  <% section "增益套件儲存庫的操作" do %>
+   儲存庫是存放增益套件的地方，
+   我們可以把一個儲存庫來源加入到本機儲存庫來源清單，
+   還可以顯示所有儲存庫來源清單中的增益套件。
+		<code lang="command">
+script/plugin sources [url [url2 [...]]]
+script/plugin unsources [url [url2 [...]]]
+		</code>
+		上面的命令分別為新增及移除plugin repository url。如果這個新增命令執行失敗，表示這個url已經存在了。
+		<code lang="command">
+script/plugin source http://svn.techno-weenie.net/projects/plugins/
+		</code>
+    例如上面的程式碼把http://svn.techno-weenie.net/projects/plugins/加入本機儲存庫來源清單。
+		<code lang="command">
+script/plugin discover [url]
+這個命令預設會去爬http://wiki.rubyonrails.org/rails/pages/Plugins頁面中有 'plugin'字串的http url或svn url。你也可以提供自己的頁面，那他就會去爬你提供的頁面。
+		</code>
+		<code lang="command">
+script/plugin list
+		</code>
+    上面的程式碼顯示所有儲存庫來源清單中的增益套件。
+  <% end %>
+
+  <% section "增益套件" do %>
+		使用script/plugin命令應該是最常的吧。你應該當用這個：
+  <code lang="command">
+$ cd projects/plugin-test/
+$ script/plugin install restful_authentication
++ ./README
++ ./Rakefile
++ ./generators/authenticated/USAGE
++ ./generators/authenticated/authenticated_generator.rb
++ ./generators/authenticated/templates/activation.html.erb
++ ./generators/authenticated/templates/authenticated_system.rb
+./generators/authenticated/templates/authenticated_test_helper.rb
+...
+  </code>
+		script/plugin 必須在 Rails app 的根目錄中執行，執行完後，
+		便安裝了restful_authentication 這個增益套件到vendor/plugins目錄中了。
+    script/plugin 檢查它所知道的儲存庫來源是否有增益套件叫做 restful_authentication。
+    更多套件操作的語法如下：
+  <code lang="command">
+script/plugin install [plugin]
+  </code>
+這個命令可以讓你下載一個增益套件到vendor/plugins中。
+除了只給增益套件名稱，你也可以直接寫出增益套件的url，這樣這個增益套件就不一定要是~/.rails-plugin-sources中有紀錄的url了。
+  <code lang="command">
+script/plugin remove [plugin]
+  </code>
+這個命令可以讓你從vendor/plugins移除一個增益套件。如果這個增益套件有uninstall.rb，那在移除之前會先執行。
+  <code lang="command">
+script/plugin update [plugin]
+  </code>
+這個命令可以讓你將vendor/plugins中的增益套件升級到最新的版本。
+
+Subversion與script/plugin
+當我們使用script/plugin install這個command，而沒有其他選項時，它會取回一個增益套件的複製，但不會幫你check out到你的Repository中。
+
+一個比較好的方式是使用Subversion來存放你的程式碼，並且有額外的訊息來紀錄你所用到的增益套件的目前版本，與哪裡可以取得這些 增益套件。這個額外的訊息可以幫助你自動將你所用到的增益套件升級到最新的版本。你可以用-o 這個選項來達到這個目的：
+$ script/plugin install -o white_list
+A    /home/weijen/projects/plugin-test/vendor/plugins/white_list/test
+A    /home/weijen/projects/plugin-test/vendor/plugins/white_list/test/white_list_test.rb
+A    /home/weijen/projects/plugin-test/vendor/plugins/white_list/Rakefile
+A    /home/weijen/projects/plugin-test/vendor/plugins/white_list/init.rb
+A    /home/weijen/projects/plugin-test/vendor/plugins/white_list/lib
+A    /home/weijen/projects/plugin-test/vendor/plugins/white_list/lib/white_list_helper.rb
+A    /home/weijen/projects/plugin-test/vendor/plugins/white_list/README
+取出修訂版 3183.
+
+
+在上面這個例子中，其實white_list並沒有存到我的Repository中。
+
+script/plugin update
+如果你的增益套件是用script/plugin install -o來安裝的，那update這個command就會自動幫你的增益套件升級到最新版本。你也可以用-r這個選項來選擇要升級到哪個版本。
+
+SVN Externals
+使用install -o這個命令，在配置我們的程式到Server上時會有一些問題。因為這些plugin只存在你的工作目錄中，他們跟你的project並沒有任何的連結。因此你需要在你將配置的server上手動安裝這些增益套件，聽起來就不是好方法。還好我們有svn:externals。
+
+屬性svn:externals會在你check out或update你的程式碼的時候，同步check out或update這些增益套件，不過不是你程式碼的repository，而是這些增益套件各自的repository。我們可以利用 script/plugin install -x來做到：
+$ script/plugin install -x restful_authentication
+A    /home/weijen/projects/plugin-test/vendor/plugins/restful_authentication/Rakefile
+A    /home/weijen/projects/plugin-test/vendor/plugins/restful_authentication/lib
+A    /home/weijen/projects/plugin-test/vendor/plugins/restful_authentication/lib/restful_authentication
+A    /home/weijen/projects/plugin-test/vendor/plugins/restful_authentication/lib/restful_authentication/rails_commands.rb
+A    /home/weijen/projects/plugin-test/vendor/plugins/restful_authentication/install.rb
+...
+
+
+我們可以利用svn propget svn:externals這個SVN command來看看發生了甚麼事：
+$ svn propget svn:externals vendor/plugins/ restful_authentication
+vendor/plugins - restful_authentication        http://svn.techno-weenie.net/projects/plugins/restful_authentication
+
+鎖定在某一個版本
+很多時候，我們並不需要增益套件升級到最新的版本，那我們可以利用-r這個選項來指定某一個版本號碼。
+
+使用Piston
+
+Piston是用來管理你的專案中的vendor目錄中的函式庫的版本，比起直接使用Subversion，它可以節省你的時間，並減少錯誤。
+不同於使用svn的svn:externals屬性，Piston會複製一份副本放進你的repository中。但是Piston會保存一份資料，存放跟svn有關的原始碼與修訂版號有關的訊息。
+
+安裝
+安裝Piston就只要一行指令：
+sudo gem install piston
+
+導入一個函式庫
+import命令要Piston導入一個函式庫。例如我要使用EdgeRails，我就從ror的官方svn導入最新的Rails。
+$piston import http://dev.rubyonrails.org/svn/rails/trunk vendor/rails
+
+Piston並不會幫你放到你的repository中，你必須自己check in。
+Piston不像是script/plugin，會預設放到vendor/plugins中，你需要指定目的地。預設是你目前的目錄。
+
+轉變現有的函式庫
+如果你已經有些函式庫是使用svn:externals，你可以在你專案的根目錄，使用convert命令來轉換。
+
+Updating
+如果你要把你所使用的函式庫升級到最新的版本，使用update命令。
+$piston update vendor/plugins/white_list/
+
+鎖定與解除鎖定某一個修訂版本
+要鎖定某一個函式庫，避免讓其他同事升級了，你可以使用lock命令，那要解除鎖定就使用unlock命令。
+  <% end %>
+<% end %>

@@ -1,0 +1,44 @@
+<%section "MVC 第 2 個例子, 流水帳" do%>
+<%figure 'Rails 的 MVC 架構', 'rails2_mvc' do %>
+<img src='/rails_book/images/rails2_object.jpg'>
+<%end%>
+<%paragraph do%>
+<%=xref 'rails2_mvc'%>顯示使用者開啟「我的記帳本」中「流水帳」的作業，
+物件的作用，這個作業便由加入模型。
+<%end%>
+<%paragraph do%>
+首先使用者使用 Browser 並在網址列輸入
+"http://mlog.hobby-site.com"，
+Browser 把它包裏在 HTTP 訊息傳給我們的 Web Server。
+如訊息線 1 所示，
+一樣會先傳給 Rails 的路由系統來決定此 HTTP 訊息應交由那個控制器處理，
+從訊息線 2 可知此 HTTP 訊息會交由 MonthlyMlogsController 控制器處理。
+<%end%>
+<%code 'monthly_mlogs_controller.rb', 'monthly_mlogs_controller.rb', 'ruby' do %>
+class MonthlyMlogsController < ApplicationController
+  def show
+    @mmlog = current_user.monthly_mlogs.find(params[:id])
+    respond_to do |format|
+      format.html
+    end
+  end
+end
+<%end%>
+<%paragraph do%>
+Rails 的模型是使用 Active Record 設計模式，
+透過它可以不用 SQL 語法而是使用物件來存取資料庫，
+不需要經過任何連接、宣告，
+它會依照類別命名自動會去找尋對應的資料表名稱，
+然後直接建立物件函式，簡化資料庫存取。 
+如 <%=xref 'monthly_mlogs_controller.rb'%> 中，
+控制器會呼叫 MonthlyMlog 模型存取資料庫來取得當月的流水帳資料，
+存在 @mmlog 變數中傳給視圖使用。
+然後傳給視圖為 app/views/monthly_mlogs/show.html.erb，
+<%end%>
+<%paragraph do%>
+透過模型取得當月的流水帳資料後，
+控制器會將流水帳資料放到實例變數內，
+再轉成顯示當月流水帳的 html 或 xml 檔案傳給使用者。 
+<%end%>
+<%end%>
+

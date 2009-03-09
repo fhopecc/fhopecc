@@ -1,0 +1,14 @@
+<div id='login_form'>
+<h1><%='開啟帳本'%></h1>
+<% form_tag session_path do -%>
+<p><label for="login"><%='帳號'%></label><br/>
+<%= text_field_tag 'login' %></p>
+
+<p><label for="password"><%='密碼'%></label><br/>
+<%= password_field_tag 'password' %></p>
+<p><label for="remember_me"><%='在本台機器記得我'%></label>
+<%= check_box_tag 'remember_me' %></p>
+<%= link_to_submit '開啟' %>
+<%= link_to '申請新帳本', new_user_url %>
+<% end -%>
+</div>

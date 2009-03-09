@@ -1,0 +1,60 @@
+<%section '具名路由', 'named_route' do%>
+<%paragraph do%>
+*具名路由* (named route)是 Rails 2 對路由系統新增的全新概念，
+主要也是為了支援 REST 風格。
+當你在 map 物件定義一個名稱為 name 的具名路由時，
+它會自動為 controller 及 view 定義 2 個輔助方法，
+name_url 及 name_path，其語法如下：
+<%end%>
+<%code '定義 help 具名路由', 'DefHelpNamedRoute', 'ruby' do %>
+map.help 'help',
+         :controller => 'main',
+         :action => 'show_help'
+<%end%>
+<%paragraph do%>
+由<%=xref 'DefHelpNamedRoute'%>可以看到，
+若具名路由的名稱是 help，
+則我們傳給 map 物件的 help 訊息
+（在物件導向設計中，呼叫方法可視為傳送訊息給物件），
+並傳入 URL 樣式及限定參數，
+Rails 會自動建立 help_url 及 help_path 兩個輔助方法，
+help_url 會自動產出對應的 URL，
+而 help_path 會自動產出對應的路徑，一般用法如下：
+<%end%>
+<%code 'help_path 例子', 'help_path_ex', 'ruby' do%>
+&lt;%= link_to 'Help!', help_path %>
+<%end%>
+<%paragraph do%>
+上例會套用 help 具名路由規則，
+並產出 '/help' 的路徑字串。
+若妳使用 help_url， 
+則會產出 'http://localhost:3000/help' 的URL 字串。
+<%end%>
+<%code 'root 具名路由', 'RootNamedRoute', 'ruby' do%>
+map.root :controller => 'welcome'
+<%end%>
+<%paragraph do%>
+root 具名路由扮演如同前節的空路由的角色，
+也就是傳統的首頁。
+其語法如<%=xref 'RootNamedRoute'%>，
+名稱一定為 root。
+<%end%>
+<%code '使用 map.with_options', 'map.with_options', 'ruby' do%>
+map.help '/help', :controller => "main", :action => "help"
+map.contact '/contact', :controller => "main", :action => "contact"
+map.about '/about', :controller => "main", :action => "about
+
+map.with_options :controller => "main" do |main|
+  main.help '/help', :action => "help"
+  main.contact '/contact', :action => "contact"
+  main.about '/about', :action => "about"
+end
+<%end%>
+<%paragraph do%>
+用過 Visual Basic 的程式師，都知道使用 With 這個字可以讓妳少打很多程式碼，
+Rails 2 對具名路由規則也有相同的東西，
+就是 map.with_options 方法，
+從<%=xref 'map.with_options'%>可以知道 map.with_opitons 
+可以讓妳少打很多同樣的限定參數。
+<%end%>
+<%end%>

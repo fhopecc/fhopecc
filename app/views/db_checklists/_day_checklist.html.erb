@@ -1,0 +1,28 @@
+	<tr>
+		<th></th>
+		<th style="diaplay:none"></th>
+		<th>檢查項目</th>
+		<% day = @monday
+		   (0..4).each do |i| 
+			   day += 1  %>
+		<th><%=day.strftime('%m/%d')%></th>
+		<% end%>
+	</tr>
+	<% start = true
+		DbChecklistsController::DAY_CHECKLIST.each do |c| %>
+		<tr>
+			<%if start %>
+			   <th rowspan='<%=DbChecklistsController::DAY_CHECKLIST.size%>'>每日<th>
+       <%else%>
+			   <td></td>
+			 <%end%>
+			 <%
+			 start=false
+			 %>
+			 <td><%=c%></td>
+			 <% 5.times do%>
+			 <%=boolean_cell%>
+			 <%end%>
+		</tr>
+	<%end%>
+

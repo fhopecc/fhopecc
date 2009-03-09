@@ -1,0 +1,17 @@
+<% start = true
+  DbChecklistsController::RANDOM_CHECKLIST.each do |c| %>
+		<tr>
+			<%if start 
+			     rowspan=DbChecklistsController::RANDOM_CHECKLIST.size%>
+			   <th rowspan='<%=rowspan%>'>不定期<th>
+			   <td><%=c%></td>
+				 <td colspan='5'></td>
+				 <% start=false %>
+			<%else%>
+				 <% start=false %>
+				 <td></td>
+				 <td><%=c%></td>
+				 <td colspan='5'></td>
+			 <%end%>
+		</tr>
+	<%end%>

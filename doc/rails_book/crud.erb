@@ -1,0 +1,127 @@
+<%section 'REST 和 CRUD' do%>
+<%paragraph do%>
+大部份可以賺錢的應用程式幾乎都涉及到資料的操作，
+而最重要的資料操作不外乎 CRUD，
+也就是 Create, Read, Update 和 Delete 這 4 個動作的縮寫，
+所有的資料操作一定要用這 4 個動作完成。
+<%end%>
+<%code '搜尋某個使用者 123 的 URL', 'user/find/123', 'url' do %>
+http://localhost:3000/find_user?id=123
+#或是
+http://localhost:3000/user/find/123
+<%end%>
+<%paragraph do%>
+上述的 URL 通常表示搜尋某個使用者資訊，
+傳統的方式會將要做的動作利用不同的 URL 來傳達給 Server，
+如<%=xref 'user/find/123'%>會把 find 這個動詞加在 URL 裡面，
+這樣做也沒什麼不好，
+但把部份的 URL 拿來表示動詞，
+等於使用 4 個 URL 來表示同一個資源，
+違反了 REST 的原則，*REST 限定一個資源只能用一個名詞指認*。
+這樣會使得各個網站也沒有一個固定的介面，
+當要在許多網站之間溝通的時候，就會發生很大的麻煩。
+但若依照 REST 原則，利用 HTTP 動詞來表示 CRUD，
+而 URL 僅扮演名詞的角色，便統一了資源及操作的表示形式。
+這使得若有一個已經建立好的使用者資訊群組網站 A。
+今天我要做一個購物網站 B，我不需要將 A 中的使用者資料全部複製到 B，
+我可以直接從 B 去抓取 A 網站中的資源，A 網站完全不需要做任何的修改，
+B 網站也不需要特別寫不同的方法
+只要讓 B 知道有 A 這個資源可以利用，就可以直接在 B 中進行
+<%end%>
+<% code 'User.find :all', 'User.find :all', 'ruby' do %>
+User.find :all
+<% end %>
+<%paragraph do %>
+之類的操作，而 B 完全不需要有 User 的 Model!
+因為他們都照著上述的規格來作，
+RESTful Rails 網站的遵守一種網站間溝通介面，
+以利各網站的溝通，更長遠的目標就是：
+一旦多數網站都以 RESTful 的方式設計，
+那要基於這些已存在資料去建立新的網站，類似 mashup，
+就變成非常容易的一件事情。
+<% end %>
+<% code 'GET user/123', 'GET user/123', 'url' do %>
+GET http://localhost:3000/user/123
+<%end%>
+<% paragraph do %>
+RESTful 的 URL 形式常如上述，
+由 HTTP 的動詞及 HTTP 的名詞 URL 組成。
+上述 URL 就可以解讀為 GET a user which id is 123 from localhost:3000，
+也就是從 localhost:3000 上取得(GET)一個 id 是 123 的 user。
+*http://localhost:3000/user/123* 就是一個名詞，
+代表著 id 為 123 的 user，
+至於是要對這個 user做什麼樣的動作，
+就根據 HTTP 的動詞來判斷。
+<%end%>
+<% code 'PUT user/123', 'PUT user/123', 'url' do %>
+PUT http://localhost:3000/user/123
+<%end%>
+<% paragraph do %>
+上述的 URL 可以解讀為 PUT a user data to localhost:3000 which id is 123
+也就是更新（PUT）一個id是123的user資料到localhost:3000上。
+<%end%>
+<%table '舊有的 CRUD URL', 'old crud url', 'URL' do %>
+<table>
+<tr>
+<th>CREATE</th><td>POST http://abc.com/users/create/</td>
+</tr>
+<tr>
+<th>READ</th><td>GET http://abc.com/user/show/1</td>
+</tr>
+<tr>
+<th>UPDATE</th><td>POST http://abc.com/user/update/1</td>
+</tr>
+<tr>
+<th>DELETE</th><td>GET http://abc.com/user/delete/1</td>
+</tr>
+</table>
+<%end%>
+<% paragraph do %>
+但由於大部份 Browser 只支援 GET 及 POST 兩個方法，
+只能使用 2 個 HTTP 動詞來對應 CRUD，
+所以必須用部份的 URL 來表示對這個 users 的操作，
+在前版的 Rails 1，
+資料項目 users 的 CRUD 操作，
+通常會如<%=xref 'old crud url'%>所示，
+Rails 1 的路由系統必須用部份的 URL 來表示對這個 model 的操作，
+仍是不符合一個資源只用一個 URL 代表的原則，
+但我們知道 HTTP 其實有 8 個動詞，
+所以在 Rails 2 除了 GET/POST，
+還會加入 PUT/DELETE 這兩個動詞，
+<%end%>
+<% paragraph do %>
+乍看之下，傳統方式與 RESTful 的網址感覺都很類似，
+唯一的差別在於 *Rails 2 充分利用了 HTTP 各種動詞* 。 
+以前我們用 SQL 的 SELECT, INSERT, UPDATE, DELETE 
+對應到 CRUD 的 READ, CREATE, UPDATE, DESTORY，
+現在我們再把這個對應關係拓展到 HTTP 的 GET,POST,PUT,DELETE，
+其動詞對應如<%=xref 'VerbsTable'%>。
+<%end%>
+<%paragraph do %>
+這樣一來每個資源擁有自己的識別名詞，
+而瀏覽器從單一資源開始瀏覽，
+透過標準操作走訪資源，
+於是每個物件有自己的 URL，
+而且可以容易被快取，複製及書籤化。
+<%end%>
+<%table 'CRUD, SQL, HTTP, Controller 的動詞對應表', 'VerbsTable' do %>
+<table>
+<tr>
+<th>CRUD</th><th>SQL</th><th>HTTP</th><th>Controller</th>
+</tr>
+<tr>
+<td>CREATE</td><td>INSERT</td><td>POST</td><td>new/create(P)</td>
+</tr>
+<tr>
+<td>READ</td><td>SELECT</td><td>GET</td><td>show, list(P) </td>
+</tr>
+<tr>
+<td>UPDATE</td><td>UPDATE</td><td>PUT</td><td>edit/update</td>
+</tr>
+<tr>
+<td>DELETE</td><td>DELETE</td><td>DELETE</td><td>destroy</td>
+</tr>
+</table>
+<%end%>
+
+<%end%>

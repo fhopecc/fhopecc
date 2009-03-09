@@ -1,0 +1,25 @@
+<%=render :partial => "/mlogs/mon_selector" %>
+<div id="operations">
+<%= link_to '入帳', 
+new_mlog_path(:year => @mmlog.month.year, :month => @mmlog.month.month) %>
+</div>
+<table id="list">
+  <tr>
+		<th><%='日期'%></th>
+		<th><%='金額'%></th>
+		<th><%='科目'%></th>
+		<th><%='備註'%></th>
+  </tr>
+<%for mlog in @mmlog.mlogs %>
+  <tr>
+    <td><%=h mlog.date %></td>
+    <td><%=h mlog.value %></td>
+    <td><%=h mlog.tag_list %></td>
+    <td><%=h extract(mlog.comment) %></td>
+    <td><%= link_to '詳細', mlog_url(mlog) %></td>
+    <td><%= link_to '改帳', edit_mlog_url(mlog) %></td>
+    <td><%= link_to '刪帳', mlog_url(mlog), 
+         :confirm => '你確定要刪除嗎？', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>

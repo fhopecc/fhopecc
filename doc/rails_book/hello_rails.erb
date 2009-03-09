@@ -1,0 +1,80 @@
+<%section "MVC 的第 1 個例子：Hello Rails" do%>
+<%paragraph do %>
+自從 C 的發明者寫了第 1 本 C 的經典手冊後，
+程式教科書總有一個傳統，所寫第一支程式往往稱作 Hello World，
+並教大家認識程式及其執行環境的基本結構。
+本文也不例外，第一支程式稱為 Hello Rails。
+<%end%>
+<%paragraph do %>
+發展 rails 程式的第一步，是要建立起基本程式架構，
+這個基本架構通常組織成一個目錄，目錄下有許多預設的設定檔，
+當你日後發展程式時，可修正預設的設定檔，不用全部重打一次。
+程式的基本架構由 rails 指令產生出來，
+此指令是一種程式碼產生器，用法如下：
+<%end%>
+<%code '產出 moneylog 專案', 'rails_moneylog', 'dos' do %>
+<%#include rails_rails_book.out #%>
+<%end%>
+<%paragraph do %>
+rails 指令後面加上專案名稱，便會建立一個專案，
+如<%=xref 'rails_moneylog'%>所示會建立一個目錄 moneylog，
+並將預設檔案建立在這個目錄下。
+<%end%>
+<%figure 'Hello 的物件圖', 'hello_object' do %>
+  <img src="/rails_book/images/hello_object.jpg"/>
+<%end%>
+<%paragraph do %>
+<%=xref 'hello_object'%>為 Hello Rails 的物件圖，
+物件旁會加註它是扮演模型、視圖和控制器何種角色，
+而訊息線會加註它的發生的順序，來表示各個物件如何依序作用，
+訊息線 1 表示使用者使用 Browser 並在網址列輸入
+"http://mlog.hobby-site.com/hello/rails"，
+Browser 把它包裏在 HTTP 訊息送給 Web Server。
+首先會傳給 Rails 的路由系統來決定此 HTTP 訊息應交由那個控制器處理，
+從訊息線 2 此 HTTP 訊息會轉交 HelloController 控制器處理。
+<%end%>
+<%code 'hello_controller.rb', 'hello_controller.rb', 'ruby' do %>
+#app/controllers/hello_controller.rb
+class HelloController < ApplicationController
+  def rails
+    @hello_string = 'Hello Rails!'
+  end
+end
+<%end%>
+<%paragraph do %>
+為了處理上述的 HTTP 訊息，我們要定義 HelloController 控制器類別，
+定義此類別的檔名一定為 hello_controller.rb 
+並且必須存放在 app/controllers 目錄下，
+如<%=xref 'hello_object'%>所示，控制器一定得繼承自 ApplicationController。
+<%end%>
+<%paragraph do%>
+控制器與視圖的溝通是使用實例變數，
+如<%=xref 'hello_object'%>所示，
+把要傳給視圖的資料存在 @hello_string 變數中。
+Rails 的視圖通常為 erb 檔案，erb 類似 asp 或 jsp，
+可以在 HTML 的樣板中，內嵌 ruby 程式碼。
+HelloController 在最後會把相關的資料傳給對應的 erb 檔案。
+如上例為控制器為 HelloController，而 action 名稱為 rails，
+故對映的 erb 檔案應為 app/views/hello/rails.html.erb，
+最終 rails.html.erb 會自動展開成顯示 "Hello Rails!" 的 html 或 xml
+檔案，並回傳給使用者，使用者畫面呈現如<%=xref "hello_rails"%>。
+<%end%>
+<%code 'rails.html.erb', 'rails.html.erb', 'ruby' do %>
+&lt;h1>
+&lt;%=@hello_string%>
+&lt;/h1>
+<%end%>
+<%paragraph do %>
+一切 OK 後，用下面命令啟動 server。
+<%end%>
+<%code '啟動 server', 'start_server', 'ruby' do %>
+ruby script/server
+<% end %>
+<%paragraph do %>
+在瀏覽器中輸入 URL 為 http://localhost:3000/hello/rails 再按 enter，
+便會出現以下畫面：
+<%end%>
+<%figure 'Hello Rails 畫面', 'hello_rails' do %>
+  <img src="/rails_book/images/hello_rails.jpg"/>
+<%end%>
+<%end%>

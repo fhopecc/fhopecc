@@ -1,0 +1,44 @@
+<%section 'route.rb' do %>
+<%paragraph do %>
+前面學完怎麼定義路由規則後，
+現在來看看一堆路由規則怎麼被組織，
+route.rb 是用來存放所有路由規則的地方，
+預設的 route.rb 如<%=xref 'default_route.rb'%>所示。
+<% end %>
+<%code '預設的 route.rb', 'default_route.rb', 'ruby' do %>
+<%# include doc/rails_book/route.rb#%>
+<% end %> 
+<%paragraph do %>
+由<%=xref 'default_route.rb'%>可以看出 route.rb 呼叫了一個方法
+ActionController::Routing::Routes.draw，
+並傳回由你定義的程式碼區塊(block)，
+區塊包含一個參數 map，
+由<%=xref 'route_rule'%>可知定義路由規則必須使用 map.connect 方法，
+要自定路由規則只要改寫這個傳給 draw 的區塊，真是神奇！
+<% end %>
+<%paragraph do %>
+上述傳給 draw 的區塊我們暫且稱作 *路由規則定義區塊* ，
+現在有一件事大家必須注意的，
+就是路由規則的套用順序與定義時的順序相關，
+也就是傳入的 URL 或參數來尋找規則時，
+會由上而下尋找路由規則定義區塊所定義的規則，
+並套用第 1 個符合的規則就停止，不會再找下去。
+而預設的路由規則就是倒數第 2 行 :controller/:action/:id，
+寫過 Rails 的人一定很熟悉。
+倒數第 1 行路由規則 :controller/:action/:id.:format 與 REST
+風格有很深的關係，剛玩 Rails 2 的人之後便會認識這個新朋友啦！
+<% end %>
+<%paragraph do %>
+一般我們會打 www.yahoo.com.tw 便會跳到首頁，
+那引導我們到首頁的路由規則稱為 *空規則* ，定義形式如下：
+<% end %>
+<%code '預設的 route.rb', 'default_route.rb', 'ruby' do %>
+map.connect '', :controller => 'hello', 'rails'
+<% end %> 
+<%paragraph do %>
+稱作空規則是因為規則的 URL 樣式是空字串，
+若加入上面規則，
+上面只要我們輸入 http://localhost:3000/ 
+便會進入到 HelloController 的 rails action。 
+<% end %>
+<% end %>

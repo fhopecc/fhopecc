@@ -1,0 +1,27 @@
+<%section "MVC 第 2 個例子, 計數器服務" do%>
+<%paragraph do%>
+計數器通常是一個網站最基本的統計功能，
+主要統計某個網頁點閱過的次數。
+基礎的實作通常是某個網頁要下載前，
+會從檔案或資料庫中讀取計數值，
+存在變數中，在遞增計數值寫回到檔案或資料庫中，
+最後傳給使用者一串文字表示此網頁的計數，
+但市面上的計數器服務通常是是傳回一個表示目前計數的圖片，
+因為若計數器服務是傳回文字，則只能應用在動態網頁，
+網頁為靜態 HTML 檔則必須改成動態網頁並加入程式碼來顯示計數，
+若傳回圖片的話，原本的 HTML 只要加上一個 img 標籤就可以讓網頁有計數功能，
+如<%=xref 'counters/exmple.html'%>所示，
+網頁只要加入
+&lt;img src="http://mlog.hobby-site.com/counters/count.jpeg"/>，
+此圖片便會顯示目前的計數。
+<%end%>
+<%code 'counters/exmple.html', 'counters/exmple.html' do %>
+<%# include ../../public/counters/example.html #%>
+<%end%>
+<%paragraph do%>
+計數器服務能提供很多計數器給不同的網頁來計數，
+所以一定要有 id 來區分計數器，本例子以 URL 是存取計數器的 id， 
+將 count.jpeg 改成 coute2.jpeg 就可存取到另一個計數器。
+<%end%>
+<%end%>
+

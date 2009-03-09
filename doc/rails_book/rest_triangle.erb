@@ -1,0 +1,99 @@
+<% section "REST 架構三角形", 'resttriangle_section' do %>
+<% figure "REST 架構三角形", 'resttriangle' do %>
+<img src="images/resttriangle.png"/>
+<% end %>
+<%paragraph do %>
+REST 架構可由<%= xref 'resttriangle' %>來描述。
+這個三角形表示 REST 
+最重要的三個東西名詞(Nouns), 動詞(Verb), 型態(Type)。
+<% end %>
+<% paragraph do %>
+我們說話時，一定要有指認東西的名詞，
+名詞可以用來指認你的個人日誌、圖片、音樂或是影片。
+<% end %>
+<% table 'REST, HTTP 和資料庫', 'rest_http_database' do %>
+<table>
+<tr>
+<th>REST</th><th>名詞</th><th>動詞</th><th>型態</th>
+</tr>
+<tr>
+<th>資料庫</th><td>主鍵</td><td>CRUD</td><td>Data Type</td>
+</tr>
+<tr>
+<th>HTTP</th><td>URL</td><td>GET,PUT,POST,DELETE</td><td>content/type</td>
+</tr>
+</table>
+<% end %>
+<% paragraph do %>
+在 REST 中， *名詞* 用來唯一指認各式各樣的資源(Resource)，
+但 *REST 限定一個資源只能用一個名詞指認* ，
+<% end %>
+<% paragraph do %>
+由<%=xref 'rest_http_database'%>可以看到在 HTTP 協定中，
+資源就是呈現在讀者面前的網頁，
+名詞就是 URL，唯一指認網頁的位置，
+所以用超過一個 URL 來指認同一個資源就不符合 REST 的精神。
+<% end %>
+<% paragraph do %>
+同樣由<%=xref 'rest_http_database'%>可以看到在資料庫中，
+資料庫裡面的資料項目可視為 REST 的資源，
+而資料項目的名詞就是該名詞所在資料表的主鍵(Primary Key)，
+可用來唯一存取資料項目。
+<% end %>
+<% paragraph do %>
+在 REST 中 *動詞* 就是操作資源的方式。
+使用過資料庫的人都知道，
+盡管 SQL 指令再多，
+但對資料庫的每個資料項目做的動作，
+都超不出 CRUD 這四個動作，
+也就是 Create, Read, Update, Delete 的縮寫。
+CRUD 就是資料項目的動詞。
+<% end %>
+<% paragraph do %>
+再用 HTTP 協定來理解，
+我們知道 URL 是名詞，用來指認網頁，
+但對網頁的操作在 RFC 2616 定義 HTTP 1.1 一共有 8 個 method，
+這些 method 就是 HTTP 的動詞。
+雖然 HTTP 定義 8 個 method，
+但裡面有 2 個 Method 是您不可能不懂的，
+不懂的話，您不會有興趣讀到這裡，
+就是 GET, POST，
+因為最多人使用的 HTTP Client，也就是 Browser，
+只支援 GET 和 POST，
+所以大家在寫 Web 時只能使用這 2 個 Method。
+<% end %>
+<% paragraph do %>
+*類型* (Type)是什麼呢？資源是代表一個概念，
+而類型就是這個資源的表達方式，
+我用 thegiive 寫的例子來解釋。
+<% end %>
+<% figure 'thegiive 的 email', 'thegiive_email_png' do%>
+<img src="images/thegiive_gmail.png"/>
+<% end %>
+<% paragraph do %>
+<%=xref 'thegiive_email_png'%>是一張 PNG 圖片，
+裡面是程式師 thegive 的 Email。
+假設 URL 為 http://www.thegiive.net-a.googlepages.com/image.png，
+但是如果將這個 PNG 轉檔成為 JPG，
+URL 就變成了 http://www.thegiive.net-a.googlepages.com/image.jpg。
+雖然兩者的 URL 不相同，但是對我們來說，
+PNG 跟 JPG 這兩張圖其實代表的意義是相同的，
+裡面的圖案就是 thegiive 的 Email。
+所以，儘管格式不同，但依舊是同一個資源，
+而這些格式就是類型。
+假設今天有一個 XML file 
+http://www.thegiive.net- a.googlepages.com/image.xml 
+這個XML檔案裡面記載著 thegiive 的 Email 帳號
+<% end %>
+<%code 'thegiive_email_xml', 'thegiive_email_xml', "xml" do %>
+&lt;xml>
+  &lt;email>thegiive at gmail dot com&lt;/email>
+&lt;/xml>
+<% end %>
+<% paragraph do %>
+那麼這個 XML File 跟上面的圖，算是同一個資源嗎？
+是的，雖然 XML 跟 JPG ，PNG 是完全不同的東西，
+但是他們都記載同樣的意義，那個意義就是 thegiive 的 Email 帳號，
+也就是他們代表同一個資源，但是有著不同的表達格式。
+<% end %>
+<% end %>

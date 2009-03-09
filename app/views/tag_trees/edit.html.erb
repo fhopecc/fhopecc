@@ -1,0 +1,13 @@
+<% form_for :tag_tree, @tag_tree, :url => tag_tree_path(@tag_tree.name), 
+            :html => { :method => :put } do |f| %>
+<div id="operations">
+<%= link_to_submit "修改" %>
+</div>
+<div id="input">
+<%= f.hidden_field :parent_name %>
+<%= f.text_field   :parent %>
+<%= f.text_field   :content %>
+<br/>
+<%=render :partial => '/mlogs/tag_selector'%>
+</div>
+<% end %>
