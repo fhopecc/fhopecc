@@ -2,7 +2,7 @@
 require File.expand_path(File.dirname(__FILE__) + "/../../config/environment")
 class Mlogv1Base < ActiveRecord::Base
   self.abstract_class = true
-  establish_connection "mlogv1"
+  #establish_connection "mlogv1"
 end
 
 class Mlogv1 < Mlogv1Base
