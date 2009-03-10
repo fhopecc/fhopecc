@@ -18,7 +18,7 @@ production:
   database: db/production.sqlite3
   timeout: 5000
 
-mlogv1:
-  adapter: sqlite3
-  database: db/pro.db
-  timeout: 5000
+#mlogv1:
+#  adapter: sqlite3
+#  database: db/pro.db
+#  timeout: 5000
