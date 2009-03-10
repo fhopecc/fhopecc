@@ -1,3 +1,4 @@
+if RUBY_PLATFORM =~ /win/
 require 'rubygems'
 require 'tmail'
 require 'net/ftp'
@@ -204,4 +205,5 @@ task :test_word do
   #doc.PrintOut
   #word.Quit
 
+end
 end
