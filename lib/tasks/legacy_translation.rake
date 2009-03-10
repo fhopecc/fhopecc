@@ -1,4 +1,4 @@
-ENV["RAILS_ENV"] = "dev"
+#ENV["RAILS_ENV"] = "dev"
 require File.expand_path(File.dirname(__FILE__) + "/../../config/environment")
 class Mlogv1Base < ActiveRecord::Base
   self.abstract_class = true
