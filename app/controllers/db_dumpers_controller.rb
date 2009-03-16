@@ -12,7 +12,8 @@ class DbDumpersController < ApplicationController
 					zio = gz.finish
 				  zio.rewind
 				end
-        send_data(zio.read, :filename => "db" ,:type => 'text/plain')
+        #send_data(zio.read, :filename => "db" ,:type => 'text/plain')
+				render :text => zio.read
 			}
     end
   end
