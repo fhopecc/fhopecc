@@ -2,7 +2,7 @@ class DbDumpersController < ApplicationController
 
   def show
     respond_to do |format|
-			format.text {
+			format.gz {
 				sio = StringIO.new
 				YamlDb::Dump.dump sio
 				zio = nil 
@@ -11,8 +11,8 @@ class DbDumpersController < ApplicationController
 				  gz << sio.read
 					zio = gz.finish
 				  zio.rewind
-          send_data(zio.read, :filename => "db" ,:type => 'application/octet-stream')
 				end
+        send_data(zio.read, :filename => "db" ,:type => 'application/octet-stream')
 			}
     end
   end
