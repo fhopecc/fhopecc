@@ -5,18 +5,14 @@ class DbDumpersController < ApplicationController
 			format.text {
 				sio = StringIO.new
 				YamlDb::Dump.dump sio
-				sio.rewind
-				string = ""
-        sio.each_line do |l|
-					string << l + "\n"
-					logger.debug "abcddd " + l
+				zio = nil 
+        Zlib::GzipWriter.new(StringIO.new, Zlib::BEST_COMPRESSION, nil) do |gz|
+				  sio.rewind
+				  gz << sio.read
+					zio = gz.finish
+				  zio.rewind
+          send_data(zio.read, :filename => "db" ,:type => 'application/octet-stream')
 				end
-        z = Zlib::Deflate.new(Zlib::BEST_COMPRESSION)
-        dst = z.deflate(string, Zlib::FINISH)
-        z.close
-        dst
-				# send it to the browser
-				send_data(dst, :filename => "dbdump.zip" ,:type => 'binary/zip')
 			}
     end
   end
