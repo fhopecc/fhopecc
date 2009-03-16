@@ -8,6 +8,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users
 
+  map.resource :db_dumper
+
   map.resources :helpers
 
   map.resources :counters
