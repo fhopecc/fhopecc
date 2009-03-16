@@ -5,15 +5,16 @@ class DbDumpersController < ApplicationController
 			format.gz {
 				sio = StringIO.new
 				YamlDb::Dump.dump sio
-				zio = nil 
-        Zlib::GzipWriter.new(StringIO.new, Zlib::BEST_COMPRESSION, nil) do |gz|
-				  sio.rewind
-				  gz << sio.read
-					zio = gz.finish
-				  zio.rewind
-				end
+				#zio = nil 
+        #Zlib::GzipWriter.new(StringIO.new, Zlib::BEST_COMPRESSION, nil) do |gz|
+				#  sio.rewind
+				#  gz << sio.read
+				#	zio = gz.finish
+				#  zio.rewind
+				#end
         #send_data(zio.read, :filename => "db" ,:type => 'text/plain')
-				render :text => zio.read
+				sio.rewind
+				render :text => sio.read
 			}
     end
   end
