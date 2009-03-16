@@ -1,6 +1,6 @@
 class DbDumpersController < ApplicationController
 
-  def show
+  def index
     respond_to do |format|
 			format.gz {
 				sio = StringIO.new
