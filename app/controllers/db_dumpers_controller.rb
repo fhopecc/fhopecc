@@ -1,8 +1,8 @@
 class DbDumpersController < ApplicationController
 
-  def index
+  def show
     respond_to do |format|
-			format.gz {
+			format.yml {
 				sio = StringIO.new
 				YamlDb::Dump.dump sio
 				#zio = nil 
@@ -12,9 +12,10 @@ class DbDumpersController < ApplicationController
 				#	zio = gz.finish
 				#  zio.rewind
 				#end
-        #send_data(zio.read, :filename => "db" ,:type => 'text/plain')
 				sio.rewind
-				render :text => sio.read
+        send_data(sio.read, :filename => "data.yml" ,:type => 'text/yaml')
+				#sio.rewind
+				#render :text => sio.read
 			}
     end
   end

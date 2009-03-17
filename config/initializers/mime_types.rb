@@ -5,5 +5,5 @@
 # Mime::Type.register_alias "text/html", :iphone
 Mime::Type.register "text/xml", :xhtml
 Mime::Type.register "image/jpeg", :jpeg, [], %w(jpeg)
-Mime::Type.register "application/octet-stream", :gz, [], %w(gz)
+Mime::Type.register "text/yaml", :yml, [], %w(yml)
 Mime::Type.register_alias "text/html", :tag
