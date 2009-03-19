@@ -1,0 +1,9 @@
+<%section "程式的佈署" do%>
+<%paragraph do%>
+將程式佈署到 Heroku 的功能，主要是藉由 Git 版控軟體來達成。
+當利用 Git 將程式佈署上去，
+會先將 config/database.yml 抽換成使用 Heroku 上 PostgreSQL 的設定檔，
+然後測式是否能啟動程式，
+若不能啟動 Heroku 會拒絕此次佈署。
+<%end%>
+<%end%>

@@ -1,0 +1,12 @@
+<%section "Heroku 的功能" do%>
+<%paragraph do%>
+Heroku 提供一個可以佈署 Rails 程式的空間，
+並提供 PostgreSQL 作為資料庫。
+值得注意的是它不提供檔案空間，
+你佈署程式的磁碟空間是唯讀的，
+所以像是利用 ImageMatick 來產出圖檔及
+Gzlib 來壓縮檔案等會利用到磁碟空間的程式便不能使用。
+所以任何變動的資料只能存到 PostgreSQL。
+<%end%>
+<%end%>
+
