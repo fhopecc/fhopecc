@@ -7,6 +7,7 @@ module Tree
 		def logger
 			RAILS_DEFAULT_LOGGER
 		end
+
 		def parent_name
       unless parent.nil?
 				parent.name
@@ -14,6 +15,27 @@ module Tree
 				''
 			end
 		end
+
+	  def content= new_content
+			if self.isRoot?
+        @content = new_content
+			else
+				content_was = @content
+				should_changes = self.user.mlogs.select do |m| 
+					m.tag_list.include? content_was
+				end
+				should_changes.each do |m|
+					m.tag_list.remove content_was
+					m.tag_list.add new_content
+					m.save
+				end
+        if root.find_by_content new_content
+					destroy
+				else
+				  @content = new_content
+				end
+			end
+	  end
 
   	def leafs
 			self.select do |n|
@@ -58,19 +80,22 @@ module Tree
 end
 
 class TagTree < ActiveRecord::Base
-	belongs_to  :user
-  before_save :save_tag_tree
   extend Forwardable
 	def_delegators :@root, *(Tree::TreeNode.instance_methods - 
 		ActiveRecord::Base.instance_methods).map do |m| m.to_sym end
   
 	attr_accessor :root
 
+  belongs_to  :user
+
+  before_save :save_tag_tree
+
   def after_initialize 
 		tt = read_attribute(:tag_tree)
 		logger.debug 'tag_tree ' + tt.to_s
 		unless tt.nil?
 		  @root =	Marshal.restore(Base64.decode64(tt)) 
+			@root.content = user.login
 		end
 	  @root ||= create_default_tree
 		save
@@ -80,12 +105,12 @@ class TagTree < ActiveRecord::Base
 		user    = User.find(user_id)
     root    =  Tree::TreeNode.new("root", user.login)
     expense =  Tree::TreeNode.new("a", "支出")
-    expense << Tree::TreeNode.new("b", "食")
-    expense << Tree::TreeNode.new("c", "衣")
-    expense << Tree::TreeNode.new("d", "住")
-    expense << Tree::TreeNode.new("e", "行")
-    expense << Tree::TreeNode.new("f", "育")
-    expense << Tree::TreeNode.new("g", "樂")
+    expense << Tree::TreeNode.new("b", "餐飲費")
+    expense << Tree::TreeNode.new("c", "置裝費")
+    expense << Tree::TreeNode.new("d", "水費")
+    expense << Tree::TreeNode.new("e", "電費")
+    expense << Tree::TreeNode.new("f", "交通費")
+    expense << Tree::TreeNode.new("g", "住宿費")
     expense << Tree::TreeNode.new("h", "家用")
     expense << Tree::TreeNode.new("i", "孝親")
 		income  =  Tree::TreeNode.new("j", "收入")
@@ -94,14 +119,12 @@ class TagTree < ActiveRecord::Base
     income  << Tree::TreeNode.new("m", "意外財")
     fexpen  =  Tree::TreeNode.new("i", "固定支出")
     fexpen  << Tree::TreeNode.new("j", "保姆費")
-    fexpen  << Tree::TreeNode.new("k", "房租")
 		credit  =  Tree::TreeNode.new("n", "信用卡")
     root << expense
 		root << income
 		root << credit 
 		root
 	end
-
 
 	#def tag_tree
 	#	t = read_attribute(:tag_tree)
@@ -137,19 +160,6 @@ class TagTree < ActiveRecord::Base
 		save
 	end
 
-	def rename old_node, new_node
-	  old_node = child(parent)
-		parent   = old_node.parent
-		new_node = Tree::TreeNode.new(new_node, new_node) 
-		parent << new_node
-		old_node.children() do |c|
-			c.removeFromParent!
-      new_node << c
-		end
-		old_node.removeFromParent!
-		save
-	end
-
 	def child name
 	  child = @root.detect do |n| n.name == name end
 		child ||= @root
@@ -181,7 +191,9 @@ class TagTree < ActiveRecord::Base
 
 	private
 	def save_tag_tree
+		@root.content = user.login
 		d = Base64.encode64(Marshal.dump(@root))
 		write_attribute(:tag_tree,d) 
 	end
+
 end

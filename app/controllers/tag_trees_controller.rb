@@ -50,7 +50,7 @@ class TagTreesController < ApplicationController
   def update
     @tag_tree = current_user.tag_tree.child(params[:id])
 		tp = params['tag_tree']
-		@tag_tree.content  = tp['content']
+		@tag_tree.content = tp['content']
 
 		unless @tag_tree.isRoot?
 			unless tp['parent_id'] == @tag_tree.parent.name
