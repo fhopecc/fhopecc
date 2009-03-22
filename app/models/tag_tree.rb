@@ -29,7 +29,7 @@ module Tree
 					m.tag_list.add new_content
 					m.save
 				end
-        if root.find_by_content new_content
+        unless root.find_by_content(new_content).isRoot?
 					destroy
 				else
 				  @content = new_content
@@ -63,6 +63,10 @@ module Tree
 			child = detect do |n| n.content == content end
 			child ||= self
 	  end
+
+		def had_content? content
+			return !(root.detect {|n| n.content == content}.nil?)
+		end
 
 		def user
 			User.find_by_login(root.content)

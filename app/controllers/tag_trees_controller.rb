@@ -38,7 +38,8 @@ class TagTreesController < ApplicationController
       if current_user.tag_tree.save
         flash[:notice] = '建立一個新科目！'
         format.html { 
-					redirect_to tag_tree_path(@tag_tree.parent.name)
+					parent = 'root' if @tag_tree.parent.nil?
+					redirect_to tag_tree_path(parent)
 				}
       else
         format.html { render :action => "new" }
