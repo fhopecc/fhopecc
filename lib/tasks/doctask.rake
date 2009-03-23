@@ -45,3 +45,44 @@ task :clean_vim_tmps do
 		FileUtils.rm_f f
 	end
 end
+
+task :test_gzlib do
+		sio = StringIO.new
+		sio << "test\n"
+		sio << "win\n"
+		sio << "quex\n"
+		sio << "okok!\n"
+		sio << "maybe i think is right!\n"
+		sio << "gocha, i'm right!\n"
+		zio = nil
+		Zlib::GzipWriter.new(StringIO.new, Zlib::BEST_COMPRESSION, nil) do |gz|
+		  sio.rewind
+			sio.each_line do |l|
+				gz << sio.read
+			end
+			zio = gz.finish
+		end
+    #zio.open
+		zio.rewind
+		zio.each do |l|
+			puts l
+		end
+		File.open "tmp/abcd.gz", "w" do |f|
+		  zio.rewind
+			f << zio.read
+		end
+
+		#File.open "tmp/abcd.gz", "w" do |f|
+		#	Zlib::GzipWriter.new(f, Zlib::BEST_COMPRESSION, nil) do |gz|
+				#sio.each_line do |l|
+	#				gz << sio.read
+				#end
+	#		end
+	#	end
+		#File.open "tmp/abcd.gz", "r" do |f|
+		#	f.each do |l|
+		#		puts l
+		#	end
+		#end
+
+end

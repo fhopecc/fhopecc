@@ -38,7 +38,8 @@ class TagTreesController < ApplicationController
       if current_user.tag_tree.save
         flash[:notice] = '建立一個新科目！'
         format.html { 
-					redirect_to tag_tree_path(@tag_tree.parent.name)
+					parent = 'root' if @tag_tree.parent.nil?
+					redirect_to tag_tree_path(parent)
 				}
       else
         format.html { render :action => "new" }
@@ -50,7 +51,7 @@ class TagTreesController < ApplicationController
   def update
     @tag_tree = current_user.tag_tree.child(params[:id])
 		tp = params['tag_tree']
-		@tag_tree.content  = tp['content']
+		@tag_tree.content = tp['content']
 
 		unless @tag_tree.isRoot?
 			unless tp['parent_id'] == @tag_tree.parent.name
