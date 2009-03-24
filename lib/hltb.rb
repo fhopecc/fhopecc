@@ -16,6 +16,19 @@ class Hltb
 			file.write(res.body)
 		}
 	end
-	def self.print
+
+	def self.print_tax_report docno
+  	tmp    = "tmp/hltb"
+		tmpjpg = File.join(tmp, 'jpg')
+		docf = "#{tmp}/#{docno}-01.tif"
+    imgs = Magick::ImageList.new(docf)
+		[1, 4, 7, 10, 13].each do |i|
+			img = File.join(tmpjpg, "#{i-1}.jpg")
+      imgs[i-1].write(img)
+			cmd = "rundll32 shimgvw.dll,ImageView_PrintTo d:\\moneylog\\tmp\\hltb\\jpg\\#{i-1}.jpg internet"
+			puts cmd
+			puts system(cmd)
+		end
 	end
+
 end
