@@ -1,12 +1,10 @@
 class TagTreesController < ApplicationController
   include AuthenticatedSystem
 
-	# index show the root tree
 	def index
     redirect_to tag_tree_path('root')
   end
 
-	# show subtree with id
 	def show
 		if current_user.tag_tree.nil?
       current_user.create_tag_tree
@@ -25,9 +23,8 @@ class TagTreesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @mlog }
-    end
-	end
+		end 
+	end 
 
 	def create
 		tp = params['tag_tree']
@@ -50,6 +47,7 @@ class TagTreesController < ApplicationController
 
   def update
     @tag_tree = current_user.tag_tree.child(params[:id])
+
 		tp = params['tag_tree']
 		@tag_tree.content = tp['content']
 

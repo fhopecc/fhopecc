@@ -4,9 +4,7 @@ require 'forwardable'
 
 module Tree 
 	class TreeNode
-		def logger
-			RAILS_DEFAULT_LOGGER
-		end
+		alias id name
 
 		def parent_name
       unless parent.nil?
@@ -45,7 +43,7 @@ module Tree
 
 		def leafs_contents
 			leafs.map do |n|
-				n.content
+				n.name
 			end
 		end
 
@@ -80,23 +78,28 @@ module Tree
 		  removeFromParent!
 		end
 
+		def logger
+			RAILS_DEFAULT_LOGGER
+		end
 	end
 end
 
 class TagTree < ActiveRecord::Base
+
+	attr_accessor :root
   extend Forwardable
 	def_delegators :@root, *(Tree::TreeNode.instance_methods - 
 		ActiveRecord::Base.instance_methods).map do |m| m.to_sym end
   
-	attr_accessor :root
-
   belongs_to  :user
 
   before_save :save_tag_tree
 
   def after_initialize 
 		tt = read_attribute(:tag_tree)
+
 		logger.debug 'tag_tree ' + tt.to_s
+
 		unless tt.nil?
 		  @root =	Marshal.restore(Base64.decode64(tt)) 
 			@root.content = user.login
