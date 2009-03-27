@@ -127,9 +127,9 @@ class TagTree < ActiveRecord::Base
     fexpen  =  Tree::TreeNode.new("i", "固定支出")
     fexpen  << Tree::TreeNode.new("j", "保姆費")
 		credit  =  Tree::TreeNode.new("n", "信用卡")
-    root << expense
-		root << income
-		root << credit 
+    root    << expense
+		root    << income
+		root    << credit 
 		root
 	end
 

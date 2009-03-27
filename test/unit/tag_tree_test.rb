@@ -56,8 +56,6 @@ class TagTreeTest < Test::Unit::TestCase
 		assert_equal "root", t.root.name
 	end
 
-
-
 	def test_each_leaf
 		tag_trees(:one).each_leaf do |e|
 		  assert ["醫療費", "保險費", "住宿費", "午餐"].member?(e.name)
