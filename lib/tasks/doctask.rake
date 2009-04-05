@@ -38,13 +38,6 @@ task :make_doc, [:project] do |t, args|
 	Rake::Task[File.join(pubroot, 'main.doc')].invoke
 end
 
-# clean all vim tmps which filename end with '~'
-task :clean_vim_tmps do
-	vim_tmps = Dir['**/*~']
-	vim_tmps.each do |f|
-		FileUtils.rm_f f
-	end
-end
 
 task :test_gzlib do
 		sio = StringIO.new

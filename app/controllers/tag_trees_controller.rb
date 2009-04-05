@@ -11,6 +11,13 @@ class TagTreesController < ApplicationController
       current_user.tag_tree.save
 		end
 		@tag_tree = current_user.tag_tree.child(params['id'])
+    respond_to do |format|
+      format.html
+			format.yml {
+        send_data(current_user.tag_tree.root.to_yaml, :filename => "#{current_user.login}_tag_tree.yml" ,:type => 'text/yaml')
+			}
+		end 
+
 	end
 
   def edit
