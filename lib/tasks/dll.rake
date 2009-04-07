@@ -2,13 +2,13 @@ require "dl/import"
 require 'win32ole'
 module Hsbdll
   extend DL::Importable
-  dlload "lib/dll/hsbdll.dll"
+  #dlload "lib/dll/libtiff3.dll"
 end
 
 namespace "dll" do
 	task :view  do
     #puts Hsbdll.methods.join(';')
-		puts DL::Importable::LIB_MAP["lib/dll/hsbdll.dll"].keys.join(';')
+		#puts DL::Importable::LIB_MAP["lib/dll/libtiff3.dll"].keys.join(';')
 	end
 
   task :usb do

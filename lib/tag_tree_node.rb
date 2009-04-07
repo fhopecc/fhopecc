@@ -86,10 +86,9 @@ class TagTreeNode < Tree::TreeNode
 
 	def dump_tag_tree 
 		str = ""
-		treedepth = root.depth
 		root.children do |c|
 		  c.each do |n|
-				str << "  "*(treedepth - n.depth - 1) << n.tag << ":\n"
+				str << "  "*(n.parentage.length - 1) << n.tag << ":\n"
 		  end 
 	  end
 		str
