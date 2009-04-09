@@ -2,14 +2,14 @@
 	tags  = current_user.mlogs.tag_counts.sort_by {|t| 
 												t.count}.reverse.map{|t|t.to_s}
   current_user.create_tag_tree if current_user.tag_tree.nil?
-  rtags = current_user.tag_tree.leafs_contents  
+  rtags = current_user.tag_tree.leafs_tags  
   case controller
   when TagTreesController
 		@tags = []  
     @tags.push (tags - rtags)
   else
-		etags= current_user.tag_tree.find_by_content('支出').leafs_contents 
-		itags= current_user.tag_tree.find_by_content('收入').leafs_contents  
+		etags= current_user.tag_tree.find_by_tag('支出').leafs_tags 
+		itags= current_user.tag_tree.find_by_tag('收入').leafs_tags  
 		@tags = []  
 		@tags.push (tags & etags)
 		@tags.push (tags & itags)

@@ -1,22 +1,24 @@
 module TagTreesHelper
   def tree_view2 tree, function='link'
+		tree ||= current_user.tag_tree.root
+
 		output =  "<script type=\"text/javascript\">\n"
 		output << "<!--\n"
 	  output << "d = new dTree('d');\n"
 
 	  url = tag_tree_path('root')
 		
-		url = tag_tree_path(tree.parent.name) unless tree.isRoot?
-		output << "d.add(#{tree.hash},-1,'#{tree.content}','#{url}');\n"
+		url = tag_tree_path(tree.parent.tag) unless tree.isRoot?
+		output << "d.add(#{tree.hash},-1,'#{tree.tag}','#{url}');\n"
 
 		tree.each do |c|
-	    url = tag_tree_path(c.name)
+	    url = tag_tree_path(c.tag)
 	    case function
 		  when 'selector'
-        url = "javascript:$(\\'tag_tree_parent_name\\').value = \\'#{c.name}\\';$(\\'tag_tree_parent\\').value = \\'#{c.content}\\';"
+        url = "javascript:$(\\'tag_tree_parent_name\\').value = \\'#{c.tag}\\';$(\\'tag_tree_parent\\').value = \\'#{c.tag}\\';"
 			end
 
-			output << "d.add(#{c.hash},#{c.parent.hash},'#{c.content}','#{url}');\n"
+			output << "d.add(#{c.hash},#{c.parent.hash},'#{c.tag}','#{url}');\n"
 		end
 			
 	  output << "document.write(d);\n"
@@ -55,12 +57,12 @@ module TagTreesHelper
 		  left_tds = tree.parentage.length
 		end
 	  
-	  link = link_to(tree.content, tag_tree_path(tree.name))
+	  link = link_to(tree.tag, tag_tree_path(tree.name))
     case function
 		when 'selector'
-      link = link_to_function tree.content, <<-JS
-		    $('tag_tree_parent_name').value = '#{tree.name}';
-		    $('tag_tree_parent').value      = '#{tree.content}';
+      link = link_to_function tree.tag, <<-JS
+		    $('tag_tree_parent_name').value = '#{tree.tag}';
+		    $('tag_tree_parent').value      = '#{tree.tag}';
 		  JS
 		end
 

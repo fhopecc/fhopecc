@@ -16,7 +16,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :counters
 
-  map.resources :tag_trees do |tag_tree|
+  map.resources :tag_trees, :collection => {:load_form => :get, :load => :post} do |tag_tree|
 		tag_tree.resources :tag_trees, :controller => 'tag_trees'
 	end
 

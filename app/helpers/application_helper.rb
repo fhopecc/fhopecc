@@ -78,7 +78,7 @@ module ApplicationHelper
 		case target
 		when 'TagTreesController'
 			link = link_to_function tag, <<-JS
-				$('tag_tree_content').value = '#{tag}'
+				$('tag_tree_tag').value = '#{tag}'
 			JS
 		end
 		link

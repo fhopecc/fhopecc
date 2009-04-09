@@ -1,18 +1,43 @@
 require 'tree'
 require 'ostruct'
-
 class TagTreeNode < Tree::TreeNode
-  alias id name
 
-	def initialize tag
+	def initialize tag='新科目'
 		super object_id
     @content = OpenStruct.new
 		self.tag = tag
 	end
 
-	def parent_name
+	def id 
+		self.tag
+	end
+
+	def tag= _tag
+		unless tag == _tag
+			super _get_uniq_tag(_tag)
+		end
+	end
+
+	def hasTag? _tag
+	  any? do |n| n.tag == _tag end
+	end
+
+	def _get_uniq_tag _tag
+    if root.hasTag? _tag
+			_tag =~ /\D.*/
+			_get_uniq_tag((_tag.to_i+1).to_s << $&)
+		else
+			_tag
+		end
+	end
+
+	def child tag
+	  detect do |n| n.tag == tag end
+	end
+
+	def parent_id
 		unless parent.nil?
-			parent.name
+			parent.tag
 		else
 			''
 		end
@@ -45,15 +70,12 @@ class TagTreeNode < Tree::TreeNode
 		end
 	end
 
-	def leafs_contents
+	def leafs_tags
 		leafs.map do |n|
-			n.name
+			n.tag
 		end
 	end
 
-	def child tag
-	  detect do |n| n.tag == tag end
-	end
 
 	def child_content? *contents
 		inject(false) do |memo, node| 
@@ -65,13 +87,9 @@ class TagTreeNode < Tree::TreeNode
 		self.tag
 	end
 
-	def find_by_content content
-		child = detect do |n| n.content == content end
+	def find_by_tag tag
+		child = detect do |n| n.tag == tag end
 		child ||= self
-	end
-
-	def had_content? content
-		return !(root.detect {|n| n.content == content}.nil?)
 	end
 
 	def destroy
@@ -103,6 +121,10 @@ class TagTreeNode < Tree::TreeNode
 	end
 
   class << self
+    def default
+			TagTreeNode.parse_tag_tree_file File.dirname(__FILE__) + '/../config/default.tag_tree'
+		end
+
 		def parse_tag_tree_file path
       File.open(path) do |f|
         parse_tag_tree f 
