@@ -64,13 +64,13 @@ class MonthlyMlog
 		RAILS_DEFAULT_LOGGER
   end
 
-	def in_tag tag
-		tree = @user.tag_tree.find_by_content(tag)
+	def in_tag _tag
+		tree = @user.tag_tree.find_by_tag(_tag)
     ms = mlogs.select do |t| 
-			tree.child_content? *(t.tag_list)
+			tree.has_tag? *(t.tag_list)
 	  end
 	  ts = ms.group_by do |m| 
-			(m.tag_list & tree.leafs_contents)[0] 
+			(m.tag_list & tree.leafs_tags)[0] 
 		end
 
 		ts.keys.map do |k|
@@ -95,8 +95,6 @@ class MonthlyMlog
 	def fexpense_sum
 		fexpense.sum {|e| e.sum}
 	end
-
-
 
 	def income
 		in_tag('收入')

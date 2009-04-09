@@ -77,9 +77,9 @@ class TagTreeNode < Tree::TreeNode
 	end
 
 
-	def child_content? *contents
+	def has_tag? *tags
 		inject(false) do |memo, node| 
-			memo || (contents.include?(node.content))
+			memo || (tags.include?(node.tag))
 		end
 	end
 
