@@ -6,7 +6,9 @@
 <%= f.text_field :value %>
 <br/>
 <%= f.text_field :tag_list %>
+<span class="operation">
 <%= link_to_function "清空科目", "$('mlog_tag_list').value = ''" %>
+</span>
 <%= render :partial => '/mlogs/tag_selector' %>
 <br/>
 <%= f.text_area  :comment %>

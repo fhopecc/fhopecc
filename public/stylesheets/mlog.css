@@ -1,3 +1,27 @@
+body { background-color: #fff; 
+	     color: #333; font-size:medium
+}
+
+body, p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  line-height: 18px;
+}
+
+#tag_selectors   {width:80%;}
+#tag_selectors a {color:blue;text-decoration:none}
+
+.number   {text-align:right}
+.negative {text-align:right;color:red}
+
+.operation a{color:red;text-decoration:none}
+
+table {padding-left:1.5%;
+	     text-align:left;
+       font-size:medium
+}
+th {color:green;font-weight:bold}
+
+
 .topbar_button {float:right;color:red;
                 border-left:1px solid orange}
 .topbar_button a:link {color:red;text-decoration:none}
@@ -74,34 +98,20 @@ border:1px solid DarkMagenta}
 #mlog_intro em        {font-style:normal;color:red}
 
 #tagtree_form #functions {float:right;padding-right:30%;border:none}
-#tag_selectors           {width:80%}
-#input                   {width:55%;padding-left:30%}
+#form {width:55%;padding-left:30%}
 
 #expense_table           {float:left}
 #income_table            {float:left}
 
-#list          {padding-left:1.5%}
 
 
 .summary {text-align:center}
 
-body { background-color: #fff; color: #333; }
-
-body, p, ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size:   13px;
-  line-height: 18px;
-}
 
 pre {
   background-color: #eee;
   padding: 10px;
-  font-size: 11px;
 }
-
-a { color: #000; }
-a:visited { color: #666; }
-a:hover { color: #fff; background-color:#000; }
 
 .fieldWithErrors {
   padding: 2px;

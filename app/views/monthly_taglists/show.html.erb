@@ -4,7 +4,7 @@
 <%= link_to '入帳', 
 new_mlog_path(:year => @mmlog.month.year, :month => @mmlog.month.month) %>
 </div>
-<div id="input">
+<div id="form">
 <b>收支平衡：</b><%=@mmlog.balance%>
 <br/>
 <b>可支配現金流：</b><%=@mmlog.income_sum - @mmlog.fexpense_sum%>

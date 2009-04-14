@@ -89,9 +89,17 @@ module ApplicationHelper
 		select obj, method, tags
 	end
 
-	def extract str, show_length=20, etc = '...'
+	def extract str, show_length=30, etc = '...'
 		return str if  str.length < show_length
 		str[0, show_length] << etc
+	end
+
+	def num_td num
+		if num < 0
+			'<td class="negative">' << num.to_s << '</td>'
+		else
+			'<td class="number">' << num.to_s << '</td>'
+		end
 	end
 
 	def link_to_submit title 
