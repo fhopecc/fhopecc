@@ -95,12 +95,15 @@ module ApplicationHelper
 	end
 
 	def num_td num
-		if num < 0
-			'<td class="negative">' << num.to_s << '</td>'
-		else
-			'<td class="number">' << num.to_s << '</td>'
-		end
+		numclass = num < 0 ? "negative" : "number"
+		'<td class="' << numclass << '">' << num.to_s << '</td>'
 	end
+
+	def num_span num
+		numclass = num < 0 ? "negative" : "number"
+		'<span class="' << numclass << '">' << num.to_s << '</span>'
+	end
+
 
 	def link_to_submit title 
     link_to_function title, "$(this).up('form').submit()"

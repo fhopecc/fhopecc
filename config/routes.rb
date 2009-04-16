@@ -1,16 +1,18 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :monthly_taglists
-
-  map.resources :mlogs, :collection => {:help => :get}
-	  #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }
-
-	map.resources :monthly_mlogs
 
   map.resources :users
 
+  map.resource  :session
+
+  map.resources :mlogs, :collection => {:help => :get}
+
+	map.resources :monthly_mlogs
+
+  map.resources :monthly_taglists
+
   map.resources :yhq_codes
 
-  map.resource :db_dumper
+  map.resource  :db_dumper
 
   map.resources :helpers
 
@@ -22,7 +24,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :db_checklists
 
-  map.resource :session
 
   # The priority is based upon order of creation: first created -> highest priority.
 

@@ -1,8 +1,5 @@
 <table class="list">
-<tr><th>結餘</th><th>收入</th><th>支出</th></tr>
-<tr>
-<%=num_td @mmlog.balance%>
-<%=num_td @mmlog.income_sum%>
-<%=num_td @mmlog.expense_sum%>
-</tr>
+<tr><th>收入</th><%=num_td @mmlog.income_sum%></tr>
+<tr><th>支出</th><%=num_td @mmlog.expense_sum%></tr>
+<tr><th>結餘</th><%=num_td @mmlog.balance%></tr>
 </table>

@@ -1,0 +1,12 @@
+<div id="operations">
+<%= link_to '更改密碼', edit_user_path(@user) %>
+<br/>
+<%= link_to '刪除', user_path(@user), 
+         :confirm => '你確定要刪除嗎？', :method => :delete %>
+<br/>
+<%= monthly_task '返回', 'mlog' %>
+</div>
+<div id="form">
+<b>名稱：</b><%= @user.login %><br/>
+<b>帳號建立日期：</b><%= @user.created_at %>
+</div>

@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   include AuthenticatedSystem
-	layout 'session'
+	layout proc {|c| c.action_name == 'new' ? 'session' : 'users'}
 
-  # render new.rhtml
-  def new
-  end
+	def show
+    @user = User.find(params[:id])
+	end
 
   def create
     cookies.delete :auth_token
