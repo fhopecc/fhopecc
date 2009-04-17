@@ -5,7 +5,7 @@ require 'vista'
 require 'winxp'
 
 def CurrentOS
-	if system('setx /? >nul')
+	if system('setx /? >nul 2>nul' )
 		VISTA
 	else
 		WINXP

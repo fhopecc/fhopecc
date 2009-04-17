@@ -1,0 +1,57 @@
+<%section 'Ruby 與殼的溝通' do%>
+<%paragraph do%>
+作為一個系統管理者，為什麼會迷上 Ruby 呢？
+因為它與所有的 OS 的殼(Shell)都溝通良好，
+殼是使用者與 OS 主要溝通的介面，
+通常是命令列模式，
+與殼溝通良好表示 Ruby 可透過殼來呼叫外部程式，
+並與這些外部程式合作來完成系統管理。
+有管理過 unix 的管理者，會發現他每天必須寫許多 script
+來結合不同的系統程式，完成無數的工作。
+能有效把不同外部程式黏起來的語言，
+才能成為系統管理者的瑞士刀。
+<%end%>
+<%section '隱藏指令的輸出' do %>
+<%paragraph do%>
+通常系統管理的 script 常會利用 shell 呼叫一連串指令，
+但是用 shell 呼叫的指令，有時會把結果寫到標準輸出及標準錯誤，
+這些結果會混雜在原本 script 的輸出中，
+使管理員必須費時找出他想要藉訊息。
+<%end%>
+<%code '判斷 Widows 的版本', '1.decide_windows_version', 'ruby' do %>
+if system('setx /?' )
+  puts "VISTA"
+else
+  puts "WINXP"
+end
+<%end%>
+<%paragraph do%>
+如<%=xref '1.decide_windows_version'%>的 script 是用來判斷目前的
+windows 版本。此 script 利用 vista 提供 setx 指令，而 winxp
+並未有此指令。
+管理員希望執行此 script 時，只會印出 VISTA 或 WINXP 
+用來提示目前 windows 版本的字串，
+但在 vista 時，先會印出 setx /? 的說明訊息，最後才印出 VISTA，
+而在 winxp 時，先會印出 "環境變數 x/? 未定義" 的錯誤訊息，
+再印出 WINXP 字串。
+<%end%>
+<%code '判斷 Widows 的版本', '2.decide_windows_version', 'ruby' do %>
+if system('setx /? >nul 2>nul' )
+  puts "VISTA"
+else
+  puts "WINXP"
+end
+<%end%>
+<%paragraph do%>
+為了有乾淨的輸出，傳給 system 的 shell 指令，
+必須把標準輸出及錯誤輸出關掉。
+如上述我們加上 >nul 2>nul 來把標準輸出及錯誤輸出重導到
+nul 這個虛擬檔案，它就像個黑洞，寫進這個檔案的資料都會消失， 
+作了這些改變，使上面的指令便只會印出 VISTA 或 WINXP。
+<%end%>
+<%paragraph do%>
+若你是在 unix 的 shell，則是在指令尾加上 > /dev/null 2> /dev/null，
+來達到同樣的效果。
+<%end%>
+<%end%>
+<%end%>
