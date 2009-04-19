@@ -2,6 +2,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users
 
+  map.resources :abouts
+
   map.resource  :session
 
   map.resources :mlogs, :collection => {:help => :get}
