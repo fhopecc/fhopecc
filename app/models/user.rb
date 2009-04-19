@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
     attr_accessor :user
 		def initialize user
 			@user = user
+			@user.create_tag_tree
 		end
 
 		def find mon
