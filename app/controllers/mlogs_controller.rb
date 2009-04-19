@@ -3,14 +3,10 @@ class MlogsController < ApplicationController
   include MlogsSystem
   before_filter :login_required
 	
-  # GET /mlogs
-  # GET /mlogs.xml
   def index
 		@mlogs = Mlog.find :all
   end
 
-  # GET /mlogs/1
-  # GET /mlogs/1.xml
   def show
     @mlog = Mlog.find(params[:id])
 
@@ -20,14 +16,13 @@ class MlogsController < ApplicationController
     end
   end
 
-  # GET /mlogs/new
-  # GET /mlogs/new.xml
   def new
 		year   = params[:year]
 		month  = params[:month]
+    now = TZInfo::Timezone.get('Asia/Taipei').utc_to_local(Time.now.utc)
 		year  ||= now.year
 		month ||= now.month
-    day    =  now.day
+    day     = now.day
 		@default_date = Date.civil year.to_i, month.to_i, day
 
     @mlog = current_user.mlogs.build
