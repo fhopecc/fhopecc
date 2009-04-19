@@ -1,0 +1,15 @@
+<%=render :partial => "users/admin_bar"%>
+<table class="list">
+  <tr>
+		<th><%='名稱'%></th>
+		<th><%='建立日期'%></th>
+		<th><%='流水帳數'%></th>
+  </tr>
+<%for user in @users %>
+  <tr>
+    <td><%=h user.login %></td>
+    <td><%=h user.created_at.strftime("%m-%d") %></td>
+    <td><%=h user.mlogs.size %></td>
+  </tr>
+<% end %>
+</table>

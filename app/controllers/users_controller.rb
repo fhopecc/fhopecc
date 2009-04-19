@@ -3,6 +3,13 @@ class UsersController < ApplicationController
   include AuthenticatedSystem
 	layout proc {|c| c.action_name == 'new' ? 'session' : 'users'}
 
+	def index
+		if (!current_user.nil? and current_user.login == 'fhopecc')
+			@users = User.find :all
+			@users = @users.sort_by{|u| u.mlogs.size}
+		end
+	end
+
 	def show
     @user = User.find(params[:id])
 	end
