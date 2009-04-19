@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   attr_accessor :password
 	has_one  :tag_tree
 	has_many :mlogs
+	has_many :monthly_mlogs
 
   #validates_presence_of     :login, :email
   validates_presence_of     :login
@@ -98,11 +99,4 @@ class User < ActiveRecord::Base
       crypted_password.blank? || !password.blank?
     end
 
-		def after_save
-			if self.tag_tree.nil?
-				self.build_tag_tree
-			end
-			self.tag_tree.save
-		end
-    
 end

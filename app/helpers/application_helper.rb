@@ -112,5 +112,10 @@ module ApplicationHelper
 	def link_to_help title
     link_to title, '/mlogman/main.xhtml'
 	end
+
+	def now
+    TZInfo::Timezone.get('Asic/Taipei').utc_to_local(Time.now.utc)
+	end
+
 end
 

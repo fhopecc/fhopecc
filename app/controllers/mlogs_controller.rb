@@ -25,10 +25,9 @@ class MlogsController < ApplicationController
   def new
 		year   = params[:year]
 		month  = params[:month]
-		year  ||= Date.today.year
-		month ||= Date.today.month
-    day    =  Date.today.day
-		logger.debug "mmm"  + month.to_s
+		year  ||= now.year
+		month ||= now.month
+    day    =  now.day
 		@default_date = Date.civil year.to_i, month.to_i, day
 
     @mlog = current_user.mlogs.build
