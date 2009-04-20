@@ -4,7 +4,9 @@
 <div id="lang" class="topbar_button">
 </div>
 <div id="login" class="topbar_button">
+<%unless current_user.nil?%>
 <%=link_to current_user.login, user_url(current_user) %>
+<%end%>
 <%=link_to "關帳", session_url, :method=>:delete %> 
 </div>
 <div id="logo">

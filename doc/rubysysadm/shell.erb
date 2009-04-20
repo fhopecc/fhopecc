@@ -11,6 +11,23 @@
 能有效把不同外部程式黏起來的語言，
 才能成為系統管理者的瑞士刀。
 <%end%>
+<%section '執行外部程式' do %>
+<%code '執行 notepad Rakefile 指令', 'system_notepad_rakefile', 'ruby' do %>
+system("notepad Rakefile")
+system("notepad", "Rakefile")
+<%end%>
+<%paragraph do%>
+最簡單執行 shell 指令的方法如<%=xref 'system_notepad_rakefile'%>所示，
+把指令字串傳給 system 方法，
+上述的指令是用 notepad 這個程式來編輯 Rakefile 檔案。
+<%end%>
+<%paragraph do%>
+除了傳整個指令字串，也可如第 2 行，
+第 1 個引數是執行檔的檔名，
+第 2 個以後的引數便是傳給該執行檔的參數，
+如同指令字串中用空格區分的參數。
+<%end%>
+<%end%>
 <%section '隱藏指令的輸出' do %>
 <%paragraph do%>
 通常系統管理的 script 常會利用 shell 呼叫一連串指令，

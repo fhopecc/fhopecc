@@ -1,18 +1,5 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
-	class MMS
-    attr_accessor :user
-		def initialize user
-			@user = user
-			if @user.tag_tree.nil?
-			  @user.create_tag_tree
-			end
-		end
-
-		def find mon
-			MonthlyMlog.find_by_user_and_mon user, mon 
-		end
-	end
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 	has_one  :tag_tree
@@ -102,4 +89,17 @@ class User < ActiveRecord::Base
       crypted_password.blank? || !password.blank?
     end
 
+	class MMS
+    attr_accessor :user
+		def initialize user
+			@user = user
+			if @user.tag_tree.nil?
+			  @user.create_tag_tree
+			end
+		end
+
+		def find mon
+			MonthlyMlog.find_by_user_and_mon user, mon 
+		end
+	end
 end

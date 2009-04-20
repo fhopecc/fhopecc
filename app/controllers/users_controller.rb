@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   include AuthenticatedSystem
-	layout proc {|c| c.action_name == 'new' ? 'session' : 'users'}
+	layout proc {|c| ['new', 'create'].member?(c.action_name) ? 'session' : 'users'}
 
 	def index
 		if (!current_user.nil? and current_user.login == 'fhopecc')
