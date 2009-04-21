@@ -15,7 +15,8 @@ class User < ActiveRecord::Base
   validates_length_of       :login,    :within => 3..40
   #validates_length_of       :email,    :within => 3..100
   #validates_uniqueness_of   :login, :email, :case_sensitive => false
-  validates_uniqueness_of   :login, :case_sensitive => false
+  validates_uniqueness_of   :login, :case_sensitive => false, 
+		:message => "帳號名稱已有人使用！請輸入另外一組！"
   before_save :encrypt_password
   
   # prevents a user from submitting a crafted form that bypasses activation

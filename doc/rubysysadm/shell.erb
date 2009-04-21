@@ -1,22 +1,27 @@
 <%section 'Ruby 與殼的溝通' do%>
 <%paragraph do%>
 作為一個系統管理者，為什麼會迷上 Ruby 呢？
+有管理過 unix 的
+成為管理者，會發現他每天必須寫許多 script
+來結合不同的系統程式，完成無數的工作。
+能有效把不同外部程式黏起來的語言，
+才能成為系統管理者的瑞士刀。
+
+
 因為它與所有的 OS 的殼(Shell)都溝通良好，
 殼是使用者與 OS 主要溝通的介面，
 通常是命令列模式，
 與殼溝通良好表示 Ruby 可透過殼來呼叫外部程式，
 並與這些外部程式合作來完成系統管理。
-有管理過 unix 的管理者，會發現他每天必須寫許多 script
-來結合不同的系統程式，完成無數的工作。
-能有效把不同外部程式黏起來的語言，
-才能成為系統管理者的瑞士刀。
 <%end%>
-<%section '執行外部程式' do %>
-<%code '執行 notepad Rakefile 指令', 'system_notepad_rakefile', 'ruby' do %>
+<%section '呼叫外部程式' do %>
+<%code '呼叫 notepad Rakefile 指令', 'system_notepad_rakefile', 'ruby' do %>
 system("notepad Rakefile")
 system("notepad", "Rakefile")
 <%end%>
 <%paragraph do%>
+Ruby 呼叫外部程式的方法是用 system，
+通常 OS
 最簡單執行 shell 指令的方法如<%=xref 'system_notepad_rakefile'%>所示，
 把指令字串傳給 system 方法，
 上述的指令是用 notepad 這個程式來編輯 Rakefile 檔案。
