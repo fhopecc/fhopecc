@@ -7,16 +7,30 @@ class User < ActiveRecord::Base
 	has_many :monthly_mlogs
 
   #validates_presence_of     :login, :email
-  validates_presence_of     :login
-  validates_presence_of     :password,                   :if => :password_required?
-  validates_presence_of     :password_confirmation,      :if => :password_required?
-  validates_length_of       :password, :within => 4..40, :if => :password_required?
-  validates_confirmation_of :password,                   :if => :password_required?
-  validates_length_of       :login,    :within => 3..40
+  validates_presence_of :login, :message => "帳號不可空白！ "
+	                    
+  validates_presence_of :password, :if => :password_required?, 
+                        :message => "密碼不可空白！ "
+  validates_presence_of :password_confirmation, 
+	                      :if => :password_required?, 
+                        :message => "密碼確認不可空白！ "
+
+  validates_length_of :password, :within => 4..40, 
+		                  :if => :password_required?,
+											:too_short => "密碼至少要 %d 個字！", 
+											:too_long => "密碼不可超出 %d 個字！" 
+
+  validates_confirmation_of :password, :if => :password_required?, 
+		                        :message => "密碼與密碼確認不一致！"
+
+  validates_length_of :login, :within => 3..40, 
+											:too_short => "帳號至少要 %d 個字！", 
+											:too_long => "帳號不可超出 %d 個字！" 
+
   #validates_length_of       :email,    :within => 3..100
   #validates_uniqueness_of   :login, :email, :case_sensitive => false
-  validates_uniqueness_of   :login, :case_sensitive => false, 
-		:message => "�b���W�٤w���H�ϥΡI�п�J�t�~�@�աI"
+  validates_uniqueness_of :login, :case_sensitive => false, 
+		                      :message => "帳號已有人使用！"
   before_save :encrypt_password
   
   # prevents a user from submitting a crafted form that bypasses activation

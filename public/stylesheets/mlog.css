@@ -7,13 +7,17 @@ body, p, ol, ul, td {
   line-height: 18px;
 }
 
+#login_form h1 {color:green;}
 #tag_selectors   {width:80%;}
 #tag_selectors a {color:blue;text-decoration:none}
+
 
 .number   {text-align:right}
 .negative {text-align:right;color:red}
 
 .operation a{color:red;text-decoration:none}
+
+.formError {color:white;background-color:red}
 
 table {padding-left:1.5%;
 	     text-align:left;
