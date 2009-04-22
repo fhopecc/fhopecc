@@ -91,8 +91,6 @@ class MlogsController < ApplicationController
     end
   end
 
-  # DELETE /mlogs/1
-  # DELETE /mlogs/1.xml
   def destroy
     @mlog = Mlog.find(params[:id])
     @mlog.destroy

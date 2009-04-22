@@ -2,8 +2,8 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
-	has_one  :tag_tree
-	has_many :mlogs
+	has_one  :tag_tree, :dependent => :destroy
+	has_many :mlogs, :dependent => :destroy
 	has_many :monthly_mlogs
 
   #validates_presence_of     :login, :email
