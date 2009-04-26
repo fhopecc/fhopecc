@@ -6,15 +6,34 @@
 來結合不同的系統程式，完成無數的工作。
 能有效把不同外部程式黏起來的語言，
 才能成為系統管理者的瑞士刀。
+<%end%>
+<%paragraph do%>
+殼(Shell)是使用者與 OS 主要溝通的介面，
+通常是命令列模式(Command mode)，
+此模式通常透過命令來呼叫外部程式，
+其語法通常如下：
+<%end%>
+<%code '命令語法', 'command_syntax', 'sh' do %>
+Syntax:
+Command [parameters]
 
+Ex:
+notepad Rakefile
+<%end%>
+<%paragraph do%>
+我們可以看到命令列語法的第1個字通常是命令名稱，
+其餘字為傳給此命令的參數，參數可有可無。
+上述例子就是 notepad 命令，
+其後指定一個參數為 Rakefile，
+此命令列表示用 notepad 這個程式來編輯 Rakefile 檔案。
 
 因為它與所有的 OS 的殼(Shell)都溝通良好，
-殼是使用者與 OS 主要溝通的介面，
-通常是命令列模式，
 與殼溝通良好表示 Ruby 可透過殼來呼叫外部程式，
 並與這些外部程式合作來完成系統管理。
 <%end%>
 <%section '呼叫外部程式' do %>
+<%paragraph do%>
+<%end%>
 <%code '呼叫 notepad Rakefile 指令', 'system_notepad_rakefile', 'ruby' do %>
 system("notepad Rakefile")
 system("notepad", "Rakefile")
