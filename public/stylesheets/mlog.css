@@ -7,7 +7,6 @@ body, p, ol, ul, td {
   line-height: 18px;
 }
 
-#login_form h1 {color:green;}
 #tag_selectors   {width:80%;}
 #tag_selectors a {color:blue;text-decoration:none}
 
@@ -87,11 +86,11 @@ border:1px solid DarkMagenta}
 #caculator td:hover  {color:white;background:orange}
 #caculator td:active {text-align:center;border:1px dotted orange}
 
-#login_form           {float:right;border:1px dotted orange}
-#login_form h1        {font-size:medium;font-weight:bold}
+#login_form           {float:right;border:3px dotted orange}
 #login_form a:link    {color:red;text-decoration:none}
 #login_form a:visited {color:red;text-decoration:none}
 #login_form a:hover   {color:white;text-decoration:none;background:red}
+#login_form h1        {font-size:medium;color:green;}
 
 #mlog_intro              {padding:5% 30% 0 10%;font-weight:bold;
 	                         color:DarkKhaki} 
