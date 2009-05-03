@@ -1,0 +1,108 @@
+﻿D:\moneylog\doc\rubysysadm>ruby winver1.rb
+
+SetX 的作用方式有三種:
+
+語法 1:
+    SETX [/S system [/U [domain\]user [/P [password]]]] var value [/M]
+
+語法 2:
+    SETX [/S system [/U [domain\]user [/P [password]]]] var /K regpath [/M]
+
+語法 3:
+    SETX [/S system [/U [domain\]user [/P [password]]]]
+         /F file {var {/A x,y | /R x,y string}[/M] | /X} [/D delimiters]
+
+描述:
+    建立或修改使用者或系統環境的
+    環境變數。可以根據引數、登錄機碼或
+    檔案輸入來設定變數。
+
+參數清單:
+    /S     system          要連線的遠端系統。
+
+    /U     [domain\]user   指定執行命令的使用者。
+                                      
+
+    /P     [password]      指定使用者密碼。
+                           如果省略，會出現密碼輸入要求。
+
+    var                    指定要設定的環境變數。
+
+    value                  指定值委派給
+                           環境變數。
+
+    /K     regpath         指定變數應該根據登錄
+                           機碼的資訊來設定。
+                           路徑的格式應該指定為
+                           hive\key\...\value。例如，
+                           HKEY_LOCAL_MACHINE\System\CurrentControlSet\
+                           Control\TimeZoneInformation\StandardName.
+
+    /F     file            指定要使用的文字檔案的
+                           檔名。
+
+    /A     x,y             指定絕對檔案協調
+                           (行 X, 項目 Y) 檔案的搜尋
+                           參數。
+
+    /R     x,y string      指定檔案內的相對協調的 "string" 
+                           作為搜尋參數。
+
+    /M                     指定變數應該設定在
+                           整個系統 (HKEY_LOCAL_MACHINE)
+                           環境中。預設是設定
+                           HKEY_CURRENT_USER 環境之下
+                           的變數。
+
+    /X                     顯示有對應協調的檔案內容。
+
+    /D     delimiters      指定額外的分隔字元，例如 ","
+                           或 "\"。內建的分隔字元有空格、
+                           tab 鍵和換行符號。任何
+                           ASCII 字元都可以用做額外的分隔
+                           字元。分隔字元的字數上限，
+                           包括內建分隔字元在內是 15 個字。
+
+    /?                     顯示這個說明訊息。
+
+注意: 1) SETX 將變數寫入登錄中的主要環境。
+
+      2) 在本機系統上，由這個工具建立或修改的變數
+         可以在未來的命令視窗中使用，但是
+         不可以在目前的 CMD.exe 命令視窗中使用。
+
+      3) 在遠端系統上，由這個工具建立或修改的變數
+         在下次登入工作階段將可使用。
+
+      4) 有效的 RegKey 資料類型有 REG_DWORD、REG_EXPAND_SZ、
+         REG_SZ 和 REG_MULTI_SZ。
+
+      5) 得到支援的 hive 有 HKEY_LOCAL_MACHINE(HKLM) 和 
+         HKEY_CURRENT_USER (HKCU)。
+
+      6) 分隔字元會區分大小寫。
+
+      7) REG_DWORD 值將以小數格式從登錄解壓縮。
+範例:
+    SETX MACHINE COMPAQ 
+    SETX MACHINE "COMPAQ COMPUTER" /M
+    SETX MYPATH "%PATH%"
+    SETX MYPATH ~PATH~
+    SETX /S system /U user /P password  MACHINE COMPAQ 
+    SETX /S system /U user /P password MYPATH ^%PATH^% 
+    SETX TZONE /K HKEY_LOCAL_MACHINE\System\CurrentControlSet\
+         Control\TimeZoneInformation\StandardName
+    SETX BUILD /K "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows
+         NT\CurrentVersion\CurrentBuildNumber" /M
+    SETX /S system /U user /P password TZONE /K HKEY_LOCAL_MACHINE\
+         System\CurrentControlSet\Control\TimeZoneInformation\
+         StandardName
+    SETX /S system /U user /P password  BUILD /K 
+         "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\
+         CurrentVersion\CurrentBuildNumber" /M
+    SETX /F ipconfig.out /X 
+    SETX IPADDR /F ipconfig.out /A 5,11 
+    SETX OCTET1 /F ipconfig.out /A 5,3 /D "#$*." 
+    SETX IPGATEWAY /F ipconfig.out /R 0,7 Gateway
+    SETX /S system /U user /P password  /F c:\ipconfig.out /X
+VISTA
