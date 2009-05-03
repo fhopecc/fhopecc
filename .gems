@@ -1,1 +1,2 @@
 rubytree --version '>= 0.5.2' 
+ruby-net-ldap
