@@ -1,5 +1,6 @@
 require "dl/import"
-require 'win32ole'
+require 'win32ole' if RUBY_PLATFORM =~ /win/
+
 module Hsbdll
   extend DL::Importable
   #dlload "lib/dll/libtiff3.dll"
