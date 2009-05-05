@@ -127,6 +127,33 @@ system 執行其傳入的命令時，
 <%end%>
 <%end%>
 <%section '命令輸出替換子' do %>
+<%paragraph do%>
+若把一串命令用倒引號字元"&#96;"括起來，
+則會表示這個命令執行後所輸出字串。
+<%end%>
+<%code '雙重解壓縮', 'unziprar', 'ruby' do %>
+m = `unzip -o attch1.zip -d tmpdir`
+m  =~ /.*\.rar/
+tf =  $&
+unrar tf
+<%end%>
+<%paragraph do%>
+我以一個之前解決的問題為例，
+某機關網站的公文系統附件一律是用 zip 格式壓縮，
+但其下屬機關有個例行性的資料更新是用 rar 壓縮，
+所以上傳至機關網站的公文系統，又會使用 zip 格式再壓縮一次，
+上傳至公文系統的附檔檔名統一為 attch1.zip，
+這部份讓我們可以寫下自動化程式，
+但是第二層的 rar 其檔名是不統一的，
+因此利用 unzip 命令會輸出所解壓檔案的檔名，
+並且篩選其中附檔名為 rar 的字串，
+便能得知 rar 的檔名為何，
+再對其作 unrar 的動作。 
+如<%=xref 'unziprar'%>所示， 
+我們利用 m 來接受倒引號所括住的 unzip 命令的輸出，
+並使用正規表示式來得到 unzip 出來的 rar 檔名，
+最後在把檔名傳給 unrar，完成整個程序的自動化。
+<%end%>
 <%end%>
 <%section '隱藏命令的輸出' do %>
 <%paragraph do%>
