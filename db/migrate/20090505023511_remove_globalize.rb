@@ -1,12 +1,8 @@
 class RemoveGlobalize < ActiveRecord::Migration
-	def drop_exist_table table
-    drop_table(table) if table_exists?(table)
-	end
-
   def self.up
-    drop_exist_table :globalize_countries
-    drop_exist_table :globalize_languages
-    drop_exist_table :globalize_translations
+    drop_table :globalize_countries if table_exists? :globalize_countries
+    drop_table :globalize_languages if table_exists? :globalize_languages
+    drop_table :globalize_translations if table_exists? :globalize_translations
   end
 
   def self.down
