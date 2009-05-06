@@ -2,9 +2,9 @@ require 'net/ftp'
 require 'net/http'
 require 'uri'
 require 'ping'
-docdate  = '0980403' #來文日期
-docno    = '0980004269' #文號
-password = '56278'   #密碼
+docdate  = '0980505' #來文日期
+docno    = '0980005791' #文號
+password = '23687'   #密碼
 
 tmpdir   = 'tmp/hlland'
 libdir   = "#{tmpdir}/lib"
