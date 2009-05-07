@@ -1,0 +1,28 @@
+﻿<center>
+<h1>花蓮縣稅捐處資料庫使用者稽核報表</h1>
+<table class="basic_info">
+	<tr>
+		<th>稽核期間:</th><td colspan="3"><%=@duration%></td>
+	</tr>
+	<tr>
+		<th colspan="4">已執行 SQL 碼</th>
+	</tr>
+	<%@als.each do |al| %>
+	<tr class="sqltext">
+		<td><%=al.username%></td><td colspan="3"><%=(al.sql_text ||= ' ').chop%></td>
+	</tr>
+	<%end%>
+	<%@padding_line_audit.times do %>
+	<tr class="sqltext">
+		<td> </td><td colspan="3">&nbsp;</td>
+	</tr>
+	<%end%>
+</table>
+<table class="basic_info">
+	<tr class="sign">
+		<td class="sign" colspan="2">資料庫管理員：</td>
+		<td class="sign">股長：</td>
+		<td class="sign">課長：</td>
+	</tr>
+</table>
+</center>

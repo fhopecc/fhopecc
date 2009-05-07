@@ -3,3 +3,4 @@ log/*
 *~
 Thumbs.db
 *.swp
+lib/sql/*
