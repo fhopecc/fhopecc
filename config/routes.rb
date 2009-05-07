@@ -6,6 +6,8 @@ ActionController::Routing::Routes.draw do |map|
 
 	map.resources :monthly_mlogs
 
+	map.resources :audit_trails
+
   map.resources :users
 
   map.resource :db_dumper
