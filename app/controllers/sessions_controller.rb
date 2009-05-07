@@ -4,10 +4,6 @@ class SessionsController < ApplicationController
   include AuthenticatedSystem
 	layout 'session'
 
-  # render new.rhtml
-  def new
-  end
-
   def create
     self.current_user = User.authenticate(params[:login], params[:password])
     if logged_in?

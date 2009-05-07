@@ -13,8 +13,10 @@
 <%= render :partial => "/mlogs/tasks" %>
 <div id="tools">
 <%= render :partial => "/mlogs/caculator" %>
+<%= render :partial => "/monthly_mlogs/balance" %>
 </div>
 <div id="flash"><%= flash[:notice] %></div>
 <%= yield  %>
+<%=render :partial => '/mlogs/analytic'%>
 </body>
 </html>

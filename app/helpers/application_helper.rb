@@ -78,7 +78,7 @@ module ApplicationHelper
 		case target
 		when 'TagTreesController'
 			link = link_to_function tag, <<-JS
-				$('tag_tree_content').value = '#{tag}'
+				$('tag_tree_tag').value = '#{tag}'
 			JS
 		end
 		link
@@ -89,10 +89,21 @@ module ApplicationHelper
 		select obj, method, tags
 	end
 
-	def extract str, show_length=20, etc = '...'
+	def extract str, show_length=30, etc = '...'
 		return str if  str.length < show_length
 		str[0, show_length] << etc
 	end
+
+	def num_td num
+		numclass = num < 0 ? "negative" : "number"
+		'<td class="' << numclass << '">' << num.to_s << '</td>'
+	end
+
+	def num_span num
+		numclass = num < 0 ? "negative" : "number"
+		'<span class="' << numclass << '">' << num.to_s << '</span>'
+	end
+
 
 	def link_to_submit title 
     link_to_function title, "$(this).up('form').submit()"
@@ -101,5 +112,6 @@ module ApplicationHelper
 	def link_to_help title
     link_to title, '/mlogman/main.xhtml'
 	end
+
 end
 

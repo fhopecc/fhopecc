@@ -1,0 +1,196 @@
+<%section '利用 Ruby 來黏著不同的外部程式' do%>
+<%paragraph do%>
+作為一個系統管理者，為什麼會迷上 Ruby 呢？
+有管理過 unix 的管理者，會發現他每天必須寫許多 script
+來結合不同的系統程式，完成無數的工作。
+能有效把不同外部程式黏起來的語言，
+才能成為系統管理者的瑞士刀。
+<%end%>
+<%section '呼叫外部程式' do %>
+<%paragraph do%>
+使用者與作業系統主要溝通的介面通常是命令列模式(Command mode)，
+並能透過命令列來通知作業系統去呼叫不同外部程式來完成所需的工作，
+命令列語法通常如下：
+<%end%>
+<%code '命令列語法', 'command_line_syntax', 'sh' do %>
+Syntax:
+Command [parameters]
+
+Ex:
+notepad Rakefile
+<%end%>
+<%paragraph do%>
+從<%=xref 'command_line_syntax'%>可以看到命令列的第 1 
+個字是命令名稱(Command)，一般說來就是外部程式的檔名，
+作業系統會從環境變數中，讀出程式載入路徑變數(Path)，
+再從路徑變數中記載的目錄中，
+找出與命令名稱相同的執行檔並載入至記憶體中執行，
+最後將命令列中的其餘字，
+也就是傳給此命令的參數，傳給此執行檔。
+上例就是 notepad 命令，
+其後指定一個參數為 Rakefile，
+此命令列表示用 notepad 這個程式來編輯 Rakefile 檔案。
+<%end%>
+<%paragraph do%>
+<%end%>
+<%code '呼叫 notepad Rakefile 指令', 'system_notepad_rakefile', 'ruby' do %>
+system("notepad Rakefile")
+system("notepad", "Rakefile")
+<%end%>
+<%paragraph do%>
+Ruby 呼叫外部程式的方法是用 system，
+並把命令列作為引數傳入，
+如<%=xref 'system_notepad_rakefile'%>所示，
+<%end%>
+<%paragraph do%>
+除了傳整個命令列，也可如第 2 行，
+以 Ruby 函數的參數列語法，
+來執行外部程式，其規定是第 1 個引數是命令，
+第 2 個以後的引數便是傳給該命令的參數，
+如同中命令列用空格區分的參數。
+<%end%>
+<%end%>
+<%section 'system 的傳回值' do %>
+<%paragraph do%>
+作業系統所呼叫的程式執行完畢後，
+通常會把執行結果狀態用一個整數表示，
+並寫到系統的 EXIT 變數，
+命令若正常執行完成，
+則 EXIT 應該為 0，反之則代表程式執行有異常，
+ruby 的 system 則是 EXIT 為 0 時，傳回 true，
+反之則傳回 false 表示程式執行異常。
+<%end%>
+<%code '判斷 Widows 的版本', 'winver1', 'ruby' do %>
+<%# include winver1.rb #%>
+<%end%>
+<%paragraph do%>
+我們來看一個應用的例子，
+<%=xref 'winver1'%>的 script 是用來判斷目前的
+windows 版本，當執行此 script 時，
+在最後會印出 VISTA 或 WINXP 字串，
+來讓使用者知道目前 Windows 作業系統的版本，
+<%end%>
+<%paragraph do%>
+此 script 是利用作業系統是 Vista 時，
+才會有 setx 指令，
+而 WinXP 並未有此指令。
+是故在 WinXP 下，此命令會找不到執行檔，
+而在 Vista 則可執行成功，system 會傳回 true。
+反之在 WinXP 執行 system 會傳回 false。
+藉此差異便能用來判斷 windows 的版本。
+<%end%>
+<%end%>
+<%section '呼叫 Windows 的內建命令' do %>
+<%code '直接呼叫 Windows 的內建命令', 'dosbuiltinerr', 'ruby' do %>
+system 'dir' # => false
+<%end%>
+<%paragraph do%>
+在 Windows 下，我們不可以直接呼叫內建命令，
+如<%=xref 'dosbuiltinerr'%>會產生錯誤。
+<%end%>
+<%code '呼叫 Windows 的內建命令', 'dosbuiltin', 'ruby' do %>
+system 'cmd /c dir' # => true
+<%end%>
+<%paragraph do%>
+取而代之要在內建指令前加上 cmd /c 來執行，
+如<%=xref 'dosbuiltin'%>所示。
+<%end%>
+<%end%>
+<%section 'system 與 exec 比較' do %>
+<%paragraph do%>
+system 及 exec 方法在語法及作用上都是類似的，
+要暸解其間差別，
+首先要先暸解程序(Process)與程式(Program)的差別。
+程序和程式都是一連串指令，
+但程序佔有 CPU 時間、一段記憶體空間，
+且有自已的程式計數器(Program counter)，
+程式計數器是用來告知 CPU 程序已執行到那行指令了，
+是故程序是正在執行中的程式。
+程式並不享有這些執行資源，
+必須等候作業系統將其載入到記憶體，
+並配給它程式計數器、記憶體空間及 CPU 時間，
+才算真正執行。
+<%end%>
+<%code 'exec 的例子', 'exec_ex', 'ruby' do %>
+exec 'cmd /c dir' # => true
+puts "此命令永遠不會執行"
+<%end%>
+<%paragraph do%>
+system 及 exec 的差異就在
+system 執行其傳入的命令時，
+是先複製本身程序的執行環境，
+建立一個子程序來執行外部程式，
+外部程式結束時會再回到呼叫它的 ruby 程式。
+而 exec 是用本身執行環境來執行外部程式，
+所以外部程式結束時，不會再回到呼叫它的 ruby 程式，
+如<%=xref "exec_ex"%>所示，永遠不會執行到最後一句命令。
+<%end%>
+<%end%>
+<%section '命令輸出替換子' do %>
+<%paragraph do%>
+若把一串命令用倒引號字元"&#96;"括起來，
+則會表示這個命令執行後所輸出字串。
+<%end%>
+<%code '雙重解壓縮', 'unziprar', 'ruby' do %>
+m = `unzip -o attch1.zip -d tmpdir`
+m  =~ /.*\.rar/
+tf =  $&
+unrar tf
+<%end%>
+<%paragraph do%>
+我以一個之前解決的問題為例，
+某機關網站的公文系統附件一律是用 zip 格式壓縮，
+但其下屬機關有個例行性的資料更新是用 rar 壓縮，
+所以上傳至機關網站的公文系統，又會使用 zip 格式再壓縮一次，
+上傳至公文系統的附檔檔名統一為 attch1.zip，
+這部份讓我們可以寫下自動化程式，
+但是第二層的 rar 其檔名是不統一的，
+因此利用 unzip 命令會輸出所解壓檔案的檔名，
+並且篩選其中附檔名為 rar 的字串，
+便能得知 rar 的檔名為何，
+再對其作 unrar 的動作。 
+如<%=xref 'unziprar'%>所示， 
+我們利用 m 來接受倒引號所括住的 unzip 命令的輸出，
+並使用正規表示式來得到 unzip 出來的 rar 檔名，
+最後在把檔名傳給 unrar，完成整個程序的自動化。
+<%end%>
+<%end%>
+<%section '隱藏命令的輸出' do %>
+<%paragraph do%>
+通常系統管理的 script 常會執行一連串命令列，
+但是呼叫的命令列都會把它的輸出寫到標準輸出及標準錯誤，
+這些額外的輸出會混雜在原本 script 的輸出中，
+使管理員必須費時找出他想要的訊息。
+<%end%>
+<%figure '在 Vista 環境的執行結果', 'winver1@vista' do %>
+<pre>
+<%# include winver1@vista.output #%>
+</pre>
+<%end%>
+<%paragraph do%>
+以<%=xref 'winver1'%>為例，
+在 Vista 環境下時，先會印出 setx /? 的說明訊息，
+最後才印出 VISTA 這個字串，
+其雜亂的輸出如<%=xref 'winver1@vista'%>所示。
+而在 winxp 環境下時，先會印出 "環境變數 x/? 未定義" 的錯誤訊息，
+才印出 WINXP 字串。
+<%end%>
+<%code '判斷 Widows 的乾淨輸出版本', 'winver2', 'ruby' do %>
+<%# include winver2.rb #%>
+<%end%>
+<%paragraph do%>
+為了有乾淨的輸出，傳給 system 的 shell 指令，
+必須關掉命令列的輸出。
+在 Windows 環境下，我們可以加上 >nul 2>nul 
+來把標準輸出及錯誤輸出重導到 nul 這個虛擬檔案，
+nul 檔案就像個黑洞，寫進這個檔案的資料都會消失， 
+作了這些改變，
+使<%=xref 'winver2'%>便只會印出 VISTA 或 WINXP 這個乾淨的字串。
+<%end%>
+<%paragraph do%>
+若你是在 unix 的 shell，則是在指令尾加上 > /dev/null 2> /dev/null，
+來達到同樣的效果。
+<%end%>
+<%end%>
+<%# include ole.erb #%>
+<%end%>

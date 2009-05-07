@@ -1,22 +1,22 @@
-require 'base64'
-require 'tree'
-def tag_tree_string
-	r =  Tree::TreeNode.new("root", "root")
-	r << Tree::TreeNode.new("醫療費", "醫療費")
-	r << Tree::TreeNode.new("保險費", "保險費")
-	r << Tree::TreeNode.new("旅費", "旅費") << Tree::TreeNode.new("住宿費", "住宿費")
-	r << Tree::TreeNode.new("餐飲費", "餐飲費") << Tree::TreeNode.new("午餐", "午餐")
-	d = Base64.encode64(Marshal.dump(r)) 
-end
-Content = <<EOS
-one:
-  id: 1
-  user_id: 1
-  tag_tree: "#{tag_tree_string}"
+module Tree 
+	class TreeNode
+		def dump_tag_tree_file f
+			File.open(f, 'w') do |f|
+				f << dump_tag_tree
+			end
+		end
 
-two:
-  id: 2
-EOS
+		def dump_tag_tree 
+			str = ""
+			root.children do |c|
+				c.each do |n|
+					str << "  "*(n.parentage.length - 1) << n.content << ":\n"
+				end 
+			end
+			str
+		end
+	end
+end
 
 namespace "tag_tree" do
 	desc "make fixture"
@@ -24,5 +24,14 @@ namespace "tag_tree" do
 		File.open 'test/fixtures/tag_trees.yml', 'w' do |f|
 			f << Content
 		end
+	end
+
+	task :export_old_tagtree do 
+    tree = User.find_by_login('fhopecc').tag_tree
+		tree.dump_tag_tree_file 'config\fhopecc.tagtree'
+    tree = User.find_by_login('joan').tag_tree
+		tree.dump_tag_tree_file 'config\joan.tagtree'
+    tree = User.find_by_login('jone').tag_tree
+		tree.dump_tag_tree_file 'config\jone.tagtree'
 	end
 end

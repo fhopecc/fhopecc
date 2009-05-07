@@ -3,10 +3,10 @@
 <div id="operations">
 <%= link_to_submit "修改" %>
 </div>
-<div id="input">
-<%= f.hidden_field :parent_name %>
-<%= f.text_field   :parent %>
-<%= f.text_field   :content %>
+<div id="form">
+<%= f.hidden_field :id %>
+<%= f.text_field   :parent_id %>
+<%= f.text_field   :tag %>
 <br/>
 <%=render :partial => '/mlogs/tag_selector'%>
 </div>

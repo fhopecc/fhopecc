@@ -1,8 +1,12 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :monthly_taglists
+
+  map.resources :users
+
+  map.resources :abouts
+
+  map.resource  :session
 
   map.resources :mlogs, :collection => {:help => :get}
-	  #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }
 
 	map.resources :monthly_mlogs
 
@@ -10,19 +14,22 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users
 
-  map.resource :db_dumper
+  map.resources :monthly_taglists
+
+  map.resources :yhq_codes
+
+  map.resource  :db_dumper
 
   map.resources :helpers
 
   map.resources :counters
 
-  map.resources :tag_trees do |tag_tree|
+  map.resources :tag_trees, :collection => {:load_form => :get, :load => :post} do |tag_tree|
 		tag_tree.resources :tag_trees, :controller => 'tag_trees'
 	end
 
   map.resources :db_checklists
 
-  map.resource :session
 
   # The priority is based upon order of creation: first created -> highest priority.
 

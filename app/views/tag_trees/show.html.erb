@@ -1,15 +1,20 @@
 <div id="operations">
-<%= link_to '新科目', new_tag_tree_tag_tree_path(@tag_tree.name) %>
+<%= link_to '新科目', new_tag_tree_tag_tree_path(@tag_tree) %>
 <br/>
-<%= link_to '編輯', edit_tag_tree_path(@tag_tree.name) %>
+<% unless @tag_tree.isRoot? %>
+<%= link_to '編輯', edit_tag_tree_path(@tag_tree.tag) %>
 <br/>
-<%= link_to '刪除', tag_tree_path(@tag_tree.name), 
+<%= link_to '刪除', tag_tree_path(@tag_tree.tag), 
          :confirm => '你確定要刪除嗎？', :method => :delete %>
+<%else%>
+<%= link_to '載入', load_form_tag_trees_path %>
+<%end%>
+
 
 </div>
-<table class="input">
+<table class="form">
 <tr>
 <th>科目</th>
-<td><%=@tag_tree.content%></td>
+<td><%=@tag_tree.tag%></td>
 </tr>
 </table>

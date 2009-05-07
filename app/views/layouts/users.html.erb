@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Mlogs: <%= controller.action_name %></title>
+  <%= css_link_tag %>
+  <%= javascript_include_tag :defaults %>
+</head>
+<body>
+<%= render :partial => "/mlogs/topbar" %>
+<div id="content">
+<%=render :partial => '/mlogs/adsense'%>
+<div id="tools">
+<%=render :partial => "/mlogs/caculator" %>
+</div>
+<div id="flash"><%= flash[:notice] %></div>
+<%= yield  %>
+</div>
+</body>
+</html>

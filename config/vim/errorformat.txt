@@ -1,0 +1,207 @@
+==xslt 錯誤==
+--sample 1--
+file:///D:/fhopecc/doc/pg/glossary.xml; 行號11; 欄號9; XSLT 錯誤 (javax.xml.tran
+sform.TransformerException): The element type "para" must be terminated by the m
+atching end-tag "</para>".
+
+--sample 2--
+(錯誤位置不明)XSLT 錯誤 (javax.xml.transform.TransformerException): java.io.File
+NotFoundException: D:\fhopecc\doc\net\wireless.routing.chapter.xml (系統找不到指
+定的檔案。)
+
+-efm-
+file:///%f;\ 行號%l;\ 欄號%c;\ %m, 
+(錯誤位置不明)%m
+
+==rant 錯誤==
+--sample 1--
+rant: [ERROR] in file `D:/fhopecc/Rantfile', line 69:
+              ToGIF
+    OLE error code:8000FFFF in WinGraphviz.DOT
+
+    HRESULT error code:0x80020009
+      發生例外狀況。
+rant: [ERROR] Task `xslt' fail.
+rant aborted!
+
+--sample 2--
+rant: [ERROR] No Rantfile found, looking for:
+              Rantfile, rantfile, root.rant
+rant aborted!
+
+--sample 3--
+rant: [ERROR] Don't know how to make `unit_test'.
+rant aborted!
+
+--sample 4--
+rant: [ERROR] Unknown task `pg.xhtml',
+              referenced in `D:/fhopecc/doc/Rantfile', line 60!
+rant: [ERROR] Task `xslt' fail.
+rant aborted!
+
+-efm-
+%Erant:\ [ERROR]\ in\ file\ `%f'\\,\ line\ %l:%.%#,
+%C\ %\\+referenced\ in\ `%f'\\,\ line\ %l!,
+%Crant:\ [ERROR]\ %m,
+%Erant:\ [ERROR]\ %m,
+%C\ %\\+%m,
+%Zrant\ aborted!,
+
+==RUnit 錯誤==
+--sample 1--
+c:/ruby/lib/ruby/gems/1.8/gems/log4r-1.0.5/src/log4r/yamlconfigurator.rb:76:in `
+decode_pre_config': Log level must be in 0..7 (ArgumentError)
+        from c:/ruby/lib/ruby/gems/1.8/gems/log4r-1.0.5/src/log4r/yamlconfigurat
+or.rb:67:in `decode_yaml'
+        from c:/ruby/lib/ruby/gems/1.8/gems/log4r-1.0.5/src/log4r/yamlconfigurat
+or.rb:63:in `actual_load'
+        from c:/ruby/lib/ruby/gems/1.8/gems/log4r-1.0.5/src/log4r/yamlconfigurat
+or.rb:42:in `load_yaml_file'
+        from D:/fhopecc/src/java/fhope/MRAS.rb:15
+        from c:/ruby/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:27:in `re
+quire'
+        from D:/fhopecc/src/java/fhope/MRASTest.rb:2
+        from c:/ruby/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:27:in `re
+quire'
+        from c:/ruby/lib/ruby/1.8/test/unit/collector/dir.rb:83:in `collect_file
+'
+        from c:/ruby/lib/ruby/1.8/test/unit/collector/dir.rb:70:in `recursive_co
+llect'
+
+-my efm-
+%E%f:%l:%m,%E\ %\\+%\\d%\\+)\ Error:,%Z\ \ \ \ %f:%l:%.%#,%C%m,%-G%.%#
+
+--sample 2--
+Loaded suite MedRuleAgentServerTest.rb
+Started
+E
+Finished in 3.595 seconds.
+
+  1) Error:
+test_MRAS_protocol(MedRuleAgentServerTest):
+NameError: uninitialized constant MedRuleAgentServerTest::MRAS
+    D:/fhopecc/src/java/fhope/MedRuleAgentServerTest.rb:30:in `test_MRAS_protoco
+l'
+
+1 tests, 1 assertions, 0 failures, 1 errors
+
+-efm-
+%W\ %\\+%\\d%\\+)\ Failure:,
+%C%m\ [%f:%l]:,
+%E\ %\\+%\\d%\\+)\ Error:,
+%C%m:,
+%C\ \ \ \ %f:%l:%.%#,
+%C%m,
+%Z\ %#,
+%-G%.%#
+
+
+
+
+
+==JUnit 錯誤==
+--sample 1--
+There was 1 error:
+1) testGetOntProperty(fhope.NHIMedRuleAgentTest)java.lang.NullPointerException
+        at fhope.NHIMedRuleAgentTest.testGetOntProperty(NHIMedRuleAgentTest.java
+:24)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+
+FAILURES!!!
+Tests run: 1,  Failures: 0,  Errors: 1
+
+--sample 2--
+There was 1 failure:
+1) testGetOntProperty(fhope.NHIMedRuleAgentTest)junit.framework.ComparisonFailur
+e: expected:<usemed> but was:<http://www.stut.edu.tw/NHIMedRule.owl#醫令用藥>
+        at fhope.NHIMedRuleAgentTest.testGetOntProperty(NHIMedRuleAgentTest.java
+:26)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+
+--sample 3--
+There was 1 error:
+1) testCheckNumberRangeRestriction(fhope.NHIMedRuleAgentTest)java.lang.NullPoint
+erException
+        at com.hp.hpl.jena.rdf.model.impl.ModelCom.add(ModelCom.java:943)
+        at com.hp.hpl.jena.rdf.model.impl.ResourceImpl.addProperty(ResourceImpl.
+java:196)
+        at fhope.NHIMedRuleAgent.createMedStatIndividualByPVMap(NHIMedRuleAgent.
+java:127)
+        at fhope.NHIMedRuleAgent.createMedStatIndividualByMRASString(NHIMedRuleA
+gent.java:134)
+        at fhope.NHIMedRuleAgentTest.testCheckNumberRangeRestriction(NHIMedRuleA
+gentTest.java:51)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+There was 1 failure:
+1) testCreateMedStatIndividualByPVMap(fhope.NHIMedRuleAgentTest)junit.framework.
+ComparisonFailure: expected:<...急性上呼吸道感染...> but was:<...中風...>
+        at fhope.NHIMedRuleAgentTest.testCreateMedStatIndividualByPVMap(NHIMedRu
+leAgentTest.java:74)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+ at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+
+FAILURES!!!
+Tests run: 4,  Failures: 1,  Errors: 1
+
+
+-efm-
+\%EThere\ was%.%#error:%.%#,%C%.%#)%m,%Z%.%#(%f:%l)%.%#,
+\%WThere\ was%.%#fail%.%#,%C%.%#)%m,%Z%.%#(%f:%l)%.%#,
+\%ITests\ %m,
+
+%n)\ %m,%\\tat\ %.%#(%f:%l)%.%#,%ITests\ %m
+
+
+==ruby 錯誤==
+--sample 1--
+D:/fhopecc/incchart/Rantfile:168: syntax error
+          puts "update #{upts} rows!"
+                      ^
+D:/fhopecc/incchart/Rantfile:180: syntax error
+  docbkxmls.each do |f|
+                   ^
+D:/fhopecc/incchart/Rantfile:181: syntax error
+          docbkxslt.to_html f, f.sub(".xml", ".xhtml")
+                             ^
+D:/fhopecc/incchart/Rantfile:181: syntax error
+
+--sample 2--
+c:/ruby/lib/ruby/gems/1.8/gems/log4r-1.0.5/src/log4r/yamlconfigurator.rb:76:in `
+decode_pre_config': Log level must be in 0..7 (ArgumentError)
+        from c:/ruby/lib/ruby/gems/1.8/gems/log4r-1.0.5/src/log4r/yamlconfigurat
+or.rb:67:in `decode_yaml'
+        from c:/ruby/lib/ruby/gems/1.8/gems/log4r-1.0.5/src/log4r/yamlconfigurat
+or.rb:63:in `actual_load'
+        from c:/ruby/lib/ruby/gems/1.8/gems/log4r-1.0.5/src/log4r/yamlconfigurat
+or.rb:42:in `load_yaml_file'
+        from D:/fhopecc/src/java/fhope/MRAS.rb:15
+        from c:/ruby/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:27:in `re
+quire'
+        from D:/fhopecc/src/java/fhope/MRASTest.rb:2
+        from c:/ruby/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:27:in `re
+quire'
+        from c:/ruby/lib/ruby/1.8/test/unit/collector/dir.rb:83:in `collect_file
+'
+        from c:/ruby/lib/ruby/1.8/test/unit/collector/dir.rb:70:in `recursive_co
+llect'
+
+
+-efm in ruby.vim-
+    \%+E%f:%l:\ parse\ error,
+    \%W%f:%l:\ warning:\ %m,
+    \%E%f:%l:in\ %*[^:]:\ %m,
+    \%E%f:%l:\ %m,
+    \%-C%\tfrom\ %f:%l:in\ %.%#,
+    \%-Z%\tfrom\ %f:%l,
+    \%-Z%p^,
+    \%-G%.%#
+
+-efm-
+%E%f:%l:\ %m,%-Z%p^,%-G%.%#

@@ -1,0 +1,10 @@
+<% form_for :tag_tree_yaml, @tag_tree_yaml, 
+            :url => load_tag_trees_path do |f| %>
+<div id="operations">
+<%= link_to_submit "載入" %>
+</div>
+<div id="input">
+<%= f.text_area :content %>
+<br/>
+</div>
+<% end %>
