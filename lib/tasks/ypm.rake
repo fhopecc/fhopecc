@@ -1,11 +1,10 @@
-if RUBY_PLATFORM =~ /win/
 require 'rubygems'
 require 'tmail'
 require 'net/ftp'
 require 'fileutils'
 require 'tmpdir'
 require 'tempfile'
-require "win32ole" 
+require "win32ole" if RUBY_PLATFORM =~ /win/
 require 'iconv'  
 include FileUtils
 
@@ -23,8 +22,8 @@ module TMail
 	end
 end
 
-  module WordConst
-	end
+module WordConst
+end
 include WordConst
 def print_ypm_mail mail
 	ic = Iconv.new("big5", "utf-8")  
@@ -205,5 +204,4 @@ task :test_word do
   #doc.PrintOut
   #word.Quit
 
-end
 end

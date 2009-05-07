@@ -1,4 +1,28 @@
 <%section '呼叫 Windows 的 OLE' do %>
-
+<%paragraph do %>
+OLE 是呼叫 Windows 外部應用程式的常用介面，
+微軟當初是為了能讓不同的程式語言來控制其應用程式，
+並完成應用才發展這個介面。
+目前會利用 OLE 主要是控制 MS Office 系統軟體。
 <%end%>
-
+<%code '利用 OLE 控制 Word', 'ole_word', 'ruby' do %>
+<%# include word.rb #%>
+<%end%>
+<%paragraph do %>
+要使用 OLE 連接應用程式，首先要載入 win32ole 函式庫，
+由於這個函式庫只在 windows 環境下能作用，
+若程式在其它環境，載入命令會發生錯誤，
+如<%=xref 'ole_word'%>所示，
+我們在 require 後面加上 if 修飾字來過濾只在 windows 環境，
+才載入 win32ole 函式庫。
+<%end%>
+<%paragraph do %>
+然後我們利用 connect 來連結 word 應用程式，
+連接 word 應用程式的 OLE 名稱為 word.application，
+把它傳給 connect 方法，
+之後我們便能用 connect 所傳回的 WIN32OLE 物件來控制 word，
+此介面會自動把 word 所提供的物件轉換成 ruby 的物件，
+如我們可以取得 word 的 selection 物件，
+並利用它的 typeText 方法在目前的 word 打出 Hello WINOLE! 字串。
+<%end%>
+<%end%>
