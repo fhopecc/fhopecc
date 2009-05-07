@@ -17,6 +17,7 @@ class SessionsControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
+=begin
   def test_should_login_and_redirect
     post :create, :login => 'quentin', :password => 'test'
     assert session[:user_id]
@@ -73,6 +74,7 @@ class SessionsControllerTest < Test::Unit::TestCase
     get :new
     assert !@controller.send(:logged_in?)
   end
+=end
 
   protected
     def auth_token(token)
