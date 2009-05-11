@@ -1,12 +1,9 @@
-#rakefile for fhope project
-#fhope@2006/8/24 ¤U¤È 03:21:05
 require 'os'
-namespace "fhopecc" do
+namespace "env" do
 os = OS.instance
 
 desc "configurate OS's environment"
-task :setup => :setup_os_env
-task :setup_os_env do 
+task :os do 
   fhope_home = Dir.pwd
   rblib = "#{fhope_home}/ruby"
 	rbhome = 'C:\ruby'
@@ -17,6 +14,8 @@ task :setup_os_env do
   os.set_sysenv 'RUBYHOME', rbhome
   os.set_sysenv 'MinGWHome', mingwhome
 	os.add_path(mingwhome << '\bin')
+	os.del_path("D:/fhopecc")
+	os.uniq_path
 end
 
 desc "setup ruby file executable"
@@ -30,6 +29,7 @@ task :setup_ruby_executable do
   pathext = "#{ENV['PATHEXT']};.RB"
   os.set_sysenv 'PATHEXT', pathext
 end
+
 
 desc "configurate ctags environment"
 task :config_ctags do
