@@ -97,10 +97,33 @@ system 'cmd /c dir' # => true
 <%end%>
 <%end%>
 <%section 'system 與 exec 比較' do %>
+<%section '程式與程序' do %>
 <%paragraph do%>
 system 及 exec 方法在語法及作用上都是類似的，
 要暸解其間差別，
 首先要先暸解程序(Process)與程式(Program)的差別。
+<%end%>
+<%paragraph do%>
+以前的電腦通常是專用，
+像是加密電腦，就只能作加密的功能，
+而現代的電腦通常是一般作用，
+真正的功能還需要由程式實現，
+這指的是我們可以改變程式後，
+電腦就能執行不同的功能，而不用重作一台電腦。
+<%end%>
+<%paragraph do%>
+CPU 是一台電腦神經中樞，
+可以接受指令的輸入，
+解譯它並執行它。
+CPU 能執行的指令集合，稱為指令集，
+一般我們常見的指令集為 X86 架構。
+<%end%>
+<%paragraph do%>
+程式就是一連串 CPU指令，
+
+<%end%>
+<%paragraph do%>
+
 程序和程式都是一連串指令，
 但程序佔有 CPU 時間、一段記憶體空間，
 且有自已的程式計數器(Program counter)，
@@ -110,6 +133,7 @@ system 及 exec 方法在語法及作用上都是類似的，
 必須等候作業系統將其載入到記憶體，
 並配給它程式計數器、記憶體空間及 CPU 時間，
 才算真正執行。
+<%end%>
 <%end%>
 <%code 'exec 的例子', 'exec_ex', 'ruby' do %>
 exec 'cmd /c dir' # => true
