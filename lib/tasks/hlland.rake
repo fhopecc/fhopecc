@@ -2,7 +2,7 @@ require 'net/ftp'
 require 'net/http'
 require 'uri'
 require 'ping'
-docdate  = '0980505' #來文日期
+docdate  = '0980507' #來文日期
 docno    = '0980005791' #文號
 password = '23687'   #密碼
 
@@ -45,7 +45,7 @@ namespace 'hlland' do
 	task :download_patchz => patchdir do |t|
 		url = URI.parse('http://att.hl.gov.tw')
 		res = Net::HTTP.start(url.host, url.port) {|http|
-	  	http.get("/SEND/..%5CSENDATT_FILE%5C#{docdate}%5C376550400A_#{docno}.zip")
+	  	http.get("/SENDATT_FILE/#{docdate}/376550400A_#{docno}.zip")
 		}
 		unless res.is_a? Net::HTTPOK
 			msg = "Failed to download patchz, because #{res.class.to_s}"
