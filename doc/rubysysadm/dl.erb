@@ -1,2 +1,26 @@
 <%section '呼叫動態共用函式庫的函數' do %>
+<%paragraph do%>
+大部份作業系統，都提供動態共用函式庫的功能。
+動態共用函式庫讓程式可以讓程式要用的時候才載入到記憶體。
+在 ruby 程式中可以透過 DL 模組來使用動態共用函式庫。
+<%end%>
+<%paragraph do%>
+
+* 
+<%end%>
+<%code '列出 busses', 'find_devices_c', 'c' do %>
+struct usb_bus *busses;
+usb_init();
+usb_find_busses();
+usb_find_devices();
+busses = usb_get_busses();
+<%end%>
+
+<%code '定義模組', 'find_devices_c', 'c' do %>
+require 'dl/import'
+module LIBC
+  extend DL::Importable
+end
+<%end%>
+
 <%end%>

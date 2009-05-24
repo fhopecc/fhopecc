@@ -1,0 +1,20 @@
+<%section '呼叫 Windows 的 API' do %>
+<%paragraph do%>
+在 Windows 環境中，如果支援 OLE 介面的函式庫仍不能解決您的問題的話，
+那麼只好利用更低階的 WINAPI 介面。
+Ruby 主要利用 Win32API 的函式庫便能存取到 WINAPI 的介面。
+<%end%>
+<%code '取得游標位置', 'get_cursor_position', 'ruby' do %>
+<%#include get_cursor_xy.rb#%>
+<%end%>
+<%paragraph do%>
+<%xref='get_cursor_position'%>為一個印出目前游標位置的小程式，
+它主要是利用 GetCursorPos 這個 WINAPI 函式來取得目前游標位置。
+要呼叫 WINAPI 函式首先要寫 require 'Win32API'
+來載入 Win32API 這個 Ruby 函式庫來存取 WINAPI 函式，
+每個 WINAPI 函式在 Ruby 中會使用一個 Win32API 物件表示，
+由於 WINAPI 不像 OLE 有物件的結構，而是低階的 C 語言資料結構，
+且 Ruby 語言本身函數參數本身並無型態的概念，
+所以在呼叫 WINAPI 還必須指定參數的資料型態。
+<%end%>
+<%end%>
