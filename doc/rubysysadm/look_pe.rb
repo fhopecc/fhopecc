@@ -1,6 +1,7 @@
 require 'ostruct'
-dll = "lib/dll/libtiff3.dll"
 dll = "lib/dll/hsbdll.dll"
+dll = 'c:\WINDOWS\system32\libusb0.dll'
+dll = "lib/dll/libtiff3.dll"
 CHARACTERISTICS_MAP = {
   0x1   => "RELOCS_STRIPPED", 
   0x2   => "EXECUTABLE_IMAGE", 
@@ -80,7 +81,8 @@ def locate_coff_header f, pe
 	end
 	return false
 end
-def parse_coff_header f, pe
+
+def load_coff_header f, pe
 	locate_coff_header f, pe
 	pe.machine = get_machine f, pe
 	pe.number_of_sections = f.read(2).unpack('v')[0]
@@ -194,15 +196,113 @@ def parse_window_specific_field_pe32 f, pe
 end
 
 def load_section_table f, pe
-  puts f.read(8) 
+	pe.section_table = {} 
+  pe.number_of_sections.times do
+		load_section_entry f, pe
+	end
+end
+
+def load_section_entry f, pe
+	section_table = pe.section_table
+	section_entry = OpenStruct.new
+	section_entry.name = f.read(8).strip
+	section_entry.virtual_size = f.read(4).unpack('V')[0]
+	section_entry.virtual_address = f.read(4).unpack('V')[0]
+	section_entry.size_of_raw_data = f.read(4).unpack('V')[0]
+	section_entry.pointer_to_raw_data = f.read(4).unpack('V')[0]
+	section_entry.pointer_to_relocations = f.read(4).unpack('V')[0]
+	section_entry.pointer_to_linenumbers = f.read(4).unpack('V')[0]
+	section_entry.number_of_relocations = f.read(2).unpack('v')[0]
+	section_entry.number_of_linenumbers = f.read(2).unpack('v')[0]
+	section_entry.characteristics = f.read(4).unpack('V')[0]
+	section_table[section_entry.name] =  section_entry
+end
+
+def load_edata f, pe
+	if pe.section_table[".edata"].nil?
+		puts "There is not edata section in this dll"
+		return
+	end
+  edata = OpenStruct.new
+	pe.edata = edata
+	f.seek pe.section_table[".edata"].pointer_to_raw_data
+	edata.export_flags = f.read(4).unpack('V')[0] #must be 0
+	edata.time_date_stamp = Time.at(f.read(4).unpack('V')[0])
+	edata.major_version = f.read(2).unpack('v')[0]
+	edata.minor_version = f.read(2).unpack('v')[0]
+	edata.name_rva = f.read(4).unpack('V')[0] 
+	edata.ordinal_base = f.read(4).unpack('V')[0] 
+	edata.address_table_entries = f.read(4).unpack('V')[0] 
+	edata.number_of_name_pointers = f.read(4).unpack('V')[0] 
+	edata.export_address_table_rva = f.read(4).unpack('V')[0] 
+	edata.name_pointer_rva = f.read(4).unpack('V')[0] 
+	edata.ordinal_table_rva = f.read(4).unpack('V')[0] 
+	load_export_address_table f, pe
+	load_export_name_pointer_table f, pe
+	load_export_ordinal_table f, pe
+	load_export_name_table f, pe
+end
+
+def load_export_address_table f, pe
+	address_table = []
+	pe.edata.address_table = address_table
+	pe.edata.address_table_entries.times do |i|
+		address_table.push f.read(4).unpack('V')[0] 
+	end
+end
+
+def load_export_name_pointer_table f, pe
+	export_name_pointer_table = []
+	pe.edata.export_name_pointer_table = export_name_pointer_table
+	pe.edata.number_of_name_pointers.times do |i|
+		export_name_pointer_table.push f.read(4).unpack('V')[0] 
+	end
+end
+
+def load_export_ordinal_table f, pe
+	export_ordinal_table = []
+	pe.edata.export_ordinal_table = export_ordinal_table
+	pe.edata.number_of_name_pointers.times do |i|
+		export_ordinal_table.push f.read(2).unpack('v')[0] 
+	end
+end
+
+def load_export_name_table f, pe
+	export_name_table = []
+	pe.edata.export_name_table = export_name_table
+	pe.edata.number_of_name_pointers.times do |i|
+		export_name_table.push get_string(f)
+	end
+end
+
+def get_string f
+	#l = 0
+	#until f.getc == 0
+	#	l += 1
+	#end
+	#f.
+	#f.read(3)
+	f.gets("\x00")
 end
 
 File.open(dll, "rb") do |f|
   pe = OpenStruct.new
 	pe.rva = OpenStruct.new
 	pe.file = dll
-	parse_coff_header f, pe
+	load_coff_header f, pe
 	parse_optional_header f, pe
 	load_section_table f, pe
-	puts pe.optional_header.magic
+	load_edata f, pe
+	puts "File type:               #{pe.optional_header.magic}"
+	puts "The number of sections:  #{pe.number_of_sections}"
+	pe.section_table.each_key do |k|
+		puts pe.section_table[k].name
+	end
+	unless pe.section_table['.edata'].nil?
+		puts pe.section_table['.edata'].pointer_to_raw_data.to_s(16)
+		puts pe.edata.address_table_entries
+		puts pe.edata.number_of_name_pointers
+		puts pe.edata.export_name_table
+		puts pe.edata.export_name_table.size
+	end
 end

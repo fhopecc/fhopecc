@@ -22,10 +22,10 @@ class Hltb
 		tmpjpg = File.join(tmp, 'jpg')
 		docf = "#{tmp}/#{docno}-01.tif"
     imgs = Magick::ImageList.new(docf)
-		[1, 4, 7, 10, 13].each do |i|
+		[1, 4, 7, 9, 12].each do |i|
 			img = File.join(tmpjpg, "#{i-1}.jpg")
       imgs[i-1].write(img)
-			cmd = "rundll32 shimgvw.dll,ImageView_PrintTo d:\\moneylog\\tmp\\hltb\\jpg\\#{i-1}.jpg internet"
+			cmd = "rundll32 shimgvw.dll,ImageView_PrintTo d:\\fhopecc\\tmp\\hltb\\jpg\\#{i-1}.jpg internet"
 			puts cmd
 			puts system(cmd)
 		end
