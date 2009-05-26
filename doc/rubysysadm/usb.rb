@@ -16,9 +16,11 @@ usb_init = LIB['usb_init', '0']
 r, rs = usb_init.call
 usb_find_busses = LIB['usb_find_busses', 'I']
 r, rs = usb_find_busses.call
+puts "there is #{r} busses in your machine"
 usb_find_devices = LIB['usb_find_devices', 'I']
 LIBUSB_PATH_MAX = 512
 r, rs = usb_find_devices.call
+puts "there is #{r} device in your machine"
 =begin
 struct usb_bus {
   struct usb_bus *next, *prev;
@@ -27,38 +29,17 @@ struct usb_bus {
   unsigned long location;
   struct usb_device *root_dev;
 };
+struct usb_bus *usb_get_busses(void);
 =end
 usb_get_busses = LIB['usb_get_busses', 'P']
 r, rs = usb_get_busses.call
 puts r.class.name
-puts r.nil?.to_s
-next_bus = r[0]
-puts r.nil?.to_s
-#r.struct! 'PPSPLP', :next, :prev, :dirname, 
-	       #           :devices, :location, :root_dev
-#puts r.class.name
-#puts r[DL.sizeof('PP')].to_ptr.class.name
-#dirname = r[DL.sizeof('PP')].to_ptr
-#a = dirname.to_a('C', LIBUSB_PATH_MAX)
-#puts a.size
-
-#USB.usb_init
-#c = USB.usb_find_busses
-#puts "There are #{c.to_s} usb busses."
-#c = USB.usb_find_devices
-#puts "There are #{c.to_s} usb devices."
-#busses = USB.usb_get_busses
-#puts "It is " + busses.inspect.to_s
-#busses.struct! 'PPSPLP', :next, :prev, :dirname, 
-	             #:devices, :location, :root_dev
-#dn = busses[:dirname]
-#puts "It is " + dn.inspect.to_s
-#puts "Type is " +  dn.class.name
-#puts "It is " + dn
-
-#l = busses[:location]
-#puts "It is " + l.inspect.to_s
-
+puts r.size
+ref = r.ref
+r.struct! 'PPSPLP', :next, :prev, :dirname, 
+	                    :devices, :location, :root_dev
+next_b = r[:next].null?
+puts next_b
 =begin
 struct usb_device {
   struct usb_device *next, *prev;
