@@ -27,6 +27,22 @@ module WINXP
     set_sysenv 'PATH', strpath
 	end
 
+	def uniq_path
+		upaths = ENV['PATH'].split(/;/).uniq 
+    set_sysenv 'PATH', "#{upaths.join(';')}"
+	  puts "PATH has unique its elements successfully!"
+	end
+
+	def del_path path
+		paths = ENV['PATH'].split(/;/)
+		if paths.include? path
+			paths.delete path
+      set_sysenv 'PATH', "#{paths.join(';')}"
+			puts "Path [#{path}] has removed from PATH envvar successfully!"
+		else
+			puts "Path [#{path}] is not in PATH envvar!"
+		end
+	end
 	# Using RunDll32.exe.
 	# the tip is from
 	# http://www.dx21.com/SCRIPTING/RUNDLL32/VIEWITEM.ASP?OID=129&CMD=P-A
