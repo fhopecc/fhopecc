@@ -1,0 +1,7 @@
+rule ".exe" => [".c"] do |t| 
+	`gcc #{t.source} -o #{t.name}`
+end
+
+rule ".dll" => [".c"] do |t| 
+	`gcc -shared -o #{t.name} #{t.source} `
+end

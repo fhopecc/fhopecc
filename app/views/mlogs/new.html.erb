@@ -1,9 +1,0 @@
-<% form_for(@mlog) do |f| %>
-<div id="operations">
-<%= link_to_submit "儲存" %>
-</div>
-<div id="form">
-  <%= f.error_messages %>
-  <%= render :partial => 'form', :locals => {:f => f} %>
-</div >
-<% end %>

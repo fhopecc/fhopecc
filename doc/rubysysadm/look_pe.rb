@@ -2,6 +2,7 @@ require 'ostruct'
 dll = "lib/dll/hsbdll.dll"
 dll = 'c:\WINDOWS\system32\libusb0.dll'
 dll = "lib/dll/libtiff3.dll"
+dll = "doc/rubysysadm/dl_ex.dll"
 CHARACTERISTICS_MAP = {
   0x1   => "RELOCS_STRIPPED", 
   0x2   => "EXECUTABLE_IMAGE", 
