@@ -1,9 +1,15 @@
-#ifdef BUILD_DLL
-/* DLL export */
-#define EXPORT __declspec(dllexport)
-#else
-/* EXE import */
-#define EXPORT __declspec(dllimport)
-#endif
+#ifndef MINGW_DLL_H__
+#define MINGW_DLL_H__
 
-EXPORT void hello(void);
+struct STRUCT_DLL {
+   int  count_int;
+   int* ints;
+};
+
+int func_dll(
+    int                an_int,
+    char*              string_filled_in_dll,
+    struct STRUCT_DLL* struct_dll
+);
+
+#endif

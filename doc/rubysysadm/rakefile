@@ -1,7 +1,7 @@
 rule ".exe" => [".c"] do |t| 
-	`gcc #{t.source} -o #{t.name}`
+	`gcc #{t.source} dl_ex.dll -o #{t.name}`
 end
 
 rule ".dll" => [".c"] do |t| 
-	`gcc -shared -o #{t.name} #{t.source} `
+  `gcc -Wall -shared #{t.source} -o #{t.name}`
 end

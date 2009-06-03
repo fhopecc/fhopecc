@@ -1,8 +1,8 @@
 require 'ostruct'
 dll = "lib/dll/hsbdll.dll"
 dll = 'c:\WINDOWS\system32\libusb0.dll'
-dll = "lib/dll/libtiff3.dll"
-dll = "doc/rubysysadm/dl_ex.dll"
+#dll = "../../lib/dll/libtiff3.dll"
+dll = "dl_ex.dll"
 CHARACTERISTICS_MAP = {
   0x1   => "RELOCS_STRIPPED", 
   0x2   => "EXECUTABLE_IMAGE", 
@@ -15,7 +15,6 @@ CHARACTERISTICS_MAP = {
   0x200 => "DEBUG_STRIPPED", 
   0x400 => "REMOVABLE_RUN_FROM_SWAP" 
 }
-
 def get_characteristics flags
 	chars = []
 	CHARACTERISTICS_MAP.each_key do |k|
@@ -25,7 +24,6 @@ def get_characteristics flags
 	end
 	return chars
 end
-
 DLL_CHARACTERISTICS_MAP = {
   0x20   => "DYNAMIC_BASE", 
   0x80   => "FORCE_INTEGRITY", 
@@ -36,7 +34,6 @@ DLL_CHARACTERISTICS_MAP = {
   0x2000 => "WDM_DRIVER", 
   0x8000 => "TERMINAL_SERVER_AWARE" 
 }
-
 def get_dll_characteristics flags
 	chars = []
 	DLL_CHARACTERISTICS_MAP.each_key do |k|
@@ -46,12 +43,10 @@ def get_dll_characteristics flags
 	end
 	return chars
 end
-
 OPTIONAL_HEADER_MAGIC = {
   0x10b => "PE32", 
   0x20b => "PE32+"
 }
-
 def locate_coff_header f, pe
 	c = f.getc
 	if c.nil?
@@ -82,7 +77,6 @@ def locate_coff_header f, pe
 	end
 	return false
 end
-
 def load_coff_header f, pe
 	locate_coff_header f, pe
 	pe.machine = get_machine f, pe
@@ -93,7 +87,6 @@ def load_coff_header f, pe
 	pe.size_of_optional_header = f.read(2).unpack('v')[0]
 	pe.characteristics = get_characteristics(f.read(2).unpack('v')[0])
 end
-
 def get_machine f, pe
 	f.seek pe.rva.machine
 	machine_code = f.read(2).unpack('v')[0]
@@ -104,7 +97,6 @@ def get_machine f, pe
     return "unknown"
 	end
 end
-
 def parse_optional_header f, pe
   pe.rva.optional_header = f.pos 
 	pe.optional_header = OpenStruct.new
@@ -124,7 +116,6 @@ def parse_optional_header f, pe
 		parse_window_specific_field_pe32_pluse f, pe
 	end
 end
-
 def parse_window_specific_field_pe32 f, pe
 	optional_header = pe.optional_header
 	optional_header.image_base = f.read(4).unpack('V')[0]
@@ -195,14 +186,12 @@ def parse_window_specific_field_pe32 f, pe
 	optional_header.clr_runtime_header.size = f.read(4).unpack('V')[0]
 	optional_header.reserved = f.read(4).unpack('V')[0] * f.read(4).unpack('V')[0]
 end
-
 def load_section_table f, pe
 	pe.section_table = {} 
   pe.number_of_sections.times do
 		load_section_entry f, pe
 	end
 end
-
 def load_section_entry f, pe
 	section_table = pe.section_table
 	section_entry = OpenStruct.new
@@ -271,7 +260,7 @@ end
 def load_export_name_table f, pe
 	export_name_table = []
 	pe.edata.export_name_table = export_name_table
-	pe.edata.number_of_name_pointers.times do |i|
+	(pe.edata.number_of_name_pointers+1).times do |i|
 		export_name_table.push get_string(f)
 	end
 end
