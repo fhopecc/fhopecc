@@ -698,6 +698,7 @@ endfun
 
 " HTML with Ruby - eRuby
 au BufNewFile,BufRead *.rhtml			setf eruby
+au BufNewFile,BufRead *.html.erb	setf eruby
 
 " HTML with M4
 au BufNewFile,BufRead *.html.m4			setf htmlm4
