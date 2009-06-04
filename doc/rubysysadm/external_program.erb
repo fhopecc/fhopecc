@@ -1,0 +1,22 @@
+<%section '利用 Ruby 來黏著不同的外部程式' do%>
+<%paragraph do%>
+身為一個系統管理者，為什麼會迷上 Ruby 呢？
+有管理過 unix 的管理者，會發現他每天必須寫許多 script
+來結合不同的程式，完成無數的工作。
+能有效把不同外部程式黏起來的語言，
+才能成為系統管理者的瑞士刀。
+<%end%>
+<%table 'Ruby 黏著外部程式的方法' do%>
+<table>
+<tr><th>外部程式種類</th><th>呼叫方法</th></tr>
+<tr><td>可執行檔</td><td>system, exec 或 `字元</td></tr>
+<tr><td>OLE</td><td>WIN32OLE 物件</td></tr>
+<tr><td>Windows API</td><td>Win32API 物件</td></tr>
+<tr><td>DLL</td><td>DL 模組</td></tr>
+</table>
+<%end%>
+<%# include shell.erb #%>
+<%# include ole.erb #%>
+<%# include winapi.erb #%>
+<%# include dl.erb #%>
+<%end%>

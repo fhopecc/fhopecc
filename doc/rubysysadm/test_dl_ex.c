@@ -18,4 +18,14 @@ int main() {
 
   printf("str: %s\n", str);
 
+  printf("times2(3)= %d\n", times2(3));
+
+	int num = 3;
+	int* nump = times3(&num);
+  printf("times3(3)= %d\n", num);
+  printf("times3(3)= %d\n", *nump);
+
+  struct struct1* st1 = struct_test();
+  printf("st1->int1= %d\n", st1 -> int1);
+  printf("st1->int2= %d\n", st1 -> int2);
 }

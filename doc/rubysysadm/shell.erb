@@ -1,12 +1,4 @@
-<%section '利用 Ruby 來黏著不同的外部程式' do%>
-<%paragraph do%>
-身為一個系統管理者，為什麼會迷上 Ruby 呢？
-有管理過 unix 的管理者，會發現他每天必須寫許多 script
-來結合不同的程式，完成無數的工作。
-能有效把不同外部程式黏起來的語言，
-才能成為系統管理者的瑞士刀。
-<%end%>
-<%section '呼叫外部程式' do %>
+<%section '呼叫外部程式' do%>
 <%paragraph do%>
 使用者與作業系統主要溝通的介面通常是命令列模式(Command mode)，
 並能透過命令列來通知作業系統去呼叫不同外部程式來完成所需的工作，
@@ -30,8 +22,6 @@ notepad Rakefile
 上例就是 notepad 命令，
 其後指定一個參數為 Rakefile，
 此命令列表示用 notepad 這個程式來編輯 Rakefile 檔案。
-<%end%>
-<%paragraph do%>
 <%end%>
 <%code '呼叫 notepad Rakefile 指令', 'system_notepad_rakefile', 'ruby' do %>
 system("notepad Rakefile")
@@ -198,20 +188,21 @@ unrar tf
 <%# include winver2.rb #%>
 <%end%>
 <%paragraph do%>
-為了有乾淨的輸出，傳給 system 的 shell 指令，
-必須關掉命令列的輸出。
-在 Windows 環境下，我們可以加上 >nul 2>nul 
-來把標準輸出及錯誤輸出重導到 nul 這個虛擬檔案，
-nul 檔案就像個黑洞，寫進這個檔案的資料都會消失， 
+為了有乾淨的輸出，傳給 system 的指令字串，
+我們必須清除外部命令列本身輸出，
+通常的作法是來把標準輸出及錯誤輸出重導到黑洞檔案，
+因為寫進黑洞檔案的資料都會消失。 
+<%end%>
+<%paragraph do%>
+在 Windows 環境下，nul 表示黑洞檔案，
+>nul 2>nul 分別表示把標準輸出及錯誤輸出重導到黑洞檔案，
 作了這些改變，
 使<%=xref 'winver2'%>便只會印出 VISTA 或 WINXP 這個乾淨的字串。
 <%end%>
 <%paragraph do%>
-若你是在 unix 的 shell，則是在指令尾加上 > /dev/null 2> /dev/null，
+若妳是在 unix 環境，
+黑洞檔案被視為一個裝置，放置在 /dev/null 中，
+我們可以在指令尾加上 > /dev/null 2> /dev/null，
 來達到同樣的效果。
 <%end%>
-<%end%>
-<%# include ole.erb #%>
-<%# include winapi.erb #%>
-<%# include dl.erb #%>
 <%end%>
