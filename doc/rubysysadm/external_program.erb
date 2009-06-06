@@ -6,13 +6,37 @@
 能有效把不同外部程式黏起來的語言，
 才能成為系統管理者的瑞士刀。
 <%end%>
+<%paragraph do%>
+作為一個好的黏著語言，
+本身必須不利用外部程式語言便可以執行大部份的外部程式，
+像利用 C 來為 Ruby 寫 Binding 讓它引用 C 的函式庫，
+便不在本文討論之列。
+<%end%>
+<%paragraph do%>
+<%end%>
 <%table 'Ruby 黏著外部程式的方法' do%>
 <table>
-<tr><th>外部程式種類</th><th>呼叫方法</th></tr>
-<tr><td>可執行檔</td><td>system, exec 或 `字元</td></tr>
-<tr><td>OLE</td><td>WIN32OLE 物件</td></tr>
-<tr><td>Windows API</td><td>Win32API 物件</td></tr>
-<tr><td>DLL</td><td>DL 模組</td></tr>
+<tr><th>外部程式種類</th><th>呼叫方法</th><th>呼叫語法</th></tr>
+<tr>
+<td>可執行檔</td>
+<td>system, exec 或 `字元</td>
+<td>同 shell 命令列語法</td>
+</tr>
+<tr>
+<td>OLE</td>
+<td>WIN32OLE 物件</td>
+<td>直接 Map 成 Ruby 的物件，同 Ruby 物件的用法</td>
+</tr>
+<tr>
+<td>Windows API</td>
+<td>Win32API 物件</td>
+<td>需指定每個參數的資料型態</td>
+</tr>
+<tr>
+<td>DLL</td>
+<td>DL 模組</td>
+<td>需指定每個參數的資料型態</td>
+</tr>
 </table>
 <%end%>
 <%# include shell.erb #%>

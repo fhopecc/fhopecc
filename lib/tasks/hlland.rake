@@ -2,9 +2,10 @@ require 'net/ftp'
 require 'net/http'
 require 'uri'
 require 'ping'
-docdate  = '0980507' #來文日期
-docno    = '0980005791' #文號
-password = '23687'   #密碼
+require 'log4r'
+docdate  = '0980603' #來文日期
+docno    = '0980007090' #文號
+password = '62593'   #密碼
 
 tmpdir   = 'tmp/hlland'
 libdir   = "#{tmpdir}/lib"
@@ -17,6 +18,11 @@ targets  = ['96tt003', '96tt006', '97tt024', '97tt025', '97tt027', '97tt040']
 
 def logger
 	@logger ||= Logger.new("log/#{File.basename(__FILE__)}.log")
+end
+
+def logging m
+  logger.info m 
+	puts m
 end
 
 def copy_task 
@@ -33,7 +39,7 @@ def copy_to target
 	  system 'net use T: /delete'
 	  system 'net use T: \\\\' + target + '\\HL'
     copy_task
-    logger.info "copy to #{target} completely!"
+    logging "copy to #{target} completely!"
 	else
     logger.error "#{target} is dead!"
 	end
@@ -49,13 +55,13 @@ namespace 'hlland' do
 		}
 		unless res.is_a? Net::HTTPOK
 			msg = "Failed to download patchz, because #{res.class.to_s}"
-			logger.info msg
+			logging msg
 			raise msg
 		end
 		File.open(patchz, "wb") { |file|
 			file.write(res.body)
 		}
-		logger.info "#{t.name} is completely!"
+		logging "#{t.name} is completely!"
 	end
 
 	task :unzip_patchz => :download_patchz do
@@ -63,12 +69,12 @@ namespace 'hlland' do
 		m  =~ /tmp.*\.rar/
 		tf =  $&
     FileUtils.mv tf, patchr
-		logger.info "unzip #{patchz} to #{patchr}"
+		logging "unzip #{patchz} to #{patchr}"
 	end
 
 	task :expend_patchr => [libdir, :unzip_patchz] do
 		m = `#{rar} e -o+ -p#{password} #{patchr} #{libdir}`
-		logger.info "expend #{patchr} "
+		logging "expend #{patchr} "
 	end
   
 	task :clear do
@@ -89,21 +95,4 @@ namespace 'hlland' do
 		copy_to '97tt040'
 	  Rake::Task["hlland:clear"].invoke
   end
-
 end
-
-#require 'ostruct'
-#tf = '0970016796.zip' 
-#hllandftp = OpenStruct.new
-#hllandftp.ip = '210.241.12.129'
-#hllandftp.user = 'hlftp'
-#hllandftp.passwd = 'hlftp52025'
-#tmpf = "#{tmpdir}/#{tf}" 
-
-#m = `#{unzip} -o -P #{password} #{tmpf} -d #{tmpunzip}`
-#file tmpf => tmpdir do |t|
-#	Net::FTP.open hllandftp.ip, hllandftp.user, hllandftp.passwd do |ftp|
-#		ftp.getbinaryfile(File.basename(t.name),t.name, 1024)
-#	  logger.info "get file completed!" 
-#	end
-#end
