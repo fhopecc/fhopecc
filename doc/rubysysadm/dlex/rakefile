@@ -1,7 +1,7 @@
-rule ".exe" => [".c"] do |t| 
-	`gcc #{t.source} dl_ex.dll -o #{t.name}`
+task :default => "test_dll.exe"
+file "test_dll.exe" => ["test_dll.c", "dll.dll"] do |t|
+	`gcc test_dll.c dll.dll -o #{t.name}`
 end
-
 rule ".dll" => [".c"] do |t| 
   `gcc -Wall -shared #{t.source} -o #{t.name}`
 end
