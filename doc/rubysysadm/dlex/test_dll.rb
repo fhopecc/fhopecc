@@ -35,7 +35,7 @@ init_phonebook = LIB['init_phonebook', 'P']
 r, rs = init_phonebook.call
 puts "Printing phoebook..."
 until r.nil?
-  r.struct! 'SSSP', :first, :last, :number, :next
+  r.struct! 'sssP', :first, :last, :number, :next
   print "#{r[:first]}, #{r[:last]}: #{r[:number]} "
 	r = r[:next]
 end

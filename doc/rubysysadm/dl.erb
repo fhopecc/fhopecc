@@ -1,12 +1,91 @@
 <%section '呼叫動態共用函式庫的函數' do %>
 <%paragraph do%>
-大部份作業系統，都提供動態共用函式庫的功能。
-動態共用函式庫讓程式可以讓程式要用的時候才載入到記憶體。
-在 ruby 程式中可以透過 DL 模組來使用動態共用函式庫。
+現代的作業系統都提供動態連結函式庫(DLL Dynamic LinkLibrary)
+讓程序呼叫可執行程式碼中部分的函式。
+DLL 是扮演共用程式庫功能的可執行檔，
+裡面包含一個或多個已編譯、連結的函式，
+並且儲存在與呼叫它們的程序不同的地方。
+DLL 可以讓多個應用程式可以同時存取記憶體中 DLL 單一複本的內容，
 <%end%>
 <%paragraph do%>
-
-* 
+動態連結與靜態連結的不同處在於，
+動態連結的可執行模組只包含在執行階段時用來找出 DLL 函式可執行程式碼的資訊。
+但靜態連結的可執行檔包含所有參考函式的程式碼。
+<%end%>
+<%paragraph do%>
+動態連結可提供許多優點像是節省記憶體、節省磁碟空間、
+較容易升級、提供擴充程式庫機制。
+<%end%>
+<%paragraph do%>
+在 Ruby 程式中可以透過 Ruby/DL 來呼叫 DLL 內的函式，
+Ruby/DL 用 DL::Handle 來表示載入一個 DLL，
+DLL 內的函式則用 DL::Symbol 物件表示，
+由於 DLL 內沒有函式引數的定義，
+所以必須在 DL::Symbol 中指定 DLL 函數所有引數資料類型代碼。
+<%end%>
+<%table '資料類型代碼表', 'type_specifiers' do%>
+<table>
+<tr>
+<th>代碼</th><th>對應的 C 類型</th>
+</tr>
+<tr>
+<td>C</td><td>char</td>
+</tr>
+<tr>
+<td>c</td><td>char*</td>
+</tr>
+<tr>
+<td>H</td><td>short</td>
+</tr>
+<tr>
+<td>h</td><td>short*</td>
+</tr>
+<tr>
+<td>I</td><td>int</td>
+</tr>
+<tr>
+<td>i</td><td>int*</td>
+</tr>
+<tr>
+<td>L</td><td>long</td>
+</tr>
+<tr>
+<td>l</td><td>long*</td>
+</tr>
+<tr>
+<td>f</td><td>float</td>
+</tr>
+<tr>
+<td>F</td><td>float*</td>
+</tr>
+<tr>
+<td>D</td><td>double</td>
+</tr>
+<tr>
+<td>d</td><td>double*</td>
+</tr>
+<tr>
+<td>S</td><td>const char*</td>
+</tr>
+<tr>
+<td>s</td><td>char*</td>
+</tr>
+<tr>
+<td>A</td><td>const type[]</td>
+</tr>
+<tr>
+<td>a</td><td>type[]</td>
+</tr>
+<tr>
+<td>P</td><td>void*</td>
+</tr>
+<tr>
+<td>p</td><td>void*</td>
+</tr>
+<tr>
+<td>0</td><td>void function()</td>
+</tr>
+</table>
 <%end%>
 <%code '列出 busses', 'find_devices_c', 'c' do %>
 struct usb_bus *busses;
@@ -15,12 +94,10 @@ usb_find_busses();
 usb_find_devices();
 busses = usb_get_busses();
 <%end%>
-
 <%code '定義模組', 'find_devices_c', 'c' do %>
 require 'dl/import'
 module LIBC
   extend DL::Importable
 end
 <%end%>
-
 <%end%>
