@@ -87,17 +87,16 @@ DLL 內的函式則用 DL::Symbol 物件表示，
 </tr>
 </table>
 <%end%>
-<%code '列出 busses', 'find_devices_c', 'c' do %>
-struct usb_bus *busses;
-usb_init();
-usb_find_busses();
-usb_find_devices();
-busses = usb_get_busses();
+<%code 'dll.h', 'dll.h', 'c' do %>
+<%# include dlex/dll.h #%>
 <%end%>
-<%code '定義模組', 'find_devices_c', 'c' do %>
-require 'dl/import'
-module LIBC
-  extend DL::Importable
-end
+<%code 'dll.c', 'dll.c', 'c' do %>
+<%# include dlex/dll.c #%>
+<%end%>
+<%code '<nospan>test_dll.c</nospan>', 'test_dll.c', 'c' do %>
+<%# include dlex/test_dll.c #%>
+<%end%>
+<%code '<nospan>test_dll.rb</nospan>', 'test_dll.rb', 'ruby' do %>
+<%# include dlex/test_dll.rb #%>
 <%end%>
 <%end%>
