@@ -18,7 +18,7 @@ DLL 可以讓多個應用程式可以同時存取記憶體中 DLL 單一複本�
 <%end%>
 <%paragraph do%>
 在 Ruby 程式中可以透過 Ruby/DL 來呼叫 DLL 內的函式，
-Ruby/DL 用 DL::Handle 來表示載入一個 DLL，
+Ruby/DL 用 DL::Handle 來表示要使用的 DLL，
 DLL 內的函式則用 DL::Symbol 物件表示，
 由於 DLL 內沒有函式引數的定義，
 所以必須在 DL::Symbol 中指定 DLL 函數所有引數資料類型代碼。
@@ -93,10 +93,53 @@ DLL 內的函式則用 DL::Symbol 物件表示，
 <%code 'dll.c', 'dll.c', 'c' do %>
 <%# include dlex/dll.c #%>
 <%end%>
+<%paragraph do%>
+<%=xref 'dll.h'%>及<%=xref 'dll.c'%>定義一個範例 dll，
+裡頭定義一個稱為 node 的 struct 資料型態來實作單向連結串列，
+也定義一個函數 <notextile>init_list</notextile> 會接受一個整數引數 num，
+並依照 num 的數值，製作出小於等於 num 的遞降數字連結串列，
+如 <notextile>init_list(3)</notextile> 便會傳回
+<notextile>-</notextile>&gt;3<notextile>-</notextile>&gt;2<notextile>-</notextile>&gt;1
+的連結串列。
+<%end%>
 <%code '<nospan>test_dll.c</nospan>', 'test_dll.c', 'c' do %>
 <%# include dlex/test_dll.c #%>
 <%end%>
 <%code '<nospan>test_dll.rb</nospan>', 'test_dll.rb', 'ruby' do %>
 <%# include dlex/test_dll.rb #%>
+<%end%>
+<%paragraph do%>
+<%=xref 'test_dll.rb'%>簡單說明 DL 模組應用，
+首先要建立一個 DL::Handle 物件來表示要使用的 DLL，
+我們使用 DL.dlopen 'dll.dll' 來建立 DL::Handle 物件，
+此方法接受一個定義 dll 的檔案路徑作為參數，
+上例為建立一個路徑為 dll.dll 的 DLL。
+<%end%>
+<%paragraph do%>
+之後我們用 DL::Handle#[] 方法來取得表示 DLL 函數的 DL::Symbol 物件，
+如 <nospan>init_list = dllex['init_list', 'PI']</nospan>
+便會建立表示 <nospan>init_list</nospan> 函數的 
+DL::Symbol 物件並設給 ruby 的 <nospan>init_list</nospan> 變數，
+此方法第一個引數為 DLL 函數的名稱，
+第二個字串參數指定 DLL 函數所有引數資料類型字串，
+字串的第一個字元指定回傳參數，如上面回傳參數為 P，
+對照 <%=xref 'type_specifiers'%> 得知 P 表示回傳參數為一個指標，
+第二個後的字元依序表示傳入的參數，上例為 I 表示傳入一個 int 的整數。
+<%end%>
+<%paragraph do%>
+建立 DL::Symbol 物件後，便能用 call 方法來呼叫此函數，
+call 方法可以接受用引數資料類型字串定義的參數串，
+如上例我們傳一個整數給 <nospan>init_list</nospan>，
+執行完會會傳回一個二元素陣列[r, rs]，
+r 為資料類型字串所定義的回傳參數，
+rs 為傳入引數，
+若我們引數類型字串是 i 則表示傳給函數的引數類型為
+<nospan>int*</nospan>，
+表示此函數會修改傳入的引數，並把修改完後的丟給上述回傳的 rs 中，
+我們便能存取 C 函數修改的指標引數。
+<%end%>
+<%paragraph do%>
+DL 用 DL::PtrData 物件來表示 C 指標變數，
+像上述的<nospan>init_list</nospan>
 <%end%>
 <%end%>
