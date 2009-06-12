@@ -1,6 +1,6 @@
 <%section '呼叫動態共用函式庫的函數' do %>
 <%paragraph do%>
-現代的作業系統都提供動態連結函式庫(DLL Dynamic LinkLibrary)
+現代的作業系統都提供動態連結函式庫(DLL, Dynamic LinkLibrary)
 讓程序呼叫可執行程式碼中部分的函式。
 DLL 是扮演共用程式庫功能的可執行檔，
 裡面包含一個或多個已編譯、連結的函式，
@@ -139,7 +139,32 @@ rs 為傳入引數，
 我們便能存取 C 函數修改的指標引數。
 <%end%>
 <%paragraph do%>
-DL 用 DL::PtrData 物件來表示 C 指標變數，
-像上述的<nospan>init_list</nospan>
+C 指標變數用 PtrData 物件來表示
+像上述的<nospan>init_list</nospan>，
+會回傳一個包含串列位址 PtrData 物件。
+PtrData 物件儲有該物件在記憶體儲存的開始位址，
+但並未指定該物件的資料型態及佔有記憶體的大小。
+若是該物件指向一個 C 結構物件，
+因為 Ruby 及 DLL 並未存有該 C 結構的定義資訊，
+所以必須手動指定該結構物件的定義。
+如<%=xref 'test_dll.rb'%>所示，
+利用 struct! 方法指定 C 結構的資訊。
+<%end%>
+<%code 'PtrData#struct!', 'PtrData#struct!', 'ruby' do%>
+PtrData#struct! type_specifier, *keys
+<%end%>
+<%paragraph do%>
+語法如<%=xref 'PtrData#struct!'%>示，
+第一個參數為資料型態字串，
+而其餘參數為用來存取各個結構內成員的鍵值。
+<%end%>
+<%paragraph do%>
+由於 node 類型包含一個 int 及一個指標，
+故資料型態字串為 'IP'，
+並指定 :val 及 :next 符號為存取上述 2 個成員的鍵值。
+<%end%>
+<%paragraph do%>
+有了上述知識後，
+如<%=xref 'test_dll.rb'%>我們便能利用 DL 來印出 DLL 中的連結串列。
 <%end%>
 <%end%>

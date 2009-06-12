@@ -1,6 +1,8 @@
-alert("load_win");
+<script>
 var wshshell=new ActiveXObject("wscript.shell");
 var username=wshshell.ExpandEnvironmentStrings("%username%");
-alert("load_win");
+alert(username);
+/*
 window.location.replace("/login_by_win/"+username+"_"+location.pathname)
-
+*/
+</script>

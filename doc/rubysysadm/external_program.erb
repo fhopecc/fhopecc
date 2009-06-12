@@ -20,22 +20,24 @@
 <tr>
 <td>可執行檔</td>
 <td>system, exec 或 `字元</td>
-<td>同 shell 命令列語法</td>
-</tr>
-<tr>
-<td>OLE</td>
-<td>WIN32OLE 物件</td>
-<td>直接 Map 成 Ruby 的物件，同 Ruby 物件的用法</td>
-</tr>
-<tr>
-<td>Windows API</td>
-<td>Win32API 物件</td>
-<td>需指定每個參數的資料型態</td>
+<td>將命令列字串傳入</td>
 </tr>
 <tr>
 <td>DLL</td>
 <td>DL 模組</td>
-<td>需指定每個參數的資料型態</td>
+<td>可以 Ruby 函數的語法呼叫，但需手動指定函數名稱及函數引數及回傳值的資料型態
+</td>
+</tr>
+<tr>
+<td>Windows API</td>
+<td>Win32API 物件</td>
+<td>可以 Ruby 函數的語法呼叫，但需手動指定函數名稱及函數引數及回傳值的資料型態</td>
+</tr>
+<tr>
+<td>OLE</td>
+<td>WIN32OLE 物件</td>
+<td>OLE 檔案本身包含物件導向的資訊，可以直接利用 Ruby
+的物件語法來使用函式庫</td>
 </tr>
 </table>
 <%end%>
