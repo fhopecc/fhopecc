@@ -1,0 +1,128 @@
+RailsCN上的Cookoo前輩建議了幾個他常用的寫法，有：Iterators、賦值、平行賦值.. 
+etc. 
+轉貼至：http://railscn.com/viewtopic.php?t=2092 
+Ruby有不少慣用法，這裡略作一些介紹，也方便閱讀他人代碼： 
+迭代 
+一般寫法: 
+代碼: 
+for i in (1..10) 
+   puts i 
+end 
+習慣寫法: 
+代碼: 
+(1..10).each{|i| puts i} 
+或 
+1.upto(10){|i| puts i} # from njmzhang 
+||=賦值 
+一般寫法： 
+代碼: 
+number = 1 if number.nil? 
+number = 1 unless number 
+習慣寫法： 
+代碼: 
+number ||= 1 
+程序入口 
+代碼: 
+if __FILE__ == $0 
+或 
+if $PROGRAM_NAME == __FILE__ 
+這個相當於main(), 
+邏輯判斷的意思當程序名($0或另一個）和當前文件名(__FILE__)一致時，也就是當前文件是被單獨執行的而不是被別的文件調用。這個方法還有個用法是作 為unit 
+test使用。 
+預設變量 
+類似$0的Perl風格預設常量還有很多，參見Programming Ruby 
+p319 
+其中比較常用的如$:代表庫搜索路徑，修改方法常見有： 
+代碼: 
+$:.unshift('buildscript')  # from gigix 
+或 
+$: << File.join(File.dirname(__FILE__), 'CurrentClass') 
+後一種方法使用了相對路徑，因為Ruby的module不要求namespace和文件目錄結構要對應一致，很多時候統統放一個目錄裡 
+inject 
+一般寫法： 
+代碼: 
+result = [] 
+(1..10).each{|item| result << item} 
+習慣寫法： 
+代碼: 
+(1..10).inject([]){|array, item| array << item} 
+inject有點難理解，相當於python的reduce和一些FP裡的fold。inject的塊變量有兩個（這裡是array和item)，第二個變量( item)用來枚舉被inject的集合（這裡是(1..10)這個range), 
+而第一個變量(array)由inject的參數初始化(這裡是[]，可選)，並在block被反覆執行時保持持久（相當於靜態變量），而item則在每次枚舉 時被更新為下一個值。我們再看一下inject的另一種通常用法就會更明白了：求和 
+代碼: 
+(1..10).inject{|sum, item| sum += item} 
+這個等於 
+(1..10).inject(0){|sum, item| sum += item} 
+也就是塊變量sum被初始化成0然後反覆迭代執行塊的內容，最後返回sum 
+並行賦值 
+這個很多人都知道了，比如： 
+代碼: 
+a,b = 0, 1 
+a,b = b, a # 交換a,b 
+當然可以延伸出一些很詭異的變化，不提倡使用阿 
+還有一個用法是讓函數返回「多個結果」（不是多個對象），如： 
+代碼: 
+def test 
+  1,2 
+end 
+x, y = test # x = 1, y = 2 
+這個njmzhang說的很對，其實函數返回的是一個array,然後再並行匹配到變量上去。（所以我對多個結果特別加了引號） 
+這顯然是個syntax 
+sugar，你隨便用逗號分割幾個變量是不會自動組成array的。 
+注意這種並行匹配當兩遍不平衡時會造成的問題： 
+代碼: 
+a,b = [1,2,3] # a = 1, b = 2, 3被丟棄 
+a,b,c = [1,2] # a = 1, b = 2, c = nil 被初始化成nil 
+*的匹配 
+一般來說*用於把一個array展開： 
+代碼: 
+a, *b = [1,2,3]  #a = 1, b = [2,3] 
+類似FP裡的xMads(haskell), x:Mads(ocaml), [a | b] (erlang from 
+布娃娃） 
+rescue簡單用法 
+代碼: 
+begin 
+ 1/0 
+rescue 
+  puts 'wrong' 
+end 
+可以簡化為 
+代碼: 
+1/0 rescue puts 'wrong' 
+命名參數的默認值 
+ruby有默認參數，但其實沒有所謂keyword 
+argument，而是提供一個syntax 
+sugar用hash模擬。但是怎麼像Rails的方法那樣同時利用命名參數和默認參數值呢？ 
+代碼: 
+def image(opt={}) 
+    default_opt = {:height => 25, :width => 10} 
+    default_opt.merge! opt 
+#opt中同樣key的內容會覆蓋default_opt中key的value 
+end 
+精細duck typing控制 
+duck typing的精神就是行為決定類型，而不是相反 
+代碼: 
+a = [] 
+#不用 
+if a.kind_of? Array then a << 1 
+if a.instance_of? Array then a << 1 
+#而用 
+if a.respond_to? :<< then a << 1 
+獲取metaclass 
+這也比較常見了，各種動態伎倆的開始 
+代碼: 
+sing = class << self; self; end 
+符號轉換到Proc 
+一般寫法： 
+代碼: 
+(1..10).map{|item| item.succ} 
+習慣寫法： 
+代碼: 
+(1..10).map(&:succ) 
+map(fun(x))般的FP風格 
+注意這是Rails特有的，通過ActiveSupport對Symbol插入to_proc方法。 
+不用Rails怎麼辦呢？一種辦法是借助Ruby Facets庫（gem 
+install facets）： 
+代碼: 
+require 'facet/symbol/to_proc' 
+Facets庫包括大量對Ruby核心類的擴展，是個有趣而又危險的大雜燴，也許我以後會另外再專門介紹一下。 
+

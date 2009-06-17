@@ -1,6 +1,6 @@
 <%section '呼叫動態共用函式庫的函數' do %>
 <%paragraph do%>
-現代的作業系統都提供動態連結函式庫(DLL Dynamic LinkLibrary)
+現代的作業系統都提供動態連結函式庫(DLL, Dynamic LinkLibrary)
 讓程序呼叫可執行程式碼中部分的函式。
 DLL 是扮演共用程式庫功能的可執行檔，
 裡面包含一個或多個已編譯、連結的函式，
@@ -16,12 +16,38 @@ DLL 可以讓多個應用程式可以同時存取記憶體中 DLL 單一複本�
 動態連結可提供許多優點像是節省記憶體、節省磁碟空間、
 較容易升級、提供擴充程式庫機制。
 <%end%>
+<%code '<nospan>test_dll.rb</nospan>', 'test_dll.rb', 'ruby' do %>
+<%# include dlex/test_dll.rb #%>
+<%end%>
 <%paragraph do%>
-在 Ruby 程式中可以透過 Ruby/DL 來呼叫 DLL 內的函式，
-Ruby/DL 用 DL::Handle 來表示要使用的 DLL，
-DLL 內的函式則用 DL::Symbol 物件表示，
-由於 DLL 內沒有函式引數的定義，
-所以必須在 DL::Symbol 中指定 DLL 函數所有引數資料類型代碼。
+Ruby/DL 用 Handle 來表示要使用的 DLL，
+是故使用 DLL 必須先建立一個 Handle 物件來表示要使用的 DLL，
+常用 DL.dlopen 方法來建立 Handle 物件，
+此方法接受 dll 的檔案路徑作為參數，
+例如<%=xref 'test_dll.rb'%>的 DL.dlopen 
+會建立 DLL 檔案路徑為 dll.dll 的 Handle 物件。
+<%end%>
+<%paragraph do%>
+DLL 包含一個符號表使函式名稱能來查詢指定函式在記憶體中的位置，
+但是 DLL 中並沒有函式原型，
+也就是函式的引數及傳回值的資料型態，
+是故必須手動指定函式原型。
+<%end%>
+<%paragraph do%>
+DLL 內的函式是用 Symbol 物件表示，
+Symbol 含有函式名稱及函式原型。
+我們主要用 Handle#[] 方法來取得表示函式的 Symbol 物件，
+其語法如下：
+<%end%>
+<%code 'Handle#[]', 'Handle#[]', 'ruby' do %>
+Handle#[function, prototype] 
+<%end%>
+<%paragraph do%>
+其中 function 引數為函式名稱，prototype 為函式原型。
+如<%=xref 'test_dll.rb'%>中
+<nospan>init_list = dllex['init_list', 'PI']</nospan>
+便會建立表示 <nospan>init_list</nospan> 函式的 
+Symbol 物件。
 <%end%>
 <%table '資料類型代碼表', 'type_specifiers' do%>
 <table>
@@ -87,6 +113,15 @@ DLL 內的函式則用 DL::Symbol 物件表示，
 </tr>
 </table>
 <%end%>
+<%paragraph do%>
+函式原型為一個字串，每個字元表示一種資料類型，
+如<%=xref 'type_specifiers'%>所式，
+字串的第一個字元指定回傳值的資料型態，
+其餘字元依序表示傳入函式引數的資料型態，
+'PI' 字串表示函式回傳資料型態代碼為 P，
+表示回傳參數為一個指標，
+I 表示函式具有一個引數且資料型態為 int。
+<%end%>
 <%code 'dll.h', 'dll.h', 'c' do %>
 <%# include dlex/dll.h #%>
 <%end%>
@@ -104,16 +139,6 @@ DLL 內的函式則用 DL::Symbol 物件表示，
 <%end%>
 <%code '<nospan>test_dll.c</nospan>', 'test_dll.c', 'c' do %>
 <%# include dlex/test_dll.c #%>
-<%end%>
-<%code '<nospan>test_dll.rb</nospan>', 'test_dll.rb', 'ruby' do %>
-<%# include dlex/test_dll.rb #%>
-<%end%>
-<%paragraph do%>
-<%=xref 'test_dll.rb'%>簡單說明 DL 模組應用，
-首先要建立一個 DL::Handle 物件來表示要使用的 DLL，
-我們使用 DL.dlopen 'dll.dll' 來建立 DL::Handle 物件，
-此方法接受一個定義 dll 的檔案路徑作為參數，
-上例為建立一個路徑為 dll.dll 的 DLL。
 <%end%>
 <%paragraph do%>
 之後我們用 DL::Handle#[] 方法來取得表示 DLL 函數的 DL::Symbol 物件，
@@ -139,7 +164,32 @@ rs 為傳入引數，
 我們便能存取 C 函數修改的指標引數。
 <%end%>
 <%paragraph do%>
-DL 用 DL::PtrData 物件來表示 C 指標變數，
-像上述的<nospan>init_list</nospan>
+C 指標變數用 PtrData 物件來表示
+像上述的<nospan>init_list</nospan>，
+會回傳一個包含串列位址 PtrData 物件。
+PtrData 物件儲有該物件在記憶體儲存的開始位址，
+但並未指定該物件的資料型態及佔有記憶體的大小。
+若是該物件指向一個 C 結構物件，
+因為 Ruby 及 DLL 並未存有該 C 結構的定義資訊，
+所以必須手動指定該結構物件的定義。
+如<%=xref 'test_dll.rb'%>所示，
+利用 struct! 方法指定 C 結構的資訊。
+<%end%>
+<%code 'PtrData#struct!', 'PtrData#struct!', 'ruby' do%>
+PtrData#struct! type_specifier, *keys
+<%end%>
+<%paragraph do%>
+語法如<%=xref 'PtrData#struct!'%>示，
+第一個參數為資料型態字串，
+而其餘參數為用來存取各個結構內成員的鍵值。
+<%end%>
+<%paragraph do%>
+由於 node 類型包含一個 int 及一個指標，
+故資料型態字串為 'IP'，
+並指定 :val 及 :next 符號為存取上述 2 個成員的鍵值。
+<%end%>
+<%paragraph do%>
+有了上述知識後，
+如<%=xref 'test_dll.rb'%>我們便能利用 DL 來印出 DLL 中的連結串列。
 <%end%>
 <%end%>

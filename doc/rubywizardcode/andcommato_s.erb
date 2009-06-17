@@ -1,0 +1,41 @@
+這是ActiveSupport擴展的一個方法。原代碼如下：
+
+class Symbol
+  def to_proc
+    Proc.new { |*args| args.shift.__send__(self, *args) }
+  end
+end
+
+它擴展出這種用法：
+
+(1..5).map(&:to_s)
+
+map原本是要接受一個block參數，普通的用法是：
+
+(1..5).map{|e| e.to_s}
+
+或者：
+
+proc = Proc.new{|e| e.to_s}
+(1..5).map(&proc)
+
+上面這個(1..5).map(&:to_s)用法可以拆成3步來解釋：
+sym = :to_s
+proc = Proc.new{|*args| args.shift.send(sym, *args)}
+(1..5).map(&proc)
+
+有個疑問，經過yanping.jia解釋，map(&:to_s)因為出現了&符號，所以:to_s會執行to_proc方法，然後與&一起合成&proc交給map處理。雖然說得通，不過我總覺得這個解釋中，&這個符號做了2次工作，是否合理？
+
+這種用法原本是Ruby Extensions Project發明的，在RoR中作了點修改。原來的版本是：
+
+class Symbol
+    def to_proc
+      proc { |obj, *args| obj.send(self, *args) }
+    end
+end
+
+它使用2個參數來分出一個參數，而RoR版本則使用shift分出來。
+
+
+剛才又想了一下，yanping.jia的解釋應該是合理的，解釋器看到&:id時，先會判斷是否是一個方法調用，如果是則需要把:id轉成一個proc。否則就是語法錯誤了。
+x
