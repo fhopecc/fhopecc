@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="Big5"?>
+<!--<!DOCTYPE DocBook>-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+[
+<!ENTITY pg.NameManagement SYSTEM "NameManagement.chapter.xml">
+<!ENTITY pg.CompilerDesign SYSTEM "CompilerDesign.chapter.xml">
+<!ENTITY CFG SYSTEM "cfg.chapter.xml">
+<!ENTITY pg.glossary SYSTEM "glossary.xml">
+<!--
+<!ENTITY pg.reference SYSTEM "pg.reference.xml">
+-->
+<!ENTITY % pg.include SYSTEM "entity.inc">
+%pg.include; 
+]>
+<book><title>程式語言</title>
+0	基礎	
+1	資料型態	
+2	資料控制	
+3	流程控制		
+4	副程式一：參數傳遞	
+5	分散式運算	
+6	C	
+7	Java	
+8	Scheme	
+9	Prolog	
+10	SQL	
+11	XML	
+<chapter><title>基礎</title>
+<sect1><title>繫合時間</title>
+<segmentedlist>
+<?dbhtml list-presentation="table"?>
+<segtitle>繫合時間</segtitle>
+<segtitle>說明</segtitle>
+<segtitle>實例</segtitle>
+<seglistitem><seg>執行期繫合</seg>
+<seg>在程式執行期發生繫合，如變數值的設定</seg>
+<seg>
+<programlisting>
+int x=2; 
+x=3;    // 在 C 中，此命令會更改 x 所指的儲存區域，並將其值改成 3 
+</programlisting>
+</seg>
+</seglistitem>
+<seglistitem><seg>編譯期繫合</seg>
+<seg>在程式編譯期發生繫合，如 C 中變數的型態</seg>
+<seg>
+<programlisting>
+int x=2; // 在 C 中，此命令會定義符號 x 的資料型態為 int
+</programlisting>
+</seg>
+</seglistitem>
+<seglistitem><seg>程式語言實作期繫合</seg>
+<seg>在程式語言直譯器或編譯器實作時發生繫合，
+如浮點數型態如何使用機器表示，在不同硬體上可能有不同的表示</seg>
+<seg>
+<programlisting>
+// 其 IEEE 754 單精度的十六位元表示為
+// 413364D9，指在 Intel 架構中
+11.212121212145155;
+</programlisting>
+</seg>
+</seglistitem>
+<seglistitem><seg>程式語言定義期繫合</seg>
+<seg>在程式語言定義時發生繫合，如字串的實字表示法</seg>
+<seg>
+<programlisting>
+"this is a string literal"; // 在 Java 中，字串的實字表示是設計語言實就定義好了
+</programlisting>
+</seg>
+</seglistitem>
+</segmentedlist>
+</sect1>
+</chapter>
+	本章是討論程式語言各個部份的語義。
+1	資料型態	
+	資料型態是物件的某個屬性，用來指出某物件的合法值及合法運
+	算。	
+1.3	晚期連結 latent type	
+	一般資料型態是關連至變數，但晚期連結的資料型態是關連至物
+	件（值）。也就是變數的資料型態是執行期才確定的。
+	EX Scheme, LISP dialects, SNOBOL
+2	資料控制	
+	程式語言必須提供資料控制的功能。所謂資料控制是限制程式師
+	存取資料能力。
+	在源碼何處，或程式執行至何處，某變數才可讓程式師使用，
+	這稱為變數的可見域。
+	在記憶體中，劃出來存取某變數值的，其有效期間，稱為變數
+	的生命期。
+2.1	可見域 Scope	
+2.1.1	靜態可見域 Statically Scope	
+	若一個變數，其可見域由源碼書寫的結構決定，稱為靜態可見
+	域。
+	EX Scheme, Algol 
+2.2	生命期 Life Time	
+2.1.3	無限 unlimited extent	
+	若物件在程式建立後，直到程式結束才失效，則稱為無限。通常
+	支援此類型的語言會實作垃圾回收機制，回收永遠不會再用到物
+	件的記憶體資源。
+	EX Scheme, APL, LISP dialects 	
+3	流程控制		
+<chapter><title>參數傳遞</title>
+<sect1><title>以值傳遞</title>	
+	實際參數在傳給副程式時，會複製值給形式參數。
+	EX Scheme, C, APL, ML
+</sect1>
+</chapter>
+11	XML	
+11.1	XML 相關的程式	
+	XML 是來自 SGML 語言，為一種 Meta 語言，可用來定義其它
+	語言。
+	與一般的語言不同的是，他能比較大幅度的控制何謂有效的
+	語法。
+	XML 可由 DTD 來制定語法的規則，並用來驗證其所定義語言的
+	語法有效性。
+	
+	XML 的語法可用來描述。
+	元素關係
+		在兩個 tag 之間為一個元素，並可在 tag 間加入屬性。
+		形成一獨立的可儲存空間，可比擬為物件導向的物件。
+	
+	包含關係
+		每個元素可包含不同的元素，這也可以在 DTD 中定義出
+		來。
+	
+11.1	XML 相關的程式	
+	Parser 
+&pg.NameManagement;
+&CFG;
+&pg.CompilerDesign;
+&pg.glossary;
+</book>

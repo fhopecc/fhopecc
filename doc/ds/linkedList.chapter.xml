@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>鏈</title>
+<para>
+<figure id="LinkedList"><title>鏈</title>
+<graphic fileref="ds/LinkedList.png"/>
+</figure>
+<!--
+<figure id="LinkedListADT"><title>鏈的 ADT</title>
+<programlisting>
+class LinkedListNode
+  value
+  next
+end
+</programlisting>
+</figure>
+-->
+鏈內的元素並非如陣列般，依照足標來排序，
+而是每個節點藉由一個指標，來指向下一個節點。
+如<xref linkend="LinkedList"/>中的鏈有三個元素，
+分別是 A, B 及 C，
+左上角的欄位表示實際位址，
+右邊的欄位指向下個節點的實際位址，
+可以看出來這些相鄰元素的位址不一定要連續，
+而是有無指標來連接這兩個元素。
+</para>
+<sect1><title>插入元素至鏈</title>
+<para>
+<figure id="LinkedList.insert"><title>插入元素至鏈</title>
+<graphic fileref="ds/LinkedList.insert.png"/>
+</figure>
+如<xref linkend="Array.insert.sect1"/>所示，
+若使用陣列表示序列，
+當陣列的長度為 n，
+插入一個元素至陣列間在最壞的情形下，
+必須移動 n 個元素。
+</para>
+<para>
+若改用鏈表示序列，
+則如<xref linkend="LinkedList.insert"/>所示，
+要在 A 及 B 間插入一元素 D，
+只要把 A 的 next 指標指向 D 的位址，
+再把 D 的 next 指標指向 B 的位址，
+即可達成。
+</para>
+</sect1>
+<sect1><title>鏈元素的刪除</title>
+<para>
+<figure id="LinkedList.remove"><title>刪除鏈的元素</title>
+<graphic fileref="ds/LinkedList.remove.png"/>
+</figure>
+如<xref linkend="Array.remove.sect1"/>所示，
+若使用陣列表示序列，
+當陣列的長度為 n，
+刪除一個元素在最壞的情形下，
+必須移動 n-1 個元素。
+</para>
+<para>
+若改用鏈表示序列，
+要刪除一元素 D，
+如<xref linkend="LinkedList.remove"/>所示，
+先清除 D 節點，
+再把 A 的 next 指標指向 B 的位址，
+即可達成。
+</para>
+<para>
+由以上討論，可得知當元素所佔的空間越大時，
+連帶會使得搬移元素的成本上昇，
+這時可將實作由陣列改成鏈，
+加快新增及插入元素的效能。
+值得注意的是，每個元素都要增加一個指標的空間，
+來存放 next 指標。
+</para>
+</sect1>
+<sect1><title>以鏈實作稀疏矩陣</title>
+</sect1>
+</chapter>

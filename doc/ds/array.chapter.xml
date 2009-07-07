@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter id="Array"><title>陣列</title>
+<figure id="ArrayOfWeeks"><title>星期字串陣列</title>
+存放星期字串陣列
+<informaltable frame='hsides'>
+<tgroup cols='8'>
+<thead>
+  <row>
+		<entry>位址</entry>
+    <entry>0x0010</entry>
+    <entry>0x0012</entry>
+		<entry>0x0014</entry>
+		<entry>0x0016</entry>
+		<entry>0x0018</entry>
+		<entry>0x0010</entry>
+		<entry>0x001B</entry>
+	</row>
+	<row>
+		<entry>足標</entry>
+    <entry>0</entry>
+    <entry>1</entry>
+		<entry>2</entry>
+    <entry>3</entry>
+    <entry>4</entry>
+    <entry>5</entry>
+    <entry>6</entry>
+	</row>
+</thead>
+<tbody>
+	<row><entry>值</entry>
+		<entry>SU</entry>
+    <entry>MO</entry>
+    <entry>TU</entry>
+    <entry>WE</entry>
+    <entry>TH</entry>
+    <entry>FR</entry>
+		<entry>SA</entry>
+	</row>
+</tbody>
+</tgroup>
+</informaltable>
+<para>
+執行 weeks[1] = "MM" 指令後
+</para>
+<informaltable frame='hsides'>
+<tgroup cols='8'>
+<thead>
+  <row>
+		<entry>位址</entry>
+    <entry>0x0010</entry>
+    <entry>0x0012</entry>
+		<entry>0x0014</entry>
+		<entry>0x0016</entry>
+		<entry>0x0018</entry>
+		<entry>0x0010</entry>
+		<entry>0x001B</entry>
+	</row>
+	<row>
+		<entry>足標</entry>
+    <entry>0</entry>
+    <entry>1</entry>
+		<entry>2</entry>
+    <entry>3</entry>
+    <entry>4</entry>
+    <entry>5</entry>
+    <entry>6</entry>
+	</row>
+</thead>
+<tbody>
+	<row><entry>值</entry>
+		<entry>SU</entry>
+    <entry><emphasis role="strong">MM</emphasis></entry>
+    <entry>TU</entry>
+    <entry>WE</entry>
+    <entry>TH</entry>
+    <entry>FR</entry>
+		<entry>SA</entry>
+	</row>
+</tbody>
+</tgroup>
+</informaltable>
+</figure>
+<para>
+陣列十分類似數學上的「序列」，
+所謂「序列」為一組序對&lt;足標,值>的集合，
+足標為一個整數，而值則為任意物件。
+足標可用來取存放特定的值。
+如<xref linkend="ArrayOfWeeks"/>為一個用來儲存日期字串的序列，
+第二列為足標，第三列為值。
+像是足標 1 可存取 "MO" 這個字串，
+足標 2 可存取 "TU" 這個字串，
+利用序列可以將物件集合使用簡單的整數來組織，
+如電腦的記憶體便是以這種方式組織的，
+其記憶體位址便是記憶體的足標，
+每個記憶體位址可存取 1 byte 的資料。
+</para>
+<para>
+雖然陣列在各種電腦編程語言中的表示式略有不同，
+但是幾乎每一種編程語言都有這種結構和觀念，
+它已經不只是一種編程專用的術語，
+而是電腦運作中非常重要的技術和概念。
+當前電腦能夠顯示、列印中文字，都是陣列的觀念應用。
+資料庫也是陣列概念的一種擴充和延伸。
+</para>
+<sect1><title>建構陣列</title>
+<para>
+<figure id="ArrayConstruct"><title>陣列建構式</title>
+<programlisting>
+weeks = ["SU","MO","TU","WE","TH","FR","SA"]
+</programlisting>
+</figure>
+Ruby 中陣列物件是以 Array 類別來表示，
+並內建一特殊語法來直接建構一個 Array 物件，
+如<xref linkend="ArrayConstruct"/>所示，
+依<xref linkend="ArrayOfWeeks"/>來建構 weeks 的 Array 物件，
+依序將組成字串，於方括號中依逗號分隔列出，
+而足標值則由 0 起計，每右移一個的物件則加 1。
+如"SU" 在第 1 個位置，其足標值預設為 0；
+"TU" 在第 3 個位置，其足標值預設為 2。
+</para>
+</sect1>
+<sect1><title>足標運算</title>
+<para>
+<figure id="IndexSample"><title>以足標存取陣列元素</title>
+<programlisting>
+puts weeks[1] # 畫面應印出 "MO"
+weeks[1] = "MM"
+puts weeks[1] # 畫面應印出 "MM"
+</programlisting>
+</figure>
+足標取值運算為一個一元運算，
+其接受一個足標，並傳回足標指示的元素。
+大部份程式語言都以 Array[index] 作為足標取值的語法，
+其中 index 為足標值。
+</para>
+<para>
+足標賦值表示將右值設為足標的對應值，
+大部份程式語言都以 Array[index]=rvalue 作為足標賦值的語法，
+其中 index 為足標值，而 rvalue 為所要存放到槽中的新值。
+</para>
+<para>
+<xref linkend="IndexSample"/>為以 Ruby 的語法示範陣列的足標操作，
+weeks 為<xref linkend="ArrayConstruct"/>所建構的 Array 物件，
+若 weeks[1] 作為賦值運算的右值的話，
+表示取出足標為 1 的槽所存放的字串，即為"MO"，
+若 weeks[1] 作為賦值運算的左值的話，
+表示將右值存放到足標為 1 的槽中，
+此時其存放值為"MM"。
+</para>
+</sect1>
+<sect1 id="Array.insert.sect1"><title>插入元素至陣列</title>
+<para>
+<figure id="Array.insert"><title>插入元素至陣列</title>
+<graphic fileref="ds/Array.insert.png"/>
+</figure>
+由於陣列的足標為連續整數值，
+所以如<xref linkend="Array.insert"/>所示，
+則要在陣列的 A 及 B 間插入一元素 D，
+必須先移動 C 到新配置空間，
+再把 B 移動到原來 C 的空間，
+再將 D 放到 B 的空間，
+因此若陣列的長度為 n，
+插入一個元素在最壞的情形下，
+必須移動 n 個元素。
+</para>
+</sect1>
+<sect1 id="Array.remove.sect1"><title>刪除陣列的元素</title>
+<para>
+<figure id="Array.remove"><title>刪除陣列的元素</title>
+<graphic fileref="ds/Array.remove.png"/>
+</figure>
+由於陣列的足標為連續整數值，
+所以如<xref linkend="Array.remove"/>所示，
+要刪除一元素 D，
+先清空 D 的空間，
+再移動 B 到 D 的空間，
+再把 C 移動到原來 B 的空間，
+因此若陣列的長度為 n，
+刪除一個元素在最壞的情形下，
+必須移動 n-1 個元素。
+</para>
+</sect1>
+<sect1 id="ArrayImp"><title>陣列與 RAM</title>
+<para>
+目前的電腦架構運算資料主要儲存在
+<emphasis role="strong">RAM</emphasis>(
+隨機存取記憶體)中，
+整個 RAM 可視為一個大型的<emphasis role="strong">同質有限隨機存取位元組陣列</emphasis>，
+每個位址可視為 RAM 的足標，
+可存取到一個 8 位元的位元組，
+<emphasis role="strong">同質</emphasis>指得是 RAM
+中可存取每個元素都是一樣類型，
+都是 8 位元的位元組，
+<emphasis role="strong">有限</emphasis>指 RAM 元素量是有上限的，
+不是無限的，像 32 位元的電腦指 RAM 位址有 32 位元長，
+故最多能支援到有 2<superscript>32</superscript> 位元組的 RAM，
+大約 4 GB。
+RAM 的另一個重要特色是<emphasis role="strong">隨機存取</emphasis>(Random Access)，
+指 CPU 以址存取 RAM 的資料(足標存取運算)幾乎是常數時間。
+是故若用<emphasis role="strong">連續的 RAM 區塊</emphasis>實作陣列，
+則可用常數時間完成存取元素的操作。
+但是仍要符合 RAM 同質有限的限制，
+意指陣列只能存放同類型的元素，同類型通常指陣列元素所佔用的 RAM 長度一樣，
+且因為 RAM 長度有限，故只能存放有限的元素。
+</para>
+<para>
+<figure id="ArrayImpByRAM"><title>以連續的 RAM 區塊實作的陣列</title>
+<programlisting>
+class Array
+  def initialize(_elem_type, _size)
+    @size = _size
+    @slot_len = num_bytes(_elem_type)
+    @length = @size * @slot_len
+    @base_addr = RAM.get_free_block(@length)
+    RAM.allocate(@base_addr, @length)
+  end
+  
+  def [](index)
+    throws IndexOutOfBounds if index > _size
+    addr = @base_addr + index * @slot_len
+    return RAM.read(addr)
+  end
+
+  def []=(index, value)
+    throws IndexOutOfBounds if index > _size
+    addr = @base_addr + index * @slot_len
+    RAM.write(addr, value)
+  end
+end
+</programlisting>
+</figure>
+<xref linkend="ArrayImpByRAM"/>顯示如何用連續的 RAM 區塊實作陣列，
+首先系統依使用者給定陣列元素的型態，以及陣列元素的數目，
+求出陣列每個槽需求的記憶體長度，及陣列總長度，
+之後系統會再從 RAM 中找到空閒的儲存區塊，
+配置給此陣列，並把區塊的基底位址儲存在 @base_addr 私有變數中，
+當使用者利用足標存取元素時，
+則使用基度位址及槽長度求出足標所指定的槽的起始位址，
+並利用起始位址存取槽內的元素。
+再回到<xref linkend="ArrayOfWeeks"/>，
+可看到這個陣列起始位址為 0x0010，
+由於每個空間存 2 個字元，故槽的長度為 2 bytes，
+可以看到每個槽的起始位址以 2 遞增。
+</para>
+</sect1>
+<sect1 id="Matrix"><title>矩陣</title>
+<figure id="MatrixADT"><title>矩陣的 ADT</title>
+<programlisting>
+class Matrix
+  initialize(_elem_type, _size)
+  [](col, row) 
+  []=(col, row, value)
+end
+</programlisting>
+</figure>
+<figure id="MatrixPoem"><title>不第後賦菊</title>
+<blockquote><attribution>黃巢</attribution>
+<informaltable frame='hsides'>
+<tgroup cols='8'>
+<thead>
+  <row>
+		<entry>欄/列</entry>
+    <entry>0</entry>
+    <entry>1</entry>
+    <entry>2</entry>
+		<entry>3</entry>
+		<entry>4</entry>
+		<entry>5</entry>
+		<entry>6</entry>
+	</row>
+</thead>
+<tbody>
+	<row><entry><emphasis role="strong">0</emphasis></entry>
+		<entry>待</entry>
+    <entry>到</entry>
+    <entry>秋</entry>
+    <entry>來</entry>
+    <entry>九</entry>
+    <entry>月</entry>
+    <entry>八</entry>
+	</row>
+	<row><entry><emphasis role="strong">1</emphasis></entry>
+		<entry>我</entry>
+    <entry>花</entry>
+    <entry>開</entry>
+    <entry>後</entry>
+    <entry>百</entry>
+    <entry>花</entry>
+    <entry>殺</entry>
+	</row>
+	<row><entry><emphasis role="strong">2</emphasis></entry>
+		<entry>衝</entry>
+    <entry>天</entry>
+    <entry>香</entry>
+    <entry>陣</entry>
+    <entry>透</entry>
+    <entry>長</entry>
+    <entry>安</entry>
+	</row>
+	<row><entry><emphasis role="strong">3</emphasis></entry>
+		<entry>滿</entry>
+    <entry>城</entry>
+    <entry>盡</entry>
+    <entry>帶</entry>
+    <entry>黃</entry>
+    <entry>金</entry>
+    <entry>甲</entry>
+	</row>
+</tbody>
+</tgroup>
+</informaltable>
+</blockquote>
+</figure>
+<para>
+矩陣就是二維陣列，
+<emphasis role="strong">二維</emphasis>指每個槽需要用二個整數來指定，
+分別稱為<emphasis role="strong">欄</emphasis>與<emphasis role="strong">列</emphasis>。
+<xref linkend="MatrixPoem"/>為用一個 7X4 的矩陣，
+來儲存一首 7 言絕句的唐詩，黃巢的『不第後賦菊』。
+其存取操作與矩陣相同，
+但指定元素時必須傳入欄及列兩個值，
+如 poem[3,2] 則取出在表格第 3 欄，
+第 2 列位置的字，即為"陣"。
+</para>
+<sect2 id="MatrixImpByRAMBlock"><title>以連續 RAM 區塊實作矩陣</title>
+<para>
+用連續 RAM 區塊實作矩陣，在存取元素的操作效率上可以達到常數時間，
+但是必須將矩陣二維位址轉換成一維的 RAM 位址。
+其轉換方法有兩種，分別為列優先及欄優先。
+</para>
+<para>
+<figure id="SlotAddrRowMajor"><title>計算列優先槽起始位址</title>
+<programlisting>
+def slot_addr(col, row)
+  return @base_addr + @slot_len * [ (row * col_size) + col ]
+end
+</programlisting>
+</figure>
+<emphasis role="strong">列優先儲存法</emphasis>，
+指是是每一列先走完換一行，
+其求每個槽起始位址公式如<xref linkend="SlotAddrRowMajor"/>所示。
+<figure id="MatrixPoemRowMajor"><title>列優先儲存法</title>
+<informaltable frame='hsides'>
+<tgroup cols='13'>
+<thead>
+  <row>
+		<entry>足標</entry>
+    <entry>0</entry>
+    <entry>1</entry>
+    <entry>2</entry>
+		<entry>3</entry>
+		<entry>4</entry>
+		<entry>5</entry>
+		<entry>6</entry>
+		<entry>7</entry>
+		<entry>8</entry>
+		<entry>..</entry>
+		<entry>26</entry>
+		<entry>27</entry>
+	</row>
+</thead>
+<tbody>
+	<row><entry><emphasis role="strong">值</emphasis></entry>
+		<entry>待</entry>
+    <entry>到</entry>
+    <entry>秋</entry>
+    <entry>來</entry>
+    <entry>九</entry>
+    <entry>月</entry>
+    <entry>八</entry>
+		<entry>我</entry>
+    <entry>花</entry>
+		<entry>..</entry>
+    <entry>金</entry>
+    <entry>甲</entry>
+	</row>
+</tbody>
+</tgroup>
+</informaltable>
+</figure>
+如<xref linkend="MatrixPoemRowMajor"/>即為<xref linkend="MatrixPoem"/>
+以列優先儲存法的陣列。
+</para>
+<para>
+<figure id="SlotAddrColMajor"><title>計算欄優先槽起始位址</title>
+<programlisting>
+def slot_addr(col, row)
+  return @base_addr + @slot_len * [ (col * row_size) + row ]
+end
+</programlisting>
+</figure>
+<emphasis role="strong">欄優先儲存法</emphasis>，
+指是是每一欄先走完換一列，
+其求每個槽起始位址公式如<xref linkend="SlotAddrColMajor"/>所示。
+<figure id="MatrixPoemColMajor"><title>欄優先儲存法</title>
+<informaltable frame='hsides'>
+<tgroup cols='10'>
+<thead>
+  <row>
+		<entry>足標</entry>
+    <entry>0</entry>
+    <entry>1</entry>
+    <entry>2</entry>
+		<entry>3</entry>
+		<entry>4</entry>
+		<entry>5</entry>
+		<entry>..</entry>
+		<entry>26</entry>
+		<entry>27</entry>
+	</row>
+</thead>
+<tbody>
+	<row><entry><emphasis role="strong">值</emphasis></entry>
+		<entry>待</entry>
+		<entry>我</entry>
+		<entry>衝</entry>
+		<entry>滿</entry>
+    <entry>到</entry>
+    <entry>花</entry>
+		<entry>..</entry>
+    <entry>安</entry>
+    <entry>甲</entry>
+	</row>
+</tbody>
+</tgroup>
+</informaltable>
+</figure>
+如<xref linkend="MatrixPoemColMajor"/>即為<xref linkend="MatrixPoem"/>
+以欄優先儲存法的陣列。
+</para>
+</sect2>
+</sect1>
+</chapter>

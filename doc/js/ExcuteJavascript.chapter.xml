@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>執行 Javascript</title>
+<sect1><title>利用 HTML 測試機線上編輯測試網頁</title>
+<para>
+<ulink url="http://home.kimo.com.tw/fhope.tw/htmlTestBed.html">
+	<citetitle>HTML 測試機:http://home.kimo.com.tw/fhope.tw/htmlTestBed.html</citetitle>
+</ulink>
+是我放到網路上的測試頁，
+原本要將寫完的 HTML 碼，存成一個檔，
+再用瀏覽器開啟執行，
+才能看到結果。
+現在只要貼到測試機上的文字方塊，
+再按下「測試 HTML...」即可在新視窗上看到結果。
+<xref linkend="HTMLTestBed"/>為其畫面。
+
+<figure id="HTMLTestBed"><title>HTML 測試頁</title>
+<imagedata fileref="js\htmlTestBed.png"/>
+</figure>
+
+</para>
+</sect1>
+<sect1><title>循序執行</title>
+<para>
+<figure id="JSExeEnv"><title>JavaScript 的執行環境</title>
+<imagedata fileref="js/JSExeEnv.PNG" />
+</figure>
+如<xref linkend="JSExeEnv"/>瀏覽器自伺服器載入網頁時，
+會順序由上而下執行網頁的句子, 
+遇到 HTML 碼就顯示這語言的資料, 
+遇到 JavaScript 碼就由 runtime engine 執行 script 內的命令。
+</para>
+<para>
+若要在 HTML 原始碼中加入 JavaScript 的程式碼，
+只要使用使用 &lt;script> 標籤即可，其基本格式如下：
+<figure id="HelloWorld"><title>Hello World!</title>
+<programlisting>
+<![CDATA[
+<script language="javascript">
+	str = "Hello World!";
+	document.write(str);
+</script>
+]]>
+</programlisting>
+</figure>
+<xref linkend="HelloWorld"/>貼到 HTML 測試機時，再按下「測試 HTML...」， 
+則會出現一個印有 "Hello World!" 的網頁。
+其中 str 是一個字串變數，其值為 "Hello World!"，
+document 則是一個物件，代表程式碼所在的網頁，
+write 則是 document 的一個方法，可將一個字串印出在網頁上，
+因此 document.write(str) 的作用就是將 "Hello World!" 印在網頁之上。
+</para>
+</sect1>
+<sect1><title>由事件觸發執行</title>
+<para>
+	另一種啟動 JavaScript 的方法，則是靠事件驅動，換言之，
+	當瀏覽器讀入網頁後，即載入 JavaScript 程式碼，
+	但必須等到使用者點選連結或或啟動其他滑鼠或鍵盤事件，
+	才能觸發 JavaScript 的執行。
+<figure id="ClickEvent"><title>按鈕事件</title>
+<programlisting>
+<![CDATA[
+<html> <body bgcolor=oldlace text=blue>
+<h1>按鈕事件</h1>
+<p> </br> <center>
+<form>
+<input type="button" value="荊軻歌曰：" onClick="alert('風蕭蕭兮易水寒，壯士一去兮不復還！')"/>
+</form>
+</center>
+</body> </html> 
+]]>
+</programlisting>
+</figure>
+<xref linkend="HelloWorld"/>貼到 HTML 測試機時，
+會出現一個有[荊軻歌曰：]按鈕的網頁，
+當你按下[荊軻歌曰：]後，
+就會碰出一個對話視窗，上面寫者他準備過易水去秦國所唱的歌。
+alert 是一個方法，會碰出一個訊息對話盒，
+向觀看者顯示傳入的文字參數，觀看者按[確定]就可繼續操作。 
+</para>
+</sect1>
+<qandaset>
+	<qandaentry>
+		<question>
+			<para>
+				如果要用 document.wrtie() 來在畫面顯示這句: 　
+				<programlisting>
+          春花秋月何時了，
+          往事知多少。
+          小樓昨夜又東風，
+          故國不堪回首月明中。
+
+          雕欄玉砌應猶在，
+          只是朱顏改。
+          問君能有幾多愁，
+          恰似一江春水向東流。
+				</programlisting>
+				這個有關 document.write()  的程式碼應如何寫法? 　 
+			</para>
+		</question>
+	</qandaentry>
+	<qandaentry>
+		<question>
+			<para>
+			  請寫出下面網頁，網頁上有[妳好嗎？]按鈕，當你按下後，
+        就會碰出一個對話視窗，上面回答：[我很好]。
+			</para>
+		</question>
+	</qandaentry>
+</qandaset>
+</chapter>

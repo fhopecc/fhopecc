@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding="Big5"?>
+<chapter id="ContextFreeGrammar"><title>前後文無關文法</title>
+<sect1><title>語言</title>
+<para>
+<emphasis>語言</emphasis>是一組有限符號集合元素的字串，
+以下的例子是一個簡單的語言。
+<example><title>ab 語言</title>
+<para>
+ab 語言其可用符號為 a 與 b 兩個符號，
+而它的字串例子如下：
+</para>
+<programlisting>
+<![CDATA[
+ab
+ababa
+aaaaab
+abbaa
+]]>
+</programlisting>
+</example>
+<example><title>中文</title>
+<para>
+像是中文這個語言，
+可以用 Big5 符號集合串列來表示，
+Big5 符號集合約有 13,060 個元素，
+您目前所看的文章就是用 Big5 編碼，
+每一個字都為一個符號。
+下面則是莊子某一段用 Big5 編碼所表示的中文。
+</para>
+<programlisting>
+<![CDATA[
+吾生也有涯，而知也無涯。以有涯隨無涯，殆已！已而為知者，殆而已矣！
+為善無近名，為惡無近刑，緣督以為經，可以保身，可以全生，可以養親，可以盡年。
+]]>
+</programlisting>
+</example>
+</para>
+</sect1>
+<sect1><title>文法</title>
+<para>
+但是一個語言除了為有限符號所組成的字串外，
+還有這些符號是如何組成字串的限制，
+沒有一個語言可以讓符號隨便串接。
+<emphasis>文法</emphasis>(Grammar)
+是用來描述符號是如何組成語言的字串，
+如本章提到的前後文無關文法即為一種常用來描述程式語言的文法。
+</para>
+<para>
+<emphasis>前後文無關文法</emphasis>(CFG)為一個四元組 (T,N,S,P)，
+其中 T 為終端符號的集合，
+N 表示非終端符號的集合，
+S 為啟始符號，
+P 為規則的集合，
+通常會以 V 表示 T 和 N 的聯集，
+稱為文法 G 的符號。
+</para>
+<para>
+一個<emphasis>規則</emphasis>(production)其例子如下：
+<programlisting>
+<![CDATA[
+A -> w,
+A:N, w:V*
+]]>
+</programlisting>
+於 -> 左邊的稱為規則的左式，
+一定為非終端符號，
+右邊的稱為規則的右式，為 V 的字串。
+上例的 A 為左式，
+而 w 為右式。
+其語意為 A 展開成 w 符號字串。
+</para>
+<example id="ArithmaticGrammar"><title>四則運算語言文法</title>
+<para>
+下面是一常見的的四則運算語言的文法，
+我們稱它為 G。
+<programlisting>
+<![CDATA[
+E -> E O E | D
+D -> 0123456789   
+O -> +-*/
+]]>
+</programlisting>
+其中它的非終端符號 N = {E, D, O}，
+終端符號為 T = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, +, -, *, /}，
+啟始符號 S = E，依本書慣例，
+啟始符號為第一個規則的右式。
+</para>
+</example>
+</sect1>
+<sect1><title>展開</title>
+<example id="derivation"><title>E 展開成 "1 + 1"</title>
+<programlisting>
+<![CDATA[
+E -> 
+E O E -> 
+E O D -> 
+E O 1 -> 
+E + 1 ->
+D + 1 ->
+1 + 1
+]]>
+</programlisting>
+<para>
+若要判斷某個字串是否屬於某個語言，
+第一種方法稱為展開法(Derivation)，
+展開法把每個文法規則看作為重寫規則，
+每一次展開時，
+則找出字串中的一個非終端符號， 
+並把此非終端符號以其在文法規則的右式來替換
+如上例，文法 G 的啟始符號 E，
+依文法 G 的描述，
+其右式可為 "E O E" 或是 D，
+上例是選擇 "E O E" 來替換 E，
+上述程序稱為<emphasis>由 E 展開成 "E O E"</emphasis>。
+任何由文法 G 啟始符號 E 套用文法規則，
+所展開的字串，
+稱為文法 G 的<emphasis>句式</emphasis>(sentential form)，
+若句式每個符號都為終端字元，
+稱為文法 G 的<emphasis>句</emphasis>(sentence)，
+<emphasis>句無法對它再作任何的展開</emphasis>。
+</para>
+<para>
+若某一個字串 W 為某文法 G 的終端字元所組成，
+且能從啟始字元 S 展開成 W，
+則字串 W 即屬於文法 G 所描述的語言，
+同時把此語言記作<emphasis>L(G)</emphasis>，
+L(G) 通常是無限集合。
+</para>
+<para>
+若每次都選取最右邊的非終端字元作展開，
+則稱為<emphasis>右展開</emphasis>。
+如上例 "E O E" 展開成 "E O D"，
+我們是展開最右邊的 E 符號。
+由啟始符號 S 利用右展開產生出來的字串，
+稱為<emphasis>右句式</emphasis>，
+<emphasis>右句式的右邊一定是終端元</emphasis>。
+上面則是用右展開證明 1 + 1 
+屬於上述的四則運算語言文法 G。
+</para>
+</example>
+</sect1>
+<sect1 id="Reduction"><title>簡化</title>
+<example id="reduction_ex"><title>"1 + 1" 簡化成 E</title>
+<programlisting>
+<![CDATA[
+1 + 1 -> 
+D + 1 ->
+E + 1 ->
+E O 1 -> 
+E O D -> 
+E O E -> 
+E
+]]>
+</programlisting>
+<para>
+判斷某個字串是否屬於某個語言的第二個方法稱為<emphasis>簡化</emphasis>
+(Reduction)，
+不同於展開是從啟始字元開始，
+簡化是從終端字串慢慢簡化成啟始字元，
+若一個終端字串 W 能簡化成文法 G 的啟始字元 S，
+則可證明 W 屬於語言 L(G)。
+</para>
+<para>
+如上例 "E O E" 可簡化成 "E"，
+而 "E O E" 依照規則 "E -> E O E"，可把 "E O E" 以右式替代成 E。
+"E O E" 這個句式稱作簡化的<emphasis>柄</emphasis>(handle)。
+</para>
+<para>
+如果簡化是依照右展開的反向順序，
+則稱為<emphasis>反向右簡化</emphasis>(Rightmost derivation in reverse)。
+</para>
+</example>
+</sect1>
+</chapter>

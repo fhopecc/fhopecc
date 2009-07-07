@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="Big5"?>
+<chapter><title>訊框中繼 Frame Relay</title>
+	<para>
+		訊框傳送(Frame Relay)為一由ITU-T發展制定、
+		並作為ISDN LAPD(Link Access Protocol on D-channel) 的
+		高速分封交換標準，
+		如今訊框傳送已被網路設備廠商及網路服務提供者接受成為 
+		ISDN 以外另一種廣域網路服務。多家網路廠商更於 1991 年一月成立 
+		FRF(Frame Relay Forum)，以便將訊框傳送各項相關服務予以標準化。
+	</para>
+	<para>
+		訊框傳送技術可允許同一條實體電路上建立多條邏輯通道，
+		即所謂的固定虛擬連接(PVC)，進而達到頻寬共享的目的。
+		在訊框傳送的網路中只做到 OSI 所定義的鏈路層(Data Link Layer)以下的功能，
+	  如 framing, addressing 及 error detection等，而以往在 X.25
+	  交換節點間所需執行的網路層(Network Layer)功能，如 routing ,
+	  flow control 及 error recovery等，在訊框傳送的網路中皆予
+		以省略。因此，訊框傳送交換節點的工作負擔 (overhead)得以精簡，
+		故可達成5 ~ 10倍於X.25 網路的工作量(throughput)。同時，
+	  用戶端介接速率更可提高到 E1(2.048 Mbps)。
+
+	  由於訊框傳送交換節點間不作用戶資料的 error recovery，故並不
+  	保證用戶資料在訊框傳送網路中可被無漏失(lossless)的傳送。因
+    此，所有用戶資料的 error recovery 皆應由上層的應用程式(如 
+	  router 及 TCP suite 的 FTP 或SMTP)來負責以確保用戶資料在傳
+	  送時的可靠性(reliability)。
+
+	  前面述及訊框傳送的網路只做到鏈路層的工作，故可視為一與協定
+	  無關(protocol independent)的網路服務，而承載任何型態、內容
+	  及通信協定的數據訊務 (data traffic)。在使用訊框傳送網路通
+	  信時，用戶端資料經過適當處理後(通常是由 router來達成)，便
+	  放入一長度可變的協定數據單元(PDU)中，稱作訊框 (Frame)。在
+	  訊框中包含所需之同步、控制及定址(addressing)等資訊，用戶使
+	  用其中的數據鏈路連接識別碼(DLCI)以識別所要到達的目的地。訊
+	  框傳送網路亦提供約定資訊速率(CIR)的功能，以保障使用者的最
+	  低通信速率。
+  </para>
+</chapter>

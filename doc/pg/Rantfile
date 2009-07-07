@@ -1,0 +1,131 @@
+require '../../src/ruby/xslt.rb'
+require "src/ruby/windot.rb"
+import "command"
+task :default => :jair25_1_15
+task :run =>:xslt
+DOT=sys['src/**/*.dot']
+
+AtHome=0  # in my born family home
+AtHome2=1 # in my wife's family
+AtOffice=3# in my office
+place=AtOffice
+
+docbk="/docbook-xsl-1.69.1"
+xalan_home="/xalan-j_2_7_0"
+case place
+when AtHome2
+  docbk="/docbook-xsl-1.71.1"
+when AtOffice
+  docbk="c:/docbook-xsl-1.71.1"
+  #docbk="c:/docbook-xsl-1.69.1"
+end
+
+sys.ignore ".svn", /~$/
+gen Command, "ProgLangConcept", [],
+	  "start build/html/pic/ProgLangConcepts.gif"
+gen Command, "localRun", [],
+	  "start src/station/helper_note_statics.xhtml"
+gen Command, "timeline_fhope", [],
+	  "start src/doc/timeline_fhope.xhtml"
+gen Directory, "build/html/pic"
+docbkxhtmls= %w(
+             build/html/db.xhtml 
+             build/html/datastructure.xhtml
+             build/html/computer_security.xhtml
+             build/html/docbookmathmltest.xhtml 
+             build/html/jair25_1_15.xhtml 
+				     build/html/med_rule_semantic.xhtml
+				     build/html/network.xhtml
+				     build/html/programming_language.xhtml
+				     build/html/se.xhtml
+            )
+docbksrc=proc {|tn| "src/doc/#{File.basename(tn,'.xhtml')}.xml"}
+gen Rule, '.xhtml' => docbksrc do |t|
+  docbkxslt=DocbkXSLT.new
+	docbkxslt.xalan_home="/xalan-j_2_7_0"
+	docbkxslt.xhtml_xsl="#{docbk}/xhtml/docbook.xsl"
+	docbkxslt.to_xhtml t.source, t.name
+end 
+
+task :xslt => :make_index_html
+task :xslt => :install_pic
+task :xslt => :install_css
+task :xslt => :dot
+task :xslt => ['build/html/pic', :conf_docbook_html] + docbkxhtmls
+task :jairppt do
+	cmd = "start src/powerpoint/jair25_1_15.ppt"
+	sys cmd
+end
+task :jair25_1_15 => [:xslt, :install_pic] do
+	cmd = "start build/html/jair25_1_15.xhtml"
+	sys cmd
+end
+task :dot do 
+  DOT.each do |f|
+	  gif="build/html/pic/#{File.basename(f,'dot')}gif" 
+	  dot2gif(f,gif)
+	end
+end
+task :install_pic do
+	picGlobs=%w(src/doc/pic/* nhi_award/*.JPG nhi_award/*.png)
+	sys.install sys[picGlobs], "build/html/pic"
+end
+task :install_css do
+	sys.install sys["src/css/*.css"], "build/html"
+end
+task :fo => [:install_docbook_file]do 
+	med='src/doc/med_rule_semantic.xml'
+  docbook=DocBook.new
+	docbook.to_pdf(med, 'test.pdf')
+	sys "start test.pdf"
+end
+task :conf_font do
+	fontname="&#x6a19;&#x6977;&#x9ad4;"
+	fontfile="c:/WINDOWS/Fonts/KAIU.TTF"
+  xslt = XSLT.new
+	xslt.add_font fontname, fontfile
+end
+task :install_docbook_file do
+	docbk="/docbook-xsl-1.69.1"
+  sys.cp "src/docbook/fo/bg5docbook.xsl", "#{docbk}/fo"
+  sys.cp "src/fop/config.xml", "#{XSLT.new.fop_home}/conf"
+end
+task :conf_docbook_html do
+	sys.install "src/docbook/xhtml/param.xsl", "#{docbk}/xhtml"
+	sys.install "src/docbook/common/zh_tw.xml", "#{docbk}/common"
+end
+task :install_project do
+	fs = sys["../**/*"]
+  #fs.exclude("**/.svn/**")
+  #fs.exclude("*~") 
+	#sys.cp_g "./**/*", "/fhopecc"
+end
+task :conf_vim do
+  vimhome="c:/vim"
+	_vimrc="src/vim/_vimrc"
+	fhope_vim="src/vim/fhope.vim"
+  sys.install _vimrc, vimhome
+  sys.install fhope_vim, vimhome
+end
+task :test_http do
+  xalan_f= "http://apache.stu.edu.tw/xml/xalan-j/xalan-j_2_7_0-bin.zip"
+  sys.wget xalan_f
+end
+task :make_index_html do
+  f = File.new("build/html/index.html", "w")
+	f << "<html>\n"
+  f << "<head>\n"
+  f << "<title>fhope's documents</title>\n"
+  f << "</head>\n"
+  f << "<body>\n"
+  f << "<h1>fhope's documents</h1>\n"
+  f << "<ol>\n"
+	docbkxhtmls.each do |fn|
+    lf=File.basename(fn) # local file name
+    f << "<li><a href='#{lf}'>#{lf}</a></li>\n"
+	end
+  f << "</ol>\n"
+  f << "</body>\n"
+  f << "</html>\n"
+	f.close
+end

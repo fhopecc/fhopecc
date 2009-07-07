@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="Big5"?>
+<!--<!DOCTYPE DocBook>-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+[
+<!ENTITY sorting SYSTEM "sorting.chapter.xml">
+<!ENTITY % MATHML.prefixed "INCLUDE">
+<!ENTITY % MATHML.prefix "mml">
+<!ENTITY % equation.content "(alt?, (graphic+|mediaobject+|mml:math))">
+<!ENTITY % inlineequation.content 
+                "(alt?, (graphic+|inlinemediaobject+|mml:math))">
+<!ENTITY % mathml PUBLIC "-//W3C//DTD MathML 2.0//EN"
+        "http://www.w3.org/TR/MathML2/dtd/mathml2.dtd">
+%mathml;
+]>
+<book>
+<chapter><title>測量演算法</title>
+<para>	
+演算法的目的在於解題。
+</para>
+<sect1><title>計數</title>
+演算法效率的分析，跟計數有很大的關係
+漸近表示法	
+0.1.1	Big-O	
+	若存在 x0 > 0 和 M，使得當 x > x0 時，則 |f(x)| &lt;= M|g(x)|，此
+	時記作 f(x) = O(g(x)) 當 x->infinite
+0.2	遞迴關係	
+	函數形式上一群對映的集合，當函數的每個元素都可由函數內其它
+	的元素定義的話，稱作遞迴函數。
+0.2.1	遞迴等式	
+	通常遞迴等式包括了兩類元素
+	*根元素 (基本條件) 不根據其它元素而預先定義的元素	
+	*遞迴元素 (遞迴步驟) 根據其它元素而定義的元素	
+
+	若將用來定義遞迴元素 x 的元素 y，則稱 y 為 x 的祖先，這層
+	關係使得可用樹狀結構來表示遞迴關係
+	
+	*例1.費伯納西 Fibonacci numbers		
+	f(n)=f(n-1)+f(n-2) 當 n > 1 -> 遞迴元素定義
+	    =1		   當 n = 1 -> 以下是根元素定義
+	    =0		   當 n = 0	
+</sect1>
+</chapter>
+<chapter><title>演算法設計模型</title>	
+1.3	演算法的設計模式	
+1.3.1	分而治之 divide and conquar	
+	把問題分成容易求解的子問題
+	解出子問題
+	合併子問題的解答形成主問題的解答
+
+1.3.2	動態設計 Dynamic programming	
+	*重疊子問題 Overlapping subproblems	
+	指問題的解答可由子問題的解答求出。	
+	如 Fibonacci 序列，可寫成 F(n)=F(n-1)+F(n-2)。
+	即 F(n) 可分成子問題 F(n-1) 及 F(n-2) 並由子問題
+	的和求出解答。
+	*最佳化子結構 Optimal substrutures	
+	指問題之最佳解可由其子問題的最佳解求出。
+	*記憶 Memorization	
+	指程式可記下已計算出的子問題解，並用來解原問題。
+1.3.3	貪婪演算法	
+</chapter>
+&sorting;
+<chapter><title>搜尋</title>	
+3.1	雜湊表	
+3.2	二元搜尋樹	
+3.3	B-Tree	
+3.4	圖	
+3.5	智慧搜尋	
+	S:p->s
+	搜尋是找出一問題的解答，故可視為輸入一問題並傳出一解
+	答的函數。
+	值域 s 為所有可能解答的集合，搜尋會在 s 中找尋到答
+	合問題 p 限制的解答並傳回去。
+	
+	*一般搜尋 Uniformed Search	
+	us 指不考慮問題的特殊性質，只考慮其一般性質。
+	目前可依其抽象結構分成三大類：
+	串列搜尋 List Search
+	樹搜尋 Tree Search
+	圖搜尋 Graph Search
+	
+	*智慧搜尋 Informed Search	
+	is 以問題的某些性質作為導引，搜尋解答。
+
+	*競賽搜尋 Adversarial Search	
+	as 以打倒對方為考慮，尋求解答。
+
+	*限制滿足 Constraint Search	
+	
+3.1	雜湊表	
+3.1.1	雜湊函數	
+3.1.2	碰撞處理	
+
+	H: K->A 其中 K 鍵值，A 位址。
+	雜湊表是，輸入鍵值至雜湊函數，其為資料某面向的資訊，
+	計算出資料儲存位址。其平均運算時間為 O(n)。
+	
+	為滿足雜湊函數的需求，雜湊函數其儲存實體必需要能依位
+	址隨機存取，通常使用陣列作為儲存實體。
+	
+	*儲存單位	
+	每一個儲存位址稱為桶 bucket，桶內可儲放存一物件的地方
+	稱為槽 slot。若以表格，則桶可視為一列資料，槽為此列的
+	欄位。
+
+	*載入因子 loading factor	
+	載入因子 lf=n/bs，為插入物件和儲存空間的比值。
+
+</chapter>
+<chapter><title>線性結構</title>
+4.1	陣列	
+4.2	鏈結	
+4.3	堆疊	
+4.4	佇列	
+
+4.1	陣列	
+	陣列是緊密性的線性結構，所有的元素均依儲存位置順序集合
+	儲存在一起。
+	陣列通常是在程式語言中，以連續記憶體配置來實作。
+	以陣列為基本結構的語言有以下：
+	EX C
+4.2	鏈結	
+	鏈結是鬆散性的線性結構，其元素利用指標來指出下個元素的
+	儲存位址，故元性並無儲存在一個記憶體區塊中。
+	以鏈結為基本結構的語言有以下：
+	EX LISP
+4.3	堆疊	
+	堆疊為後進先出 LIFO 的結構，常用來實作遞迴函數。
+	堆疊是機器語言的基本結構。
+4.4	佇列 Queue	
+	佇列為先進先出 FIFO 的結構，常用來實作工作排程。
+4.4.1	環狀佇列 Circular Quere		
+</chapter>
+<chapter><title>壓縮</title>
+9.0	壓縮方法	
+</chapter>
+</book>

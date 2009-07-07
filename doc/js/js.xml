@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="big5"?>
+<!--<!DOCTYPE DocBook>-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+[
+<!ENTITY ExcuteJavascript SYSTEM "ExcuteJavascript.chapter.xml">
+<!ENTITY Variable SYSTEM "Variable.chapter.xml">
+<!ENTITY ControlStructure SYSTEM "ControlStructure.chapter.xml">
+<!ENTITY ObjectModel SYSTEM "ObjectModel.chapter.xml">
+]>
+<book><title>JavaScript 手冊</title>
+&ExcuteJavascript;
+&Variable;
+&ControlStructure;
+&ObjectModel;
+</book>

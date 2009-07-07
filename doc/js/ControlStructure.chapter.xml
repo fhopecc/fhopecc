@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>控制結構</title>
+<para>
+本節介紹 JavaScript 的程式控制結構，
+依照這些控制結構，我們就可以依照不同的狀況，
+來控制程式的執行流程。
+</para>
+<sect1><title>if</title>
+<para>
+在條件敘述中，最常見的就是 if 敘述，其一般格式如下：
+<programlisting>
+if (condition) { codes }
+</programlisting>
+在上述格式中，若 condition 的值是 true 或非零，
+則執行大刮號中的程式碼；反之，則不執行。
+若要在判斷條件不成立時，能夠執行另一段程式碼，則可用 if-else 敘述： 
+<programlisting>
+if (condition) { code1 } else { code2 }
+</programlisting>
+在上述格式中，若 condition 的值是 true 或非零，
+則執行 code1；反之，則執行 code2。
+<figure id="ifElseEx"><title>諂媚的話</title>
+<programlisting>
+<![CDATA[
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5">
+</head>
+
+<body>
+<h2 align=center>if-else 敘述</h2>
+<hr>
+
+<script>
+function flatter() {
+	a = prompt("請輸入您的年齡：", 30);
+	if (a<30)
+		alert("您只有 "+a+ " 歲，真是青年才俊啊！");
+	else
+		alert("您年過30，想必是事業有成了！");
+}
+</script>
+<a href="javascript:flatter()">諂媚的話</>
+
+<hr>
+</body>
+</html>
+]]>
+</programlisting>
+</figure>
+<xref linkend="ifElseEx"/>可根據使用者輸入的年齡，
+而回應兩種不同諂媚的話。
+可注意到的是在條件成立（或不成立）時，
+只需執行一個敘述，那就可以省略對應的大刮號。
+</para>
+</sect1>
+<sect1><title>switch</title>
+<para>
+若要進行多種條件的比對，則可以反覆使用 if-else 敘述，
+但是這樣會造成程式碼的雜亂，另一個比較好的方法，
+則是使用 switch 敘述，	
+<figure id="switchEx"><title>switch 範例</title>
+<programlisting>
+<![CDATA[
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5">
+</head>
+
+<body>
+<h2 align=center>switch 敘述</h2>
+<hr>
+
+<script>
+today = new Date();	// 取得「今天」的物件
+day = today.getDay();	// 取得今天是星期幾
+switch (day) {
+	case 0:
+		document.write("<p>今天是星期天耶，可以睡到12點嘍！");
+		break;
+	case 1:
+		document.write("<p>今天是星期一...GDIM (God damned it's Monday)...");
+		break;
+	case 2, 3:
+		document.write("<p>今天是星期二或三，離週末還很遠呢！繼續工作中...");
+		break;
+	case 4:
+		document.write("<p>今天是星期四...星期五為什麼還沒到？");
+		break;
+	case 5:
+		document.write("<p>今天是星期五喔，TGIF (Thank God it's Friday) !");
+		break;
+	case 6:
+		document.write("<p>今天星期六喔，誰要跟我去血拼？");
+		break;
+	default:
+		document.write("<p>Error!");
+}
+</script>
+
+<hr>
+</body>
+</html>
+]]>
+</programlisting>
+</figure>
+<xref linkend="switchEx"/>會判斷今天是星期幾，並印出相關的訊息，
+在<xref linkend="switchEx"/>中，day 的值是從 0 到 6，
+分別代表星期日、星期一、星期二、...、星期六，
+因此我們可以使用 day 的值，來印出不同的訊息。
+需要注意的是，switch 會依序比對每一個 case 指令的條件，
+並在條件滿足後，執行相關的敘述。
+若需要在符合某個特定條件後就不再比對，
+此時就要在相關敘述最後面加上 break 敘述。
+此外，default 之後的敘述，只會在所有條件均不符合時，才會被執行。
+如果不加上 break，則系統會在符合某一個特定條件後，
+就執行符合下列其他條件的敘述，產生很奇怪的結果。
+</para>	
+</sect1>
+<sect1><title>for</title>
+<para>
+迴圈敘述(Loop Statement)可以讓電腦反覆地執行某一段程式碼。
+for 迴圈敘述，其格式和 C 語言的 for 迴圈很類似，基本格式如下：
+<programlisting>
+for ([指定一個計數變數的初值]; [測試式]; [更新計數變數的動作]) { 迴圈內部敘述 } 
+</programlisting>
+for 敘述會指定一個計數變數的初值、一個條件式，
+以及一個會更新計數變數的動作。在每一次要執行迴圈之前，
+都會判斷條件式的值。如果條件式為真，迴圈裡的程式碼就會執行；
+反之，如果沒有通過，就不會執行，並直接跳到迴圈之後的第一行程式碼。
+在執行迴圈之後，就會進行更新這個計數變數的動作，然後再開始下一個迭代。
+<figure id="forEx"><title>變大的 Hello World</title>
+<programlisting>
+<![CDATA[
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5">
+</head>
+
+<body>
+<h2 align=center>由 for 迴圈來產生 5 個由小變大的  "Hello World!"</h2>
+<hr>
+
+<script>
+// 由 for 迴圈來產生 5 個由小變大的  "Hello World!"
+for (i=1; i<=5; i++) {
+	document.write("Font size = " + i + " ===> ");
+	document.write("<font color=green size=" + i + ">Hello World!</font><br>");
+}
+</script>
+
+<hr>
+</body>
+</html>
+]]>
+</programlisting>
+</figure>
+如<xref linkend="forEx"/>使用 for 迴圈來印出 5 個依次變大的 「Hello world！」： 
+</para>
+</sect1>
+<sect1><title>for in</title>
+<para>
+JScript 提供另一種特殊類型的 for 迴圈，
+稱為 for-in 迴圈，可用於處理一個物件的所有屬性。
+在 for-in 迴圈中的計數變數是一個字串，而不是一個數字，
+此字串變數在每次迴圈代表一個特定的屬性名稱，因此我們可以使用此類迴圈，
+窮舉出一個物件的所有性質。
+<figure id="for_inEx"><title>列舉 document 物件的屬性</title>
+<programlisting>
+<![CDATA[
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5">
+</head>
+
+<body>
+<h2 align=center>使用 for-in 迴圈來列舉 document 物件的屬性</h2>
+<hr>
+
+<script>
+// 列舉 document 物件中的所有屬性
+for (prop in document)
+	document.write("<br>document." + prop + " = " + document[prop]);
+</script>
+
+<hr>
+</body>
+</html>
+]]>
+</programlisting>
+</figure>
+每個網頁都有一個 document 物件來代表此網頁，
+因此在<xref linkend="for_inEx"/>，
+我們使用 for-in 迴圈來列舉 document 物件的所有屬性。
+</para>
+</sect1>
+<sect1><title>while</title>
+<para>
+另一個常用到的迴圈敘述是 while 迴圈，
+其用法類似 for 迴圈，基本格式為： 
+<programlisting>
+while (條件式) { 迴圈內部敘述 }
+</programlisting>
+只要條件式為真，while 迴圈的內部敘述就會反覆一再被執行。
+<figure id="whileEx"><title>產生亂數</title>
+<programlisting>
+<![CDATA[
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5">
+</head>
+
+<body>
+<h2 align=center>while 迴圈</h2>
+<hr>
+
+<script>
+x=Math.random();	// 產生一個介於 0 和 1 之間的亂數
+while (x<=0.8) {
+	document.write("<br>"+x);
+	x=Math.random();
+}
+document.write("<br>"+x);
+</script>
+
+<hr>
+</body>
+</html>
+]]>
+</programlisting>
+</figure>
+如<xref linkend="whileEx"/>我們利用 while 迴圈來反覆印出隨機變數值，
+直到所遇到的隨機變數值大於 0.8 才停止。
+</para>
+</sect1>
+<sect1><title>do while</title>
+<para>
+do-while 迴圈的基本格式如下： 
+<programlisting>
+do { 迴圈內部敘述 } while (條件式)
+</programlisting>	
+while 迴圈是先判斷條件式，再決定是否執行迴圈內部敘述；
+而 do-while 迴圈是先執行迴圈內部敘述後，再判斷條件式，
+決定是否繼續執行迴圈，因此 do-while 迴圈至少會執行一次迴圈內部的程式碼。
+<figure id="doWhileEx"><title>產生亂數</title>
+<programlisting>
+<![CDATA[
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5">
+</head>
+
+<body>
+<h2 align=center>do-while 迴圈</h2>
+<hr>
+
+<script>
+do {
+	x=Math.random();	// 產生一個介於 0 和 1 之間的亂數
+	document.write("<br>"+x);
+} while (x<=0.8);
+</script>
+
+<hr>
+</body>
+</html>
+
+]]>
+</programlisting>
+</figure>
+如<xref linkend="doWhileEx"/>我們利用 do-while 迴圈來重寫
+<xref linkend="whileEx"/>，
+程式碼會更簡化一些。
+</para>
+</sect1>
+<sect1><title>break</title>
+<para>
+若要從迴圈中即刻跳出，可用 break 敘述，
+例如在的範例中，我們可以改寫如下：
+<figure id="breakEx"><title>產生亂數</title>
+<programlisting>
+<![CDATA[
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5">
+</head>
+
+<body>
+<h2 align=center>while 迴圈：break 的使用</h2>
+<hr>
+
+<script>
+while (1) {
+	x=Math.random();	// 產生一個介於 0 和 1 之間的亂數
+	document.write("<br>"+x);
+	if (x>0.8)
+		break;
+}
+</script>
+
+<hr>
+</body>
+</html>
+]]>
+</programlisting>
+</figure>
+如<xref linkend="breakEx"/>我們利用 break 迴圈來重寫
+<xref linkend="whileEx"/>。
+</para>
+</sect1>
+<sect1><title>continue</title>
+<para>
+在另一種情況下，我們可能需要結束此次迴圈的執行，
+並立刻跳至下一個迴圈的開始位置來執行，此功能可由 continue 來達成。
+<figure id="continueEx"><title>產生亂數</title>
+<programlisting>
+<![CDATA[
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5">
+</head>
+
+<body>
+<h2 align=center>while 迴圈：continue 的使用</h2>
+<hr>
+
+<script>
+for (i=0; i<100; i++) {
+	a=Math.random();	// 產生一個介於 0 和 1 之間的亂數
+	if (a<=0.95)
+		continue;
+	document.write("<br>"+a);
+}
+</script>
+
+<hr>
+</body>
+</html>
+]]>
+</programlisting>
+</figure>
+如<xref linkend="for_inEx"/>在處理 100 個亂數時，
+只印出數值大於 0.95 的亂數。
+</para>
+</sect1>
+<qandaset>
+	<qandaentry>
+		<question>
+			<para>
+				用 if-else 請寫一個媽媽程式，可根據兒子輸入的成績作回答，
+				若考 100 分，則媽媽會說：「我就知道你是天才！」，
+				若考 60 分以上，則媽媽會說：「還不錯！有及格喔！」，
+				若考 60 分以下，則媽媽會說：「你要加油了喔！」。
+			</para>
+		</question>
+	</qandaentry>
+	<qandaentry>
+		<question>
+			<para>
+				把媽媽程式改成用 switch 來寫。
+			</para>
+		</question>
+	</qandaentry>
+  <qandaentry>
+		<question>
+			<para>
+				寫出一個程式，若今天的日期是結婚紀念日（應該沒有沒結婚的吧），
+				則網頁印出「我愛妳，老公（老婆），你知道今天是什麼日子嗎？」
+			</para>
+		</question>
+	</qandaentry>
+  <qandaentry>
+		<question>
+			<para>
+				用 for 來印出 1-100 的 fibonacce 數在網頁上。
+			</para>
+		</question>
+	</qandaentry>
+  <qandaentry>
+		<question>
+			<para>
+				用 while 寫出一個網頁，除非輸入「你真帥」，不然會一直碰視窗的網頁。
+			</para>
+		</question>
+	</qandaentry>
+</qandaset>
+</chapter>

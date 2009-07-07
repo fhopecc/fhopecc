@@ -1,0 +1,9 @@
+digraph DBTransactionSTD {
+  node[fontname="標楷體"];
+  edge[fontname="標楷體"]
+  rankdir="LR"
+  size="7,7";
+  "初始" -> "交易中"[label="交易啟動"]
+  "交易中" -> "初始"[label="交易取消"]
+  "交易中" -> "交付"[label="交易成功"]
+}

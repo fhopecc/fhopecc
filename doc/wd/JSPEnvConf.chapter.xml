@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>JSP 環境設定</title> 
+<para>
+要建立 JSP 的環境，要先依序安裝以下的軟體：
+<procedure><title>軟體安裝順序</title>
+<step>安裝 JDK(Java Development Kit)</step>
+<step>安裝 Tomcat HTTP 伺服器</step>
+<step>測試 Access 的 ODBC</step>
+</procedure>
+<procedure><title>安裝 JDK</title>
+<step>
+<figure id="ins_jdk_1"><title>選取 JDK 安裝程式</title>
+<graphic width="800" fileref="wd/ins_jdk_1.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_jdk_2"><title>版權宣告，請選 Accept</title>
+<graphic width="800" fileref="wd/ins_jdk_2.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_jdk_3"><title>安裝套件選項，請選 Next</title>
+<graphic width="800" fileref="wd/ins_jdk_3.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_jdk_4"><title>是否安裝 JRE，請選 Next</title>
+<graphic width="800" fileref="wd/ins_jdk_4.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_jdk_5"><title>JDK 安裝成功，請選 Finish</title>
+<graphic width="800" fileref="wd/ins_jdk_5.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_jdk_6"><title>看到 REDME 的網頁</title>
+<graphic width="800" fileref="wd/ins_jdk_6.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_jdk_7"><title>開啟命令列，測試是否成功</title>
+<graphic width="800" fileref="wd/ins_jdk_7.PNG"/>
+</figure>
+</step>
+</procedure>
+<procedure><title>安裝 Tomcat</title>
+<step>
+<figure id="ins_tomcat_1"><title>選取 Tomcat 安裝程式</title>
+<graphic width="800" fileref="wd/ins_tomcat_1.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_tomcat_2"><title>歡迎畫面，請選 Next</title>
+<graphic width="800" fileref="wd/ins_tomcat_2.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_tomcat_3"><title>版權宣告，請選 I Agree</title>
+<graphic width="800" fileref="wd/ins_tomcat_3.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_tomcat_4"><title>選擇安裝元件，請選 Next</title>
+<graphic width="800" fileref="wd/ins_tomcat_4.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_tomcat_5"><title>選擇安裝位置，請選 Next</title>
+<graphic width="800" fileref="wd/ins_tomcat_5.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_tomcat_6"><title>輸入管理者帳號密碼，再選 Next</title>
+<graphic width="800" fileref="wd/ins_tomcat_6.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_tomcat_7"><title>設定 JRE 位置，再選 Install</title>
+<graphic width="800" fileref="wd/ins_tomcat_7.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_tomcat_8"><title>Tomcat 安裝成功，請選 Finish</title>
+<graphic width="800" fileref="wd/ins_tomcat_8.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_tomcat_9"><title>開啟 REDME 檔案</title>
+<graphic width="800" fileref="wd/ins_tomcat_9.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="ins_tomcat_10"><title>輸入
+ http://localhost:8080，測試是否能看到歡迎畫面</title>
+<graphic width="800" fileref="wd/ins_tomcat_10.PNG"/>
+</figure>
+</step>
+</procedure>
+<procedure><title>測試 Access 的 ODBC</title>
+<step>
+<figure id="test_odbc_1"><title>將 test.mdb 移到目錄 c:\</title>
+<graphic width="800" fileref="wd/test_odbc_1.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="test_odbc_2"><title>在 tomcat 的 webapps 下，建立 wd 目錄</title>
+<graphic width="800" fileref="wd/test_odbc_2.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="test_odbc_3"><title>將 testODBC.jsp 拷貝到 wd 目錄下</title>
+<graphic width="800" fileref="wd/test_odbc_3.PNG"/>
+</figure>
+</step>
+<step>
+<figure id="test_odbc_4"><title>在 IE 輸入
+http://localhost:8080/wd/testODBC.jsp 看是否能看到測式畫面</title>
+<graphic width="800" fileref="wd/test_odbc_4.PNG"/>
+</figure>
+</step>
+</procedure>
+</para>
+</chapter>

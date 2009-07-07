@@ -1,0 +1,17 @@
+digraph web_tech_dep {
+  rankdir="LR"
+  node[fontname="TimesNewRoman"]
+  edge[fontname="TimesNewRoman"]
+  Java -> Servlet
+  HTTP -> Servlet -> JSP
+  HTML -> JSP
+  JavaScript -> JSP
+  HTML -> JavaScript -> DOM
+  XML -> AJAX
+  JavaScript -> AJAX
+  DOM -> AJAX
+  Java -> WebService
+  XML -> WebService
+  HTTP -> WebService
+  HTML -> DOM
+}

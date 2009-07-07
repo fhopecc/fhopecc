@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="Big5"?>
+<!--<!DOCTYPE DocBook>-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+[
+<!ENTITY HereDocument SYSTEM "HereDocument.chapter.xml">
+]>
+<book><title>Ruby 程式語言</title>
+&HereDocument;
+</book>

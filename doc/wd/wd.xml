@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="Big5"?>
+<?xml-stylesheet type="text/xsl" href="../html/docbook.xsl"?>
+<!--<!DOCTYPE DocBook>-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+[
+<!ENTITY wd.overview SYSTEM "overview.chapter.xml">
+<!ENTITY JSPEnvConf SYSTEM "JSPEnvConf.chapter.xml">
+<!ENTITY JSP2.0EnvConf SYSTEM "JSP2.0EnvConf.chapter.xml">
+<!ENTITY % wd.include SYSTEM "entity.inc">
+%wd.include; 
+]>
+<book><title>網站開發技術</title>
+&wd.overview;
+&JSP2.0EnvConf;
+</book>

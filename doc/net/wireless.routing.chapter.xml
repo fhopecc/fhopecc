@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="Big5"?>
+<chapter><title>隨意式無線網路被動式路由協定研究比較</title>
+<abstract>
+本研究簡介兩種隨意式無線網路的被動式路由協定，
+AODV 及 DSR。AODV 修正傳統的路徑表，
+並在控制封包上加上序號來達到被動式路由的功能，
+而 DSR 使用源點選徑來實作被動式路由。
+最後本研究由幾個屬性比較這兩個路由協定。
+</abstract>
+<sect1><title>動機及背景</title>
+<para>
+拜積體電路技術的莫大進步，使得行動運算裝置體積越來越小，
+但運算能力卻越來越強大，
+我們生活的環境中，已經悄然地多出了許多行動運算裝置。
+所以若環境中不同的行動運算裝置能有效地互相溝通，
+相互合作，一定會產生莫大的應用，
+而目前我們可以觀察到行動裝置網路、
+感測器網路都是相當熱門的研究題材。
+</para>
+<para>
+網路連接的維護及效率，路由演算法相當重要，
+行動裝置網路、感測器網路其路由環境都是隨意式無線網路，
+故本文選擇隨意式無線網路作為研究主題。
+</para>
+<para>
+原本口頭報告我是探討 STAR 及 DSR 協定，
+並以被動式及主動式路由的異同比較為主要研究目的，
+但教授提醒隨意式無線網路目前研究都是以被動式路由協定為主，
+故在此報告將 STAR 協定的討論由 AODV 協定取代，
+比較 AODV 及 DSR 協定，
+並從中探討為何 AODV 可以成為 IETF 的建議標準。
+</para>
+</sect1>
+<sect1><title>隨意式無線網路的路由環境</title>
+<para>
+隨意式無線網路的路由環境具有幾個特徵<xref linkend="STAR"/>：
+<itemizedlist>
+<listitem>網路上每個節點沒有整個網路拓撲的知識</listitem>
+<listitem>網路拓撲變動頻繁</listitem>
+<listitem>節點通常沒有充份的電源提供</listitem>
+<listitem>節點的計算能力較低</listitem>
+<listitem>無線的頻寬成本較高</listitem>
+</itemizedlist>
+隨意式無線網路路由必須解決上述的環境限制，
+是故路由演算法通常會有以下的考量：
+<itemizedlist>
+<listitem>降低控制訊息佔用的頻寬大小，以求頻寬的最大利用</listitem>
+<listitem>節點之路徑表必須盡可能的小，才能降低耗能，
+並在計算能力較低的機器執行</listitem>
+<listitem>網路拓撲變動時，路徑表的聚合時間要快，
+才能反應變動頻繁的網路拓撲</listitem>
+</itemizedlist>
+</para>
+</sect1>
+<sect1><title>被動式路由協定</title>
+<para>
+路由器取得路由訊息的方法有兩種，如下所示：
+<itemizedlist>
+<listitem>主動式路由協定的路由器定時發出控制訊息，
+來維護路徑表在最新的狀態，因此每個送出去的封包可立刻得知到達目的地的路徑，
+不會有任何的延遲。
+但是這種協定必須週期性的去廣播訊息，
+所以相當的浪費無線網路的頻寬與行點節點的電源，
+但是如果要降低廣播所造成大量頻寬的消耗，
+就要拉長每次廣播的間隔時間，
+這又將會造成路徑表無法即時反應當下網路拓樸的變化
+</listitem>
+<listitem>被動式路由協定的路由器只有在送出封包的當下，
+且目的路徑資訊不明時，
+才啟動路徑搜尋演算法，來更新路徑表，
+此協定的最大好處就是頻寬的使用量較小，
+但當節點欲送封包時未必能從路徑表找到路徑，
+所以平均延遲時間較長
+</listitem>
+</itemizedlist>
+由上所述，為了降低控制訊息的頻寬負控以及快速反應變動的網路拓撲，
+隨意式網路通常會使用被動式路由協定。
+</para>
+</sect1>
+<sect1><title>AODV 協定</title>
+<para>
+Ad hoc On-Demand Distance Vector 簡稱 AODV，
+其定義了四種訊息<xref linkend="AODV"/>：
+<itemizedlist>
+<listitem>RREQ
+<para>
+路徑要求訊息(Route Request)，啟動路徑探索程序時使用。
+</para>
+</listitem>
+<listitem>RREP
+<para>
+路徑回覆訊息(Route Response)，節點找到路徑回覆源點時使用。
+</para>
+</listitem>
+<listitem>RERR
+<para>
+路徑錯誤訊息(Route Error)，節點發現路徑損壞回覆源點時使用。
+</para>
+</listitem>
+</itemizedlist>
+其能讓行動節點很快的獲得許多到達目的地路徑，
+而且並不要求這些行動節點定時去維護這些到目的路徑，
+僅當網路拓樸有所改變的時候，需快速回應，
+並作出應對的措施。
+</para>
+<sect2><title>鄰點</title>
+<para> 
+若兩行動節點可以直接溝通，則稱他們互為鄰點，
+每個行動節點會定期的去局部廣播 Hello 訊息給鄰近的行動節點，
+來維護局部連接，當鄰點聽到 Hello，
+則代表這些行動節點可以直接傳送訊息，不需透過中間節點。
+如果沒有聽到 Hello，則發出 Hello 節點可能必須使用某些特殊的技巧，
+去決定後繼點是否是在這個節點可以溝通的範圍裡。
+而且我們也可以經由 Hello 的作用去得知在傳輸範圍內有新的行動節點加入，
+並將其加入路徑表中。
+</para>
+</sect2>
+<sect2><title>序號</title>
+<para>
+AODV 節點維護一個整數值，稱為序號，
+當節點發送 RREQ 時會遞增序號值，
+所以，當另一個節點收到一個 RREQ 之後，
+可用序號檢查之前是否也有收過的封包，
+若收過了，就將此封包丟棄，
+如此可以防止 RREQs 的造成廣播風暴，
+以及各節點路徑表形成路徑迴圈的情況。
+</para>
+<para>
+而回覆 RREP，會比較本身及 RREQ 的目的序號，
+以兩者較大值更新序號，並加入到 RREP 標頭中。
+每個節點的路由表的每一個目的也包括一個目的序號，
+而 RREQ 及 RREP 均有一個目的序號欄位，
+用來判斷路徑訊息是否過期，
+當目前節點的目的序號大於包含在 RREQ 裡面的序號，
+稱為<emphasis>新鮮路徑(fresh enough route)</emphasis>。
+</para>
+</sect2>
+<sect2><title>路由表</title>
+<para> 
+AODV 的路由表與傳統路由表類似，
+每個目的佔有一列，稱為此目的的路由項目，
+記錄的資訊包括後繼點(next hop)、
+權重、以及 AODV 定義的目的序號欄位。
+當節點要送出封包時，
+會先從路由表找出目的的路由項目，
+若有則把資料傳到後繼點，
+若找不到，則會進行探索路線程序，
+並更新經過節點的路由表。
+</para>
+</sect2>
+<sect2><title>探索路徑</title>
+<para>
+當一節點欲傳送封包到某一個目的，
+封包在 IP 標頭建立時，便會去檢查它的路徑表，
+看是否有到達目的的路徑項目，
+若找不到，
+便會啟動<emphasis>路徑探索(route discovering)</emphasis>程序。
+</para>
+<para>
+路徑探索程序如下，
+源點泛濫 RREQ，
+收到 RREQ 的轉送點會先去檢查目的位址是否與自己相同，
+若相同，
+則先依據 RREQ 的目的序號去更改路徑表，
+而且由於每一個轉送點接收了 RREQ 的要求後，
+就會保留反向的路徑項目，故可從目的單播 RREP 回源點。
+</para>
+<para>
+若目的位址不是轉送點位址，
+再看看自已是否有一條新鮮路徑可以到達目的，
+若有則回覆 RREP 到源點，
+返回途中的節點根據 RREP 的目的序號去更改路徑表，
+最後源點的路徑表就含有到達目的的項目，
+然後啟動資料封包傳送程序。
+</para>
+<para>
+若以上條件都不符，先依據封包內目的序號修改路徑表，
+再把它泛濫出去。
+</para>
+</sect2>
+<sect2><title>錯誤控制</title>
+<para>
+行動節點會在下列的兩種情況下，發出 RRER： 
+<orderedlist>
+<listitem><emphasis>連接中斷</emphasis>，
+指行動節點偵測到路徑表裡的一個活動路徑，
+無法與其後繼點做溝通。
+</listitem>
+<listitem>
+若行動節點獲得一個<emphasis>資料封包</emphasis>，
+但它並沒有一個活動路徑，
+可以到達資料封包目的。
+</listitem>
+</orderedlist>
+</para>
+<para>
+連接中斷以<emphasis>局部修復(Local Repair)</emphasis>來處理，
+當活動路徑突然發生連接中斷，
+也就是說當節點 MN1 可以轉交資料封包給它鄰近的某一個節點 MN2，
+再經由它轉交資料封包給其它節點 MN3，
+直到轉送到目的節點。
+但是若 MN3 突然中斷，此時 MN2 就無法偵測到 MN3，
+便發生連接中斷的情況，
+於是 MN2 就局部廣播一個小範圍 RREQ，
+去尋找 MN3，
+並且限制了RREQ 所能經過的節點數。
+即給定 hop count 一個上限值，
+hop count 可視為一個可變動的參數，
+若網路結構變動很小，hop count 的值不必很大，
+反之 hop count 的值就必須加大，不過網路若真的變動的很劇烈，
+則此方法就不適用了。
+若發送了這個 RREQ 後還是找不到一條到達 MN3 路徑，
+則可能藉由別條路徑來到達我們的目的節點。
+</para>
+</sect2>
+</sect1>
+<sect1><title>DSR 協定</title>
+<sect2><title>源點選徑</title>
+<para>
+<emphasis>源點選徑</emphasis>(source routing)
+指每個資料封包其標頭均帶有從源點到目的路徑，
+所要經過的每一點的鏈結串列，
+格式如同 [src -> a -> b -> ... -> dst]，
+上面這個串列稱為路線。
+是故源點可決定資料封包要經過的節點。
+<xref linkend="DSR"/>
+</para>
+</sect2>
+<sect2><title>路線快取</title>
+<para>
+每個節點維護一個<emphasis>路線快取</emphasis>(route cache)，
+當節點要送出封包時，會從路線快取找出需要的路線。
+若找不到，則會進行探索路線程序，
+並把找出的路線加入快取中。
+</para>
+</sect2>
+<sect2><title>探索路線</title>
+<para>
+進行探索路線的源點，先泛濫 RREQ 封包，
+每個收到 RREQ 的節點，若目的為自已，
+或本身路線快取具有指定的目的，
+則回覆 RREP 到源點端，
+否則繼續泛濫 RREQ。
+</para>
+<para>
+DSR 為源點選徑，故 RREQ 及 RREP 節點標頭有路線欄位，
+RREQ 會把經過的節點加入到其路線中，
+若無線網路環境各節點是雙向連接的話，
+則直接把 RREQ 的路線作反轉，
+成為 RREP 的路線，回送給源點。
+</para>
+<para>
+若無線網路環境各節點可能不是雙向連接的話，
+則可能 RREQ 的路線反轉也不一定會到源點，
+所以目的則把 RREP 附加在一個探索源點的 RREQ 中，
+發動探索源點路線程序，
+反向 RREQ 到源點後，源點便將裡面的 RREP 中的路線加入到快取中，
+並回覆 RREP 至目的，便建立雙向連接。
+</para>
+</sect2>
+<sect2><title>錯誤控制</title>
+<para>
+由於路線是封裝在封包內，
+故每個轉送點必須向前轉送點確認可將封包傳到後繼點，
+確認方式有兩種，
+<emphasis id="passive_ack">被動確認</emphasis>(passive
+ack)指前轉送點可偷聽到轉送點將封包傳給後繼點，
+則自動作出確認，這在無線網路很容易達成。
+</para>
+<para>
+<emphasis id="software_ack">軟體確認</emphasis>(software
+ack)指前轉送點可利用 DSR 的 SARep
+封包來確認轉送點能成功將封包傳給後繼點，
+轉送點成功傳封包給後繼點後會回覆 SARep 給前轉送點，
+當前轉送點在某時限內未收到轉送點的 SA，
+便重傳 SAReq 封包給轉送點。重傳超過允許次數，
+而未收到 SARep 則前轉送點會將轉送點標記為連接中斷，
+並回傳 RERR 給源點回報連接中斷，
+源點則會從路線快取中清除所有含此路徑的路線。
+</para>
+<para>
+通常轉送點會實作以下機制，來加強錯誤控制<xref linkend="SCEM01"/>。
+<emphasis id="salvaging">救援</emphasis>(salvaging)機制指當發現連接中斷時，
+會從轉送點本身的路線快取，取得到目的的替代路線，
+</para>
+<para>
+<emphasis id="gratuitous_route_repair">路線連帶修復</emphasis>(Gratuitous route
+repair)機制則是源點收到 RERR，會將 RERR 附加在下個 RREQ 中，
+以在廣播 RREQ 時，
+連帶自其路線快取清除轉送點中含有 RERR 報告的中斷連接的路線。
+</para>
+</sect2>
+<sect2><title>隨機監聽</title>
+<para>
+<emphasis id="promiscuous_listening">隨機監聽</emphasis>(promiscuous listening)
+機制指是轉送點隨機監聽其監聽範圍內的封包，
+並且檢驗是否路線快取有更短的路線，若有則連帶回覆 RREP 給源點，
+並附加較好的路線。
+</para>
+</sect2>
+</sect1>
+<sect1><title>AODV 與 DSR 的比較與討論</title>
+<table id="AodvVsDsr"><title>AODV 與 DSR 的比較</title>
+<tgroup cols="3">
+<thead>
+<row>
+<entry>屬性</entry>
+<entry>AODV</entry>
+<entry>DSR</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>節點收集路由資訊的量</entry>
+<entry>少</entry>
+<entry>多</entry>
+</row>
+<row>
+<entry>節點儲存路徑快取的量</entry>
+<entry>少</entry>
+<entry>多</entry>
+</row>
+<row>
+<entry>是否處理過期路徑的問題</entry>
+<entry>是</entry>
+<entry>否</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<para>
+如<xref linkend="AodvVsDsr"/>，
+本文以三個屬性來比較這兩個路由協定，
+第一個屬性為節點收集路由資訊的量，
+由上可知 AODV 節點只要知道源點及目的位址，
+並比對目的序號即可進行，而 DSR 的封包包含從源點至目的的路線，
+所以 AODV 收集路由資訊的量比 DSR 少。
+</para>
+<para>
+第二個屬性為節點儲存路徑快取的量，
+由上可知 AODV 僅在傳統路由表加上幾個新欄位即可支援，
+而且每個目的項目僅存一個，
+而 DSR 需要儲存整個源點路線資訊到路線快取中，
+而且每個目的項目不只存一個。
+</para>
+<para>
+第三個屬性為是否處理過期路徑的問題，
+AODV 利用序號來判斷資訊的時間，並只存一個最新的路徑，
+而 DSR 僅儲存所有路徑，並用 FIFO 及 RERR 來刪除過期路徑。
+</para>
+<para>
+歸納以上三個屬性，執行效率不計，
+就可以知道 AODV 的實作較為簡單，
+而<xref linkend="SCEM01"/>執行一個實驗，
+其結果顯示 AODV 效率上比 DSR 好，
+但作實驗的傢伙都是 AODV 的原始設計者，
+可信度可疑。
+當然就實作的容易度及控制資訊的負荷而言，
+AODV 的確有其優勢在，
+但是 IETF 決定標準的程序並不一定會選出最好的，
+由歷史看來，IP 一開始的分級網路設計就是一大錯誤，
+而 W3C 也是不苟同 IETF 制定標準的程序才獨立出來的標準組織，
+是故 AODV 及 DSR 應不能以是否為 IETF 標準來論及好壞，
+如<xref linkend="LWC06"/>（本篇沒讀過，只是用來證明目前仍有人研究）的年份看來，
+目前 DSR 仍有許多人改進並研究它，未來狀況仍不可預期。
+</para>
+</sect1>
+<bibliography>
+<biblioentry id="RFC3561">
+<abbrev>RFC3561</abbrev>
+<title>RFC3561, Ad Hoc On Demand Distance Vector (AODV) Routing</title>
+<publisher>
+<publishername>IETF</publishername>
+<pubdate>2003</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="DSR">
+<abbrev>DSR</abbrev>
+<title>INTERNET-DRAFT, Dynamic Source Routing protocol</title>
+<publisher>
+<publishername>IETF</publishername>
+<pubdate>1999</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="STAR">
+<abbrev>STAR</abbrev>
+<title>INTERNET-DRAFT, Source Tree Adaptive Routing</title>
+<publisher>
+<publishername>IETF</publishername>
+<pubdate>1999</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="SCEM01">
+Samir R. Das, Charles E. Perkins, Elizabeth M. Royer and Mahesh K. Marina. "Performance Comparison of Two On-demand Routing Protocols for Ad hoc Networks." IEEE Personal Communications Magazine special issue on Ad hoc Networking, February 2001, p. 16-28
+</biblioentry>
+<biblioentry id="LWC06">
+Yuhong Luo, Jianxin Wang, Songqiao Chen.
+"An Energy-Efficient DSR Routing Protocol Based on Mobility Prediction".
+Proceedings of the 2006 International Symposium on on World of Wireless, Mobile and Multimedia Networks WOWMOM '06
+</biblioentry>
+</bibliography>
+</chapter>

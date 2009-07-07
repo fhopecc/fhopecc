@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding="Big5"?>
+<chapter><title>字串</title>
+<sect1 id="HereDocument"><title>多行字串實字</title>
+<para>
+一般字串實字，
+是用引號括起來，
+但若是字串很長的號，
+就很不方便。
+<programlisting>
+<![CDATA[
+		cfg = CFG::Grammar <<-EOS
+			E -> E * B
+			E -> E + B
+			E -> B
+			B -> 0
+			B -> 1
+    EOS
+
+]]>
+</programlisting>
+</para>
+</sect1>
+</chapter>

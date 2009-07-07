@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>關聯式代數(Relational Algebra)</title>
+<sect1><title>表格運算子</title>
+<para>
+	關聯式代數 - 原始運算子與 SQL 的對應關係
+
+	關聯式資料庫的 SQL 語法是以關聯式代數作為基礎的。
+
+	以下就針對 E. F. Codd 這位大師對於關聯式代數的八個最原始的運算
+	子，與 SQL 語法的對應關係作一個說明。
+
+	*I. 原始運算子：	
+	在這八個運算子裡面有五個運算子可稱為「原始運算子」，因為這些運
+	算子無法以其他的運算子來定義他們的。
+
+	**1. Select：	
+	從一個 Table 中取出符合條件的資料，也就是取得 Row 的資料，請注
+	意這裡的 Select 是運算子並不是指 SQL 語法中的 Select。
+
+        取出的資料如下圖 Table 反白部分所示：
+        Table ( T1 )
+        C1 	C2 	C3 	C4
+        　 	　 	　 	　
+        　 	　 	　 	　
+        　 	　 	　 	　
+        　 	　 	　 	　
+        　 	　 	　 	　
+
+        對應的 SQL 語法：
+
+            Select *
+                From T1
+                Where expression
+
+	**2. Project：	
+	從一個 Table 中取出所需要的欄位，也就是取得 Column 的資料。
+
+        取出的資料如下圖 Table 反白部分所示：
+        Table ( T1 )
+        C1 	C2 	C3 	C4
+        　 	　 	　 	　
+        　 	　 	　 	　
+        　 	　 	　 	　
+        　 	　 	　 	　
+        　 	　 	　 	　
+
+        對應的 SQL 語法：請注意沒有條件篩選的設定。
+
+            Select C1, C2:
+                From T1
+
+	**3.卡式積 Cartesian Product：	
+	將兩個 Table 組合成一個 Table，這個是理論基礎上的運算子，在
+	實務上是避免這種使用方式的。
+
+        將 Table T1 與 Table T2 做卡式積運算的結果如下，Table 中的資料為
+	假設值。
+        Table ( T1 )
+        C11 	C12
+        c11a 	c12a
+        c11b 	c12b
+        c11c 	c12c
+
+        Table ( T2 )
+        C21 	C22
+        c21a 	c22a
+        c21b 	c22b
+        　
+
+        Table ( T1 ) 與 Table ( T2 ) 做 Cartesian Product 運算的結果
+        C11 	C12 	C21 	C22
+        c11a 	c12a 	c21a 	c22a
+        c11a 	c12a 	c21b 	c22b
+        c11b 	c12b 	c21a 	c22a
+        c11b 	c12b 	c21b 	c22b
+        c11c 	c12c 	c21a 	c22a
+        c11c 	c12c 	c21b 	c22b
+
+        對應的 SQL 語法：請注意沒有條件篩選的設定。
+
+            Select *
+                From T1, T2
+</para>
+</sect1>
+<sect1><title>集合運算子</title>
+<sect2><title>聯集</title>	
+<para>
+	從兩個 Table 中取出聯集的資料，重複的資料只取出一筆，請注意這裡的 Union 是運算子並不是指 SQL 語法中的 Union。
+
+        將 Table T1 與 Table T2 做 Union 運算的結果如下，Table 中的資料為假設值。
+        Table ( T1 )
+        C1 	C2
+        c1a 	c2a
+        c1b 	c2b
+
+        Table ( T2 )
+        C1 	C2
+        c1a 	c2a
+        c1c 	c2c
+
+        Table ( T1 ) 與 Table ( T2 ) 做 Union 運算的結果
+        C1 	C2
+        c1a 	c2a
+        c1b 	c2b
+        c1c 	c2c
+
+        對應的 SQL 語法：要注意的是兩個 Table 間的對應欄位資料型態必須是相同或是可以轉換的。
+
+            Select *
+                From T1
+            Union
+            Select *
+                From T2
+</para>
+</sect2>
+<sect2><title>差集</title>
+<para>
+	**5. Difference：
+	從一個 Table 中刪除另一個 Table 中有的資料，還是看圖示比較清楚。
+
+        將 Table T1 與 Table T2 做 Difference 運算的結果如下，Table 中的資料為假設值。
+        Table ( T1 )
+        C1 	C2
+        c1a 	c2a
+        c1b 	c2b
+
+        Table ( T2 )
+        C1 	C2
+        c1a 	c2a
+        c1c 	c2c
+
+        Table ( T1 ) 與 Table ( T2 ) 做 Difference 運算的結果
+        C1 	C2
+        c1b 	c2b
+
+        對應的 SQL 語法：要注意的是兩個 Table 間的對應欄位資料型態必須是相同或是可以轉換的。
+
+            Select *
+                From T1
+                Where not exists (
+                    Select *
+                        From T2
+                        Where T1.C1 = T2.C1 and T1.C2 = T2.C2 )
+這就是關聯式代數八大運算子中，五個原始運算子的部分，下次再為大家介紹其他三個非原始運算子的內容。
+</para>
+</sect2>
+</sect1>
+<sect1><title>合併運算子</title>
+<sect2><title>外部合併</title>
+<para>
+外部合併是作用在兩個關連上的運算子，
+其將關連分成主關連及副關連，
+原本相等合併除去所有不滿足合併條件的列，
+而外部合併則保留主關連的所有列，
+若沒有副關連的列則副關連的欄位設為 NULL 值。
+左外部合併運算子其左方關連的是主關連，
+右方關連為副關連；
+右外部合併運算子其右方關連的是主關連，
+左方關連為副關連。
+</para>
+</sect2>
+</sect1>
+</chapter>

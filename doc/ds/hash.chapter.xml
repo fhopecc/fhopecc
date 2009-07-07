@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>雜湊函數</title>
+<para>
+	*H: L->S, |L|>>|S|	
+	雜湊函數是一個定義域遠大於值域的函數，如此在資料結構
+	裡，我們可以把變化範圍很大的物件，用較為有限的資源來
+	儲存，因為我們不可能有無限多的資源。
+	但為了快速能找到儲存的物件，故函數應儘可能滿足下列的
+	條件：
+	H(x)!=H(y)->x!=y
+	H(x)=H(y)=>x=y
+	滿足上述條件的函數，必需對任易輸入值，其輸出值分佈接
+	近隨機值。
+</para>
+<sect1><title>訊息摘要</title>
+	第二個條件在加密法中是重要的因素，接近第二個條件的函
+	數，可以用來製作 MD 訊息摘要，稱作摘要是因為函數值域
+	小於定義域，故 MD 長度必小於原始訊息。又由於函數接近
+	第二個條件，故原始訊息的一點變動則其 MD 也會不同，我
+	們就可用 MD 來判讀所得的檔案有無被修改過，常見的 MD
+	有 MD5 及 SHA 函數。
+
+	*循環群之生成元定理	
+	若 a 為循環群 Zn 之生成元，則由 b=a^s 所生成之循環子
+	群 H 其元素個數為 n/d，其中 d=gcd(n,s)。
+	此定理可推論出 Zn 所有生成元集合 
+	G={a^r|gcd(n,r)=1}。
+	
+	*模 n 加法	
+	由於模 n 加法為一循環群，且 1 為其當然生成元，依上述
+	定理，可以得知模 n 加法的生成元集合 G={r|gcd(n,r)=1}
+	為所有與 n 互質的整數。
+
+
+</sect1>
+<sect1><title>雜湊函數</title>
+<sect2><title>模 n 函數</title>
+<equation>
+	MFn: Z->n, |Z|=infinite, |n|=n
+</equation>
+<para>
+	模數函數是一個簡易的雜湊函數，其定義域為所有整數，而
+	值域為 [0,m]。
+</para>
+</sect2>
+</sect1>
+<sect1><title>碰撞處理</title>
+<para>
+<inlineequation>x!=y, H(x)=H(y)</inlineequation>
+情況稱作<emphasis>碰撞 collison</emphasis> 或
+<emphasis>同物異名 synonym</emphasis>。
+一般處理碰撞有二個方法，一為鏈結法及位址展開
+法。
+</para>
+<sect2><title>鏈結法</title>
+<para>
+<emphasis>雜湊位址</emphasis>是存放指到另一鏈結串列的指標，
+當產生目標位址的元素時，則將元素加到串列的後面，
+此法不會有碰撞產生。
+</para>
+<para>
+鏈結法比位址展開法有更多的優點：
+</para>
+<itemizedlist>
+<listitem>實作簡單</listitem>
+<listitem>不易有群聚現象，但到要減低碰撞產生</listitem>
+<listitem>在元素增加時，位址展開會突然的效率減低，
+而鏈結法效率減低較為平穩</listitem>
+<listitem>使用較少的記憶空間，
+位址展開法在元素少時通常為稀疏陣列</listitem>
+</itemizedlist>
+</sect2>
+<sect2><title>位址展開法</title>
+<para>
+<emphasis>位址展開 Open Addressing</emphasis>，
+是可以儲存物件的位址。
+遇到碰撞時此法會依照某種<emphasis>探勘序列 probing sequence</emphasis>
+在儲存實體中找尋<emphasis>可用位址</emphasis>。
+<procedure><title>探勘</title>
+<programlisting>
+def prob(a)       # a 為碰撞位址
+  i=1
+  a=PS(a) until avaiable? a   # 從探勘序列中遞迴取出 a，直到 a 為可用位址
+end
+</programlisting>
+</procedure>
+</para>
+<equation><title>探勘序列</title>
+PS: A -> A, A 為位址
+</equation>
+<para>
+探勘序列為一個函數，
+其接受碰撞的位址，傳回一位址，
+探勘序列的採用必須考慮下列問題：
+</para>
+<itemizedlist>
+<listitem>是否能探勘到所有可能的位址？</listitem>
+<listitem>是否形成<emphasis>群聚現象(clustring)</emphasis>？	</listitem>
+</itemizedlist>	
+<para>
+常用的探勘序列，有下列三種：
+</para>
+<equation><title>線性探勘(Linear probing)</title>
+LP(c)=c+f mod |a|, a 為總位址數
+</equation>
+<para>
+線性探勘是把碰撞位址 c 加上一固定距離 f。	
+</para>
+<para>	
+由於線性探勘本質為模 n 加法，故為能探勘到所有可能的位址，
+則必須限定位址桶數 n 必須為質數，或者 f 必須與 n 互質，
+其原理可由上述循環群之生成元定理得知。
+</para>
+<equation><title>平方探勘(quadratic probing)</title>
+QP(c,t)=c+t<superscript>2</superscript> mod |a|
+</equation>
+<para>
+平方探勘是把探勘位址的距離依探勘次數 t 的平方成長。
+</para>
+<equation><title>雙重雜湊法(double hashing)</title>
+DP(c,t)=H'(c) mod |a|
+</equation>
+<para>
+交替使用另一個不同的雜湊函數來計算下個可用位址。
+線性及平方探勘可視為簡易的雜湊函數。
+</para>
+</sect2>
+</sect1>
+</chapter>

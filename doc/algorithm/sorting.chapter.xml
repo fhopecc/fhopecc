@@ -1,0 +1,439 @@
+<?xml version='1.0' encoding="Big5"?>
+<chapter><title>排序</title>
+<sect1><title>排序概觀</title>
+<table><title>各類排序比較</title>
+<tgroup cols="3">
+<thead>
+<row>
+<entry>名稱</entry>
+<entry>穩定度</entry>
+<entry>時間複雜度</entry>
+<entry>空間複雜度</entry>
+</row>
+</thead>
+<tbody>
+<row><entry>選擇排序</entry>
+<entry>否</entry>
+<entry>O(n<superscript>2</superscript>)</entry>
+<entry>O(c)</entry>
+</row>
+<row><entry>插入排序</entry>
+<entry>是</entry>
+<entry>O(n<superscript>2</superscript>)</entry>
+<entry>O(c)</entry>
+</row>
+<row><entry>泡泡排序</entry>
+<entry>是</entry>
+<entry>O(n<superscript>2</superscript>)</entry>
+<entry>O(c)</entry>
+</row>
+<row><entry>雞尾酒排序</entry>
+<entry>是</entry>
+<entry>O(n<superscript>2</superscript>)</entry>
+<entry>?</entry>
+</row>
+<row><entry>快速排序</entry>
+<entry>否</entry>
+<entry>
+<simplelist>
+<member>最佳：O(c)</member>
+<member>平均：O(n<emphasis>log</emphasis>n)</member>
+<member>最差：O(n<superscript>2</superscript>)</member>
+</simplelist>
+</entry>
+<entry>?</entry>
+</row>
+<row><entry>合併排序</entry>
+<entry>是</entry>
+<entry>O(n<emphasis>log</emphasis>n)</entry>
+<entry>O(n)</entry>
+</row>
+<row><entry>分配排序</entry>
+<entry>是</entry>
+<entry>O(n+k)</entry>
+<entry>?</entry>
+</row>
+<row><entry>分槽排序</entry>
+<entry>是</entry>
+<entry>O(n)</entry>
+<entry>O(n)</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</sect1>
+<sect1><title>選擇排序 Selection Sort</title>
+<procedure><title>選擇排序</title> 
+<remark>穩定，時間複雜度為 O(n<superscript>2</superscript>)，
+空間複雜為 O(c)</remark>
+<programlisting>
+#先選出最小的元素，然後與第一個位置元素交換	
+#再選出次小的元素，然後與第二個位置元素交換	
+#依此作至第 n 個元素	
+def ssort a
+  n = a.length
+  for i in 0..n
+    swap(a[i], find_min(i, a));
+  end
+end
+</programlisting>
+</procedure>
+<sect2 hclass="theorem"><title>選擇排序比較運算次數一定為 n(n-1)/2</title>
+<para>
+選擇排序每次都從未排序的陣列取出最小的值，
+放到已排序的陣列中。
+從 n 個元素中找出最小元素要經過 n-1 次的比較，
+一開始未排序陣列長度為 n，
+故其比較次數為 n-1，
+未排序陣列長度減一，
+第二回其未排序陣列長度為 n-1，
+所以其比較次數為 n-2...
+<para>
+重覆程序 n 次可得其比較運算的次數為	
+</para>
+<equation>c=(n-1)+(n-2)+...+1=n(n-1)/2</equation>
+<emphasis>所有的 n 個元素的選擇排序其比較次數一定為 n(n-1)/2</emphasis>
+</para>
+</sect2>
+<sect2 hclass="theorem"><title>選擇排序是不穩定</title>
+<para>
+舉一反例證明：
+</para>
+<para>
+若兩個等值數所夾的數均比等值數大，而其後均比等值數小，
+則兩等值數其順序會交換，故不穩定，如下例：
+</para>
+<table><title>不穩定的選擇排序</title>
+<tgroup cols="5">
+<thead>
+<row>
+<entry>位置</entry>
+<entry>1</entry>
+<entry>2</entry>
+<entry>3</entry>
+<entry>4</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>原陣列</entry>
+<entry>2</entry>
+<entry>3</entry>
+<entry>2'</entry>
+<entry>1</entry>
+</row>
+<row>
+<entry>第一回</entry>
+<entry>1</entry>
+<entry>3</entry>
+<entry>2'</entry>
+<entry>2</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<para>
+原本 2 在 2' 之前，
+經第一回選擇排序後，
+2' 便在 2 之後，
+所以選擇排序是不穩定的。
+</para>
+</sect2>
+</sect1>
+<sect1><title>反轉表 Inversion Table</title>
+<sect2 hclass='definition'><title>反轉表</title>
+<para>
+令 A=a<subscript>1</subscript>,a<subscript>2</subscript>...a<subscript>i</subscript> 
+為一陣列，
+S=s<subscript>1</subscript>,s<subscript>2</subscript>...s<subscript>i</subscript> 
+為 A 排序好的陣列，
+則 T=t<subscript>1</subscript>,t<subscript>2</subscript>...t<subscript>i</subscript> 
+當 t<subscript>i</subscript> 為 a<subscript>j</subscript> 左側比其小的元素個數，
+其中 a<subscript>j</subscript>=s<subscript>i</subscript>，
+則稱 T 為 A 之<emphasis>反轉表</emphasis>。
+</para>
+<para>
+下例為陣列 a=[3,4,5,1,0,7,9,2,8,6]
+之反轉表。
+</para>
+<table><title>陣列 a 之反轉表</title>
+<tgroup cols="11">
+<tbody>
+<row>
+<entry>排序陣列</entry>
+<entry>0</entry>
+<entry>1</entry>
+<entry>2</entry>
+<entry>3</entry>
+<entry>4</entry>
+<entry>5</entry>
+<entry>6</entry>
+<entry>7</entry>
+<entry>8</entry>
+<entry>9</entry>
+</row>
+<row>
+<entry>原始陣列</entry>
+<entry>3</entry>
+<entry>4</entry>
+<entry>5</entry>
+<entry>1</entry>
+<entry>0</entry>
+<entry>7</entry>
+<entry>9</entry>
+<entry>2</entry>
+<entry>8</entry>
+<entry>6</entry>
+</row>
+<row>
+<entry>反轉表</entry>
+<entry>4</entry>
+<entry>3</entry>
+<entry>5</entry>
+<entry>0</entry>
+<entry>0</entry>
+<entry>0</entry>
+<entry>3</entry>
+<entry>0</entry>
+<entry>1</entry>
+<entry>0</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</sect2>
+<sect2 hclass="theorem"><title>最大元素的反轉表必為零</title>
+<para>
+由反轉表定義為元素左側比其小的元素個數，
+最大元素比其小的元素個數為零，
+故得證。
+</para>
+</sect2>
+<sect2 hclass="definition"><title>反序陣列</title>
+<para>
+令 a 為一陣列，
+S=s<subscript>1</subscript>,s<subscript>2</subscript>...s<subscript>i</subscript>...
+s<subscript>n</subscript>
+為 a 排序好的陣列，
+建立一新陣列 r，其中
+每一個 s<subscript>i</subscript> 將放置到 (n-i)+1 的位置，
+則 r 稱為 a 的<emphasis>反序陣列</emphasis>
+</para>
+
+<table><title>一反序陣列</title>
+<tgroup cols="11">
+<tbody>
+<row>
+<entry>排序陣列</entry>
+<entry>0</entry>
+<entry>1</entry>
+<entry>2</entry>
+<entry>3</entry>
+<entry>4</entry>
+<entry>5</entry>
+<entry>6</entry>
+<entry>7</entry>
+<entry>8</entry>
+<entry>9</entry>
+</row>
+<row>
+<entry>原始陣列</entry>
+<entry>5</entry>
+<entry>6</entry>
+<entry>4</entry>
+<entry>3</entry>
+<entry>8</entry>
+<entry>1</entry>
+<entry>9</entry>
+<entry>0</entry>
+<entry>2</entry>
+<entry>7</entry>
+</row>
+<row>
+<entry>反序陣列</entry>
+<entry>9</entry>
+<entry>8</entry>
+<entry>7</entry>
+<entry>6</entry>
+<entry>5</entry>
+<entry>4</entry>
+<entry>3</entry>
+<entry>2</entry>
+<entry>1</entry>
+<entry>0</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</sect2>
+<sect2 hclass="theorem">
+<title>反序陣列若且為若長度為 n ，則反轉表總和為 n(n-1)/2</title>
+<para>
+由反序陣列的定義，
+可得元素 r<subscript>i</subscript> 左側比其小的元性有 i-1 個，
+所以反轉表總和 
+<equation>SUM i=(n-1)+(n-2)...1+0=n(n-1)/2</equation>
+</para>
+
+<table><title>反序陣列的反轉表總和</title>
+<tgroup cols="11">
+<colspec colnum="2" colname="c2"/>
+<colspec colnum="11" colname="cend"/>
+<tbody>
+<row>
+<entry>排序陣列</entry>
+<entry>0</entry>
+<entry>1</entry>
+<entry>2</entry>
+<entry>3</entry>
+<entry>4</entry>
+<entry>5</entry>
+<entry>6</entry>
+<entry>7</entry>
+<entry>8</entry>
+<entry>9</entry>
+</row>
+<row>
+<entry>原始陣列</entry>
+<entry>9</entry>
+<entry>8</entry>
+<entry>7</entry>
+<entry>6</entry>
+<entry>5</entry>
+<entry>4</entry>
+<entry>3</entry>
+<entry>2</entry>
+<entry>1</entry>
+<entry>0</entry>
+</row>
+<row>
+<entry>反轉表</entry>
+<entry>9</entry>
+<entry>8</entry>
+<entry>7</entry>
+<entry>6</entry>
+<entry>5</entry>
+<entry>4</entry>
+<entry>3</entry>
+<entry>2</entry>
+<entry>1</entry>
+<entry>0</entry>
+</row>
+<row>
+<entry>反轉表總和</entry>
+<entry namest="c2" nameend="cend" align="center">45</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<para>
+上表原始陣列為一反序陣列，其反轉表總和為 45。
+由上表可知陣列長度為 10，代入公式
+</para>
+<equation>10*(10-1)/2=45</equation>
+<para>
+與反轉表總和吻合。
+</para>
+</sect2>
+</sect1>
+基本排序	
+2.2	合併排序	
+2.3	快速排序	
+	
+	排序可由三項指標分類：
+	*時間複雜度	
+	費時運算的次數，像是比較的次數
+		
+	*空間複雜度	
+	運算時，記憶體的使用量	
+	
+	*穩定	
+	比較運算中，等值的物件，在排序後，其前後次序是否對換。
+	
+	
+
+
+2.1.2	插入排序 Insertion Sort	
+	*名稱		穩定	時間		空間	
+	Insertion	*	O(n^2)		O(c)
+
+	*演算法如下：	
+	*先選出最小的元素，然後與第一個位置元素交換	
+	*再選出次小的元素，然後與第二個位置元素交換	
+	*依此作至第 n 個元素	
+
+	*
+	
+2.2	合併排序 Merge Sort	
+	*名稱		穩定	時間		空間	
+	合併排序	*	O(nlogn)	O(n)
+
+2.2.1	演算法	
+	1945 由馮鈕曼發明，採用分而治之的原理。	
+	void Sort(int array, int begin, int end)
+	{
+	 int mid;
+	 if (begin == end)
+	   return;
+	 if (begin == end - 1)
+  	   return;
+	 mid = (begin + end) / 2;
+ 	 Sort(array, begin, mid);
+	 Sort(array, mid, end);
+	 Merge(array, begin, mid, end);
+	}	
+
+2.2.2	證明時間複雜度為 O(nlogn)	
+2.2.3	證明空間複雜度為 O(n)	
+2.2.4	證明其為穩定	
+2.2.5	C 實作	
+	void Sort(float array[], int begin, int end) 
+	{
+	 int mid;  
+	 if (begin == end)     
+	   return; 
+	 if (begin == end - 1) 
+	   return; 
+	 mid = (begin + end) / 2;
+	 Sort(array, begin, mid);
+		 Sort(array, mid, end);
+	 Merge(array, begin, mid, end);
+	}
+
+2.3	快速排序 quick sort	
+2.3.0	分側 partition	
+	從串列中選出一個基準 pivot
+	將所有比 p 小的移到 p 的右方，比 p 大的移到 p 的左方
+	如此 p 便將串列分割成兩個獨立排序的串列
+
+	*實作	
+	*由右側開始選基準	
+	一般實作是用兩個指標，從左右兩側開始向中間掃描，
+	左指標掃描找到比基準大的便停下來，換右指標開始掃描，
+	若右指標找到比基準小的便和左指標的元素交換，
+	換左指標開始進行上述的流程；
+	直到左右指標交錯時，便交換左指標與基準，便完成分側。
+
+2.3.1	演算法	
+	*分側 partition	
+	用分側將串列分成兩子串列
+	*遞迴分側	
+	再對兩側子串列作同樣的步驟
+		
+2.2.2	時間複雜度	
+	*分側的比較次數	
+	若有 n 個元素，則要比較 n 次。
+	*最佳狀態 O(nlogn)	
+	分側每次都剛好把元素分成數量相同的兩個串列。其比較次數
+	如下：
+	T(n) = 2*T(n/2) + n
+	由專家定理可知為 T(n) = O(nlogn)
+	*最壞狀態 O(n^2)	
+	已排序的的串列每次只將串列分成數量 1 及 n-1 的兩個串列。
+	其比較次數如下：
+	T(n) = T(n-1) + n
+	可知 T(n)= O(n^2)
+
+2.2.3	證明空間複雜度為 O(n)	
+</chapter>

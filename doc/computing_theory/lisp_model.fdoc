@@ -1,0 +1,22 @@
+!LISP 璸衡家
+!!S-ボΑ
+S-ボΑ(虏糶 SE)ㄌゅ猭┮﹚竡粂ē
+=def ゅ猭
+SE := ATOMIC | '('SE'.'SE')' | LIST | NIL
+ATOMIC := CAPITAL_LETTER+
+LIST := (SE) | (SE','SE)
+NIL := 'NIL'
+CAPITAL_LETTER := 'A'..'B'
+=end
+!!S-ㄧ计 
+S-ㄧ计(虏糶 SF)琌┮Τ﹚竡办 SE ㄧ计
+иㄏノ M-ボΑ(虏糶 ME) ㄓボ SF
+=def ゅ猭
+ME := 
+ARG := SE|VAR|ME
+ARGS := ARG| ARG ',' ARGS
+FUN_NAME := LOWERCASE_LETTER+
+FUN = FUN_NAME'['ARGS']'
+VAR := LOWERCASE_LETTER+
+LOWERCASE_LETTER := 'a'..'b'
+=end 

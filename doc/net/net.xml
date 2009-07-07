@@ -1,0 +1,3069 @@
+<?xml version="1.0" encoding="Big5"?>
+<!--<!DOCTYPE DocBook>-->
+<!--ENTITY ADSL SYSTEM "ADSL.chapter.xml"-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+[
+<!ENTITY route SYSTEM "route.chapter.xml">
+<!ENTITY wireless.routing SYSTEM "wireless.routing.chapter.xml">
+<!ENTITY filesharing SYSTEM "FileSharing.chapter.xml">
+<!ENTITY bibliography SYSTEM "bibliography.xml">
+<!ENTITY % MATHML.prefixed "INCLUDE">
+<!ENTITY % MATHML.prefix "mml">
+<!ENTITY % equation.content "(alt?, (graphic+|mediaobject+|mml:math))">
+<!ENTITY % inlineequation.content 
+                "(alt?, (graphic+|inlinemediaobject+|mml:math))">
+<!ENTITY % mathml PUBLIC "-//W3C//DTD MathML 2.0//EN"
+        "http://www.w3.org/TR/MathML2/dtd/mathml2.dtd">
+%mathml;
+]>
+<book>
+<bookinfo>		       
+<title>電腦網路</title>	  
+</bookinfo>		
+<part><title>數位通信理論</title>
+<chapter><title>源起</title>
+<para>
+網路的研究起源於下面這個問題：
+</para>
+<para>
+如何讓兩台電腦溝通？
+</para>
+<para>
+首先我們先來看看兩台電腦如何連接起來溝通。
+</para>
+<sect1><title>點對點</title>
+<para>
+最簡單的溝通方式是兩台電腦的連接，
+要能連接首先電腦之間要有<emphasis>媒介</emphasis>(media)，
+之後電腦要能將資料以媒介的狀態編碼，才可讓媒介傳輸資料，
+例如電線就用電壓狀態，而光纖就用光的頻率狀態。
+資料轉成媒介碼的過程稱作<emphasis>調變</emphasis>(modulization)，
+媒介碼轉成資料的過程稱作<emphasis>解調變</emphasis>(demodulization)。
+</para>
+<para>
+傳輸的過程中，媒介可能無法完整正確的傳送資料，
+所以需要<emphasis>錯誤偵測</emphasis>及<emphasis>錯誤復原</emphasis>。
+</para>
+<para>
+資訊的最小單位是位元，但一個一個位元的傳輸相當沒有效率，
+所以將位元集合作為傳輸單位的過程也是必要的，
+這稱為<emphasis>封包</emphasis>(package)。
+</para>
+<para>
+最後若媒介是共用的，
+如何協調誰能使用媒介的過程稱為<emphasis>媒介存取</emphasis>
+(media access)。
+</para>
+</sect1>
+</chapter>
+<chapter><title>傳輸基礎</title>
+<sect1><title>基本名詞</title>
+<sect2><title>通道 channel</title>
+<para>
+指信號能傳遞的路徑。有線電視用不同頻率來切割路徑，故稱頻道，
+電話是傳輸聲音，稱為聲道。	
+</para>
+</sect2>
+<sect2><title>頻帶 band</title>
+<para>
+一組在頻譜上連續小範圍內的頻率，通常切割成許多相同用途的通道。
+</para>
+</sect2>
+<sect2><title>基頻 baseband</title>
+<para>
+指媒介只能有一個信號通道，
+</para>
+</sect2>
+<sect2><title>寬頻 broadband</title>
+<para>
+指媒介能有多個信號通道。
+</para>
+</sect2>
+</sect1>
+<sect1><title>通道容量 bandwidth</title>
+<para>
+某個條件下，<emphasis>資料的最大傳輸率</emphasis>，
+同時與四個概念相關連，
+</para>
+<itemizedlist>
+<listitem><emphasis>資料率(Data Rate)</emphasis>
+<para>
+通訊傳遞資料的速率，單位為<emphasis>bps(bit per second, 每秒位元數)</emphasis>。 
+</para>
+</listitem>
+<listitem><emphasis>頻寬(Bandwidth)</emphasis>
+<para>
+一般定義如下：
+</para>
+<itemizedlist>
+<listitem>類比通訊系統能傳遞的<emphasis>最高與最低頻率之間的差</emphasis>即稱為頻寬；
+單位為<emphasis>Hertz(每秒周期數)</emphasis>。 
+例如：電話能容納的頻寬為 3,000Hz，
+此數值是由電話能傳遞的最高頻率（3,300Hz）減最低頻率（300Hz）而求得。
+</listitem>
+<listitem>
+<emphasis>數位通訊系統的通道容量</emphasis>；
+單位為<emphasis>bps(bit per second, 每秒位元數)</emphasis>。 
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem><emphasis>雜訊(Noise)</emphasis>
+<para>
+通道上平均雜訊準位。
+</para>
+</listitem>
+<listitem><emphasis>錯誤率(Error Rate)</emphasis>
+<para>
+錯誤發生頻率。
+</para>
+</listitem>
+</itemizedlist>
+<sect2><title>Nyquist 頻寬(Nyquist Bandwidth)</title>
+<equation><title>Nyquist 頻寬</title>
+C=2Blog<subscript>2</subscript>M
+<para>
+C:通道容量 B:訊號頻寬 M:信號可代表的位元數
+</para>
+</equation>
+</sect2>
+<sect2><title>Shannon 容量(Shannon Capacity)</title>
+<sect3><title>SNR(Signal Noise Ratio, 信號雜訊比)</title>
+<para>
+用以表示傳輸品質的好壞，比值越高則傳輸品質越好。
+以傳輸後，有用信號對無用信號的比值加以斷定，
+單位為 db。
+</para>
+<equation><title>SNR(Signal Noise Ratio, 信號雜訊比)</title>
+SNR<subscript>db</subscript>=10log<subscript>10</subscript>(訊號功率/雜訊功率)
+<para>
+C:通道容量 B:訊號頻寬 
+</para>
+</equation>
+</sect3>
+<equation><title>Shannon 容量</title>
+C=2Blog<subscript>2</subscript>(1+SNR)
+<para>
+C:通道容量 B:訊號頻寬
+</para>
+</equation>
+</sect2>
+<example><title>Nyquist 及 shannon</title>
+<para>
+若通道的頻譜介於 3~4 MHz，且 SNR<subscript>db</subscript>=24，
+則：
+</para>
+<equation>
+<para>
+B=4MHz-3MHz=1MHz
+</para>
+<para>
+SNR<subscript>db</subscript>=24=10log<subscript>10</subscript>(SNR)
+</para>
+<para>
+SNR=251
+</para>
+</equation>
+<para>
+由 Shannon 容量可得知
+</para>
+<equation>
+C=10<superscript>6</superscript>X10log<subscript>2</subscript>(1+251)
+=10<superscript>6</superscript>X8=8Mbps
+</equation>
+<para>
+理論上限制通道容量無法超過 8Mbps，
+但用 Nyquist 頻寬可得：
+</para>
+<equation>
+<para>
+C=2Blog<subscript>2</subscript>M
+</para>
+<para>
+8X10<superscript>6</superscript>=2X10<superscript>6</superscript>X
+log<subscript>2</subscript>M
+</para>
+<para>
+4=log<subscript>2</subscript>M
+</para>
+<para>
+M=16
+</para>
+</equation>
+<para>
+也就是說若能將信號編碼成 16 個準位，則可達到通道的極限。
+</para>
+</example>
+</sect1>
+<sect1><title>傳輸的方向</title>
+<sect2><title>單向傳輸　simplex Transmissions</title>
+<para>
+指傳輸只能傳某一方向，如有線電視。
+</para>
+</sect2>
+<sect2><title>半雙工傳輸　Half-Duplex Transmissions</title>
+<para>
+指傳送與接收無法雙向同時進行，一次僅能有一方傳輸資料，
+另一方須等到對方傳送完後才能傳送。例如使用無線電時，
+必須等一方講完，另方才可以講話。
+</para>
+</sect2>
+<sect2><title>全雙工傳輸　Full-duplex Transmissions</title>
+<para>
+指傳送與接收可雙向同時進行。例如講電話，你說話的同時，
+你的朋友也可以隨時插話而不會影響到你說話的功能。在數位網路中，
+需要有二對線路才能作到全雙工，
+而連接數據機的類比線僅需一對線就可作到全雙工。
+</para>
+</sect2>
+</sect1>
+<sect1><title>同步</title>
+<sect2><title>非同步</title>
+<para>		
+利用一「分隔信號」來讓接收方判別是否收到信號。
+</para>
+</sect2>
+<sect2><title>非同步</title>
+<para>		
+某方要能定時，雙方才能對信號同步。
+</para>
+</sect2>
+<sect2><title>時鐘通道</title>
+<para>		
+利用一通道傳輸時間訊息。
+</para>
+</sect2>
+<sect2><title>過度取樣 oversampling</title>
+<para>		
+某方要能定時，雙方才能對信號同步。
+</para>
+</sect2>
+</sect1>
+<sect1><title>傳輸速度</title>
+<sect2><title>赫茲(hertz)</title>
+<para>
+測量頻率的單位，也就是每秒的週期數。
+在電腦及電子設備上常用的單位是千赫茲（kHz=1000Hz=10^3Hz）、
+百萬赫茲（MHz= 1,000kHz=10^6Hz）、
+十億赫茲（GHz=1,000MHz=10^9Hz）或兆赫茲（THz=1,000GHz=10^12Hz），
+縮寫是 Hz。
+</para>
+</sect2>
+<sect2><title>位元率(bit rate)</title>
+<para>
+通訊中，每秒能傳送多少位元的量化值，
+其單位為 bps, bits per second 即每秒位元數的縮寫，
+它是某種裝置（如數據機）測量傳輸資料速度的單位，
+此種速度單位與鮑速不同。
+</para>
+</sect2>
+<sect2><title>鮑率；鮑得率(baud rate)</title>
+<para>
+指數據機能傳輸資料的速度。
+<emphasis>鮑率</emphasis>是以每秒發生事件
+（或訊息改變）的數字來表示，而不是以每秒傳輸的位元數
+（bps，bit per second）來表示。在高速數位通訊中，
+“以事件編碼”能比“以位元編碼”更精確，但數據機則是以每秒
+位元數表示比以鮑率表示更精確。例如：所謂的 9600鮑率的數據機，
+其正確的數率是2400鮑，
+但是乘以每<emphasis>事件4位元的編碼</emphasis>後，
+其傳輸速率就是每秒9,600位元（2,400×4＝9,600），
+因此就稱之為9,600bps的數據機。 
+</para>
+</sect2>
+</sect1>
+</chapter>
+<chapter><title>調變(Modulation)</title>
+<sect1><title>編碼(code)</title>
+<para>
+<emphasis>編碼</emphasis>是一組規則，
+用來將資訊從一種表示轉換成另一種表示。
+用來傳輸資訊的編碼稱為<emphasis>線碼(line code)</emphasis>。
+</para>
+</sect1>
+<sect1><title>NRZ, Non-return-to-zero</title>
+<para>
+為一種二元碼，利用媒體的二極狀態編碼，
+像是交流電的正負極，正極表示 1，則 0 為另一極，負極。
+</para>
+<para>
+若是編碼一串資料，要用時間來作區隔每個位元，
+所以必須要有額外的<emphasis>計時器</emphasis>，
+才能區分每個位元。
+如下面的公式：
+</para>
+<equation id="timeslot"><title>時間區隔位元</title>
+S(t)=B(t)
+R(t)=B(t)
+</equation>
+<para>
+B 這個函數代表要傳遞的位元串列，
+串列是由時間區分，
+傳送方依時間改變媒體的狀態，
+而接收方偵測傳輸媒體某一點的狀態，
+來表示位元狀態，
+利用一段時間的變化軌跡來編碼此位元串列。
+</para>
+</sect1>
+<sect1><title>RZ, Return-to-zero</title>
+<para>
+同 NRZ 利用兩極狀態編碼，但是每一位都會回到 0 點。
+理論上是此編碼是能<emphasis>自我計時(self clocking)</emphasis>，
+意指不需要提供額外的時間資料。
+</para>
+</sect1>
+<sect1><title>Manchester Code</title>
+<para>
+為二元相位編碼(Phase Encode)，可視為 BPSK 的特殊形式，
+若是 1，則由負極升為正極，若是 0 則由正極降為負極。
+此編碼能夠自我計時。
+</para>
+</sect1>
+<sect1><title>載波(Carrier Wave)</title>
+<para>
+<emphasis>載波</emphasis>是一種波形，
+經由<emphasis>調變</emphasis>，
+也就是依據原始資訊來改變載波的波形，
+便可利用載波來乘載要傳輸的資訊。
+通常<emphasis>調變波</emphasis>頻率比載波低很多。
+</para>
+<para>
+最常見的載波系統是<emphasis>正弦波</emphasis>及<emphasis>脈衝波</emphasis>。
+</para>
+<para>
+正弦波
+<equation id="SinusWaveFormula"><title>正弦載波等式</title>
+S(t)=A<subscript>c</subscript>(t)cos(2&pi;f<subscript>c</subscript>(t)t+&phi;(t))
+</equation>
+</para>
+</sect1>
+<sect1><title>正弦波載波系統的調變</title>
+<sect2><title>振幅轉移鍵(ASK, Amplitude-shift keying)</title>
+<para>
+以更動載波的頻率來編碼資料。
+</para>
+</sect2>
+<sect2><title>頻率轉移鍵(FSK, Frequency-shift keying)</title>
+<para>
+以更動載波的頻率來編碼資料。
+<emphasis>最小轉移鍵(MSK, minimum-shift keying)</emphasis>
+是一種比 FSK 更有效率的編碼，
+其最低頻率與最高頻率差與位元速率相同。
+<emphasis>GMSK</emphasis>是用在 GSM 行動電話標準的調變。
+</para>
+</sect2>
+<sect2><title>相位轉移鍵(PSK, Phase-shift keying)</title>
+<para>
+以更動載波的相位來編碼資料。
+</para>
+</sect2>
+<sect2><title>QAM</title>
+<para>
+以更動載波的相位及振幅來編碼資料，
+其每個信號可代表二位元碼。
+</para>
+</sect2>
+</sect1>
+</chapter>
+</part>
+<part><title>傳輸模型</title>
+<chapter><title>OSI 模型 Open System Interconnection Reference Model</title>
+1.4	提昇傳輸品質	
+1.4.1	連接導向和非連接導向 Connection-Oriented Connectionless	
+	
+2	網路模型 Network Model	
+2.1	
+2.2	IP 協定組　Internet Protocol Suite	
+2.3	DoD 模型 Department of Defense Model	
+2.4	IEEE802	
+2.5	Cisco 階層 Cisco Hierarchical Design Model	
+
+2.1	OSI 模型 Open System Interconnection Reference Model	
+2.1.1	實體層 Physical Layer	
+2.1.2	資料連結層 Datalink Layer	
+2.1.3	網路層 Network Layer	
+2.1.4	傳輸層 Transport Layer	
+2.1.5	會議層 Session Layer	
+2.1.6	表現層 Presentation Layer	
+2.1.7	應用層 Application Layer	
+
+<sect1><title>實體層 Physical Layer</title>
+	定義及提供以下功能：
+	*提供[實際媒體]間資料傳輸連線的功能	
+	*協調共用媒體資源的存取	
+	*轉換電子訊號至媒介使用訊號	
+	*傳輸的單位是位元 bit	
+	*接頭、電纜及電壓規格 Pins, Cable, Voltages	
+
+	*接頭、電纜及電壓規格 Pins, Cable, Voltages	
+	EX
+	RJ45, BNC 等接頭規格
+	同軸纜線及光纖等電纜規格
+	
+	*協調共用媒體資源的存取	
+	EX
+	解決競爭 Cotention Resolusion 以及
+	流量管制 Flow Control 方法
+	
+	*轉換電子訊號至媒介使用訊號	
+	EX
+	Modem 將電子轉類比或類比轉電子
+</sect1>
+<sect1><title>資料連結層 Datalink Layer</title>
+	定義及提供以下功能：
+	*提供[網路個體]間資料傳輸連線的功能	
+	*實作硬體定址--平面定址空間	
+	*錯誤處理--偵測及修正實體層傳輸錯誤	
+	*資料切割	
+	*傳輸的單位是訊框或細胞	
+
+	*實作硬體定址--平面定址空間	
+	MAC 位址寫死在 NIC 上，使用者無法改變，
+	而 Network 位址是由主機使用者自訂的。
+	由於 Network 位址通常具備階層的規則，所以路由器可以
+	利用此特性決定最佳的路徑。
+
+	*傳輸的單位是訊框或細胞	
+	訊框 Frame:
+	資料長度不固定稱訊框 EX Ethernet Frame
+	細胞 Cell:
+	資料長度固定稱細胞 EX ATM Cell
+</sect1>
+<sect1><title>網路層 Network Layer</title>
+	定義及提供以下功能：
+	*提供[不同網路]間資料傳輸連線的功能--路由	
+	*實作邏輯定址--階層定址空間	
+	*傳輸品質管理	
+	 EX 錯誤處理
+	 EX 流量控制
+	*資料切割	
+	 此階層的單位是資料元 Datagram	
+	*傳輸的單位是封包	
+</sect1>
+<sect1><title>傳輸層 Transport Layer</title>
+	*提供[不同使用者]間資料傳輸連線的功能	
+	*實作埠定址--資料處理程序的位址	
+	*傳輸品質保證	
+	 此層控制使用者間連線的可靠性
+	 EX 連接導向 Connection Orientated
+	 EX 零錯誤 Error 'Free' Data
+	 EX 同序傳輸 Same Order Delivery
+	 EX 流量控制
+	*資料切割	
+	 此階層的單位是段 TCP Segment	
+	*傳輸的單位是傳輸層資料元 TPDU	
+</sect1>
+<sect1><title>會議層 Session Layer</title>
+	*傳輸的單位是會議層資料元 SPDU	
+</sect1>
+<sect1><title>表現層 Presentation Layer</title>
+	*傳輸的單位是表現層資料元 PPDU	
+</sect1>
+<sect1><title>應用層 Application Layer</title>
+	*傳輸的單位是應用層資料元 APDU	
+</sect1>
+2.4	IEEE802	
+2.4.1	實體層 PHY	
+2.4.2	媒體存取層 MAC	
+2.4.3	邏輯鏈路層 LLC	
+
+	IEEE 802 是制定區域網路標準的一個團體，
+	其標準通常涵蓋了 OSI 的實體層及資料連結層，但
+	又將資料連結層分為邏輯鏈路層及媒體存取層。各層
+	功能如下：
+
+2.4.1	實體層 PHY	
+	如同 OSI 實體層的功能。
+	其實體層選項命名模式如下：
+
+	速度 傳輸模式-媒介
+	*速度	
+	*傳輸模式	
+	BASE 指基頻
+	*媒介	
+	5,2,X 同軸纜線
+	T 雙絞線
+	F 光纖
+
+	EX
+	10BASE-5, 10BASE-2, 10BASE-T, 10BASE-F
+	100BASE-TX, 100BASE-T4, 100BASE-FX, 100BASE-T2
+	1000BASE-X, 1000BASE-T
+	10GBASE-CX, 10GBASE-T, 10GBASE-LRM
+	
+2.4.2	媒體存取層 MAC	
+	定義了以下物件：
+	*從實體層的位元流辨識訊框的開始及終止位元	
+	*插入界定訊框的資訊至訊框	
+	*偵查傳輸錯誤，插入 FCS 至訊框	
+	*插入目的及來源 MAC 位址至訊框	
+	*過濾目的 MAC 位址非本身的訊框	
+	*控制實際傳輸媒體的存取	
+	EX
+	CSMA/CD, CSMA/CA, Token Ring, 100VG	
+
+2.4.3	邏輯鏈路層 LLC	
+	定義在 IEEE803.2 中，提供以下功能：
+	*對網路層提供一致的資料連結層介面	
+	*
+3	網路設備 Computer Networking Device	
+3.1	中繼器	Repeater	
+3.2	集線器	Hub	
+3.3	橋接器	Bridge	
+3.4	路由器	Router	
+3.5	交換器	Switch	
+
+	*主機 host	
+	接受或產生資訊的端點。
+	*網路設備 Computer Networking Device		
+	網路資料傳輸的媒介，網路設備將主機連結形成網路。
+	*網路區段 Network Segment	
+	由 CND 所分開的部份稱為網路區段。	
+	
+3.1	中繼器	Repeater	
+	
+3.2	集線器	Hub	
+	將不同網路區段的電腦結合成同一碰撞域及廣播域的設備。
+3.3	橋接器	Bridge	
+	分隔碰撞域 Collision Domain 的設備。
+	橋接器是結合 OSI 第二層協定的設備，故它可連接不同 OSI L2
+	的網路區段。
+	橋接器一定有二個以上的網路介面，才得以連接不同的網路。
+3.4	路由器	Router	
+	分隔廣播域 Broadcast Domain 的設備。
+	路由器一定有二個以上的網路介面，才得以連接不同的網路。
+3.5	交換器	Switch	
+	*交換	Switch	
+	交換是指將資料由一個網路介面傳送至另一個網路介面。
+	L2 Switch 是依據 OSI L2 的 MAC 位址作為傳送目的。
+	L3 Switch 是依據 OSI L3 的 Network 位址作為傳送目的。
+
+	MAC 位址寫死在 NIC 上，使用者無法改變，
+	而 Network 位址是由主機使用者自訂的。
+
+	由於 Network 位址通常具備階層的規則，所以路由器可以
+	利用此特性決定最佳的路徑。
+	ex. IP 位址利用子網路遮罩將位址區分為網路位址及子網
+	路位址的階層。	
+	而 MAC 位址是平面的。
+	
+	*儲存後推送 Store and Forward	
+	屬於 OSI L2 的產品，交換器會將接收到的封包暫時
+	儲存後，再由另一個埠送出的網路元件，由於交換器會將輸入
+	的訊框做緩衝儲存，所以也可以當做橋接器或路由器
+	使用。功能為對數據封包進行轉發，可降低封包碰撞機率，
+	提昇網路效能，讓使用者感覺每個交換器的網路埠均有 100% 的專屬的
+	頻寬。目前台灣生產交換器的公司以友訊、智邦、訊康為代表。
+	*交換表維護 Maintenance of switching operations	
+	交換器維護交換表，並且搜尋交換表將輸入資料送至目的埠。
+	路由器維護交換表，並且搜尋路由表將輸入資料送至目的埠。
+</chapter>
+</part>
+<part><title>連線到廣域網路</title>
+	<!--&ADSL;-->
+<chapter><title>ATM</title>
+	ATM (Asynchronous Transfer Mode) 是由國際電信聯盟(ITU)的前
+	身國際電話電報諮詢委員會(CCITT) 所制定的高速網路傳輸協定。
+
+	傳輸模式（Transfer Mode）基本上乃是表示傳輸
+	（Transmission）、多工（Multiplexing）、解多工
+	（De-multiplexing）和交換（Switching）資訊的一種特定方法，
+	亦即規範如何傳送與接收資訊的方法，也可以算是一種技術。
+
+	非同步傳輸模式之細包（Cell）長度為53個位元組。這53個位元組
+	包含5個位元組的細包標頭（Cell Header）與48個位元組的細包資
+	訊欄位（Information Field）。非同步傳輸模式需另外加上識別
+	碼來識別資訊的對象。識別碼即由5個位元組的細包標頭擔綱。在
+	非同步傳輸模式交換機即依該細包標頭進行細包交換。
+
+	非同步傳輸模式是目前被 ANSI 及 ITU 認可為寬頻整體服務數位
+	網路(Broadband ISDN，B-ISDN)的基礎，配合SONET與相關技術，
+	其傳輸速率可由1.5 Mbps 到 10 Gbps，一般以 155.520 Mbps 
+	(OC-3) 或是 622.080 Mbps (OC-12) 居多，點與點之間的距離可
+	由 100 公尺到 40 公里，所以同時可以適用於區域網路(LAN)與
+	廣域網路(WAN)。
+
+	非同步傳輸模式的通信協定採用非同步傳輸模式適應層
+	（ATM Adaptation Layer；AAL）。非同步傳輸模式適應層對於不
+	同速率服務等級可區分成固定速率（Constant Bit Rate；CBR）、
+	可變速率（Variable Bit Rate；VBR）、備便速率（Available Bit
+	 Rate；ABR）、不指定速率（Unspecified Bit Rate；UBR）以及
+	最小細包速率（Minimum Cell Rate；MCR）。至於非同步傳輸模式
+	適應層內容則有1，2，3，4與5層與上述不同速率服務等級相互輝
+	映。
+
+	使用ATM時，在傳送資料之前必須先建立好通路，而且在通訊的傳
+	送和接收方並不需要同步的動作，所以傳輸信號並不需要附帶時序
+	信號 (clocking signal)，減少傳送和接收方的聯繫工作和關連
+	性，因此特別適合即時性的應用，如會議視訊 (video 
+	conference) 、隨選視訊(Video On Demand，VOD)、多媒體或是電
+	傳視訊資料等。
+</chapter>
+<chapter><title>有線電視纜線</title>
+	以同軸電纜連接網際網路時，最高可以得到30Mbps的傳輸速度。只
+	要家中裝設有第四台，就能夠享受到如此極速的快樂。但是，提供
+	這項服務的有線電視台首先必須花費一筆錢將設備升級為同軸電纜
+	數據機。
+
+	有線電視纜線最大的缺點在於，因為是與鄰居使用同一條纜線，所
+	以，只要鄰居中有一個人下載大檔案，恐怕所有使用同一條纜線的
+	用戶，傳輸速度就會大幅下滑。
+</chapter>
+<chapter><title>多工與多元存取(Multiplexing and Mutiple Access)</title>
+<sect1><title>多工與多元存取(Multiplexing and Mutiple Access)</title>
+<para>
+<emphasis>多工與多元存取</emphasis>將媒介切割成多個通道的方法。
+其主要目的如下：
+</para>
+<para>
+<orderedlist>
+<listitem>避免佔據效應
+<para>		
+在許多主機共用一個媒體傳輸，為了讓每個節點都有機會交談，
+所以將長串資料分解成一小塊的封包，以避免某一節點長時間佔據媒介。
+</para>
+</listitem>
+<listitem>可同時用多個頻道傳輸</listitem>
+</orderedlist>
+</para>
+</sect1>
+<sect1><title>FDMA 分頻分工存取 Frequence Division Multiple Access</title>
+</sect1>
+<sect1><title>TDMA 分時分工存取 Time Division Multiple Access</title>
+<para>
+由於頻率資源有限，如果要能在同一地區重複使用同一種頻率，
+除非是用數位技術。 而分時多工，是利用時槽的概念，
+將時間切割頻道，即在一段時間內，通話採用某種頻率而在傳送送完封包後，
+即釋放該頻率給其他需要使用者被運用在GSM，DCS，DECT，PDC，
+PHS，PACS等系統。
+</para>
+<para>
+TDMA技術是以時間座標基礎，每一傳送站分配一個小時槽
+(time slot)祇允許在時槽內傳送資料，所有TDMA系統均是數位化的，
+因此TDMA系統有不少優點：
+<orderedlist>
+<listitem>TDMA 技術易於重新規劃，以適應資料流量、抵抗雜訊干擾。</listitem>
+<listitem>TDMA 技術每個轉頻器只使用一個載波，因此不會有互調干擾雜訊，
+衛星轉頻器之傳送訊號功率可以到達最大極限。</listitem>
+<listitem>可以更改每一地面站之脈衝訊號發出時間，由於脈衝訊號時間，
+因此每一地面站之容量可以更改。</listitem>
+</orderedlist>
+</para>
+</sect1>
+<sect1><title>OFDM 正交頻率多工 
+Orthogonal Frequency Division Multiplexing</title>
+<para>
+用正交頻分再使用採用一個不連續的多音調技術，
+將不同頻率之載波中的大量信號合併成單一的信號，而完成信號傳送。
+由於此技術具有在雜波干擾下傳送信號之能力，
+所以常常會被利用在容易外界干擾，或者是抵抗外界干擾能力較差的傳輸介質中。
+OFDM 技術的推出乃是為了提高載波的頻譜利用率，
+或者是為了改進對多載波的調製用的，其特點是各子載波相互正交，
+於是擴頻調製後的頻譜可以相互重疊，因而減小了子載波間的相互干擾。
+</para>
+<para>
+OFDM 技術可實現在5.15GHz到5.35GHz頻段可靠的高速數據傳輸。
+可利用保護時間階段來解決多徑效應產生的碼間干擾，
+以及藉由時序同步來避免接收和發射之間的頻率誤差，實現可靠正交傳輸。
+目前許多類型的網路系統正在使用。
+</para>
+<para>
+OFDM 除符合數位電纜、DSL、數位化電視，和輸電線聯網產品之使用需求外，
+也符合已經建立起來的 IEEE 802.11a 無線區域網（WLAN）標準，
+和推薦使用的 IEEE 802.11g 無線區域網標準。
+OFDM 同時也被考慮用在 4G 蜂窩系統。
+</para>
+</sect1>
+<sect1><title>WDM 波長分工 Wavelength-division multiplexing</title>
+</sect1>
+<sect1><title>CDMA 分碼多工存取 Code Division Multiple Access</title>
+<para>
+先進的無線通信技術，原為軍方通信所開發，現今已廣泛應用到全球民用通信中。
+CDMA 將話音轉換為數字信號，給每個數字話音分組增加一個地址，進行擾碼處理,
+並且將它發射到空中。CDMA 最大的優點就是相同的頻寬下可以容納更多的呼叫.
+而且它還可以隨話音傳送數字信息。
+</para>
+</sect1>
+<sect1><title>DWDM 密度波長分工 Dense WDM</title>
+</sect1>
+<sect1><title>競爭式多元存取</title>
+<sect2><title>CSMA/CD</title>
+<para>
+基本程序如下：
+<procedure>
+<step>媒介感應 CS Carrier Sense
+<para>
+所有的節點在傳信號之前，必須先聽媒介是否沒人用。
+</para>
+</step>
+<step>多元存取 MA Mutiple Access	
+<para>
+當媒介沒人用時，所有節點便開始傳遞信號。
+</para>
+</step>
+<step>碰撞偵測 CD Collison Detection
+<para>
+當兩個節點同時傳輸資料時，他們的電壓會重疊，
+則傳訊節點可以依此偵測到碰撞，並傳出一個堵塞訊號 jam signal，
+所有節點偵測到 js 時，便作迴避 back off，各自停止一段隨機的時間，
+再重新開始。
+</para>
+</step>
+</procedure>
+如下圖所示：
+<figure><title>CSMA/CD 狀態圖</title>
+<imagedata fileref="pic/csma_cd_statechart.JPG" />			
+</figure>
+</para>
+<sect3><title>實作的協定</title>
+<para>
+<itemizedlist>
+<listitem>802.3</listitem>
+</itemizedlist>
+</para>
+</sect3>
+</sect2>
+<sect2><title>CSMA/CA</title>
+<para>
+基本程序如下：
+<procedure>
+<step>媒介感應 CS Carrier Sense
+<para>
+所有的節點在傳信號之前，必須先聽媒介是否沒人用。
+</para>
+</step>
+<step>多元存取 MA Mutiple Access	
+<para>
+當媒介沒人用時，所有節點便開始傳遞「要求傳輸信號」，
+並等待一段應可讓所有節點收到「要求傳輸信號」的時間。
+</para>
+</step>
+<step>碰撞避免 CA Collison Avoidance
+<para>
+開始傳輸信號，但若偵測到「要求傳輸信號」時，便作迴避停止一段隨機的時間，
+再重新開始。
+</para>
+</step>
+</procedure>
+<figure><title>CSMA/CA 狀態圖</title>
+<imagedata fileref="pic/csma_ca_statechart.JPG" />			
+</figure>
+</para>
+<sect3><title>特性</title>
+<para>
+理論上發生碰撞的機率比 CSMA/CD 少，但需先多傳一個「要求傳輸信號」。
+</para>
+</sect3>
+<sect3><title>實作的協定</title>
+<para>
+<itemizedlist>
+<listitem>Apples Local Talk</listitem>
+<listitem>802.11</listitem>
+</itemizedlist>
+</para>
+</sect3>
+</sect2>
+<sect2><title>記號環 Token Ring</title>
+</sect2>
+</sect1>
+</chapter>
+<chapter><title>傳輸媒介</title>
+<sect1><title>雙絞線, Twisted Pair</title>
+<para>
+電流訊號
+</para>
+<para>
+Cat-3, Cat-5 無遮蔽式雙絞線 (Unshielded Twisted Pair, UTP)
+</para>
+<para>
+遮蔽式雙絞線 (Shielded Twisted Pair, STP) 
+</para>
+</sect1>
+<sect1><title>光訊號傳輸</title>
+<sect2><title>折射率 Refractive index</title>
+<para>
+某種的介質的折射率亦等於光在真空中的速度c跟光在介質中的傳播速度v之比
+</para>
+<equation><title>介質 n 的折射率</title>
+n=c/v
+</equation>
+<para>
+光的折射定律（Snell's Law）:
+</para>
+<para>
+光入射到不同介質的界面上會發生反射和折射。
+其中入射光和折射光位於同一個平面上，
+並且與<emphasis>界面法線的夾角</emphasis>滿足如下關係：
+</para>
+<equation id="snell"><title>史奈爾公式</title>
+n<subscript>1</subscript>sinθ<subscript>1</subscript>
+=n<subscript>2</subscript>sinθ<subscript>2</subscript>
+</equation>
+<para>
+其中，n<subscript>1</subscript>和n<subscript>2</subscript>
+分別是兩個介質的折射率，
+θ<subscript>1</subscript>和θ<subscript>2</subscript>
+分別是入射光（或折射光）
+與界面法線的夾角，
+叫做入射角和折射角。
+</para>
+<para>
+由史奈爾公式<xref linkend="snell"/>可得知，若介質
+n<subscript>1</subscript>
+的折射率越大，則θ<subscript>2</subscript>會越大。
+則其
+</para>
+</sect2>
+<sect2><title>光纖纜線</title>
+<para>
+光纖纜線的種類及特性條列如下：
+</para>
+<itemizedlist>
+<listitem>單模Single-Mode Fiber
+<itemizedlist>
+<listitem>核心較多模光纖細</listitem>
+<listitem>入射光集中在核心，全反射少，光線會在同時間到達終點</listitem>
+</itemizedlist>
+</listitem>
+<listitem>級射率光纖Step Index Fiber
+<itemizedlist>
+<listitem>為多模光纖</listitem>
+<listitem>
+因其「核心」與「纖殼」之「折射率」變化劇烈，
+因此「核心」射向外殼之光束會在介面產生「全反射」，
+光則不停的依「全反射」之形式傳播，
+使得沿中心軸前進的光線和反射前進的光線到達終點的時間有差異
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>斜射率光纖 Graded Index Fiber
+<itemizedlist>
+<listitem>為多模光纖</listitem>
+<listitem>
+因其「核心」「折射率」之變化是緩和且連續，
+又因光在介質中之速度和「折射率」成反比，故原先偏離中心軸的光線，
+經過連續曲折後，依序會再回中心軸，最後到達終點的時間大約一致。
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2><title>光纖電纜：重點</title>
+<para>
+發光二極體 (LED)
+</para>
+<para>
+雷射二極體 (Laser)
+</para>
+<para>
+中空導管 (Pipe) 
+</para>
+</sect2>
+</sect1>
+<sect1><title>無線電傳輸</title>
+<sect2><title>無線電廣播 Radio</title>
+</sect2>
+<sect2><title>微波 Microwave</title>
+</sect2>
+<sect2><title>紅外線 Infrared</title>
+</sect2>
+<sect2><title>雷射 Laser </title>
+</sect2>
+</sect1>
+
+<sect1><title>傳輸媒介的選擇</title>
+<sect2><title>通訊協定</title>
+</sect2>
+<sect2><title>資料傳輸量</title>
+</sect2>
+<sect2><title>可靠度</title>
+</sect2>
+<sect2><title>舖設環境</title>
+</sect2>
+</sect1>
+</chapter>
+</part>
+<part><title>資料鏈結層</title>
+<chapter><title>分層網路 layered network</title>
+<para>
+	網路在設計上可用三層的模型來分析：
+	<itemizedlist>
+		<listitem>核心層 core layer</listitem>
+		<listitem>分散層 distribution layer</listitem>
+		<listitem>存取層 Access Layer</listitem>
+	</itemizedlist>
+	核心層的功能主要是提供高速的交換，而分散層是實作路由政策的一層，
+	而存取層提供本地端或遠端存取。
+</para>
+
+
+</chapter>
+<chapter><title>無線網路 Wireless Network</title>
+<sect1><title>無線通道</title>
+<itemizedlist>
+<listitem>超高頻, VHF, Very High Frequency
+<para>
+頻帶在144～146兆赫間。
+</para>
+</listitem>
+<listitem>中頻, IF, Internmediate Frequency
+<para>
+頻率範圍是300~3000千赫，波長範圍是100~1000公尺。
+</para>
+</listitem>
+
+<listitem>微波, microwave
+<para>
+微波是電磁波的一種，其波長在 1cm～300cm 之間，頻率範圍在
+0.1GHz～30GHz。微波是一種高頻的無線電訊號，
+以空氣作為傳輸媒介，只能做直線傳輸，
+這是因為其信號不能彎曲，所以傳送資料時，
+必須倚靠微波塔臺做點對點的廣播，
+而且兩塔台之間不能有障礙，
+每30～40公里就要設一中繼站。
+</para>
+</listitem>
+<listitem>紅外線傳輸埠, IrDA, Infrared Data Association
+<para>
+為短距離無線傳輸技術之一。IrDA 是 93 年由
+HP、IBM、Sharp、SONY
+等五十家廠商在美國建立的標準。
+主要在整合資訊週邊紅外線傳輸裝置，
+建立統一傳輸標準，與其他標準最大的不同在於，
+紅外線傳輸是利用直線可見光進行，每一傳輸點之間，
+不可以有外物阻隔或其他電子設備干擾。
+IrDA藉由紅外線進行傳輸，有效傳輸距離達8公尺，傳輸速率達每秒
+16Mbps，發射解度達120度，可應用在桌上型電腦、筆記型電腦、
+數位相機、行動電話及個人行動助理(PDA) 等產品，使用者只需在
+電子產品上，安裝紅外線傳輸埠之後，可以直接和另一種電子產品，
+不需再用線路或網路卡連接兩端裝置，就可輕鬆、高速的傳輸資料。
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1><title>無線網路設備</title>
+<itemizedlist>
+<listitem>DataTAC
+<para>
+是目前行動數據的三個架構之一。起源於 1980 年初期，
+是 Motorola 為 IBM 的客服工程師設計的數據通訊系統。
+從系統設備所在位置及管理角度來看，
+可將整個 DataTAC 統分為區域網管中心，
+及基地台兩部份。
+</para>
+<para>
+區域網管中心是整個 DataTAC 系統的核心部份，
+主司設定系統資訊、監控系統運作情況；
+基地台與區域網管中心間則是以專線連接，
+整合資料收發器，
+專門負責將無線電網路控制器端傳送過來的訊息，
+以無線電波發射及接收由無線終端系統設備往 DataTAC
+系統網路傳送的無線電波資訊。
+</para>
+</listitem>
+<listitem>存取點, AP,Access Point
+<para>
+是扮演有線區域與無線區域網路的橋接角色，
+為無線網路的基地台，
+其大小如一個便當盒，可插上網路線提供連結。
+裝有無線區域網卡（Wireless LAN Card）
+之個人電腦或手持式裝置均可透過 AP 分享有線區域的資源。
+除此之外，AP 兼具有網管之功能，
+可針對接有無線網路卡之裝置作必要的控管。
+</para>
+<para>
+舉例來看，使用者只要將無線網路卡插入具無線區域網路
+（Wireless LAN, WLAN）界面的個人電腦及手持式裝置，
+另外在辦公室內或大樓內安裝 AP，
+即可在辦公室或大樓內自由行動，
+而可隨時保持網路連線狀態。
+</para>
+</listitem>
+<listitem>行動電話交換局, MTSO, Mobile Telephone Switching Office
+<para>
+行動電話交換局是蜂巢式行動電話系統的一部份。主司行動電話與
+一般公眾電話或其他行動電話間的語音訊號轉換與控制，執行位置
+紀錄及計費等工作。其控制設備則監視管制基地台及用戶話機，依
+所收到的數據作頻道同步切換及線路設定。
+在蜂巢式行動電話系統中的行動用戶透過無線電波和基地台連線，
+並透過行動電話交換局接到公共電信網路或是另一個行動電話交換
+中心完成一條通話鏈路。
+無線終端設備　Wireless Terminal Device	
+用來接收及傳送資料的無線數據機，包括無線數據機及應用程式執
+行所在的終端設備。
+</para>
+<para>
+每一台無線數據機在出廠時都會被賦予一個專用號碼，稱之LLI
+（Logical Link Identifier），LLI就像網路卡上MAC Address一般
+是唯一的，透過無線數據機的LLI，DataTAC系統可以與其進行雙向
+資料傳遞，而終端設備上的用程式是以NCL
+(Negative Control Language)通訊協定與無線終端機通。
+</para>
+</listitem>
+<listitem>WML, Wireless Markup Language
+<para>
+由於以HTML語言所寫成的網頁，所需的記憶體龐大，非手機內小小
+的晶片可以負擔，必須改採專門為無線通訊所設計的WML語言所寫
+成的網頁，才能被手機接受。
+</para>
+</listitem>
+<listitem>WMLscript
+<para>
+WMLScript是參考JavaScript所制訂的無線描述語言，不論在語法
+上或程式邏輯上都與Java Script十分接近。不同的是，WMLScript
+在下載之前會先在Gateway處編譯，以簡少用戶端設備的負擔；此
+外，WMLScript必須放在另一個.wmls的檔案裡面；一般而言，
+WMLScript檔案也像WML檔案一樣，有1400 bytes的大小限制。
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1><title>WiFi, IEEE 802.11</title>
+<para>
+1985年，FCC 決定開放三個 ISM 頻帶
+(Industrial Scientific Medical bands)，即
+<itemizedlist>
+<listitem>902~928MHz</listitem>
+<listitem>2.4~2.483GHz</listitem>
+<listitem>5.725~5.875GHz</listitem>
+</itemizedlist>
+等三個頻帶。此一動作不僅滿足了當時對通訊頻帶日益增加的需求，
+對於無線網路發展更有著重要的影響。到了90年代初，
+使用 ISM 頻帶的通訊產品紛紛出現在市場上，
+為了使各種競爭的產品之間能夠互通，標準的制訂就成了重要的工作，
+而後便有 IEEE 802.11 無線區域網路的標準產生。
+</para>
+<para>
+IEEE 於 1997 年所制定之 IEEE 802.11 無線網路標準，
+主要讓各種符合該標準之無線網路設備利用 2.4GHz 頻寬帶傳遞無線電訊號，
+以達到交換資訊之目的，所謂「頻寬帶」，就像收音機之頻道一樣，
+各頻道有其不同之應用，而IEEE 802.11標準所採用之 2.4GHz 頻寬帶則為共用頻道，
+使用者無需向任何單位申請即可使用，簡單來說，
+無線網路就是利用無線電波傳輸技術，架構與有線網路功能相同之區域網路。
+而速度方面，因技術不斷改良，無線傳輸速率已由當初每秒 2Mbits 
+提升至現在之 11Mbits，未來更可望達至 45Mbits，
+以支援更豐富之網路多媒體傳輸。
+</para>
+
+<sect2><title>IEEE 802.11 標準</title>
+<para>
+IEEE 802.11主要的目的是要制訂一套適合在無線網路環境下作業的通訊協定，
+最重要的工作，就是要制訂出 MAC 層和實體層。
+因此IEEE 802.11的參考模式主要分成三個部份；
+<itemizedlist>
+<listitem>第一部份定義適用於所有無線網路系統的 MAC 規格</listitem>
+<listitem>第二部份制訂和傳輸媒介相關的 PHY 規格</listitem>
+<listitem>第三部份則是說明power saving functionality的部份。</listitem>
+</itemizedlist>
+</para>
+<para>
+為了要達到無線網路的透明化，無線區域網路希望做到在 LLC 就能和別的網路相通，
+這使得無線區域網路必須將處理移動性收發站及保持資料傳輸可靠性的能力全部做在 MAC 層中，
+這和傳統有線網路在 MAC 所需具有的功能是不同的。此外，
+針對三種不同的ISM頻帶，也都有不同的PHY規格。 
+</para>
+</sect2>
+</sect1>
+<sect1><title>藍芽 Bluetooth</title>
+<para>
+為短距離無線傳輸技術之一。Bluetooth是以一個小型化的無線及基頻模組晶片，
+裝置在終端器中，使用不需申請使用執照的 ISM 頻帶2.4GHz，
+每條頻寬為 1MHz，將2.4GHz頻段因所在區域不同劃分為79個無線電頻率通道，
+為避免此頻段電子裝置相互干擾，
+因而以每秒 1600 次高難度頻率跳躍率的跳頻展頻（FHSS）技術，
+以及加密保密技術，有效傳輸速率在432Kbps～721Kbps不等，
+有效傳輸距離為10～100公尺。
+</para>
+<para>
+藍芽技術是 1998 年由易利信(Ericsson)、諾基亞(Nokia)、IBM、
+英特爾(Intel)與東芝(Toshiba)五家涵蓋通信、電子與電腦領域的廠商，
+成立 Bluetooth SIG(Special Interest Group)，共同發表 Bluetooth 1.0 規格，
+目前已有超過2,200家公司公開支持藍芽計畫，使其成為行動設備無線連接的實質標準。
+Blooth SIG 預計在 2001 年下半年公佈 2.0 版規格，
+改良封包處理，變更射頻規格，將傳輸速率由 1Mbps 提升至 12Mbps。
+</para>
+<sect2><title>短距離通訊為主要訴求</title>	
+<para>
+藍芽真正鎖定的目標，是兼具數據及語音傳輸功能的新一代行動通訊裝置，
+以第三代行動電話、具備無線通訊功能的數位助理以及筆記型電腦為主。
+</para>
+</sect2> 
+<sect2><title>Bluetooth 所能提供之服務範例</title>
+<itemizedlist>
+<listitem>三合一手機</listitem>	
+<listitem>互動式會議</listitem>
+<listitem>整合電腦連線</listitem>
+<listitem>數位化家電</listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+<sect1><title>術語</title>
+9.1	術語	
+9.2	常用縮寫	
+9.3	2004 十大熱門電信技術	
+
+9.1	術語	
+
+9.2	常用縮寫	
+	*PSTN public switched telephone network	
+	*公眾交換電話網路	
+	指的是一般傳統的電話交換系統，使用銅線來傳輸類聲音的電話
+	系統，而且特指整個以交換電路方式傳輸語音的基礎建設體系。
+	
+	*PBX Private Branch eXchange	
+	*CPE Customer Premises Equipment 	
+	用戶端設備	
+
+	*PCMM PacketCable Multimedia	
+	*纜線封包多媒體	
+	可在有線電視網路上提供即時性多媒體服務，
+	而以共同的標準規格進行傳輸，預期未來在通訊及娛樂的領域上，
+	將更不易區分電腦及電視的定位。
+
+9.3	2004 十大熱門電信技術	
+	根據Telecommunication Magazine的報導，本年度最熱門的10種電
+	信技術發展趨勢報告正式出爐；部分技術可能在未來的1-2年內正式
+	在市場推出；不過多數的技術則仍在實驗階段。
+
+9.3.1	PacketCable Multimedia (PCMM)	
+
+	PCMM 的技術主要是使用DOCSIS 1.1(Data Over Cable System 
+	Interface Specification)與PacketCable 1X的規格。這項技術允
+	許使用者的終端設備依據不同服務的類型，隨時變更所需的頻寬。
+	因此有線電視寬頻業者可以透過這種技術，經營多樣化的服務，其
+	中包含了視訊會議、博奕、隨選視訊及以SIP(Session Initiation 
+	Protocol)為基礎的語音服務等。在PCMM的整個架構下，共包含了6
+	種基本元件：IP末端裝置、纜線數據機、纜線數據機終端系統CMTS
+	 (Cable Modem Termination System)、記錄伺服器(record keeping
+	server)、方針伺服器(policy server)及應用程式管理端。
+
+9.3.2	Interworking	
+
+	現階段網路服務提供者(service provider)最迫切需要的，是一種
+	能夠協調整合不同網路，使不同網路運作如一的技術。而業者對於
+	整合DSL、Ethernet與frame relay相關協定的技術最感到興趣。目
+	前MPLS/Frame Relay論壇，ATM論壇及IETF等組織分別都在開發相
+	關的協調技術。至於在業界，Cisco正在發展ATOM (Any Transport
+	 over MPLS)技術，至於Lucent和Juniper公司，Nortel和Avici公
+	司也分別都有合作計畫。不過目前還沒有業者發展出在相同VPN
+	上，同時使用Ethernet及frame relay的技術。
+
+9.3.3	Carrier-Class Network Security	
+
+	近年來，不論是服務提供者或是企業用戶，對於網路安全的議題都
+	愈趨重視。網路安全的架構中，有不同種類的防護措施。企業最常
+	使用的防火牆，是屬於一種阻絕外力入侵的架構，一般來說並不適
+	用於ISP，同時也無法防護來自內部的攻擊。至於其他常見的網路
+	防護措施則包括，侵入防護(Network-based intrusion protection
+	)措施、內容過濾(content filtering)機制及防火牆管理(managed 
+	firewall protection)與病毒碼下載服務等。目前網路安全專家已
+	經致力於發展OSI層級的防護措施，計畫提供企業MSSP(managed 
+	security service providers)的網路安全服務。事實上，根據
+	Infonetics Research的調查，多數企業都希望能在2005年使用到
+	MSSP服務。
+
+9.3.4	Line-Powered DSLAMs	
+
+	由於受到用戶迴路距離的限制，目前DSL技術通常無法進行大規模的
+	架設。根據NTCA(National Telecommunications Cooperative 
+	Association)的調查，有45%的DSL業者受到地理距離因素的限制，
+	這也是DSL的用戶規模可能發生瓶頸的最大原因。不過隨著
+	line- powered DSLAM技術的發展，已經逐漸突破了這層障礙。這
+	種技術是透過直接連接至T1 IMA(Inverse Multiplexing over 
+	ATM)設備上，來提供用戶DSL服務。藉由這樣的技術，不但業者可
+	以突破傳統DSL的限制；也可以因應未來的ADSL2+或是VDSL時代。
+
+9.3.5	Wi-Fi/行動電話漫遊 Wi-Fi/Cellular Roaming	
+
+	未來數年中，無線網路的普及率將大幅上升。現今企業以辦公桌為
+	中心的工作模式將發生重大的變化。屆時如何與員工進行聯繫，便
+	成為企業首先必須克服的問題。不過目前解決方案已經浮現，預計
+	在今年年底或是明年的年初，無線網路的用戶可以使用同一手機，
+	漫遊在傳統的行動通信網路與寬頻無線網路間。用戶在進入無線網
+	路區域時，手機將自動切換到無線網路的接取點；而在使用語音服
+	務時，也可以使用終端設備的寬頻服務。這項技術未來不但可在手
+	機上使用，也可以應用到筆記型電腦、PDA及其他的行動終端設備上。
+
+9.3.6	Meshed Wireless Networking	
+
+	現行無線網路技術只能在靜止的狀態下使用，至於移動中則無法使
+	用。不過這樣的情形隨著方格化(Meshed)技術的發展，已逐漸發生
+	改變。基本上，方格化概念是規劃出一個特定的區域，而區域中的
+	無線網路則具備自我組織、設定與修復的功能，同時每個網路節點
+	都可以透過方格化網路進行重新定位。目前已有業者開始進行相關
+	的試驗，電信業者也相當期待這個項技術的發展。
+
+9.3.7	Hosted VoIP	
+
+	當傳統電話服務無法符合企業的需求時，Hosted VoIP的技術將提供
+	全新的服務型態。這項服務可提供用戶透過網頁來管理來電訊息的
+	功能，也可以使用企業內部統一的介面來傳遞語音或文字訊息。基
+	本上 Hosted VoIP可以配合企業需求，進行量身訂做的服務。目前
+	Hosted VoIP是使用混和型態的TDM/IP技術，可以結合IP的特色與
+	傳統的分時多工技術。因為係使用軟體交換(softswitch)及
+	feature server的架構，所以系統可以自動進行判別；當撥出去的
+	是IP電話時，可以透過網路轉接給對方，而如果是傳統的電話時，
+	則可以透過公眾電信網路轉接。市場調查顯示2003年第三、四季之
+	間，Hosted VoIP服務有31%的成長，所以目前電信信業者都積極計
+	畫推出新型態的Hosted VoIP服務。
+
+9.3.8	Active Ethernet	
+
+	現階段RBOCs(Regional Bell Operating Company)已經決定採用被
+	動式光纖網路PON(Passive Optical Network)來進行光纖到府
+	(Fiber To The Premise, FTTP)的服務，然而由於傳統的標準乙太
+	網路設備隨處可見，所以主動式乙太網路技術仍保有相當的優勢。
+	除此之外，PON的用戶端設備雖然價格持續下滑，但就技術上而
+	言，目前業者端的標準光纖線路終端器OLT
+	(Optical Line Terminal)卻有支援用戶數的上限(一部OLT僅能提
+	供32個用戶的服務)。而主動式乙太網路技術卻不需受到用戶數的
+	限制。至於主動式的乙太網路技術也可以提供用戶100Mbps到1Gbps
+	的專屬頻寬，而設備所使用的元件也僅較PON多出少許。所以相較於
+	PON技術，主動式乙太網路具有高彈性頻寬與低單位成本的優勢。
+
+9.3.9	Back Office Automation	
+
+	Back Office Automation也稱為網路資源管理(network resource 
+	management)或是存貨管理(inventory management)。過去企業多
+	僅重視前台作業管理機制，至於後台的資訊則多僅供紀錄。不過在
+	最近數年中，這種情形已經有大幅度的轉變，以往僅提供查閱的一
+	些紀錄，現在都可以透過適當的技術進行分析，而轉為有助於企業
+	營運的資訊。這項分析的技術，就是Back Office Automation技術。
+
+9.3.0	Resilient Packet Ring (RPR)	
+
+	RPR在3年前就已名列十大熱門技術，隨著IEEE 802.17 RPR標準進
+	入商業化階段，目前這項技術的應用已是一觸即發。根據最近一次
+	對電信業者的調查發現，有63%的一般受訪者會考慮將乙太網路的
+	服務架構於 RPR上；SONET/SDH設備的使用者，則有56%對RPR感到
+	興趣，至於其他的44%則傾向使用LCAS(Link Capacity Adjustment 
+	Scheme)、VCAT(Virtual Concatenation)或GFP(Generic Framing 
+	Protocol)技術。不過在網路層級Layer 2使用RPR技術時，即可傳
+	送複合型態的資料封包(multiple data packet)；再搭配Layer 1 
+	MAC的技術，RPR就可以同時在SONET與乙太網路上使用。這樣的組
+	合不僅可以更有效的使用頻寬，同時也兼具MAC的環狀保護(ring 
+	protection)與快速回復(fast restoration)的優點。
+</sect1>
+</chapter>
+<chapter><title>波動學</title>	
+<para>
+10.1	波的描述	
+	*振幅 amplitude	
+	振幅是指在一個波動週期中，媒體所受到最大擾動：		
+	它的量度單位是依照媒體的型態而定，像是：
+	繩子的振幅是以質點振動距離而定，單位是公尺。
+	聲音是以壓力的大小而定，單位是巴斯卡=牛頓/平方公尺。
+	電磁是以電壓的大小而定，單位是 volts/m^2	
+	*週期 period	
+	週期是指媒體受到一個循環擾動所花費的時間。
+	*頻率 frequency	
+	指一段時間，媒體擾動能有幾次循環。
+	hertz=times/second 作為單位。
+	也可用角動量頻率
+	f=omega/2pi 其中 omega=radians/second
+</para>
+</chapter>
+<chapter><title>乙太網路 Ethernet	</title>
+7.2	記號環 Token Ring	
+7.3	100 VG anyLan	
+
+7.1	乙太網路	Ethernet	
+	定義在 IEEE802.3 中
+7.1.1	MAC	
+7.1.2	訊框格式	
+	*123456  123456  12  46--1500  1234	
+	[DESTAD][SOURAD][LE][DATA/PAD][CRC ]
+
+	*目的位址 	6 bytes			DESTAD	
+	*來源位址 	6 bytes			SOURAD	
+	*資料長度 	2 bytes			LE	
+	*資料及填充位元	46-1500 bytes		DATA/PAD	
+	*CRC32		4 bytes			CRC	
+7.1.3	PHY 選項	
+7.1.4	其他相關文章	
+
+
+7.1.2	Frame	
+	
+	
+7.1.4	其他相關文章	
+	乙太網路是以封包(packets)為主，資料以封包形式傳送，而以太
+	網路則是採分散式模式，無須擔心中間是否會有故障或無法擴充的
+	問題。它是採分層協定架構，因此只需處理本身該負責的部分，而
+	非其他協定堆疊所交付的工作，這在當時算是相當新穎的觀念，這
+	也是它的優點之一。另一項優點是所謂的「隨機重送」 
+	(randomized retransmissions)。這是以夏威夷大學 
+	Norm Abramson 所建立的 Aloha 網路為基礎，Aloha 網路即是具
+	有隨機重送的 802.11 前身。
+
+	*可否解釋一下「隨機重送」？	
+
+	這表示若傳輸在時間上有有重疊造成干擾，也就是我們所說的衝突
+	，則他們會再稍後進行重新傳送。
+
+	Arpanet 在 1969 年引進封包交換，Aloha 則在1970年將封包交換
+	引進無線電設頻中，因此在 73 年激盪出兩件大事，一是乙太網路
+	的發明，另一個則是 TCP/IP 開始發展，這是史丹佛大學在 1973 
+	年夏季開始進行的事，網際網路與乙太網路自此同步進展，目前，
+	多數網際網路封包都是在乙太網路上傳送的，99.99%都是如此。
+
+	*但網際網路，或其前身 Arpanet 都比你提出乙太網路架構	
+	*的時間點來得早，而乙太網路首次實際部署也是好幾年之後	
+	*的事，那在乙太網路出現之前，訊息都是怎麼傳送的？	
+
+	網際網路原先有一套協定，專攻小型網路使用，那是全球性的，但
+	主機數量較少，同時也非為了相互連網功能，因此 TCP/IP 的出現
+	大幅擴展了網路的空間，並提供了建立一個大型網路的技術，讓 
+	LAN 可與 WAN (廣域網路)相互連接。
+
+	*記號環網路跟乙太網路有何不同？	
+	*跟乙太網路相比有什麼優缺點？	
+
+	記號環是由 IBM 開發出來的，這就已經是最大的先天優勢了，它
+	的原理是記號(token)會從一個點依序傳送至下個點，因此電腦可
+	以先後順序依次傳送訊息。乙太網路則不然，每個點都會立即傳送
+ 	出去，並期望盡量免發生衝突。記號會下達傳遞訊息的許可指令，
+	他們認為記號環最大優勢在於所謂的「決定論」 (determinism)，
+	但我認為這反而是最大的敗筆。
+
+	*怎麼說？	
+
+	決定論的重點在於，他們可保證資料可在多少時間內傳遞出去。理
+	論上，少了這種記號設定，乙太網路封包傳送似乎會沒完沒了，但
+	實際上這比地球爆炸的機率還小，但 IBM 還是喜歡拿「決定論」
+	大作文章。
+
+	*若說記號環是靠著記號來運作，	
+	*那乙太網路又是如何運作的呢？	
+
+	任何想傳遞封包的點(station)會先在記憶體中形成封包，然後聆聽
+	乙太(ether)媒介(指電纜、光纖或任何媒介)，看看是否有其他傳輸
+	在進行中。若已有其他傳輸在進行，它靜待其他傳輸先傳送完畢，
+	然後才送出自己的封包，但有可能同時有多個點在等待傳送中，因
+	此會有衝突發生，若纜線上有這種干擾出現，它會發出通知，也就
+	是我們所謂的「衝突偵測」，一旦偵測到有衝突，該點會取消傳送，
+	隨機挑個號碼，靜待幾個微秒(microsecond)再重新傳送。第二次傳
+	送可延遲並避免多重衝突發生。
+
+	*記號環這隻大怪獸後來下場如何？	
+
+	現在市場上還是有許多記號環網路，但之前幾週 IBM 已經宣佈要撥
+	出 1 億美元經費來撤換 IBM 內部的記號環網路，並換用乙太網路。
+	因此你可說記號環已經形同宣告死亡，雖然之前其實也跟死了差不
+	多，但 IBM 這項宣佈則算是致命一擊。而乙太網路能勝出的原因則
+	是因為它是開放標準，這是跟其他競爭廠商最大的差異。
+
+	*你覺得目前乙太網路跟你30年前提出的有何重大差異？	
+
+	目前的乙太網路比較是一種封包格式，或媒體存取演算法，這是商
+	業模式的一種。
+
+	*怎麼說？	
+
+	目前市場上有四大商業模式，第一種是垂直模式，例如 IBM 在
+	1980 年代的獨霸(monopolies)年代。第二種則是目前最常見的水平
+	模式，比如 AOL、思科、英特爾與微軟走的模式，我認為這也是一
+	種獨霸。第三種是Linux/開放原始碼模式，第四種則是乙太網路商
+	業模式。
+
+	這是以法定標準為基礎，在專屬版本中加入這些標準，它跟開放原
+	始碼不同之處在於競爭對手無須奉送出自己的智慧財產權，這種競爭
+	很激烈，但大家還是會保持產品之間的相容性，如此一來，標準會
+	依據市場的接受度迅速繁衍，大家會尊重市場最多的用戶基礎
+	(installed base)，這就是乙太網路商業模式。
+
+	*這只跟提供乙太網路技術的廠商有關嗎？	
+	*或者其他產業也可仿效乙太網路的模式呢？	
+
+	TCP/IP 網路協定就是走這種模式，採標準相容、具互通性、且可
+	向後相容。這是乙太網路用來殺死所有大怪獸的模式。
+
+	*乙太網路的商業模式已戰勝舊的競爭對手，	
+	*那在新挑戰方面呢？	
+
+	現在有三隻新的大怪獸。乙太網路目前忙著跟 SONET (同步光纖網
+	路)與 Fibre Channel 儲存網路作戰。802.11、802.16、802.20 也
+	是採用乙太網路的概念搶進行動電話市場，也就是封包交換與重複
+	發送。這樣的概念目前正與傳統電話通訊標準 SONET 進行競爭。
+	SONET 最高可傳送 64kbps 電話交談，但市場目前也開始採用網路
+	封包模式的乙太網路，因此乙太網路未來還會再擴張。
+
+	在儲存網路方面，過去都是使用 Fibre Channel，但目前乙太網路
+	也有逐漸後來居上之勢。
+
+	*為何這些領域會想採用乙太網路？	
+
+	成本較低、速度更快、網路更多，且可與網際網路相容，穩定性也
+	更好。
+
+	SONET 與 Fibre Channel 也可傳送網際網路封包，但這不是他們的
+	專長，乙太網路卻是專門為網際網路所設計。另外，手機與 802.11
+	未來也會有精彩的對手戲，看要如何競爭或相互搭配。由於 802.11
+	跟乙太網路一樣，都是專為傳遞網際網路流量所設計，因此我預測
+	贏面較大。
+
+	*你原來所擁有的四個乙太網路專利呢？	
+
+	我共同享有四個專利，這不是我獨有的，不過現在都已經過期了，
+	只有 17 年期限。
+
+	*從你在30年提出乙太網路概念後，	
+	*哪些人對這項技術的發展最具貢獻？	
+
+	這可難說了，過去 30 年來投入的人還真不少，包括思科、3Com、
+	英特爾、美國國家半導體、DEC、HP、康柏、Xerox、Bay Networks、
+	Nortel，名字一長串，這問題不好回答。
+
+	*好吧，那現在誰的貢獻度最大？	
+
+	這我要瞭解一下才能回答，但即使我說了，麻煩就跟著上身了，這
+	牽涉太廣泛了，也因此乙太網路才會這麼成功，因為競爭者眾，環
+	境又非常多元化。
+
+	*我剛問過乙太網路的定義，但我沒問你怎麼想出這名字的？	
+	在物理學歷史上，差不多19世紀時，科學家要解釋光如何從太陽
+	抵達地球，因此他們擬出一個理論，說是外太空佈滿了一種可傳
+	導電磁光波的介質，也就是所謂的乙太(ether)，但包括
+	(Albert)Michelson、(Edward)Morley與愛因斯坦等人都已證明沒
+	有乙太的存在。因此在1973年 5/22日，我急需一個跟媒介無關的
+	字眼，因此便決定使用「乙太」這個字，因為「乙太」無所不在，
+	被動、且可當作電磁波的傳導媒介。
+
+	部分人士批評我竟然使用一個不成立的物理論述來描述乙太網路，
+	但這種批評基礎很薄弱，因為乙太網路以前是 Xerox 的商標之一，
+	但在經過 IEEE 協會的標準化過程中，Xerox 放棄此一商標權。我
+	自己則有權決定乙太網路的定義，假如他們想稱為 802.11 無線乙
+	太網路，我會全力支持，尤其這又會令人想起 802.11 的前身 
+	Aloha 網路。
+
+	*單維彰的乙太網路介紹	
+	在主機之間承載電訊的實體，統稱為{網路介質}。當 ARPAnet 
+	在 1973 年有 40 多個節點的時候，網路介質仍然是電訊專線。
+	如果網路中有 N 台主機，兩兩之間牽一條專線，總共需要 
+	N(N-1)\2 條線路。當 N 逐漸長大的時候，這顯然不是合理的作
+	法。因此開始有人研究網路介質分享 (shared media) 的技術，
+	也就是讓許多台主機共用一條線路的技術。Xerox PARC 的 
+	Metcalfe 研發了{乙太網路} (ethernet)。其硬體標準定於 1978 
+	年，如今成為最普遍的區域網路介質。多年來，它雖然演化出不同
+	的面貌和規格，但是基本原理並無大異。同樣地，乙太網路既非
+	唯一、也未必是最好的介質。
+
+	主機與網路之間，有一個通稱為{網路介面} (network adapter) 
+	的周邊設備；有時候還不只一個。電腦透過網路介面從介質上收
+	發訊息。每個網路介面在製造的時候，就應該被賦予一個唯一的
+	編號，稱為介質地址 (MAC: Medium Access Control)，又常說是
+	網路卡號。介質地址原來使用 48 嗶編成，前段是製造商號碼，
+	後段由廠商自行編號。習慣上，我們將每 8 嗶寫成兩個十六進制
+	的數字，再以 : 號相隔。例如 08:00:20:11:5F:11 就是一個 48 
+	嗶的介質地址。想像以後每個行動電話、PDA，甚至電冰箱、微波
+	爐和遙控鎖都要上網，所以大家覺得 48 嗶組成的 2^48 (約 281 
+	兆) 個不同地址可能還不夠用，於是另外規定了 64 嗶的介質地址
+	，它和前者有相容性。
+
+	介質分享所面臨的最大問題就是發言權的控制：訊號不能重疊，所
+	以每個時間只能由一台主機的網路介面送出訊號。試想，在網路上，
+	每台主機無法在送出訊號之前先徵詢其他主機的意見 (因為徵詢的
+	本身也是一種訊號)，這就是問題之所在。乙太網路的解決方案稱為
+	 CSMA/CD (Carrier Sense Multiple Access with 
+	Collision Detect)。我們用最簡單的結構來說明。
+
+	首先，所謂一截 (segment) 乙太網路，是用特定的訊號線串連有
+	限多個乙太網路介面、並於兩端各安裝一個終點而成。電訊到達終
+	點就會消失。每個網路介面都內含一個時鐘，這個時鐘滴答滴答地
+	運行。每個介面必須能夠準確地計時，例如兩個滴之間恰好是一毫
+	秒。乙太網路要求一截網路上的所有介面都{同步化} (synchronize)
+	；也就是說，所有介面都在同一個時間滴、同一個時間答。如果線
+	上已經有 A B 兩個介面，而 C 是新加入的介面 (例如 C 的主機剛
+	剛啟動)，則 C 會送出特殊的同步訊號，A 和 B 也就會分別回應，
+	直到三者同步化為止。
+
+	然後，當一個介面 (例如 A) 打算要送出訊號的時候，會在一個滴
+	的時間，發出試探波。如果它是唯一發出試探波的介面，則它就在
+	下一個答的時間，送出訊號。如果有另一個介面 (例如 C) 恰好同
+	時也打算要送出訊號，則 A 和 C 會在同一個滴時間發出試探波，
+	這就是一個{撞擊} (collision)。 A 和 C 彼此不知道是誰跟它撞
+	擊。於是它們各自擲一個骰子，各得到一個數。在不太倒霉的情況
+	下，A 和 C 各得到不同的數，例如 A 得到 3、C 得到 2。則 C 等
+	待二個滴答之後，在第三個滴時間發出試探波。而 A 等待三個滴答
+	之後，在第四個滴時間發出試探波。如果那時候 B 沒有恰好也發出
+	試探波，則 C 和 A 就先後在第三個答時間和第四個答時間送出訊
+	息了。
+
+	由此可見，在一截乙太網路上的介面全是平等的，沒有一個介面具
+	有任何形式的優先權，大家全靠擲骰子的手氣來解決紛爭。也因為
+	這個緣故，一截網路上的介面越多，就越容易持續發生撞擊，導至
+	每一台主機的網路傳輸效率都降低了。
+
+	相對於 TCP/IP 是個協定標準，乙太網路是個硬體標準。隨著技術
+	的發展，乙太網路也跟著演化。例如 1990 後期，乙太網路在介質
+	方面逐漸由同軸電纜演化成雙絞線，在傳輸速度方面逐漸由 10Mbps
+	 (Megabits per second) 演化成 100Mbps，在連線拓樸方面逐漸由
+	直線型演化成放射型。
+
+	但這種網路的連接方式必須是放射狀從一個中心 (HUB) 連接到各
+	個機器，而不能一路串接在一條線上。由 Xerox、DEC 和 Intel 
+	共同定義，1982 公佈。 (通常是粗細不同的同軸電纜或雙絞線) 
+	電纜越粗的，一次可以拉的距離越長，全線可以承載的節點也越多
+	。兩個節點之間至少要相隔 2.5 公尺 (此處指的是電纜長度)。如
+	果網路的長度超過一個限度，可由 repeater 相連以加強訊號。但
+	因為其傳訊內容本身有一定時間的壽命，所以即使用 repeater 也
+	不能容許兩點之間的距離超過數公里。中央數學的系館內，佈的網
+	路線是 10Base-5 (thick ethernet)、 10Base-2 (thin ethernet)
+	和 10Base-T。 
+</chapter>
+<chapter><title>流量控制 flow control</title>
+	*壅塞 Congestion	 
+	當主機傳輸資料大於網路所能傳輸的，稱為壅塞，於是便要有一種
+	控制訊務流量的機制，此機制可使交換機和終端站不會超載或造成
+	細胞漏失。
+	常見的機制有三種：緩衝、視窗
+	
+	*緩衝 Buffering	
+	從記憶體畫出位置來存放超載的資訊，等候網路空閒時處理。
+	*傳送方減緩訊息  Source-quench messages	
+	常接收方無法處理傳來的封包時，便丟棄封包，並傳一個傳送方減
+	緩訊息。
+	傳送方在收到此訊息便減緩傳輸速率，直到未收到 sqm 為止。
+	若傳送方很久未收到 sqm 便逐漸加速傳輸速率。
+	*滑動視窗 Sliding Window	
+	從剛才介紹的可靠性傳送知識作一個推斷：假如每一個單一封包都
+	需要需要等待前面的封包確認之後才進行傳送的話，將會導致整個
+	連線過程時間的增加，同時也會造成頻寬的浪費。假如在低速的網
+	路上面，或設備延遲，甚至還會造成網路處於空閒狀態。有鑒於此，
+	聰明的傳送層協定設計者們引入了一個滑動視窗的概念。
+
+	我們可以將滑動視窗理解為多重發送和多重確認的技術。它允許發
+	送端在接收到確認信息之前同時傳送多個封包，因而能夠更充份的
+	利用網路頻寬和加速資料傳送速度。滑動視窗的操作可以想像為下
+	圖：
+	*滑動視窗的工作原理	
+
+	我們利用 Sliding Window 在收發兩端各劃分出一個緩衝範圍，定
+	義了多大的資料量可被打包傳送。在連線建立起來之初，兩端都會
+	將 window 的設定值還原到初始值，比方說﹕ 3 個封包。發送端
+	一次過發送三個封包出去，如果接收端夠順利，也能一次處理接收
+	下來的三個封包的話，就會向發送端確認全部三個封包，並告知接
+	收端之 window 值為 3 。然後，發送端視窗則會往後移動三個封
+	包，填補發送出去之封包的空缺。但如果接收端太忙，或是其它因
+	素影響，暫時只能處理兩個封包，那麼，在視窗裡面就剩下一個封
+	包，然後就會告訴發送端 window 值為 2。這個時候，發送端就只
+	送出兩個封包，而視窗就會往後移動兩個封包，填補發送出去的空
+	缺。因此，視窗的大小是不固定的，這就是為什麼我們會在視窗前
+	面加上“滑動”字眼的原因了。(注意：這裡使用封包數目作 
+	window size 是不正確的，僅作例子參考而已。實際上的單位應是
+	位元組，視不同的作業系統而各有不同，一般為 4096 bytes，但也
+	有擴展至 16384 bytes 的。而且視窗的 size 是每個確認封包都不
+	同的，端視當前的緩衝區狀況，其機制比前述複雜許多。)
+
+	滑動視窗會記住哪些封包已經被確認，並且為每一個未被確認的封
+	包保留各自的計時器。如果在逾時後還沒得到該封包的確認，則重
+	發該封包。發送端在移動視窗的時候，它會移過所有已確認的封
+	包。在視窗中，編號最低的封包，往往是序列中的第一個未被確認
+	的封包。
+</chapter>
+<chapter><title>骨幹 Backbone</title>
+<sect1><title>SAN　Storage Area Network。儲存區域網路</title>
+	SAN(Storage Area Network)是以一專用的高速網路通道，在儲存
+	元件和伺服器之間建構而直接連結，將大量的儲存裝置分散在企業
+	環境中，以供任何地點之不同應用伺服器來使用。
+
+	SAN 架構可以利用光纖通道、伺服器、儲存設備、光纖交換器、集
+	線器等元件，加上應用軟體，建構出類似區域網路系統 (LAN)的儲
+	存區域網路(SAN)架構，讓各伺服器與各儲存系統間，可相互分享
+	資源，且不佔用LAN的頻寬，增加網路效能。
+
+	儲存的資源可運用寬頻高速網路在即時線上分配，資料可立即複製
+	備份，以供測試、應用存取或是供使用者的儲存和備份所用，供企
+	業集中管理分散的主要和備份儲存資源。主要可以應用在電子商務
+	及企業網路上，將企業內的資料利用光纖通道作連結，達到快速傳
+	送的目的。
+	**PACs	
+</sect1>
+<sect1><title>SONET Synchronous Optical Network	同步光纖網路</title>	
+	SONET 是全球通用於光纖網路上的通訊協議，藉此光纖網路可讓不
+	同波長的多種資料同步傳輸。
+
+	SONET 具有可調整低頻率與高頻率多工功能、提供高頻寬承載量、
+	監視傳輸表現等強大功效。許多光纖網路公司都有一樣的目標，就
+	是移轉 SONET 層級 (Layer) ，讓傳輸更直接流暢。
+
+	*Optical Carrier	
+	Optical Carrier（OC-x）這是由SONET推導出來的階層基準，"x"
+	代表的間距是多少Mbps，如：
+	OC-1是 51.84 Mbps，
+	OC-3是 155 Mbps， 
+	OC-12是 622 Mbps。
+</sect1>
+</chapter>
+<chapter><title>廣域網路 WAN</title>
+	<para>
+6.0	X.25 	
+6.1	撥接 Modem	
+6.2	ISDN	
+6.3	ADSL	
+6.4	租線 Leased line		
+6.5	訊框中繼 Frame Relay	
+6.6	ATM	
+6.7	有線電視纜線	
+	*Extranet　外部網路。	
+	讓公司以外的使用者如客戶或協力廠商，得以存取企業內部相關資
+	源的網路型態
+
+	WAN (Wide Area Network)，中文譯成廣域網路，藉由電話服務或
+	光纖電纜將多個區域網路 (LAN ) 連結在一起的網路，通常以100
+	公里以上的網路才稱為WAN，它可以超過一個城市、國家或全球主
+	權管理的公共區域。
+
+	WAN大都經由語音線路 (PSTN) 或分封交換專線 (X.25)來溝通兩個
+	網路間的連結，其傳輸的型式有專線及交換線路兩種。WAN能在廣
+	大地理區域傳輸資料，是由一些透過電信服務連接的LAN組成，與 
+	LAN不同點在於它們使用的通訊協定不相同，傳輸速率也比LAN來得
+	低。
+
+	WAN 是指地理範圍大的網路，而不像 LAN 僅侷限於一棟建築物內。
+	通常由客戶端連至局端，由局端負責傳送資料到指定的網路。
+	WAN 技術通常包含 OSI 的 1 2 3 層。	
+	
+	WAN 連線至局端技術分成下面三類：
+	*點對點 Point to Point	
+	點對點為一條從客戶端至局端的線，此線是永久，並把資料傳至局端，
+	讓局端負責連接網路。
+	*電路交換  Circuit Switching	
+	電路交換如同傳統電話，在撥號時，由局端負責把傳送及接受方的電
+	路串接在一起，通話結束再終止電路連線。
+	於撥通後就佔據了交換機裡的一組交換電路，亦即佔據了一個頻寬。
+	EX ISDN
+	*封包交換 Packet Switching	
+	它提供了虛擬路徑給客戶，客戶所需傳遞的資料被每一個附有地址
+	的封包封裝了起來，因此當有訊息被傳遞出時交換機才會透過臨時
+	被指定的電路，將該訊息送達目的地。
+	EX ATM, Frame Relay, SMDS, X.25
+</para>
+
+<sect1><title>虛擬私人網路 VPN</title>
+<para>
+WAN 通常分成兩種，一種是私人公司及組織用租線所架設，
+另一種是公用的網際網路 Internet。由於 Internet 速度越來越快，
+私人組織用租線架設的 WAN 越來越稀少。於是虛擬私人網路 VPN 興起，
+VPN 是利用 Internet 及加密技術所模擬的私人網路。
+</para>
+<para>
+為分封交換網路中的一種虛擬應用方式，一般分封交換的網路是不限定通信的對象，
+但若通信對象一定，且需要有網路管理的功能，此時就需要使用VPN。
+它是利用邏輯的概念將網路內的各點連接成專用的網路，
+使網路內各點可群內通信，並可減低實際專用網路的架設管理費用。
+透過存取控制、加密、通道頻寬保持及身分認證等技術，
+使得在不同地理位置的企業可以彼此連線，且連線品質如同內部網路。
+</para>
+<para>
+由於這個連線通道會經過Internet為與許多其他人資料同時傳遞，
+但其他人截收不到 VPN 用戶的資料。因此這便如同切出一個網路專供企業使用，
+由於是以技術達成如同專屬網路，便稱為虛擬私有網路。
+</para>
+<para>
+Frame Relay 由於具備虛擬電話等特性，很適合實作 VPN。
+另外的協定為 L2TP
+</para>
+</sect1>
+<sect1><title>寬頻　Broadband。寬帶</title>
+<para>
+	寬頻網路是相對於窄頻（電話撥接）的連線上網方式，也就是傳輸
+	速率高於電話撥接（56K）的連線方式。目前寬頻連線方式有：
+	ISDN、專線、衛星、ADSL、Cable Modem等。
+	寬頻是一種高速、高載量的傳輸管道，與傳統電話線的搭載容量比
+	較容量大的多，它不但可以傳遞聲音，還可以同時傳遞影像及大量
+	數據資料。 
+</para>
+</sect1>
+	
+<sect1><title>區域迴路 Local Loop</title>
+<para>
+	區域迴路指用戶端到區域公眾交換機之間的傳輸路徑，傳統區域迴
+	路多利用雙絞線、同軸電纜或光纖等纜線來舖設。
+	Local Loop 又稱為 Last Mile。
+	EX ADSL, ISDN
+</para>
+</sect1>
+<sect1><title>X.25</title>	
+<para>
+6.7.1	定址	
+	X.25 又稱封包交換網路 Packet Switch Network。
+	其連接定址如同電話交換但內部使用封包交換實作。
+	是 ITU-T 定義的一組協定用來使用電話及 ISDN 網路實作 WAN
+	連結。
+        其運作分為三層 :
+        實體層 Physical Layer
+	鏈路層 Link Layer
+	封包層 Packet Layer
+	分別與 OSI 下三層對應。
+	*X.25 與 TCP/IP 不同	
+	X.25 是明確在兩點建立連線，而 TCP/IP 是隨機路由來對輸資料。
+	
+6.7.1	定址		
+	其定址如同電話號碼，定義於 X.121，格式如下：
+	 123  1  1234567890
+	[NN ][C][NTN       ]
+	*國碼		3 digits 	NN	
+	*媒介		1 digits 	C	
+	*終端機碼	10 digits	NTN	
+	NN --National Number
+	C  --Carrier
+	NTN--National Terminal Number
+6.7.2	Hinet X.25	
+	「分封交換網路(X.25)的服務特性」服務特性
+	1. 為一廣域公眾數據交換網路(Wide Area Network, WAN)。
+
+	2. 適用於本地區域網路(LAN)間的連接、主從式架構、分散式
+	作業環境及大量資料傳送等應用。
+
+	3. 適合作為企業內網路(Intranet)與企業間網路(Extranet)
+	之主幹網路。
+
+	4. 符合ITU(前CCITT)國際通信標準，因此用戶可經由分封交換
+	網路，自由選接網路內其他用戶，相互通信。
+
+	5. 提供高可靠度的通信環境：
+	由於分封交換網路採用多種不同傳輸路由，因此可確保網路可靠
+	性，而且它可隨時偵測網路資訊流量的擁擠程度，適時的進行流
+	量控制，保持網路的通暢，再兼以因它有備援功能的設計，可確
+	保用戶通信品質，故分封交換網路的環境是一種高可靠度的通信
+	環境。
+
+	6. 具高品質的資訊傳送功能：
+	分封交換網路以高速傳輸資訊，使資訊具有低延遲特性，而且它
+	具有錯誤偵測及更正功能，能使用戶資料的比次錯誤率
+	（Bits Error Rate；BER）低於 ，遠低於國內數據電路所保證的
+	標準 ，所以分封交換網路是一種高效率、高可靠度的網路。
+
+	7. 安全保密性高：
+	分封交換網路是典型的封閉式集中型網路，而且它擁有群內通信
+	（CUG）、固定通信（PVC）、網路識別碼（NUI）及虛擬專用網
+	路（VPN）等措施，可確保網路安全及保密性。
+
+	8. 具網路管理功能及診斷功能：
+	分封交換網路可依用戶需求提供網管及診斷功能，以協助網路管理
+	者掌握網路狀況，並可加快障礙維修速度。
+	9. 提供彈性介面及速率轉換，並具有彈性接續的便利：
+	分封交換網路採用國際通用的通信協定，配合它所具有的成熟交換
+	技術，使它擁有速率轉換及通信協定轉換的功能，使不同型式及速
+	率的電腦或終端機都能互相通信，並且在實體線路部份可依用戶使
+	用上的考量，選擇固接式或撥接式的接續方式。
+
+	10. 全球性的資訊網路：
+	分封交換系統設有國際轉接中心(Gateway)，可與五大洲四十多個國
+	家一百多個網路連接，用戶可透過分封交換網路建立全球性資訊網。
+
+	11. 費率計算具合理性及彈性：
+	分封交換數據通信，是以資訊傳輸量的多寡及接續時間的長短作為
+	計費依據，因此在費率計算上是相當合理的，而且當用戶資訊傳輸
+	量相當大時，亦可改採虛擬專用網路（VPN）之固定計費方式，故
+	分封交換網路之費率計算具合理性及彈性。
+
+	12. 提供多樣且彈性的特別業務服務：
+	分封交換網路除了上述的優點外，尚提供多樣且彈性的特別業務
+	服務，以供用戶選擇所需的網路功能，以下本分公司將針對較具
+	代表性的特別業務服務提出說明。
+	(1) 固定式通信（Pernament Virtual Circuit；PVC）：用戶與通
+	信對象間的邏輯通路（Logical Channel）為常設（固定）者，即
+	用戶的邏輯通道在網路建設完成後就固定存在。
+	(2) 交換式通信（Switched Virtual Circuit；SVC）：用戶與通
+	信對象間的邏輯通路（Logical Channel）不為常設（非固定），
+	即當用戶傳送資訊前，分封交換網路須先建立邏輯通道，然後資訊
+	才能經由網路傳送，一旦通信完畢後，網路亦須將此通道移除。
+	(3) 群內通信（Closed User Group）：分封交換網路允許若干特定
+	用戶構成一群，使得群內用戶間彼此能相互通信，而其他不在此群
+	之用戶，則無法與該群內之用戶通信。
+	(4) 自動尋線（Hunt Group-Collective Number Group）：分封交
+	換網路允許用戶裝設兩門號以上的分封交換數據通信業務服務時，
+	可指定一代表號，其他需與該用戶通信的對象，僅需撥叫該代表號，
+	分封交換網路即可自動選擇該用戶空閒號碼予已接通。
+	(5) 虛擬專用網路（Virtual Private Network；VPN）：在分封交
+	換網路中，可利用特殊應用軟體，將用戶具相關性的電路設定為專
+	用網路，供其網路內各點能相互通信，並可依用戶需求提供網管功
+	能。 換言之，虛擬專用網路(VPN)的通信電路分布在分封交換網路
+	裡，運用邏輯觀念將電路集合成專用網路。其優點如下:
+	◎ 確保通信安全
+	◎ 彈性通信區域範圍
+	◎ 使用經濟，資源共享
+	◎ 費用固定，易掌握預算
+	◎ 多功能之網路服務
+	◎ 低投資、低風險
+	◎ 用戶擁有專屬網路管理功能
+	(6) 虛擬專用網路(VPN)適用對象可為:
+	◎ 通信對象多且具特別屬性或關係者。
+	◎ 需擁有專屬網路管理功能。
+	◎ 租用長途數據電路較不經濟者。
+	◎ 不易估計通信量且需採固定費用編列預算者。
+	◎ 需要與不同型式、速率之終端設備通信者。
+	◎ 需要同時與很多終端機通信者。
+	◎ 需建立群內交換網路者。
+</para>
+</sect1>
+
+<sect1><title>ISDN</title>
+<para>
+6.2.1	什麼是 ISDN	
+6.2.2	相關標準	
+6.2.3	BRI &amp; PRI	
+6.2.4	常用專有名詞	
+6.2.5	硬體界面	
+6.2.6	ISDN CPE (Customer Premises Equipment)	
+
+	* ISDN充分展現出兩種優勢 :	
+         1. 數位是未來的國際通用語言，而ISDN提供快速又便捷的數位通道。
+         2. 能和傳統的PSTN電話網路連接，因此仍保有PSTN無遠弗屆的特性。 
+
+	* ISDN電話網路與PSTN電話網路主要差別
+	在於使用之前， 應先向中華電信公司申請 ISDN 電話線，連上 ISDN
+	網路後才能使用 ISDN。
+
+	* ISDN 有專線和撥接式電話線兩種，但目前以撥接式為主要的
+	服務項目。因此只要有對方的電話號碼，使用方法與傳統電話相同。
+
+	* 雖然ISDN與PSTN是分屬不同的網路，但在電信局內是彼此相連
+	的。而外線均是一對雙絞線。因此毋須重新佈線，用既有線路拉
+	到用戶家即可。
+
+	* ISDN所連接的 CPE ( Customer Premises Equipment ) 和傳統
+	的電話機、傳真機、 Modem不同，但只要與 TA (Terminal 
+	Adapter)搭配，仍可使用傳統機具。
+
+	* ISDN以點對點全數位化(Point-to-Point Digitized)的方式來傳
+	送電子資料為其中心思想。ISDN 的應用不是只限於資料傳輸，在
+	語音上具有強大的功能。
+
+	* ISDN的速度是一般Modem的數倍(64Kbps或128Kbps)，甚至更多。
+	如果以ISDN 來上Internet，更具有高速的快感。然而上 
+	Internet 只是ISDN的一個應用而已。
+
+	* ISDN有歐規、美規和日規之分。目前我國是採用歐規。因此在
+	購買ISDN相關的軟硬體時，一定要以歐規為標準。 
+6.2.1	什麼是 ISDN	
+	*Network	
+	*Digital	
+
+	ISDN 就是 Integrated整合、 Service服務、 Digital數位和 
+	Network網路的組合。
+	*Network	
+
+	1. 網路其實就是將彼此分散的用戶以點對點的方式串接起來，而
+	達到人與人之間相互溝通的目的。為了滿足不同的溝通形態，各種
+	不同的網路架構因應而生。
+          * MAN、WAN、LAN
+          * Internet、Intranet
+          * HiNet、TANet、SeedNet ...
+          * PSTN、ISDN
+          * Wireless Broadcast Network 
+
+	2. 目前世界上的ISDN標準有三種 :
+          * 美規(ANSI或稱 American Standard，其中包括 NI-1、NI-2、
+	NI-3 National ISDN) 使用範圍 : 北美地區
+          * 歐規(ETSI或稱Euro-ISDN、EDSS1、European Standard)使用
+	範圍最廣 : 全歐洲，包括亞洲與中南美洲
+          * 日規(NET INS-64，Japan Standard)使用範圍 : 日本
+
+	*Service	
+	1. 網路的目的在於溝通，並且提供各種不同資訊的服務。ISDN
+	目前所能提供的服 務大致如下 :
+          * 語音
+          * 文件
+          * 數據
+          * 影像
+          * 音樂
+          * 視訊
+          * 監控訊號 
+
+	2. 以上所列舉的服務，透過 ISDN 傳送可以得到優良的服務品質。
+          * 以技術而言如廣撥、電視、電影等服務均可以架構在 ISDN 電
+	話網路上。
+          * 不過將來是由電話公司來經營電視或是由電視公司來經營電話
+	是一大爭論。
+          * 最重要的是如何汰換舊有網路、建構新網路系統以及更新客戶
+	家用 設備。
+
+	*Digital	
+	事實上電信局機房裡的交換機 (Swithing)，無論是PSTN或是ISDN
+	均已數位化其主要的差別在於CPE與交換機之間的傳輸方式，前者
+	為數位(Digital)後者為類比(Analog)。因此在同一雙絞線上傳輸，
+	ISDN提供了比PSTN更高的速度和更多的服務給使用者。究竟以數位
+	的方式傳輸有那些好處 ?
+
+	* 不易受干擾、錯誤率低
+	* 便於儲存、運算、傳遞
+	* 易於標準化、模組化
+	* 易於整合
+	* 未來世界的國際標準語言
+
+
+	*Integrated	
+	當網路完全數位化後，自然就可以提供整合性的服務 :
+
+	* Telephone，Fax，利用電腦傳送Data，傳送Video，上Internet
+	等可以同時傳送兩種資料或訊息給相同或不同的使用者(以
+	窄頻ISDN BRI為考量)。
+	* 不但要把一般的電話網路上的服務數位化，未來也要將廣播、
+	電視數位化，然後再整合在一起。因此將來看電視的同時也可以接
+	影像電話、收發傳真、透過所謂 的虛擬實境(Virtual Reality)
+	購物 ...
+
+6.2.4	常用專有名詞	
+	*頻寬(Bandwidth)	
+	如何能夠提供最大的頻寬是目前通訊界最迫切追求的目標。
+	限制頻寬的兩大因素:
+	*傳輸介質 : 一般通訊的媒介有 :	
+         o 雙絞線 (Twisted Pair Cable) : 
+ 	用於家用電話網路，頻寬窄，傳輸距離近。
+         o 同軸電纜 (Coxial Cable) : 
+	用於有線電視網路，頻寬較寬，且傳輸距離較遠。
+         o 光纖 (Fiber-Optic Cable) : 
+	用於電信局之間或校園網路之間，容納頻寬最寬， 且傳輸距離最遠。
+         o 無線電 (Radio) : 受制於頻帶，未來將更被嚴格列管。 
+	*傳送方式 :	
+        使用相同的傳輸介質，可以不同的傳輸方式來傳送信號。
+	例如同樣以雙絞線傳輸，在 PSTN 上能達到 33.6 Kbps 已經很不
+	錯了，但若是在 ISDN 上傳 送則頻寬可達 144 Kbps。
+
+	*協定(Protocol)	
+        * 同一個網路內，點對點之間的溝通必須透過同一種語言來進
+	行。所有網路 上用的語言統稱為協定(Protocol)。
+        * PSTN與ISDN各有專屬的Protocol。因此在ISDN的網路上，是無法
+	直接瞭解 使用Non-ISDN CPE的Protocol。除非透過Adapter，
+	將Non-ISDN CPE所瞭解 的PSTN Protocol轉換成ISDN形式的
+	Protocol，Non-ISDN CPE才能將訊息正確 無誤地傳送到
+	ISDN網路上。
+        * 在ISDN網路上本身也傳遞多種Protocol :
+         o Protocol因應用之不同而有不同的Protocol。
+         o 上 Internet 常用PPP，在歐洲為 X.75 Protocol。
+         o 以ISDN網路的電話撥接沒問題，但若是ISP和使用者之間的
+	  Protocol 不一致，則無法與ISP溝通，達到登錄之目的。
+         o 外接式ISDN Modem(TA)因支援ISDN交換機的Protocol，
+	透過TA撥號沒問題， 若 TA 沒有提供PPP，則即使撥通ISP也無法
+	與TA溝通提供 Internet 服務。 
+
+	*界面Interface		
+        * 界面是一個標準，規定界面上信號往返方式，對於硬體結構也
+	有所規定。
+        * 例如RS-232是一種標準界面，想利用此界面溝通的設備必須完
+	全符合界面上的規定，則不同的廠商所設計製造的設備，皆可透
+	過同一種 RS-232 Cable 在此一界面上溝通。
+        * 因此在ISDN的應用上，不同的公司所設計的AP只要依循同一種
+	API，自然 可與其他公司所發展出來的ISDN Card溝通。唯有瞭
+	解ISDN各個設備之界面， 才可充分發揮ISDN的功能。
+
+	*電路模式(Circuit Mode)與分封模式(Packet Mode)	
+        * 電路模式(Circuit Mode) : 於撥通後就佔據了交換機裡的一
+	組交換電路，亦即佔據了一個頻寬--->最傳統的傳輸方式。
+        * 分封模式(Packet Mode) : 它提供了虛擬路徑給客戶，客戶所
+	需傳遞的資料被每一個附有地址的封包封裝了起來，因此當有訊
+	息被傳遞出時交換機才會 透過臨時被指定的電路，將該訊息送達
+	目的地。
+
+        * 分封模式(Packet Mode)最常用的Protocol是 X.25
+          o 運作分為三層 :
+          實體層(Physical Layer)、鏈路層(Link Layer)和
+	封包層(Packet Layer)。
+          o 完整定義ISO所訂定出OSI七層中的最低三層。 
+
+        * ISDN提供了三層相互間的溝通界面 :	
+        o 第一層 : 屬硬體界面，無Protocol，以ITU I.430 的界面建
+	議訂定之。
+        o 第二層 : Q.921--Protocol，Q.920--Interface。
+        o 第三層 : Q.931--Protocol，Q.930--Interface。 
+        * ISDN的服務在OSI七層參考模式下可分三種 :
+        o 載送服務 (Bearer Service) : ISDN將用戶資訊透過載送服務
+	送達到對方。ISDN 可同時提供 Circuit Mode 與 Packet Mode :
+       (1).電路模式載送服務 : 包含用戶和網路間的信號功能 
+	(D 通道 Protocol)與用戶資訊實體層功能 (B通道第一層功能)。
+       (2).分封模式載送服務 : 第二層與第三層(傳輸協定與封包格式)
+	也屬載送服務。
+        o 電信服務 (Teleservice) : 專指用戶間及用戶與主機或交換機
+	間的通信，包含電話、電報傳真與電傳視訊。
+        o 附加服務 (Supplementary Service) : 是附加在載送服務或電
+	信服務上、用來提高 通訊品質或功能。 
+
+6.2.5	硬體界面	
+	ISDN 應用的相關界面主要分成三部份 : 
+	*U Interface 	
+	*S/T Interface 	
+	*R Interface	
+
+	*U Interface	
+
+	電信局交換機到用戶家裡的設備
+	NT-1之間的關係，稱為 U Interface。
+    	* U Interface的標準接頭為RJ-45接頭，接線共有八心，但實際
+	使用時為二心。
+	* NT-1在北美地區屬於用戶設備(CPE)，但在歐洲、台灣、日本是
+	屬於局端設備。
+	* 目前NT-1乃由中華電信公司提供給用戶使用，因此用戶不會接觸
+	到 U Interface。
+	* 若是NT-1可變為用戶設備時，則使用者必須注意U Interface的
+	安裝方式。 
+
+	*S/T Interface	
+
+	* NT-1與ISDN CPE(客戶終端設備)之間的關係，稱為
+	S/T Interface。
+	* S/T Interface的標準接頭亦為RJ-45接頭，但實際使用時為四心。
+	* 一個U Interface只能接一個NT-1，但一個S/T Interface可以
+	連接八個ISDN CPE。
+	* 若未來中華電信公司開放NT-1為ISDN CPE時，假如考慮要選購含
+	有U Interface的 ISDN CPE則表示只能接一個ISDN CPE，而無法再
+	接其他的ISDN CPE。 
+
+
+	*R Interface	
+
+	* 指Non-ISDN設備與TA或ISDN Router之間的界面。
+    	* ISDN不只提供標準的ISDN界面給用戶使用，並且可以透過 
+	TA(Terminal Adapter) 或ISDN Router來提供非標準的ISDN界面
+	給用戶，以整合Non-ISDN CPE。
+    	* 電腦、傳統電話、G3傳真機、Modem等皆屬Non-ISDN CPE。
+    	* Non-ISDN CPE與 TA或ISDN Router 所連接的界面都稱為 
+	R Interface。
+    	* 不管是RJ-11的電話接頭、RS-232、Ethernet、Token Ring界面
+	對於ISDN網路，都 稱為R Interface。 
+
+6.2.6	ISDN CPE (Customer Premises Equipment)	
+	* NT-1 (Network Terminal I，網路終端機一型) :	
+	* TE1 (Terminal Equipment I，終端設備一型) :	
+	* TA (Terminal Adapter，終端配接器) :	
+	* TE2 (Terminal Equipment II，終端設備二型) :	
+
+   	1. ISDN CPE與 Non-ISDN CPE 之最大不同在於 CPE 與網路間的
+	溝通方式：
+        ISDN CP以數位方式傳輸，而 Non-ISDN CPE是以類比方式傳輸。 
+
+	2. 連接 PSTN 網路的傳統設備，如電話機、Modem、傳真機等、
+	統稱 POTS。
+
+	3. 只要瞭解以下分類原則，就可以組合出各種不同的連接方式 :
+
+	* NT-1 (Network Terminal I，網路終端機一型) :	
+            目前在台灣為局端設備，而不是客戶終端設備 (CPE)。因規定
+	由中華電信公司提供，所以用戶不得自行購買。其主要功能是
+	將 ISDN 網路所提供的 U Interface轉換為 S/T Interface，以連
+	接多台的 ISDN CPE。
+	* TE1 (Terminal Equipment I，終端設備一型) :	
+        典型 ISDN CPE，如 ISDN 電話機、影像電話、G4傳真機皆屬於 TE1。
+	* TA (Terminal Adapter，終端配接器) :	
+        (1).不算是 ISDN CPE，主要功能就是一個轉換器，以提供 
+	Non-ISDN CPE 連接 ISDN 網路之途徑。
+        (2).由於電腦可以透過 TA 連接 ISDN 網路，因此 TA 就成為了資料
+	通訊的要角，而且是上 Internet 不可或缺的設備。
+        3).TA 一般俗稱為 ISDN Modem (屬於外接式 TA)，而 ISDN卡 
+	( 屬於內接式TA )、ISDN Router 也屬於 TA 的一支。
+	* TE2 (Terminal Equipment II，終端設備二型) :	
+        屬於 Non-ISDN CPE 的電腦和 POTS 統稱為 TE2。 
+
+
+6.2.2	相關標準	
+	* 通訊上所用標準之形成有下列幾種形式 :
+	o 透過世界標準機構訂定出
+                o 透過政府機構訂定出
+                o 透過產官學界討論出
+                o 由一些知名大公司討論出
+                o 由領導級公司獨自訂定出
+                o 依習慣而延用 
+        * 標準機構 :
+        o ITU (International Telecommunication Union)其前身為CCITT
+        o ANSI (American National Standard Institute) : 美國 ITU
+	代表機構、同時代表美國參加其它他國際標準活動
+        o ETSI (European Telecommunication Standard Institute)
+	歐洲主要通訊標準機構
+        o ISO (International Standard Organization)
+        o North American ISDN Users Forum 
+        * 重要標準-->有些是直接相關於ISDN的而有些是在應用上所使用
+	的規定 :
+        o ITU I 系列建議書 :
+        + I.100系列-->定義 ISDN概念以及建議書的結構和專有名詞
+        + I.200系列-->定義 ISDN 服務
+        + I.300系列-->定義 ISDN 網路結構
+        + I.400系列-->定義 ISDN 網路與使用者界面
+        + I.500系列-->定義 ISDN 網接體界面
+        + I.600系列-->定義 ISDN 維護原則 
+        o Q 系列 :
+        + Q.920--> OSI Layer 2 概論
+        + Q.921--> OSI Layer 2 規格
+        + Q.930--> OSI Layer 2 概論
+        + Q.931--> OSI Layer 2 規格 
+        o API : (非 ISDN 標準)
+        + TAPI
+        + TSAPI
+        + CAPI
+        + WINISDN 
+        o 其他標準 :
+        + V.110--> 速率轉換較常用於歐洲
+        + V.120--> 速率轉換較常用於北美
+        + TCP/IP
+        + PPP
+        + NDIS (Network Driver Interfacce Specification)
+        + X.25-->分封模式最常用的標準，在ISDN應用上無論對B通道或
+                        D通道均相當重要
+        + H.320--> 電話會議((Video Conference) 的重要標準 
+
+6.2.3	BRI &amp; PRI	
+	*基本速率界面BRI	
+
+   	1. 以頻寬來分，ISDN有兩種 : 一為窄頻 (Narrow Band);
+	另一為寬頻 (Wide Band)。
+	2. 目前較為普及且為可行之應用為窄頻ISDN，所以寬頻ISDN特以
+	B-ISDN稱之。
+	3. ISDN又分成兩種界面 :
+      	(1).基本速率界面BRI(Basic Rate Interface)
+      	(2).原級速率界面PRI(Primary Rate Interface) 
+
+	*基本速率界面BRI	
+          * 目前中華電信公司ISDN業務以 BRI(Basic Rate Interface) 
+	為主。
+          * 在歐洲地區BRI又稱為BRA(Basic Rate Access)。
+          * ISDN BRI提供了兩個B通道和一個D通道給使用者，統稱 2B+D。
+          * 一個B通道的頻寬有 64Kbps，而一個D通道頻寬有 16Kbps，
+	所以 ISDN BRI 提供了144Kbps。
+          * B通道的基本速率是64Kbps，然而透過B通道可以得到什麼服務 :
+            (a).語音
+            (b).資料
+            (c).傳真
+            (d).白板
+            (e).靜態影像
+            (f ).影像電話
+          * D通道的基本速率是16Kbps，通常是作為控制信號用。
+	基本上D通道本身是 一條專線，利用D通道來執行撥接的程序 ; 
+	亦即透過D通道來成功地建立起 用戶兩端B通道的連接，此後訊
+	息資料乃透過B通道傳遞。
+          * 在處理兩個B通道所需用到的控制信號之餘，D通道還可以用
+	來傳遞警告、 遙測、遙控、刷卡等小資料量的訊號。
+          * D通道以分封模式傳送以上資料通常使用 X.25 Protocol。 
+
+	*原級速率界面PRI	
+          * 目前中華電信公司尚未開放ISDN PRI業務。
+          * PRI (Primary Rate Interface)又稱為
+	PRA (Primary Rate Access)，主要有 :
+            (1).美規 : 23B+D與 (2).歐規 : 30B+D。
+          * PRI的B通道頻寬為 64Kbps，而D通道頻寬也是 64Kbps。
+          * 相較於美規 T1 1.544 Mbps 與歐規 E1 2.048 Mbps 的速率。
+          * ISDN PRI的速率 : 北美是 1.544 Mbps，歐規是 2.048 Mbps。
+          * 此外ISDN PRI 也提供了另一種形式的通道給使用者使用，稱為
+	H通道 : (1). H0: 384 Kbps
+        (2). H10: 1472 Kbps (4H0)，一個完整美規 PRI 通道 不含D通道
+        (3). H11: 1536 Kbps (4H0/D)，一個完整美規 PRI 通道
+        (4). H12: 1912 Kbps，一個完整歐規 PRI 通道
+          * 目前PRI大都應用在PBX (小型交換機)、影像電話和視訊會議
+	上。 
+</para>
+</sect1>
+</chapter>
+</part>	
+<part><title>網路層</title>
+<chapter><title>TCP/IP</title>
+<para>
+每封訊息視為一封信的話，那 IP 可視為郵局系統，
+而 TCP 可視為收件人。
+每台電腦可視為一戶，IP 是郵局負責把信送到地址那一戶，
+TCP 則是與郵差接觸的人，把信轉交給收件人，
+也就是電腦上面的應用程式。
+</para>
+<sect1><title>IP 位址(IP Address)</title>
+<para>
+<emphasis>位址(Address)</emphasis>是用來代表網路上主機或一群主機。
+IP 位址<emphasis>長度為 32 位元</emphasis>，
+分成四組，<emphasis>每組長度 8 bit</emphasis>，
+通常使用<emphasis>四組範圍介於(0~255)的十進位數字用 "." 連接來表示一個 IP 位址</emphasis>。
+</para>
+<programlisting>
+[ddd].[ddd].[ddd].[ddd]
+EX 192.168.0.1
+</programlisting>
+<sect2><title>網路位址與主機位址</title>
+<para>
+<emphasis>網路</emphasis>是一群主機的集合，
+就類比於地址中的縣、鄉是一群家的集合。
+IP 位址由兩階層組成：
+</para>
+<itemizedlist>
+<listitem><emphasis>高位元組為網路位址</emphasis>，
+指出主機目前歸於那個網路。
+</listitem>
+<listitem><emphasis>低位元組為主機位址</emphasis>，
+指出主機的位置。
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2><title>分級網路</title>
+<para>
+網路位址及主機位址的長度是分級的，由前置位元決定。
+</para>
+<segmentedlist><title>分級網路</title>
+<?dbhtml list-presentation="table"?>
+<segtitle>等級(Class)</segtitle>
+<segtitle>前置位元(Prefix)</segtitle>
+<segtitle>網路數目</segtitle>
+<segtitle>主機數目</segtitle>
+<segtitle>可用位址範圍</segtitle>
+<segtitle>申請領域</segtitle>
+<seglistitem>
+<seg>A</seg>
+<seg>0</seg>
+<seg>127</seg>
+<seg>16,777,214</seg>
+<seg>1.x.x.x-126.x.x.x </seg>
+<seg>國家級</seg>
+</seglistitem>
+<seglistitem>
+<seg>B</seg>
+<seg>10</seg>
+<seg>16,384</seg>
+<seg>65,534</seg>
+<seg>128.x.x.x-191.x.x.x</seg>
+<seg>跨國組織</seg>
+</seglistitem>
+<seglistitem>
+<seg>C</seg>
+<seg>110</seg>
+<seg>2,097,152</seg>
+<seg>254</seg>
+<seg>192.x.x.x-223.x.x.x</seg>
+<seg>企業組織</seg>
+</seglistitem>
+<seglistitem>
+<seg>D</seg>
+<seg>1110 </seg>
+<seg>-</seg>
+<seg>-</seg>
+<seg>224.*-239.*</seg>
+<seg>特殊用途</seg>
+</seglistitem>
+<seglistitem>
+<seg>E</seg>
+<seg>1111</seg>
+<seg>-</seg>
+<seg>-</seg>
+<seg>240.*-255.*</seg>
+<seg>保留範圍</seg>
+</seglistitem>
+</segmentedlist>
+<example><title>一些 IP 位址</title>
+<programlisting>
+10.0.1.3 	10 為 A 級網路位址，0.1.3 為主機位址
+163.17.1.3 	163.17 為 B 級網路位址，1.3 為主機位址
+203.17.1.3 	203.17.1 為 C 級網路位址，3 為主機位址
+</programlisting>
+</example>
+<sect3><title>網路遮罩(Net Mask)</title>
+Net Mask 就是網路位址的位元為 1，
+主機位址的位元為 0 的 IP 位址。
+每個等級的 Net Mask 如下：
+<segmentedlist>
+<?dbhtml list-presentation="table"?>
+<segtitle>
+等級
+</segtitle>
+<segtitle>
+網路遮罩
+</segtitle>
+<seglistitem>
+<seg>A</seg>
+<seg>11111111.00000000.00000000.00000000</seg>
+</seglistitem>
+<seglistitem>
+<seg>B</seg>
+<seg>11111111.11111111.00000000.00000000</seg>
+</seglistitem>
+<seglistitem>
+<seg>C</seg>
+<seg>11111111.11111111.11111111.00000000</seg>
+</seglistitem>
+</segmentedlist>
+</sect3>
+<sect3><title>特殊位址</title>
+<para>
+以下這些位址有特殊意義，通常不用在一般主機位址的分派上。
+</para>
+<itemizedlist>
+<listitem><emphasis>網路識別位址</emphasis>
+<para>
+主機位址二進位全為 0 時，只是識別網路本身，
+通常也可拿來用作主機位址。
+</para>
+</listitem>
+<listitem><emphasis>迴路網路(Loopback Network)</emphasis>
+<programlisting>
+127.*
+</programlisting>
+<para>
+這個 A 級網路內所有位址均表示迴路網路，指向主機本身。
+</para>
+</listitem>
+<listitem><emphasis>本端網路廣播位址</emphasis>
+<para>
+主機位址全為 1 的時候，則為該網路的廣播位址，
+訊息會傳到該網路上的所有主機。
+</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3><title>位址運算及計數</title>
+<procedure><title>求出主機及網路位址</title>
+<step>由前置位元得出網路等級</step>
+<step>由網路等級求出網路遮罩</step>
+<step>網路位址 = IP 位址 AND 網路遮罩</step>
+<step>主機位址 = IP 位址 AND NOT(網路遮罩)</step>
+</procedure>
+<example><title>求出主機及網路位址</title>
+<programlisting>
+139.175.152.254 換成二進位是﹕	
+10001011.10101111.10011000.11111110
+因為它是以 10 開頭的，所以是一個 B Class IP。
+這個 Class 的預設 mask 是255.255.0.0 ，換成二進位﹕
+11111111.11111111.00000000.00000000
+然後將 IP 和 mask 加以 AND 運算﹕
+10001011.10101111.10011000.11111110
+AND
+11111111.11111111.00000000.00000000
+得出﹕
+10001011.10101111.00000000.00000000
+換成十進位就是 139.175.0.0 ，這個就是 Net ID了。
+求主機位址 ﹕
+先將網路遮罩做一個 NOT 運算，可以得出﹕
+00000000.00000000.11111111.11111111
+然後再和 IP 做一次 AND 運算，就可以得到 Host ID:
+00000000.00000000.10011000.11111110 ，
+換成十進位﹕0.0.152.254。
+</programlisting>
+</example>
+<equation><title>IP 分級位址網路數目公式</title>
+2<superscript>(網路位址組數*8-等級識別位元長度)</superscript>
+</equation>
+<segmentedlist><title>IP 分級位址網路數目</title>
+<?dbhtml list-presentation="table"?>
+<segtitle>等級</segtitle>
+<segtitle>數目</segtitle>
+<seglistitem>
+<seg>A</seg>
+<seg>
+<equation>
+2<superscript>(1*8-1)</superscript>-1=
+2<superscript>7</superscript>-1=128-1=127 
+</equation>
+扣掉 127 的 loopback 網路
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>B</seg>
+<seg>
+2<superscript>(2*8-2)</superscript>=
+2<superscript>14</superscript>=16384
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>C</seg>
+<seg>
+2<superscript>(3*8-3)</superscript>=2<superscript>21</superscript>=2,097,152
+</seg>
+</seglistitem>
+</segmentedlist>
+<equation><title>IP 分級位址主機數目公式</title>
+2<superscript>(主機位址組數*8)</superscript>-2
+</equation>
+扣二是扣主機位址全為 0 及全為 1 的情形
+<segmentedlist><title>IP 分級位址主機數目</title>
+<?dbhtml list-presentation="table"?>
+<segtitle>等級</segtitle>
+<segtitle>數目</segtitle>
+<seglistitem>
+<seg>A</seg>
+<seg>
+2<superscript>(3*8)</superscript>-2=16777216-2=16777214
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>B</seg>
+<seg>
+2<superscript>(2*8)</superscript>-2=
+2<superscript>14</superscript>-2=16382
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>C</seg>
+<seg>
+2<superscript>1*8</superscript>-2=2<superscript>8</superscript>-2=254
+</seg>
+</seglistitem>
+</segmentedlist>
+</sect3>
+<qandaset defaultlabel='number'>
+<title>習題</title>
+<qandaentry>
+<question>
+<para>
+IPv4 的網路中，如何分辨一個位址是屬於C 類的網路位址？（6 分）
+若分配到一個C 類的網路，那麼可以使用多少實體IP 位址？
+請詳細說明你的計算過程。（8 分）
+<biblioref linkend="BOI94"/>
+</para>
+</question>
+<answer>
+<para>
+若 IP 位址的前置位元為 110 則為 C 類網路，
+或者第一段位址落在範圍 192 ~ 223 之間。
+</para>
+<para>
+一個 C 級網路，主機位元有 4 個，
+又全 0 及全 1 的位址不可用，
+故可用位址有 2<superscript>4</superscript>-2=254 個。
+</para>
+</answer>
+</qandaentry>
+</qandaset>
+</sect2>
+<sect2><title>子網路 subnetwork</title>
+<para>
+像是 A 級網路具有 16,777,214 個主機，管理上很困難，
+可再把 A 級網路切成許多子網路。
+其方法是<emphasis>借用主機位址的高位元作為子網路 ID</emphasis>。
+只要再引入一個<emphasis>子網路遮罩</emphasis>，就可作這個切割的動作。
+</para>
+<equation><title>求子網路的網路遮罩</title>
+新網路遮罩 = 原網路遮罩 OR 子網路遮罩
+</equation>
+<para>
+子網路可寫成
+</para>
+<programlisting>
+IP 位址/使用多長的高位元作為子網路位元
+139.175.152.254/2
+</programlisting>
+</sect2>
+<sect2><title>CIDR(不分等級位址,Classless Inter-Domain Routing)</title>
+<para>
+像是若只能申請到 C 級網路，主機數太少，
+則我們利用<emphasis>CIDR</emphasis>
+可將數個 C 級網路合成一個網路。
+CIDR 使不必理會 IP 的開首字元，
+你可以隨便設定您的 Net Mask 長度。
+也就是說，一個原本屬於 C Class 的網路也可以使用 
+255.255.0.0 這樣的 mask ，
+我們稱這樣的網路為<emphasis>超網路(supernet)</emphasis>，
+跟子網路正好相反。
+<para>
+CIDR 位址表示法有以下兩種： 
+</para>
+<programlisting>
+IP 位址/網路遮罩	
+EX 139.175.152.254/255.255.0.0	
+IP 位址/網路遮罩長度	
+EX 203.56.6.18/24
+</programlisting>
+</para>
+</sect2>
+<sect2><title>網際網路位址</title>
+<para>
+若 IP 位址要能在網際網路有效，則必須由 IANA 指派有
+效的網路位址；
+<emphasis>IANA(Internet Assigned Numbers Authority)</emphasis>
+是國際指派 IP 位址的單位。
+</para>
+</sect2>
+<sect2><title>私有網路位址</title>
+<para>
+IANA 保留一些<emphasis>位址區塊(Address Block)</emphasis>，
+是讓個人用在<emphasis>私有網路</emphasis>，
+不能用在網際網路。定義在<emphasis>RFC 1918</emphasis>。
+</para>
+<segmentedlist><title>私有網路位址</title>
+<?dbhtml list-presentation="table"?>
+<segtitle>區塊</segtitle>
+<segtitle>網路位址</segtitle>
+<segtitle>位址數目</segtitle>
+<segtitle>位址範圍</segtitle>
+<seglistitem>
+<seg>24-bit block</seg>
+<seg>10.0.0.0/8</seg>
+<seg>2<superscript>24</superscript>-1</seg>
+<seg>
+10.0.0.0-10.255.255.255
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>20-bit block</seg>
+<seg>172.16.0.0/12</seg>
+<seg>2<superscript>20</superscript></seg>
+<seg>172.16.0.0-172.16.255.255</seg>
+</seglistitem>
+<seglistitem>
+<seg>16-bit block</seg>
+<seg>192.168.0.0/16</seg>
+<seg>2<superscript>16</superscript>-1</seg>
+<seg>192.168.0.0-192.168.255.255</seg>
+</seglistitem>
+</segmentedlist>
+<para>
+通常<emphasis>私有網路要連上網際網路</emphasis>，必須使用<emphasis>實作 NAT
+功能的路由器</emphasis>。
+</para>
+</sect2>
+<sect2><title>群播位址(Multicast Address)</title>
+<para>
+用來描述網路上的多個特定主機群，定義在<emphasis>RFC3171</emphasis>，
+均為 D 級網路位址。			
+<table><title>TCP/IP 群播位址</title>
+<tgroup cols="2">
+<thead>
+<row>
+<entry>位址</entry><entry>描述主機集合</entry>	
+</row>
+</thead>
+<tbody>
+<row>
+<entry>224.0.0.0</entry><entry>保留位址</entry>
+</row>
+<row>
+<entry>224.0.0.1</entry><entry>廣播到同一網路區段的所有主機</entry>
+</row>
+<row>
+<entry>224.0.0.2</entry><entry>廣播到同一網路區段的所有路由器</entry>
+</row>
+<row>
+<entry>224.0.0.5</entry><entry>廣播到同一網路區段的所有 OSPF 路由器</entry>
+</row>
+<row>
+<entry>224.0.0.6</entry><entry>廣播到同一網路區段的所有 OSPF 指定路由器</entry>
+</row>
+<row>
+<entry>224.0.0.9</entry><entry>廣播到同一網路區段的所有 RIPv2 路由器</entry>
+</row>
+<row>
+<entry>224.0.0.18</entry><entry>Virtual Router Redundancy Protocol</entry>
+</row>
+<row>
+<entry>224.0.1.41</entry><entry>H.323 GateKeeper 發現位址</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</para>
+</sect2>
+</sect1>
+</chapter>
+&route;
+<chapter><title>OSPF</title>
+<sect1><title>OSPF 路由介面的狀態</title>
+<itemizedlist>
+<listitem>Down State
+<para>
+此為初始狀態，OSPF 程序並不與 neighbor 交換資訊，
+並等待進入 Init 狀態。
+</para>
+</listitem>
+<listitem>Init
+<para>
+OSPF 定期送出 Hello 封包給 neighbor，
+當介面收到第一個 Hello 封包，
+便進入此狀態。這指出路由器知道有其它路由器，
+並等待與其建立關係。
+關係有兩種，分別為 Two-way 及 adjacency。
+</para>
+</listitem>
+<listitem>Two-way
+<para>
+Two-way 同 IP 網路中，
+路由器 RTA 收到路由器 RTB 的 Hello 封包，
+而 Hello 封包中的 neighbor 清單包含 RTA，
+此時 RTA 便建立與 RTB 的 Two-way 狀態。
+但此狀態下，路由器間並分享路由訊息。
+要分享路由訊息，不能只用 Hello 封包，
+同時要建立 adjacency 的關係。
+</para>
+</listitem>
+<listitem>ExStart
+<para>
+當路由器收到 neighbor 的 database description 封包(DBD or DDP)時，
+便進入了 ExStart，此時路由器的關係可稱為 adjacency。
+在交換資訊之前，
+兩路由器要利用 Hello 來協調誰為主路由器(master)，
+另一為從路由器(slave)。
+通常由 Router ID 較高的當主路由器。
+當角色確立後，便進入 Exchange 狀態。
+</para>
+</listitem>
+<listitem>Exchange
+<para>
+此狀態下，路由器使用 DBD 來交換彼此的 link-state 訊息，
+常路由器發現另一方的 link-state 中包含未在其本身
+link-state 資訊庫的資訊，便進入 Loading 狀態，
+要求 neighbor 給其完整的資訊。					
+</para>
+</listitem>
+<listitem>Loading
+<para>
+此狀態下，路由器先送出 LSR(link-state request)，
+對方收到便送出 LSU(link-state update)，
+其中包含 LSA(link-state advertisement) 資訊，
+更新完後，便利用 LSAck(link-state acknowledgement)
+給對方作確認。
+</para>
+</listitem>
+<listitem>Full adjacency
+<para>
+當 Loading 完成後，便進入此狀態，
+此時每個路由器保存一份 adjacent neighbor 的清單，
+稱為 adjacent 資料庫。
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1><title>OSPF 路由資料庫</title>
+<itemizedlist>
+<listitem>Adjacency 資料庫
+<para>
+每個路由器保存獨一的 adjacent neighbor 的清單，
+稱為 adjacent 資料庫。
+</para>
+</listitem>
+<listitem>Link-state 資料庫(拓撲資料庫)
+<para>
+列出所有網路上的路由器，同一 Area 的路由器，
+有相同的拓撲資料庫。
+</para>
+</listitem>
+<listitem>Fowarding 資料庫(路由資料庫)
+<para>
+每個路由器保存獨一的路由資料庫，
+用來決定封包要送到那個路由器，
+此資料庫由拓撲資料庫經由 SPF 算法運算產生。
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1><title>OSPF 網路類型</title>
+<para>
+OSPF 可由介面辨認出網路類型。
+</para>
+<itemizedlist>
+<listitem>Broadcast Multiaccess
+<para>
+路由器間有共用媒介，如乙太網路。
+</para>
+</listitem>
+<listitem>Point-to-point
+<para>
+路由器點對點連接。
+</para>
+</listitem>
+<listitem>NBMA
+<para>
+路由器無共用媒介，但其相連接的路由器數量不只一個。
+</para>
+</listitem>
+</itemizedlist>
+<para>
+若網路為 Multiaccess，
+則同一網路的路由器需選出 DR 及 BDR。
+</para>
+<para>
+DR 會與所有網路的路由器建立 adjacency 關係，
+並送出網路的 LSA 給其它路由器。
+</para>
+<para>
+BDR 則在 DR 損壞時接管 DR 的功能。
+</para>
+</sect1>
+<sect1><title>OSPF 操作</title>
+<itemizedlist>
+<listitem>建立路由器間的 adjacency。
+</listitem>
+<listitem>選出 DR 及 BDR。
+<para>
+選票是路由器 Hello 封包，
+DR 是選出優先權最高的路由器，
+如果路由器支援 OSPF 優先權預設為 1。
+優先權為 0 的路由器永遠不能為 DR。
+優先權為 255 的路由器至少會有一場和局，
+若為和局，則比各路由器的 router id，
+router id 是路由器所有介面中，
+ip id 值最高來代表，
+所以可設 loopback 介面的位址來操弄 router id，
+影嚮選舉。
+</para>
+</listitem>
+<listitem>路徑發現
+<para>
+路徑資訊的交換，在 Multiaccess 網路中，
+是 DR 及 BDR 與其它路由器的交換，
+點對點網路則為兩端路由器的交換。
+</para>
+<para>
+當路由器收到的 DBD 時，便進入了 ExStart，
+兩路由器利用 Hello 來協調誰為主路由器，
+另一為從路由器。
+通常由 Router ID 較高的當主路由器。
+當角色確立後，便進入 Exchange 狀態。
+</para>
+<para>
+路由器開始使用 DBD 來交換彼此的 link-state 訊息，
+收到 DBD 的路由器也會回傳一個 LSAck 作確認，
+常路由器發現另一方的 link-state 中包含未在其本身
+link-state 資訊庫的資訊，便進入 Loading 狀態，
+要求 neighbor 給其完整的資訊。					
+</para>
+<para>
+此狀態下，路由器先送出 LSR，
+對方收到便送出 LSU， 其中包含 LSA 資訊，
+更新完後，便利用 LSAck 給對方作確認。
+之後各路由器便進入 Full adjacency。
+</para>
+</listitem>
+<listitem>選擇適合的路徑
+<para>
+OSPF 是以 cost 來選擇路徑，
+cost 是根據網路的速度而定。
+路由表是由拓撲資料庫加上 cost 值經由 SPF 算法運算產生。
+OSPF 可保持四個 cost 相同的路徑來作 load balancing.
+</para>
+<para>
+flapping 為如 serial 這類型的連線，
+很容易不停地中斷又連線，
+造成一直送 LSU 要求更新連結資訊，
+使得路由器負擔過重，
+為了因應 flapping 的連線
+思科增加一計時器，只有計時器完成時，
+才執行 SPF。
+計時器時間可用 timers spf 來設定。	
+</para>
+</listitem>
+<listitem>維護路徑資料庫
+<para>
+在完成路由表後，
+路由器必須很勤勉的維護其連結資訊。
+若路由器在超過 Hello 中的 dead interval
+時間未再收到 Hello 時，
+就會宣告其與另一路由器的連結斷線。
+此時路由器會送出 LSU 告知連結狀態變了。 
+</para>
+<para>
+若在 P2P 網路中，LSU 會送到 224.0.0.5 
+則所有的 OSPF 路由器會收到，
+若在 multiaccess 網路中，
+DR 及 BDR 會將 LSU 會送到 224.0.0.5 
+則所有的 OSPF 路由器會收到，
+其它路由器會送到 224.0.0.6，
+只讓 DR 及 BDR 收到。
+</para>				
+<para>
+若路由器連接兩個網路，
+當由 224.0.0.5 收到一網路的 LSU，
+則會把 LSU 送給另一網路的 DR 及 BDR（或 P2P 的另一端點），
+另一網路的 DR 及 BDR 則會把此 LSU 再送給其它路由器。				
+</para>
+<para>
+若 LSU 包含新資訊，
+則路由器更新拓撲資料庫並執行 SPF 算出路由表，
+當 SPF 的計時器到期，則會更新路由表。
+</para>
+<para>
+若網路連接狀態未改變，每個 LSA 會有一個 age timer，
+預為為 30 分，若 age timer 到期，
+則路由器會送出 LSU 告知此 LSA 的資訊。
+</para>
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1><title>Cisco OSPF 路由器設定及驗證</title>
+<sect2><title>單一 Area OSPF 設定</title>
+<para>
+
+</para>
+</sect2>
+</sect1>
+<sect1><title>OSPF 多重區域作業</title>
+<sect2><title>OSPF 四種路由器類型</title>
+<itemizedlist>
+<listitem>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2><title>OSPF LSA 及區域類型</title>
+<para>
+多區域 OSPF 可擴充的原因是，
+DR 及連接不同區域的路由器的拓撲資料庫包含不同類型的
+LSA，條列如下：
+</para>
+<segmentedlist><title>OSPF LSA 類型</title>
+<?dbhtml list-presentation="table"?>
+<segtitle>LSA 類型</segtitle>
+<segtitle>名稱</segtitle>
+<segtitle>說明</segtitle>
+<seglistitem>
+<seg>1</seg> <seg>路由器連接項目（O-OSPF）</seg>
+<seg>
+路由器為每個區域產生此項目，
+描述路由器與每個區域的連接狀態，
+此訊息只會發送至一個區域內，
+也包含連接狀態及成本的訊息，
+路由包含 O 標記是指出其為由此訊息學習而來。
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>2</seg> <seg>網路連接項目（O-OSPF）</seg>
+<seg>
+DR 為多連接網路產生此項目，
+描述一組路由器連接至特定網路，
+此訊息只會發送至包含此網路的區域內，
+路由包含 O 標記是指出其為由此訊息學習而來。
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>3</seg> <seg>摘要連接項目（IA-OSPF）</seg>
+<seg>
+ABR 產生此項目，
+描述 ABR 與內部路由器連接狀態，
+此訊息只會發送至骨幹，再傳給其它的 ABR，
+路由包含 O 標記是指出其為由此訊息學習而來。
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>4</seg> <seg>摘要連接項目（IA-OSPF）</seg>
+<seg>
+ABR 產生此項目，
+描述與 ASBR 的連接狀態，
+此訊息只會發送至骨幹，再傳給其它的 ABR，
+但不傳給完全斷株域，
+路由包含 IA 標記是指出其為由此訊息學習而來。
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>5</seg> <seg>自主系統外部連接項目（E1-OSPF
+外部型 1；E2-OSPF 外部型 2）</seg>
+<seg>
+ASBR 產生此項目，
+描述自主系統外部的連接，
+此訊息不傳給斷株域及完全斷株域，
+路由包含 E1 或 E2 標記是指出其為由此訊息學習而來。
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>6</seg> <seg>多點廣播 OSPF（MOSPF）</seg>
+<seg>
+思科路由器未實作，
+讓 OSPF 使用拓撲資料庫建立多點廣播分散樹，
+來傳送多點廣播流量。
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>7</seg> <seg>自主系統外部連接項目（N1-OSPF
+NSSA 外部型 1；N2-OSPF 外部型 2）</seg>
+<seg>
+由連接至 NSSA 的 ASBR 產生此項目，
+而由 ABR 來匯入自主系統以外的資訊，再轉成 LSA 5。 
+描述自主系統外部的連接，
+路由包含 N1 或 N2 標記是指出其為由此訊息學習而來。
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>9</seg> <seg>多點廣播 OSPF（MOSPF）</seg>
+<seg>
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>10</seg> <seg>多點廣播 OSPF（MOSPF）</seg>
+<seg>
+</seg>
+</seglistitem>
+<seglistitem>
+<seg>11</seg> <seg>多點廣播 OSPF（MOSPF）</seg>
+<seg>
+</seg>
+</seglistitem>
+</segmentedlist>
+<para>
+區域的類型是由其可接收的路由資訊來區分，
+條列如下：
+</para>
+<variablelist><title>OSPF 區域類型</title>
+<varlistentry><term>標準域</term>
+<listitem>
+<para>
+可接收連接更新及路由摘要。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>骨幹域（運輸域）</term>
+<listitem>
+<para>
+一定為區域 0，其餘區域必須連接骨幹。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>斷株域</term>
+<listitem>
+<para>
+此區域無法接收自主系統以外的資訊，
+若要連接外部自主系統，則透過預設路由，
+0.0.0.0/0。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>完全斷株域</term>
+<listitem>
+<para>
+此區域無法接收自主系統以外的資訊，
+及內部其它區域的摘要資訊，
+若要連接外部區域，則透過預設路由，
+0.0.0.0/0。
+此為思科公司特有的性質。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>非典型斷株域（NSSA）</term>
+<listitem>
+<para>
+如同斷株域，但可使用 LSA 7  
+來匯入自主系統以外的資訊，再轉成 LSA 5。 
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+<para>
+區域類型關係到此區域如何處理自主系統外部資訊，
+OSPF 中連接外部自主系統的通常是 ASBR，
+ASBR 通常支援 OSPF 以外的路由協定。
+</para>
+<para>
+ASBR 可送將外部路由資訊以兩類的封包送至 OSPF
+內部，條列如下：
+</para>
+<variablelist>
+<varlistentry><term>E1</term>
+<listitem>
+<para>
+其權值的計算為外部權值加上內部的權值，
+通常在多台 ASBR 連接到同一外部系統時使用。
+</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>E2</term>
+<listitem>
+<para>
+其權值的計算為外部權值但不加上內部的權值，
+通常在一台 ASBR 連接到一外部系統時使用。
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+</sect1>
+<glossary><title>術語</title>
+<glossentry id="neignhbor">
+<glossterm>鄰居（Neighbor）</glossterm>
+<glossdef>
+<para>
+宣告 OSPF 的路由器從所有啟動 OSPF 協議的介面上發出HELLO，
+兩台路由器共用一條公共網路，
+並且能夠相互成功協商各自 HELLO 中所指定的參數。
+那麼它們就成為鄰居。
+</para>
+</glossdef>
+</glossentry>
+</glossary>
+</chapter>
+&wireless.routing;
+</part>
+<part><title>傳輸層</title>
+<chapter><title>TCP</title>
+<sect1 id="RTO"><title>連線的建立與結束</title>
+<para>
+<figure><title>三向握手建立連線</title>
+<imagedata fileref="pic/tcp_open_conn.gif" />			
+</figure>
+<figure><title>三向握手建立連線</title>
+<imagedata fileref="pic/tcp_send.gif" />			
+</figure>
+<figure><title>四向握手結束連線</title>
+<imagedata fileref="pic/tcp_close_conn.gif" />			
+</figure>
+<figure><title>四向握手結束連線2</title>
+<imagedata fileref="pic/tcp_close_conn2.gif" />			
+</figure>
+</para>
+</sect1>
+
+<sect1 id="RTO"><title>重傳時限(Retransmission Timeout)</title>
+<para>
+由於網路的動態性，所以重傳時限必須要能動態決定，
+其決定方式如下：
+<procedure><title>計算 RTO 程序</title>
+<step>估算 RTT</step>
+<step>SRTT = ( ALPHA * SRTT ) + ((1-ALPHA) * RTT)</step>
+<step>RTO = min[UBOUND,max[LBOUND,(BETA*SRTT)]]</step>
+</procedure>
+<emphasis>來回時間(Round Trip Time, RTT)</emphasis>
+是傳送某序號的封包，到接收到此序號的 ACK 的時間長度，
+<emphasis>平滑來回時間(Smoothed Round Trip Time, SRTT)</emphasis>
+如上式所定義。
+ALPHA 就是<emphasis>平滑因子(Smoothed factor)</emphasis>，
+用來計算 SRTT，其可能值為 .8 到 .9。
+UBOUND 及 LBOUND 分別為 RTO 的上下限。
+BETA 為<emphasis>延遲變異因子(Delay variance factor)</emphasis>，
+其可能值為 1.3 到 2.0。
+</para>
+</sect1>
+<sect1><title>緩啟動(slow start)及擁塞避免機制</title>
+<para>
+為避免傳送過多資料至一個情況未明的網路中，
+緩啟動機制會漸進的探測網路情形，增加傳輸量，
+並設定一個緩啟動閾，當變數值超過閾時，便啟動擁塞避免機制，
+以避免擁塞。
+</para>
+<para>
+傳送方維護一個<emphasis>擁塞視窗(Congestion window, cwnd)</emphasis>，
+cwnd 為傳送方在接收到下一個 ACK 前，所能傳送封包的最大值。
+接收方則維護一個<emphasis>廣播視窗(advertised window, rwnd)</emphasis>，
+rwnd 為接收方未處理封包的限度。cwnd 及 rwnd 值控制了資料傳輸行為。
+</para>
+<para>
+<emphasis>初始視窗(Initial Window, IW)</emphasis>是 cwnd 的初始值，
+至少應為 2*SMSS 且不能大於 2 個區段。SMSS 指
+<emphasis>傳送方最大區段值(Sender Maximum Segement Size)</emphasis>，
+也有學者定義
+<inlineequation>IW = min (4*SMSS, max (2*SMSS, 4380 bytes))</inlineequation>。
+</para>
+<para>
+參數<emphasis>緩啟動閾(Slow Start Threshold, ssthresh)</emphasis>，
+則用來決定啟動擁塞控制的時間。
+當 cwnd &lt; ssthresh 則執行緩啟動機制，
+反之 cwnd > ssthresh 則執行擁塞避免機制，
+而當 cwnd = ssthresh 則可任意執行緩啟動或擁塞避免機制。
+</para>
+<para>
+在緩啟動機制下，
+每次接收 ACK 後，cwnd 最多可增加 SMSS 的大小，
+直到 cwnd > ssthresh 才停止，轉成擁塞避免機制。
+</para>
+<para>
+在擁塞避免機制下，
+每次 RTT，cwnd 僅增加一個區段的大小，
+直到察覺到擁塞時才停止。cwnd 的行為如式 cwnd += SMSS*SMSS/cwnd       
+</para>
+<para>
+傳送方可用重傳時限來察覺到封包遺失，此即為隱性擁塞訊號，
+當察覺到擁塞時，會重設緩啟動閾如式：
+ssthresh = max (FlightSize / 2, 2*SMSS)
+其中 FlightSize 指<emphasis>未確認資料大小</emphasis>。
+</para>
+</sect1>
+<biblioentry id="RFC2581">
+<abbrev>RFC2581</abbrev>
+<title>TCP Congestion Control</title>
+<publisher>
+<publishername>IETF</publishername>
+<pubdate>1999</pubdate>
+</publisher>
+</biblioentry>
+</chapter>
+</part>
+<part><title>應用層</title>
+&filesharing;
+</part>
+<part><title>歷屆試題</title>
+</part>
+</book>

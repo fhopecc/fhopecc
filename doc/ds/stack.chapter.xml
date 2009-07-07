@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>堆疊</title>
+<para>
+串列可以在任何位置增加、刪除資料，
+與其相較堆疊的元素的新增、刪除都只能在特定的端點進行，
+於是最後堆入進去的數值，會先彈出出來，
+此現象稱作 LIFO (後進先出)，
+LIFO 的特性使堆疊應用在很多領域。
+</para>
+<sect1><title>堆疊的操作</title>
+<para>
+<figure id="stack.push"><title>依序將 ABCD 加入到堆疊中</title>
+<graphic fileref="ds/stack.push.png"/>
+</figure>
+<figure id="stack.pop"><title>依序將 ABCD 自堆疊彈出</title>
+<graphic fileref="ds/stack.pop.png"/>
+</figure>
+堆疊定義了兩個抽象操作，
+堆入(push)及彈出(pop)，
+堆入是把元素加入至堆疊尾，
+彈出是把堆疊尾的元素取出。
+例如<xref linkend="stack.push"/>依序將 ABCD 加入到堆疊中，
+而<xref linkend="stack.pop"/>依序將 ABCD 自堆疊彈出。
+由於 LIFO 的特性，ABCD 彈出後變為 DCBA。
+</para>
+<para>
+</para>
+</sect1>
+<sect1><title>反波蘭運算式的求值</title>
+<para>
+<figure id="RPN1"><title>中序運算式轉 RPN</title>
+<informalequation>
+5+((1+2)*4)-3 -> 512+4*+3-	
+</informalequation>	
+</figure>
+<xref linkend="RPN1"/>顯示一個中序運算式及其等值的反波蘭運算式(RPN)，
+觀察<xref linkend="RPN1"/>，可看出與中序運算式相較 RPN 具有幾個特性，
+首先 RPN 沒有括號，所以其運算式編碼較短，
+然後 RPN 求值只使用一個堆疊便能進行，
+最後直譯器只要由左至右掃過一次便能夠完成求值，
+所以通常語言編譯器會先將中序運算式轉成 RPN 以利求值。
+</para>
+<para>
+<figure id="RPN.eval"><title>RPN 求值演算法</title>
+<programlisting>
+cTok = getNextToken()		
+case cTok.type
+when Number # 遇到數字，堆入 到堆疊
+  stack.push(cTok.value) 
+when Operator # 遇到運算子，彈出 出運算元，計算後再 堆入 回堆疊
+	opcode = cTok.value
+	oprand2 = stack.pop
+	oprand1 = stack.pop
+	res = eval(opcode, stack.pop, stack.pop)
+	stack.push(res)
+end
+return stack.pop # 傳回結果
+</programlisting>
+</figure>
+對 RPN 的求值演算法如<xref linkend="RPN.eval"/>所描述，
+直譯器由左至右讀取一個個 cTok，
+若 cTok 是數字則將數字值 堆入 到堆疊中，
+若是運算子 彈出 出所需的運算元，計算後得到結果再 堆入 回堆疊。
+等全部掃描完後，就是 RPN 式的結果。
+<figure id="RPN1.eval"><title>RPN 求值堆疊</title>
+<graphic fileref="ds/EvalRPN.png"/>
+</figure>
+<xref linkend="RPN1.eval"/>是<xref linkend="RPN1"/>的 RPN
+求值的堆疊狀態，
+每一行表示讀取一個 cTok 後，對堆疊的操作及操作後的狀態，
+實線表示 堆入 值到堆疊，虛線表示自堆疊 彈出 值出來，
+由上可以了解對 RPN 求值只需要一個堆疊即可完成運算。
+</para>
+</sect1>
+</chapter>

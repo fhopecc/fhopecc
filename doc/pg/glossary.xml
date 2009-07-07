@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding="Big5"?>
+<glossary><title>DocBook 的專有名詞</title>
+  <para>本節提供一些 DocBook 的專有名詞解釋</para>
+  <glossdiv><title>D</title>
+    <glossentry id="dtd">
+      <glossterm>Document Type Definitions</glossterm>
+      <acronym>DTD</acronym>
+      <glossdef>
+        <para>文件型態定義：使用在 SGML 文件中，...</para>
+        <glossseealso otherterm="sgml">SGML</glossseealso>
+      </glossdef>
+    </glossentry>
+  </glossdiv>
+  <glossdiv><title>S</title>
+    <glossentry id="sgml">
+      <glossterm>Standard Genralized Markup Language</glossterm>
+      <acronym>SGML</acronym>
+      <glossdef>
+        <para>通用標準標記語言：一種描述文件分類及組織架構...</para>
+      </glossdef>
+    </glossentry>
+  </glossdiv>
+</glossary>
+

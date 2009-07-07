@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>復原管理</title>
+<sect1><title>交易</title>
+<para>
+<figure id="DBTransactionSTD"><title>資料庫的交易狀態轉移圖</title>
+<imagedata fileref="db/DBTransactionSTD.png" />
+</figure>
+<emphasis>交易(Transaction)</emphasis>是一組資料庫操作的邏輯單元(logic
+unit)，如<xref linkend="DBTransactionSTD"/>，每個交易有三種狀態，
+分別是<emphasis>初始</emphasis>(Begin)、
+<emphasis>交易中</emphasis>以及<emphasis>交付</emphasis>(Commited)，
+而且必須滿足下列條件：
+<itemizedlist>
+<listitem><emphasis>單元性(Atomic)</emphasis>：
+交易內的操作，不是全部執行，就是全部不執行。
+若單元內其中一個操作未完成，則整個交易必須回到初始狀態，
+回到初始狀態的程序稱為<emphasis>復原</emphasis>(Recovery, Rollback)。
+</listitem>
+<listitem><emphasis>一致性(Consistency)</emphasis>：
+交易前後資料的必須維持一致。
+像是銀行的轉帳，轉帳兩帳戶其金額加總在轉帳前後必須相等。
+</listitem>
+<listitem><emphasis>隔離性(Isolation)</emphasis>：
+對交易外的操作而言，只能看到交易的兩種終止狀態，初始及交付。
+這意指<emphasis>交易排程</emphasis>(Transaction Schedule)
+必須維持<emphasis>可序列化</emphasis>(Serializable)。
+為了資料庫效能，隔離性通常會比較寬鬆。
+</listitem>
+<listitem><emphasis>持久性(Durability)</emphasis>：
+一旦交付，則交易狀態會永久保存且不能復原。
+</listitem>
+</itemizedlist>
+目前的計算機組織採用雙層式的記憶體，
+分別為<emphasis>隨機存取記憶體 (RAM,</emphasis>Random Access Memory)
+及<emphasis>磁碟</emphasis>，
+RAM 存取快，但電源關閉則資料狀態就消失，
+磁碟存取慢，但可保存寫入的資料狀態，不會因電源關閉而消失，
+通常 CPU 可以直接存取 RAM 的資料，
+而 CPU 在讀取磁碟資料時，
+會先<emphasis>載入</emphasis>(load)磁碟資料到 RAM，再從 RAM
+<emphasis>讀取</emphasis>(read)載入的資料；
+CPU 寫入資料到磁碟時，
+會先<emphasis>寫入</emphasis>(write)資料到 RAM，
+再<emphasis>儲存</emphasis>(store)RAM 中的資料到磁碟。
+故在此機制下，交易要達到交付狀態，
+即是保證交易的所有資料操作的結果，
+已經寫入到磁碟，才能達到單元性及持久性的需求。
+</para>
+</sect1>
+<sect1><title>日誌項目</title>
+<para>
+<emphasis>未完成交易</emphasis>指已啟動但未交付的交易，
+<emphasis>系統當機</emphasis>表示 RAM 中所有資料流失，
+這也指未完成交易的暫存狀態也流失。
+而我們若不能確定那幾筆更動已寫入到磁碟，
+則會造成磁碟中持久資料可能會產生不一致，
+進而違反 ACID 原則，
+而當機是不可預知的，
+所以便使用日誌檔來達到當機復原的功能。
+<emphasis>日誌檔</emphasis>(log)是另外一份寫在磁碟的資料，
+其資料能在系統當機時，可以用來回復資料庫的狀態，
+通用的日誌項目如下：
+<itemizedlist>
+<listitem>[START T]：表示交易 T 啟動</listitem> 
+<listitem>[COMMIT T]：表示交易 T 已交付</listitem>
+<listitem>[ABORT T]：表示交易 T 已取消</listitem>
+</itemizedlist>
+日誌機制又分成以下三個：
+<itemizedlist>
+<listitem>取消日誌</listitem> 
+<listitem>重作日誌</listitem>
+<listitem>復原重作日誌</listitem>
+</itemizedlist>
+</para>
+</sect1>
+<sect1><title>取消日誌</title>
+<para>
+取消日誌是當機時，取消未完成交易，
+實作則需定義了一個日誌項目如下：
+<itemizedlist>
+<listitem>[T,X,v]：表示交易 T 更動資料項目 X ，其舊值為 v</listitem> 
+</itemizedlist>
+<procedure id="UndoDataStoreOrd"><title>取消日誌資料項目存入磁碟的順序</title>
+<step>存入[T,X,v]</step>
+<step>存入資料項目 X</step>
+<step>存入[COMMIT T]</step>
+</procedure>
+由<xref linkend="UndoDataStoreOrd"/>可知只有所有更動的資料項目都存到磁碟，
+才會存入 [COMMIT T]。
+<procedure><title>取消日誌當機復原程序</title>
+<step>由下而上讀取日誌項目，並重覆以下的判斷程序
+<substeps>
+<step>讀到 [COMMIT T]，則標誌 T 為已交付</step>
+<step>讀到 [T,X,v]，若 T 尚未交付，則將 v 存入 X 的磁碟位置</step>
+<step>讀取完成後，對每個未完成交易 Ta 寫入[ABORT Ta]</step>
+</substeps>
+</step>
+</procedure>
+</para>
+</sect1>
+<sect1><title>取消日誌使用靜止檢核點</title>
+<para>
+日誌檔會隨著時間變得越來越大，
+若每次復原程序要讀完全部的日誌檔，
+則會使復原時間變得越來越長。
+因此每間隔一段時間，
+系統會插入一個<emphasis>檢核點</emphasis>(Checkpoint)，
+使檢核點之前的交易全部都已交付，
+則復原系統只需要復原至檢核點，
+如此則避免了復原時都要讀完全部的日誌檔，
+實作則需定義了一個日誌項目如下：
+<itemizedlist>
+<listitem>[CKPT]：檢核點，表此日誌項目之前的交易全部都已交付</listitem> 
+</itemizedlist>
+<procedure><title>靜止檢核點資料項目存入磁碟的順序</title>
+<step>等待所有未完成交易完成工作，並停止啟動任何新交易</step>
+<step>存入[CKPT]</step>
+<step>可以啟動新交易</step>
+</procedure>
+<procedure><title>靜止檢核點的當機復原程序</title>
+<step>執行正常當機復原程序</step>
+<step>讀到 [CKPT] 時，對每個未交付交易，存入 [ABORT T]</step>
+</procedure>
+</para>
+</sect1>
+<sect1><title>取消日誌使用動態檢核點</title>
+<para>
+靜止檢核點的缺點是每次要檢核時，
+都得等待全部未完成交易完成，
+並停止所有新交易啟動，造成檢核時可能會發生較長的延遲，
+動態檢核點則可允許新交易啟動，
+其額外定義的日誌項目如下：
+<itemizedlist>
+<listitem>[START CKPT T1T2...Tn]：檢核點開始，
+T1T2...Tn 表示當下的未完成交易</listitem> 
+<listitem>[END CKPT>]：檢核點完成，
+且T1T2...Tn 均已交易完成</listitem> 
+</itemizedlist>
+<procedure><title>動態檢核點資料項目存入磁碟的順序</title>
+<step>存入[START CKPT T1T2...Tn]</step>
+<step>正常交易程序</step>
+<step>待 T1T2...Tn 交易完成後，插入 [END CKPT]</step>
+</procedure>
+<procedure><title>動態檢核點取消日誌的當機復原程序</title>
+<step>由下而上讀取日誌項目，並重覆以下的判斷程序
+<substeps>
+<step>若讀到[END CKPT]，
+指對應的 [START CKPT T...] 之前的交易都交付了，
+故持續作復原動作，直到讀到[START CKPT T...]，
+再插入必要的 [ABORT T]，便復原完成
+</step>
+<step>若讀到 [START CKPT T...]，
+除 T... 以外的交易都交付了，
+令 Ti 為 T... 中最早的交易，
+故持續作復原動作，直到讀到 [START Ti]，
+再插入必要的 [ABORT T]，便復原完成
+</step>
+<step>執行取消日誌的當機復原程序</step>
+</substeps>
+</step>
+</procedure>
+</para>
+</sect1>
+<sect1><title>重作日誌</title>
+<para>
+重作日誌是當機時，重作未全部完成的動作，
+其多定義了一個日誌項目如下：
+<itemizedlist>
+<listitem>[T,X,v]：表示交易 T 改變資料項目 X ，其新值為 v</listitem> 
+</itemizedlist>
+<procedure id="RedoDataStoreOrd"><title>重作日誌資料項目存入磁碟的順序</title>
+<step>存入[T,X,v]</step>
+<step>存入[COMMIT T]</step>
+<step>存入資料項目 X</step>
+</procedure>
+如<xref linkend="RedoDataStoreOrd"/>所示，
+重作日誌系統在存入資料項目前，
+一定先存入日誌項目，
+此原則稱為<emphasis>日誌先存原則(WAL,</emphasis>write-ahead
+logging)。
+<procedure><title>重作日誌的當機復原程序</title>
+<step>由下而上讀取日誌項目，並重覆以下的判斷程序
+<substeps>
+<step>若讀到 [COMMIT T] 則標誌 T 為已交付</step>
+<step>若讀到 [T,X,v]，且 T 為已交付，則將 v 存入 X 的磁碟位置</step>
+</substeps>
+</step>
+<step>讀取最後一筆後，對每個未完成交易 Ta 存入[ABORT Ta]</step>
+</procedure>
+</para>
+</sect1>
+<sect1><title>重作日誌使用動態檢核點</title>
+<para>
+<procedure><title>重作日誌資料項目存入磁碟的順序</title>
+<step>存入[START CKPT T1T2...Tn]</step>
+<step>正常程序</step>
+<step>等 T1T2...Tn 交易完成後，存入 [END CKPT]</step>
+</procedure>
+其當機復原程序如下：
+<procedure>
+<step>由下而上讀取日誌項目，並重覆以下的判斷程序
+<substeps>
+<step id="redo_end_ckpt">若讀到 [END CKPT]，
+表示對應的 [START CKPT T...]以前開始的交易，
+除了 T... 都已確實交付了，
+故持續重作標示交付的交易，
+直到讀到 [START Ti]，
+再插入必要的 [ABORT T]，便復原完成
+</step>
+<step>若讀到 [START CKPT T...]，
+則找到上個 [END CKPT]，再執行<xref linkend="redo_end_ckpt"/>
+</step>
+<step>執行重作日誌的當機復原程序</step>
+</substeps>
+</step>
+</procedure>
+</para>
+</sect1>
+</chapter>

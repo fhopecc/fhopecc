@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>JavaScript 的物件模型</title>
+<para>
+JavaScript 是一個以物件為基礎的語言，
+因此幾乎所有的變數在 JavaScript 中都是一個物件，
+一個物件通常有一些屬性（Attribute）和方法（Methods），
+而與物件相關的函數通常就被定義成物件的方法（或是功能）。
+舉例來說，我們可以把一個微波爐看成一個物件，那麼微波爐的顏色（Color）就是一個屬性，
+容量（Volume）又是另一種屬性，
+而我們可以把「加熱」（Heat）看成微波爐的一個方法（或是函數）它的輸入參數有兩個，
+第一個參數是放進微波爐的物品，第二個參數則是加熱的秒數。
+因此對於一個容量為八公升的白色微波爐 A，A.color 就是 white，A.volume 就是 8，
+而 A.heat("冷水", 30) 傳回值可能是 "溫水"（冷水加熱 30 秒變成溫水），
+而 A.heat("冷水", 300) 傳回值可能是 "沸水"（冷水加熱 300 秒變成沸水）。
+因此在上述範例中，document 就是一個 JavaScript 的物件，
+代表此網頁所在的文件，而 write() 就是一個方法，可以將輸入的字串寫到文件內。 
+</para>
+<sect1><title>屬性</title>
+<para>
+物件就是一群屬性的集合，
+屬性可以說是物件的狀態。
+</para>
+<sect2><title>設定屬性</title>
+<para>
+賦值運算(assignment)可以用來改變屬性的值(value)。
+其語法如下：
+<figure id="syntaxAssignment"><title>賦值運算的語法</title>
+<programlisting>
+<![CDATA[
+  物件.屬性 = 值
+]]>
+</programlisting>
+</figure>
+其語意為將 "=" 右方的 "值" 放在左方的物件的"屬性"上。
+<figure id="setTitle"><title>設定文件標題</title>
+<programlisting>
+<![CDATA[
+<script language="javascript">
+  document.title='新文件標題'
+</script>
+]]>
+</programlisting>
+</figure>
+如<xref linkend="setTitle"/>document 是一個物件用來代表目前的網頁，
+這一個物件其中一個屬性是 title 表示網頁的標題，用這方式來表示，
+可將一個 '新文件標題' 字串值賦給 document.title，
+使網頁的標題變成 '新文件標題'。 
+</para>
+</sect2>
+</sect1>
+<sect1><title>方法</title>
+<para>
+方法則是作用在物件上的操作。
+</para>
+<sect2><title>呼叫方法</title>
+<para>
+以下的語法是用來執行物件中附屬的方法：
+<figure id="syntaxMethodCall"><title>賦值運算的語法</title>
+<programlisting>
+<![CDATA[
+  物件.方法(參數1, 參數2,...)
+]]>
+</programlisting>
+</figure>
+其語意為呼叫物件的"方法"上，並傳入 "(", ")" 之間的參數。
+例如<xref linkend="HelloWorld"/>程式中，其中 str 是一個字串變數，
+其值為 "Hello World!"，
+document 則是一個物件，代表程式碼所在的文件，
+write 則是 document 的一個方法，可將一個字串印出於瀏覽器，
+因此 document.write(str) 的作用就是將 "Hello World!" 顯示在瀏覽器之上。
+</para>
+</sect2>
+</sect1>
+</chapter>

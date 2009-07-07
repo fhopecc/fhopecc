@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter id="queue"><title>佇列</title>
+<para>
+<figure id="queue"><title>排隊</title>
+<graphic fileref="ds/queue.jpg"/>
+</figure>	
+<emphasis>佇列</emphasis>這個概念是從<emphasis>排隊</emphasis>過來的，
+
+</para>
+<sect1><title>列印佇列</title>
+<para>
+電腦上作業系統其主要的功能便是執行使用者的程序或是工作。
+若系統尚未執行完目前的工作，而使用者又想要執行另一個工作時，
+則系統無法接受工作要求，直到系統執行完目前的工作，
+才能再接受其它的工作要求。
+為了能讓使用者提出工作執行要求時，不必顧慮到系統是否忙碌，
+並讓先提出的要求可以先得到服務，
+則系統可以使用一個佇列來儲存尚未執行的工作要求，
+這個佇列稱為工作佇列。
+<figure id="PrintQueue"><title>列印佇列</title>
+<graphic fileref="ds/PrintQueue.png"/>
+</figure>
+<xref linkend="PrintQueue"/>為一個印表機上的工作佇列的例子，
+主機產生一個要列印的"新文件"
+並 enque 到佇列的尾，而印表機的 OS 自佇列頭 deque 出"文件 1"的列印工作，
+並開始執行列印。
+</para>
+</sect1>
+<sect1><title>佇列的 enque 及 deque 操作</title>
+<para>
+佇列定義了兩個抽象操作，
+enque 及 deque，
+enque 是把元素加入至佇列尾，
+deque 是把佇列頭的元素取出，
+由操作的定義可推論出佇列中，
+最先 enque 進去的數值，最先 deque 出來，此現象稱作 FIFO (先進先出)，
+為佇列最重要的特徵。
+</para>
+</sect1>
+<sect1 id="CircularArray"><title>環狀陣列</title>
+<para>
+佇列最簡單的實作是使用陣列來實作佇列，
+為了能讓陣列有佇列的功能，必須使用兩個指標來指出佇列的端點，
+每個指標儲存一個陣列足標值，指向佇列端點元素在陣列的位置，
+front 指標儲存佇列前端元素的陣列足標值，
+rear 指標則是指向佇列後端元素的陣列足標值。
+<figure id="ArrayQueue"><title>陣列佇列</title>
+<graphic fileref="ds/ArrayQueue.jpg"/>
+</figure>
+如<xref linkend="ArrayQueue"/>所示，
+當從佇列後端加入一個資料，
+rear 就加 1 指向最後一個資料，
+當從佇列前端取出一個資料，
+front 就加 1 指向佇列的最前端，
+這是最簡單的佇列實作，但是由於陣列的大小必須先決定，
+所以這種線性結構有個問題，
+當 front 與 rear 會到達陣列的後端，
+而這個陣列就不能再使用了，為了解決這個問題，
+將陣列當作環狀來使用，當 front 或 rear 到達陣列後端時，
+就重新從陣列前端再循環，也就是形成環狀陣列，
+如<xref linkend="CircularArrayEnq"/>所示，
+而計算下一個指標位置的公式便從 next=cur+ 1，
+修正為 next=cur+1%N，其中 N 是陣列的大小，
+由於新位置必須模 N 來計算，
+所以產生的新位置足標值一定在 0..(N-1) 區間內循環，
+這就是環狀陣列名稱的來源。
+</para>
+<para>
+<figure id="CircularArrayEnq"><title>排隊操作</title>
+<graphic fileref="ds/CircularArray_enq.png"/>
+</figure>
+當要在佇列後端排入一個資料，
+先將 rear 的值重設為 (rear+1)%N
+並在 rear 指向的陣列位置存入新值，
+<xref linkend="CircularArrayEnq"/>(a) 為一個空佇列，
+其中實線箭頭為 front 指標，
+虛線箭頭為 rear 指標，
+空佇列中，front 及 rear 指向同一個地方。
+當加入新值 1 時，rear 指向下一個足標，
+並於足標處存入新值，
+其操作結果如<xref linkend="CircularArrayEnq"/>(b)。
+</para>
+<para>
+<figure id="CircularArrayFullEmpty"><title>例外狀況</title>
+<graphic fileref="ds/CircularArrayFullEmpty.png"/>
+</figure>
+由於陣列的容量有限，
+所以加入元素時，環狀陣列必須能指出佇列已滿，
+並傳出一個例外訊息告知使用者，
+測試佇列是否已滿可比較 front 及 rear 是否相等，
+當 front = rear 時，佇列就滿了，
+如<xref linkend="CircularArrayFullEmpty"/>(b)
+要加入第 8 個元素前，
+由於 rear 會與 front 相等，便會丟出佇列已滿的例外。
+</para>
+<para>
+<figure id="CircularArrayDeq"><title>出隊操作</title>
+<graphic fileref="ds/CircularArray_deq.png"/>
+</figure>
+當要從佇列前端取出一個資料，
+先將 front 的值重設為為 (front+1)%N，
+再從 front 取出值。
+<xref linkend="CircularArrayEnq"/>(a) 為一個有三個元素的佇列，
+<xref linkend="CircularArrayEnq"/>(b) 為出隊操作取出資料 1 的結果，
+而取出元素前，必須判斷佇列是否為空，
+並傳出一個例外訊息告知使用者佇列為空，
+測試是否為空佇列可比較 front 及 rear 是否相等，
+當 front = rear 時，佇列就空了，
+如<xref linkend="CircularArrayFullEmpty"/>(b)，
+要刪除元素前，
+由於 rear 會與 front 相等，便會丟出空佇列的例外。
+</para>
+</sect1>
+<qandaset>
+<qandaentry><question>
+<para>
+<xref linkend="CircularArray"/>所討論的環狀陣列，
+會發現有一個空間會被浪費掉，
+這是因為判斷佇列已滿或已空的條件都是 front = rear，
+要如何才能省下這個空間？
+</para>		
+</question>
+<answer>
+<para>
+可以多使用一個 flag 來判斷，
+如果 flag 設定為 1 且 front == rear，則表示佇列已滿，
+如果 flag 設定為 0 則 front == rear，則表示佇列已空，
+這樣就不會浪費一個佇列空間了，提供改良後的虛擬碼如下： 
+<programlisting>
+<![CDATA[ 
+def enque(data)
+  if @front == @rear and @flag == 1 then 
+    raise QueueFullException
+  @rear = (@rear+1) % N 
+  queue[@rear] = data 
+  if @front == @rear then 
+	  flag = 1 
+end
+
+def deque() 
+  if @front == @rear and @flag == 0 
+    then raise QueueEmptyException
+
+  data = array[@front]
+  @front = (@front+1) % N 
+  if @front == @rear then 
+	  flag = 0 
+	return data
+end 
+]]>
+</programlisting>	
+基本上這樣作會多程式會增加一些邏輯，
+而且也必須用一個空間來儲 flag，
+所以更正這個效用不大。
+</para>	
+</answer>
+</qandaentry>
+
+</qandaset>
+</chapter>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding="Big5"?>
+<chapter id="LR"><title>LR 剖析法</title>
+<sect1><title>SR 剖析器</title>
+<para>
+某一個語言的<emphasis>剖析器</emphasis>(parser)能接受一個字串，
+並判斷此字串是否屬於這個語言，
+換句話說，剖析器可以辨認一個語言，
+所以<emphasis>剖析器也可以用來定義一個語言</emphasis>，
+通常我們把某個剖析器 A 所定義的語言，
+記為 L(A)
+</para>
+<para>
+依<xref linkend="Reduction"/>所言，
+簡化可用來判斷字串是否屬於某一語言，
+故可以應用在剖析器上。
+能執行簡化運算的剖析器，
+通常稱作 SR 剖析器(Shift-Reduce Parser)，
+此種剖析器能進行兩個動作，
+分別為移動掃描器，
+以及執行簡化動作，
+通常剖析器會具有一組有限的<emphasis>狀態</emphasis>(state)，
+用來記憶已掃描過的符號，
+若已掃描過的符號為一個柄，
+便執行簡化動作，
+若不是，
+則移動掃描器，
+再掃進下一個符號。
+</para>
+</sect1>
+<sect1><title>LR 剖析器</title>
+<para>
+LR 剖析器為一種 SR 剖析器，
+具有一組有限的狀態集 K，
+用來記憶已掃描過的字元，
+其中一個狀態為啟始狀態 S。
+</para>
+<para>
+此自動機具有一個掃描頭，
+每次可以自輸入字串讀進一個字元，
+字串輸入的順序是由左至右，
+和你閱讀本文方式一樣，
+這是他名稱中 L 的意思，
+代表由左至右(Left to right scan)，
+輸入字串的字元均為終端字元。
+</para>
+<para>
+由於 LR 剖析器是一種 SR 剖析器，
+所以必須能記憶已掃描過的符號，
+並判斷已掃描過的符號若為一個柄，
+以便執行簡化動作。
+而剖析器由左至右的讀取字元，
+使得它相當容易去利用反向右簡化來實作剖析。
+</para>
+</sect1>
+<sect1><title>LR 設定</title>
+<para>
+<programlisting>
+<![CDATA[
+[]1 + 1 $ -> 
+[,1] + 1 $ ->
+[1,+] 1 $ ->
+[D,+] 1 $->
+[E,+] 1 ->
+[E+,1] $->
+[EO,1] $->
+[EO1,$] $->
+[EOD,$] -> 
+[EOE,$] -> 
+[E,$]
+]]>
+</programlisting>
+</para>
+</sect1>
+</chapter>

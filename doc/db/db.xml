@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="big5"?>
+<!--<!DOCTYPE DocBook>-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+[
+<!ENTITY design SYSTEM "design.chapter.xml">
+<!ENTITY recovery SYSTEM "recovery.chapter.xml">
+<!ENTITY RelationalAlgebra SYSTEM "RelationalAlgebra.chapter.xml">
+<!ENTITY % MATHML.prefixed "INCLUDE">
+<!ENTITY % MATHML.prefix "mml">
+<!ENTITY % equation.content "(alt?, (graphic+|mediaobject+|mml:math))">
+<!ENTITY % inlineequation.content 
+                "(alt?, (graphic+|inlinemediaobject+|mml:math))">
+<!ENTITY % mathml PUBLIC "-//W3C//DTD MathML 2.0//EN"
+        "http://www.w3.org/TR/MathML2/dtd/mathml2.dtd">
+%mathml;
+]>
+<book><title>資料庫系統</title>
+<chapter><title>資料庫設計階段</title>
+<procedure><title>資料庫設計四階段</title>
+<step>資料需求分析
+<para>
+將不同使用者及群體所有相關資訊及需求的搜集。此一階段的主要工作，
+就是盡量向使用者蒐集所可能會使用到的資料。
+</para>
+</step>
+<step>觀念設計(Conceptual design)
+<para>
+對使用者及應用系統(如人事薪資管理系統)的資訊觀點進行模型的建立，
+亦即建立<emphasis>實體關係模型</emphasis>
+(entity-relation model,簡稱E-R model)
+</para>
+</step>
+<step>邏輯設計(logical design)
+<para>
+在邏輯設計階段中，係將觀念架構轉換成所選定的DBMS。
+例如：關聯式資料庫管理系統的邏輯資料模式(logical data
+model)
+</para>
+</step>
+<step>實體設計(physical design)
+<para>
+將邏輯資料模式轉換成某特定硬體及所選用的DBMS所適用的形式，
+實體設計係決定資料儲存的結構以及檢索的路徑
+</para>
+</step>
+</procedure>
+</chapter>
+&RelationalAlgebra;
+<chapter><title>實體關係圖</title>
+<sect1><title>實體關係圖轉關聯式表格</title>
+<sect2><title>每個實體轉成一個表格</title>
+</sect2>
+<sect2><title>每個關係轉成一個表格</title>
+</sect2>
+<sect2><title>合併多對一關係的表格</title>
+<para>
+<figure id="Many2OneRelationship"><title>多對一關係</title>
+<imagedata fileref="pic/Many2OneRelationship.gif" />
+</figure>
+可轉成
+<programlisting>
+E(e_pks, e_attrs)
+R(e_pks, f_pks, r_cols)
+F(f_pks, f_cols)
+</programlisting>
+多對一則可合併 E, R 成為
+<programlisting>
+ER(e_pks, e_attrs, f_pks, r_cols)
+F(f_pks, f_cols)
+</programlisting>
+</para>
+</sect2>
+<sect2><title>合併弱實體的表格</title>
+
+</sect2>
+<sect2><title>為每個多值屬性建一個關聯表</title>
+<para>
+如一個部門有多個地點，
+則以每個部門的主鍵加上地點的主鍵合成一個表格。
+</para>
+</sect2>
+</sect1>
+</chapter>
+<chapter><title>函數相依性 Functional Dependence</title>
+<sect1 hclass="definition"><title>函數相依性</title>
+<para>
+令 R 為一關連表綱要(或屬性集)，A, B &subsetof; R，則在 &forall;t, t'&of;T(R) 中，
+若 t(A)=t'(A) 則可得 t(B)=t'(B)，則我們稱 
+<emphasis>A 定義 B</emphasis>
+或<emphasis>B 函數相依於 A</emphasis>，
+記作<emphasis>A</emphasis> &rarrow; <emphasis>B</emphasis>。
+</para>
+</sect1>
+<sect1 hclass="axiom"><title>阿姆斯壯公理(Armstrong's Axiom)</title>
+<para>
+<emphasis>阿姆斯壯公理</emphasis>是作用在函數相依上的推論規則
+包含下面三條推論規則：
+</para>
+<itemizedlist>
+<listitem><emphasis>反身性規則(reflexivity rule)</emphasis>：
+若 a 是一個屬性集，且 b &subsetof; a，則 a &rarrow; b。
+</listitem>
+<listitem><emphasis>擴充性規則(augmentaion rule)</emphasis>：
+若 a &rarrow; b，且 c 是一個屬性集，則 cb &rarrow; ca。
+</listitem>
+<listitem><emphasis>遞移性規則(transitivity rule)</emphasis>：
+若 a &rarrow; b，且 b &rarrow; c，則 a &rarrow; c。
+</listitem>
+</itemizedlist>
+<qandaset>
+<qandaentry>
+<question>
+<para>
+假設某 Relational Database Schema 為 R(A,B,C,D,E,F,G)，
+其功能依賴（Functional Dependencies）為
+</para>
+<itemizedlist>
+<listitem>{A,B} &rarrow; C</listitem>
+<listitem>{C,D} &rarrow; E</listitem>
+<listitem>{D,E} &rarrow; {B,F}</listitem>
+<listitem>F &rarrow; G</listitem>
+<listitem>G &rarrow; D</listitem>
+</itemizedlist>
+<para>
+請以功能依賴的推論(Inferences)規則，來回答：
+</para>
+<orderedlist>
+<listitem>{A,B} 是否為 Candidate Key?</listitem>
+<listitem>找出所有 R 之 Candidate Key?</listitem>
+</orderedlist>
+</question>
+<answer>
+<literallayout>
+{A,B} &rarrow; {A,B,C}
+由上可發現右方沒有 
+{A},{B},{C},{A,B},{A,C},{B,C},{A,B,C}
+等自變集，所以 {A,B} 不是 Candidate Key。
+
+{A,B} &rarrow; {A,B,C}
+{A,B,D} &rarrow; {A,B,C,D,E,F,G}
+故 {A,B,D} 為 Candidate Key。
+同理 {A,B,F}, {A,B,G} 也是。
+
+{D,E} &rarrow; {B,D,E,F,G}
+{A,D,E} &rarrow; {A,B,C,D,E,F,G}
+故 {A,D,E} 為 Candidate Key。
+同理 {A,F,E}, {A,G,E} 也是。
+</literallayout>
+</answer>
+</qandaentry>
+</qandaset>
+<sect2 hclass="theorem"><title>阿姆斯壯公理是健全的(sound)</title>
+</sect2>
+<sect2 hclass="theorem"><title>阿姆斯壯公理是完備的(complete)</title>
+</sect2>
+</sect1>
+</chapter>
+<chapter><title>物件導向資料庫(Object-Oriented Database)</title>
+<para>
+<emphasis>物件導向資料庫(Object-Oriented Database)</emphasis>
+純粹 OOP 中的物件，在程式結束後，就消失了，而 SQL 等語言，
+操作的都是<emphasis>存續(Persist)</emphasis>的資料，
+所以 OO 資料庫便是擴充 OOP 使得裡面的物件具在存續的功能。
+一般而言擴充的方式如下：
+</para>
+<itemizedlist>
+<listitem>宣告類別有存續功能</listitem>
+<listitem>標記物件為存續物件</listitem>
+<listitem>利用交易物件來存續物件</listitem>
+</itemizedlist>
+</chapter>
+<chapter><title>物件關連資料庫(Object-Relational Database)</title>
+<para>
+<emphasis>物件關連資料庫(Object-Relational Database)</emphasis>
+是擴充原本的 SQL 能定義複雜物件型態，巢狀關連等。
+</para>
+</chapter>
+<chapter><title>可擴展標記語言(XML)</title>
+</chapter>
+<chapter><title>並行控制</title>
+
+<sect1><title>時戳並行控制</title>
+<para>
+時戳並行控制的基本邏輯如下：
+當一個交易欲存取某一個資料物件，
+會比較自已與資料物件上的讀取時戳，
+來確認存取動作順序不會違反可序列化順序，
+若交易動作違反條件，則會<emphasis>立即放棄並重新啟動交易</emphasis>。
+</para>
+<para>
+<emphasis>時戳</emphasis>(timestamp)表示一個即時時刻，
+且無任兩個時戳相等。
+每個交易開始時，會立刻印上一個時戳，
+稱為<emphasis>交易時戳</emphasis>，
+<emphasis>T<subscript>i</subscript>.ts</emphasis>
+表示交易 T<subscript>i</subscript>的交易時戳。
+每個資料庫物件會有兩個時戳，
+<emphasis>讀取時戳</emphasis>和<emphasis>寫入時戳</emphasis>
+分別在讀取或寫入物件時印上<emphasis>其執行者的交易時戳</emphasis>，
+<emphasis>O<subscript>i</subscript>.rts</emphasis>及
+<emphasis>O<subscript>i</subscript>.wts</emphasis>
+分別表示資料物件的讀取時戳及寫入時戳。
+</para>
+<para>
+資料庫若維持一致，應滿足以下條件：
+<remark>
+若動作 A<subscript>i</subscript> 和 A<subscript>j</subscript> 互為衝突動作，
+且 A<subscript>i</subscript> 為交易 T<subscript>i</subscript> 的動作，
+A<subscript>j</subscript> 為交易 T<subscript>j</subscript> 的動作，
+<emphasis>若 T<subscript>i</subscript>.ts &lt; T<subscript>j</subscript>.ts，
+則 A<subscript>i</subscript> 應比 A<subscript>j</subscript> 早執行。
+</emphasis>
+</remark>
+</para>
+<para>
+若違反上述條件，應<emphasis>立即放棄並重新啟動交易</emphasis>，
+這和鎖定並行控制不同，其會<emphasis>暫停交易，等待至可以繼續交易</emphasis>。
+</para>
+<para>
+依上述限制，<emphasis>交易 T 正要讀取物件 O 時</emphasis>，應有下面的行為：
+<itemizedlist>
+<listitem>若 <emphasis>T.ts &lt; O.wts</emphasis>則 T 立即放棄並重新啟動交易。
+<remark>
+令 <emphasis>T<subscript>w</subscript> 表示最後寫入 O 的交易</emphasis>，
+上面則意指<emphasis>T.ts &lt; T<subscript>w</subscript>.ts</emphasis>，
+由於 T.r(O) 與 T<subscript>w</subscript>.w(O) 互為衝突動作，
+故依上述限制 T.r(O) 必須早於 T<subscript>w</subscript>.w(O)，
+所以讀取物件 O 的動作違反上述限制，T 立即放棄並重新啟動交易。
+</remark>
+</listitem>
+<listitem>其餘情況則 T 讀取 O，
+並重設 O.rts=max(T.ts, O.rts)。
+</listitem>
+</itemizedlist>
+</para>
+<para>
+依上述限制，<emphasis>交易 T 正要寫入物件 O 時</emphasis>，應有下面的行為：
+<itemizedlist>
+<listitem>若 <emphasis>T.ts &lt; O.rts</emphasis>則 T 立即放棄並重新啟動交易。
+</listitem>
+<listitem>若 <emphasis>T.ts &lt; O.wts</emphasis>則 T 立即放棄，但不重新啟動。
+<remark>
+這是<emphasis>湯瑪式寫入法則</emphasis>(Thomas Write Rule)，
+<figure id="ThomasWriteRule1"><title>一個衝突可序列化排程</title>
+<imagedata fileref="pic/thomas_write_rule1.png" />
+</figure>
+<figure id="ThomasWriteRule2"><title>另一個衝突可序列化排程</title>
+<imagedata fileref="pic/thomas_write_rule2.png" />
+</figure>
+如上兩圖，若 T<subscript>1</subscript>.ts &lt; T<subscript>2</subscript>.ts，
+則 T<subscript>1</subscript> 對 A 的寫入會被 
+T<subscript>2</subscript> 對 A 的寫入取代，
+但不會造成衝突動作，故可以忽略 T<subscript>1</subscript> 對 A 的寫入。 
+</remark>
+</listitem>
+<listitem>其餘情況則 T 寫入 O，
+並重設 O.wts=T.ts。
+<remark>
+<emphasis>這與上述正要讀取物件不同在於，
+讀取可以讓很多交易同時進行，所以其 O.rts 可能會大於 T.ts，
+但寫入永遠只能一個，所以直接將 O.wts 設為 T.ts</emphasis>
+</remark>
+</listitem>
+</itemizedlist>
+</para>
+</sect1>
+<sect1><title>鎖定並行控制</title>
+<para>
+鎖定並行控制的基本邏輯如下：
+當一個交易欲存取某一個資料物件，
+必須具取得此資料物件的<emphasis>鎖定</emphasis>，
+否則需等待至其它交易釋放其鎖定，
+才能進行存取動作。
+</para>
+</sect1>
+</chapter>
+&recovery;
+&design;
+</book>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>變數</title>
+<sect1><title>變數的 ADT</title>
+<para>
+<figure id="VarADT"><title>變數的 ADT</title>
+<programlisting>
+class Variable
+  getValue 
+  assignValue(value)
+end
+</programlisting>
+</figure>
+<emphasis role="strong">變數</emphasis>可視為是一個儲存物件的槽，
+讓我們可用變數名來存取槽內的物件。
+如<xref linkend="VarADT"/>描述每個變數支援兩個操作，取值運算及賦值運算，
+前者可取出變數的值，後者則可以設定變數的值。
+</para>
+<para>
+在 Javascript 中，
+若變數寫在等號右邊，
+或是函數的參數中，
+則為取值運算，
+若變數寫在等號左邊，
+則為賦值運算。
+<figure id="VarRWEX"><title>變數值的設定與讀取</title>
+<programlisting>
+<![CDATA[
+<script>
+v = "枯藤、老樹、昏鴉";
+document.write('v 的初始值為 "' + v + '"<br/>');
+w = "小橋、流水、人家";
+v = w;
+document.write('v 值變為 "' + v + '"<br/>');
+</script>
+]]>
+</programlisting>
+</figure>
+如<xref linkend="VarRWEX"/>第 2 行，
+變數 v 在等號右邊，故為將字串"枯藤、老樹、昏鴉"儲存給變數 v 的槽。
+第 3 行，因為 v 在函數裡面，所以為讀取出變數 v 的值，
+並寫到網頁上。
+</para>
+</sect1>
+</chapter>

@@ -1,0 +1,2244 @@
+<?xml version="1.0" encoding="big5"?>
+<!--<!DOCTYPE DocBook>-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+[
+<!ENTITY sdlc.overview SYSTEM "sdlc.overview.chapter.xml">
+<!ENTITY OO SYSTEM "OO.chapter.xml">
+]>
+<book><title>軟體工程(Software Engineering;SE)</title>
+<chapter><title>軟體工程</title>
+<para>
+    * 1968年秋季，NATO(北約)的科技委員會召集了近50名一流的編程人員、計算機科學家和工業界巨頭，討論和制定擺脫“軟體危機”的對策。在那次會議上第一次提出了軟體工程(softwareengineering)這個概念。
+    * 大多數軟體開發項目的失敗，並不是由於軟體開發技術方面的原因。它們的失敗是由於不適當的管理造成的。遺憾的是，盡管人們對軟體項目管理重要性的認識有所提高，但在軟體管理方面的進步遠比在設計方法學和實現方法學上的進步小，至今還提不出一套管理軟體開發的通用指導原則。
+    * 「新技術一直冒出來，學都學不完了，那裡有空搞軟體工程」、「計畫趕著進行，做都做不完了，那裡有空搞軟體工程」...... 就在這一個又一個的藉口中，原本可以幫助軟體產業進步的軟體工程，竟然變成他們口中阻礙軟體產業進步的絆腳石似的，怎不令人對他們的無知感到心寒。
+    * 寫程式的難度愈來愈低，因為程式語言越來越高階，API 越來越多，開發工具越來越好用，寫程式的門檻自然就大大地降低了。想要開發出有價值的中大型系統，軟體工程就很重要了，以蓋房子來說，你可以隨便找一兩個工人用磚或木材來蓋一棟矮房，但是如果想蓋一百多層樓的101大樓，你非得有良好的工程規劃不可，軟體不也是如此？程式設計師名片上的頭銜都是工程師，雖然和建築工程師、機械工程師... 一樣都被稱為工程師，但比較起來，軟體產業的工程師卻是最不工程導向的 。
+</para>
+軟體工程包括兩方面內容：軟體開發技術和軟體項目管理。
+
+    * 軟體開發技術包括軟體開發方法學、軟體工具和軟體工程環境。
+    * 軟體項目管理包括軟體度量、項目估算、進度控制、人員組織、配置管理、專案計畫等。
+    * 軟體工程是為了解決軟體危機而誕生，近來最熱門的技術有
+          o UML
+          o Design Patterns
+          o re-engineering
+          o XP
+    * 軟體架構 已成為軟工熱門的研究之一。
+    * 開發流程由強調瀑布式流程(waterfall)轉為強調反覆式流程(iterative)。反覆式流程的主要精神是分析一些，設計一些，實作一些，執行一些，也就是將整個開發流程切割成數個週期(iteration)，每個週期都是一個叫小型的直線式流程，並且強調週期結束時都有可以執行的結果，而每個週期都是以前一週期的結果為基礎，在新增需求的方式進行，直到所有的軟體需求都滿足為止。因此反覆式流程也是一種漸增式流程(降低風險)。以結果來看，瀑布式流程只會交付一次產品，反覆式流程會交付多次產品。
+
+SA -> SD -> coding -> test -> installation -> maintance
+process
+
+   1. Quality Assurance
+   2. Configuration Management
+   3. Project Management
+   4. CMM
+
+software system
+
+   1. bussiness application
+         1. TPS,DSS,MIS,ES
+   2. web application
+         1. Web System
+         2. Web Service
+         3. E-service : marketing+MIS
+   3. real-time
+   4. safety-critical
+
+safety critical system
+
+常用的formal工具 : Petri Nets
+
+    * Petri Nets 的 reachability graph 常因可能的狀況太多而不可能分析，所以有許多論文會討論如何簡化它
+    * 現今也常用在電子商務上
+
+</chapter>
+<part><title>專案管理</title>
+<sect1><title>專案組織</title>
+<para>
+專案組織包含選擇合適的專案組織結構和為專案建立組織分解結構(OBS)。
+透過專案資訊傳遞需求的分析(換言之；誰需要從誰那邊取得資訊)，
+專案團隊與報告結構將被決定。具體地而言，
+將會學習到幾個組織發展的流程與設計結構矩陣的方法。
+</para>
+</sect1>
+<sect1><title>專案規劃</title>
+<para>
+<emphasis>專案規劃</emphasis>包含建立
+<emphasis>工作分解結構(WBS)</emphasis>
+並將此結構與組織分解結構(OBS)作相對應的連結。
+此外，專案的預算與成本分解結構也須加以發展並與OBS和WBS作對應。
+規劃階段亦包含在有限的資源下為專案建立合適的時間表。
+最後，專案經理必須體認到目前的估算與預測，
+只有極少數(若是有)在未來能夠證實是精確的；在規劃專案時，
+他/她必須計算風險因素和這些風險在進度、預算、品質與環境方面可能產生的後果。
+</para>
+<para>
+規劃的特定方法論包括:
+</para>
+<itemizedlist>
+<listitem>要徑法(CPM)</listitem>
+<listitem>順序圖示法(PDM)</listitem>
+<listitem>計畫評核術(PERT)</listitem>
+<listitem>圖像評核術(GERT)</listitem>
+<listitem>直列式-圖像評核術(Q-GERT)</listitem>
+<listitem>模擬程式(SLAM)</listitem>
+<listitem>發展模式規劃與控制方法論(DPM)</listitem>
+<listitem>關鍵鏈規劃</listitem>
+<listitem>資源分配</listitem>
+</itemizedlist>
+<para>
+許多的軟體工具，如， MicrosoftR Project, Primavera Project PlannerR, PrimaveraR Monte Carlo, Crystal BallR and ProChainR，都可以提供給專案經理進行確定性或可能性的規劃。在本課程裡我們將會使用到下列的軟體:
+</para>
+<itemizedlist>
+<listitem>PrimaveraR P3 — 用於確定性時程與資源排程</listitem>
+<listitem>PrimaveraR Monte Carlo —
+用於可能性時程與資源排程</listitem>
+<listitem>PrimaveraR Expedition —
+用來作多重及複雜專案群的文件管理</listitem>
+<listitem>Pro ChainR — 用來依關鍵鏈方法安排進度</listitem>
+<listitem>Crystal BallR — 用於風險分析</listitem>
+<listitem>VensimR — 用來做系統發展模式分析</listitem>
+</itemizedlist>
+<sect2><title>甘特圖(Gantt Chart)</title>
+<para>
+在以往的專案管理中，編制專案進度計畫常常採用甘特圖來表示，
+甘特圖簡單明瞭、形象直觀，
+但不適合用於大型和複雜資訊工程項目的建設和監理作業。
+</para>
+<para>
+因為甘特圖不反映各項作業之間的邏輯關係，
+因而難以確定某項作業推遲對完成工期的影響；
+當實際進度與計畫有偏差時也難以調整。
+另外，甘特圖雖然直觀清晰，
+但只是計算的結果，而一項作業什麼時候開始，
+什麼時候結束，卻是需要通過計算來實現，
+甘特圖並沒有給出好的演算法。
+</para>
+</sect2>
+<sect2><title>要徑法(CPM, Critical Path Method)</title>
+<para>
+1957 由杜邦(DuPont)公司發展用來管理化工廠的維護專案，
+具有以下功能：
+</para>
+<itemizedlist>
+<listitem>提供專案一個視覺化模型</listitem>
+<listitem>能預估專案的時程</listitem>
+<listitem>能找出對時程有關鍵影嚮的活動</listitem>
+</itemizedlist>
+<figure><title>CPM</title>
+<imagedata fileref="pic/CPM.gif" />
+</figure>
+<para>
+CPM 網路圖原始是用 AOV(N)，每個節點表示一個活動，
+若現在也有人使用 AOE。
+</para>
+<procedure><title>CPM 程序</title>
+<step>辨認出各項活動</step>
+<step>決定各項活動之間的順序關係</step>
+<step>繪製 AOV 圖</step>
+<step>以單點估計工期</step>
+<step>求關鍵路徑</step>
+<step>依 AOV 畫出甘特圖</step>
+<step>專案執行時，不斷更新關鍵路徑</step>
+</procedure>
+<sect3><title>工期估計</title>
+<para>
+工期估計是專案計畫制定的一項重要的基礎作業，
+它直接關係到各事項、
+各作業網路時間的計算，
+和完成整個專案任務所需要的總時間。
+若工期估計的太短，
+則會在作業中造成被動緊張的局面；
+相反，就會使整個工程的工期延長。
+</para>
+<para>
+網路中所有作業的進度安排都是由工期來推算的，
+因此對工期的估計要做到客觀正確。
+這就要求在對作業做出時間估計時，
+不應受到作業重要性及工程完成期限的影響，
+要把作業置於獨立的正常狀態下進行估計，要統盤考慮，不可顧此失彼。
+</para>
+<para>
+估計工期的方法主要有：
+</para>
+<itemizedlist>
+<listitem><emphasis>專家判斷</emphasis>
+<para>
+專家判斷主要依賴於歷史的經驗和資訊，
+當然其時間估計的結果也具有一定的不確定性和風險。
+</para>
+</listitem>
+<listitem><emphasis>類比估計</emphasis>
+<para>
+類比估計意味著以先前的類似的實際專案的工期來推測估計當前專案各作業的實際時間。
+當專案的一些詳細資訊獲得有限的情況下，
+這是一種最為常用的方法，
+類比估計可以說是專家判斷的一種形式。
+</para>
+</listitem>
+<listitem><emphasis>單點估計法</emphasis>
+<para>
+由 CPM 採用，估計一個最可能工期。
+</para>
+</listitem>
+<listitem><emphasis>三點估計法</emphasis>
+<para>
+由 PERT 採用，
+估計作業執行的三個時間，樂觀時間 a、悲觀時間 b、正常時間 c，
+<equation>
+期望時間 t＝(a+4c+b)/6
+</equation>
+</para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3><title>關鍵路徑(Critical Path)</title>
+<para>
+<emphasis>關鍵路徑(Critical Path)</emphasis>是 AOV 中，
+工期最長的路徑，與關鍵路徑延期，也會造成專案延期。
+</para>
+<para>
+關鍵路徑由作業的四個屬性決定，
+<itemizedlist>
+<listitem>ES(Earliest Start Time)-最快開始時間</listitem>
+<listitem>EF(Earliest Finish Time)-最快結束時間</listitem>
+<listitem>LS(Latest Start Time)-最慢開始時間</listitem>
+<listitem>LF(Latest Finish Time)-最慢結束時間</listitem>
+</itemizedlist>
+</para>
+<para>
+<emphasis>怠工時間(Slack Time)</emphasis>定義為
+LS-ES 及 LF-EF，為此項作業可延期而不影嚮專案時程的。
+<emphasis>關鍵路徑的怠工時間為 0</emphasis>。
+</para>
+<para>
+CPM 和 PERT 是獨立發展起來的計畫方法。
+兩者的主要區別在於：
+</para>
+<para>
+CPM 是以<emphasis>經驗資料為基礎來確定各項作業的時間</emphasis>，
+而 PERT 則把<emphasis>各項作業的時間作為隨機變數</emphasis>來處理。
+所以，前者往往被稱為<emphasis>確定型網路計畫技術</emphasis>，
+而後者往往被稱為<emphasis>非確定型網路計畫技術</emphasis>。
+前者是以縮短時間、提高投資效益為目的，
+而後者則能指出縮短時間、節約費用的關鍵所在。
+因此，將兩者有機結合，可以獲得更顯著的效果。
+</para>
+<para>
+資訊工程項目建設過程中不可預見的因素較多，
+如新技術、需求變化、到貨延遲，以及政策指令性影響等。因此，
+整體工程進度計畫與控制大多採用非肯定型網路計畫，
+即PERT網路模型。
+</para>
+</sect3>
+</sect2>
+<sect2><title>PERT(Program Evaluation and Review Technique)</title>
+<para>
+1957 由美國海軍(U.S. Navy)發展用來管理 Polaris 專案幾千個外包合約，
+具有以下功能：
+</para>
+<para>
+PERT 圖就是 AOE-網路的一種應用，
+用於專案管理中的績效評估，
+評估的項目列於下：
+</para>
+<itemizedlist>
+<listitem>完成計畫所需要的最短時間</listitem>
+<listitem>縮短整個計畫而應加速哪些活動</listitem>
+</itemizedlist>
+<procedure><title>PERT 程序</title>
+<step>辨認出各項活動及里程碑</step>
+<step>決定各項活動之間的順序關係</step>
+<step>繪製 AOE 圖</step>
+<step>以三點估計工期</step>
+<step>求關鍵路徑</step>
+<step>依 AOE 畫出甘特圖</step>
+<step>專案執行時，不斷更新 PERT 圖</step>
+</procedure>
+<sect3><title>AOE 網路</title>
+<para>
+<emphasis>AOE 網路</emphasis>是一種用邊表示工作、
+節點表示工作優先關係的網路圖方法。
+</para>
+<itemizedlist>
+<listitem>里程碑(事件)
+<para>
+里程碑是專案的起點、終點或其各項工作的連接點(交接瞬間)。
+在網路圖中，用箭線端部的圓圈或其他形式的封閉圖形表示。
+</para>
+</listitem>
+<listitem>活動(工作、作業)
+<para>
+工作是指一項有具體內容的、
+需要人力、物力、財力、
+佔用一定空間和時間才能完成的活動過程。
+例如需求分析、軟體架構設計、代碼編寫、單元測試等。
+工作由節點和邊表示。
+</para>
+</listitem>
+<listitem>前置作業和後續作業
+<para>
+前置作業和後續作業如果在工作 A 完成後才可以開始工作 B，
+則工作 A 叫作工作B的前置作業，工作 B 叫作工作 A 的後續作業。
+</para>
+</listitem>
+<listitem>平行作業 
+<para>
+如果工作 A 結束後，工作 B 和 C 可以同時開始進行，
+則工作 B 和 C 叫作平行工作。
+</para>
+</listitem>
+<listitem>虛擬作業 
+<para>
+虛擬活動是只表示工作之間相互依存、
+相互制約、相互銜接的關係，
+但不需人力、物力、空間和時間的虛設的活動，
+一般用虛線邊表示，虛擬工作的時間為零。
+</para>
+</listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+</sect1>
+<sect1><title>專案監測</title>
+<para>
+專案監測段落將提及在專案生命週期裡用來監測專案進度的型態與量測標準。因此，專案經理所應關心的特定問題應該包含:
+</para>
+<itemizedlist>
+<listitem>專案的進度是否有依循進度表進行?</listitem>
+<listitem>專案是否能在預定的預算內完成?</listitem>
+<listitem>產品是品質表現是否如預期?</listitem>
+<listitem>假如產生進度、預算或品質上的差異，要如何有效且快速的找出、回報並加以解決?</listitem>
+</itemizedlist>
+<para>
+實獲值分析是一項用來協助解決上列問題的專案管理工具。所有的報告都是依據組織架構而進行，而且報告的程序結構是在事前就建立起來的。
+</para>
+</sect1>
+<sect1><title>專案控制</title>
+<para>
+依據經由專案監測系統收集到的資訊，矯正的措施將被執行以確保專案依規劃結果進行。本課程的專案控制段落將說明敘述各種修正已偏離計畫專案的方法與技術。將需要各方面的矯正措施，如，針對專案範疇、產品表現、專案進度與專案預算等方面。專案控制亦需要一個明確的軌道，用來說明何時及如何進行針對基準的變更和對專案型態的明確認知與文件化。
+</para>
+</sect1>
+<sect1><title>專案學習</title>
+<para>
+專案學習常被組織認為是現有及未來執行專案能夠成功的重要因素之一。藉由生命週期與結案分析，專案經理可以判別出在未來專案裡需要著重或加強管理的項目。這些項目包含:
+</para>
+<itemizedlist>
+<listitem>資源的分派</listitem>
+<listitem>風險與不確定性</listitem>
+<listitem>預算的限制</listitem>
+<listitem>專案的可行性</listitem>
+<listitem>變更的管理</listitem>
+</itemizedlist>
+<para>
+模擬是近幾年來使用在管理學習上的一個十分具有價值的方法。在本課程中，我們將會介紹系統發展模式模擬法，用來評估專案的執行參數。
+</para>
+</sect1>
+</part>
+<part><title>系統分析與設計(Systems Analysis &amp; Design)</title>
+<!--
+&sdlc.overview;
+-->
+<chapter><title>系統生命週期(SDLC, System Development Life Cycle)</title>
+<para>
+<emphasis>系統生命週期(SDLC, System Development Life
+Cycle</emphasis>是描述軟體發展流程的模型，
+此模型目標在於制定一個能夠確保軟體品質、
+符合顧客需求、成本低、開發週期短、易於擴充維護的軟體。
+其通常的模型有以下幾種：
+</para>
+<procedure><title>美國政府法務部的 SDLC</title>
+<step>初部調查(Preliminary Investigation)</step>
+<step>系統(細部)分析(SA)</step>
+<step>系統設計(System Design)</step>
+<step>系統發展(System Development)</step>
+<step>系統實作(SI)</step>
+<step>系統維護(SM)</step>
+</procedure>
+<procedure><title>一般性(1)</title>
+<step>可行性分析(Feasibility Analysis)</step>
+<step>分析(Analysis)</step>
+<step>設計(Design)</step>
+<step>實作(Implementation)</step>
+<step>測試(Test)</step>
+<step>評估(Evaluation)</step>
+</procedure>
+<procedure><title>一般性(2)</title>
+<step>可行性分析(Feasibility Analysis)</step>
+<step>分析(Analysis)</step>
+<step>設計(Design)</step>
+<step>發展(Development)</step>
+<step>實作(Implementation)</step>
+<step>維護(Maintenance)</step>
+</procedure>
+<procedure><title>一般性(3)</title>
+<step>可行性分析(Feasibility Analysis)</step>
+<step>分析(Analysis)</step>
+<step>設計(Design)</step>
+<step>實作(Implementation)</step>
+<step>維護(Maintenance)</step>
+</procedure>
+</chapter>
+<chapter><title>系統分析與設計</title>
+<sect1><title>資訊系統的種類</title>
+    * 交易處理系統(Transaction Processing System;TPS)
+    * 管理資訊系統(Management Information system;MIS)
+    * 決策支援系統(Decision Support System;DSS)
+    * 高階主管資訊系統(Executive Information System,EIS)
+    * 專家系統(Expert System;ES)
+          o 使用者介面
+          o 推理機
+          o 知識庫
+    * 操作性系統(Operational Systems)
+    * 辦公室自動化系統(Office Automation Systems;OA)
+</sect1>
+<sect1><title>軟體開發架構的演進</title>
+
+隨著Internet的興起，分散式系統的環境日趨成熟，要將整個Internet視為區域網路般的存取資源與交換資料，程式設計上就必須考慮到所謂的3層式架構
+
+展示層(Presentation Tier)
+    將UI的部分獨立出來，除了可讓專業的美工處理之外，還要考慮到程式邏輯的變動不會影響到畫面，或是畫面的變動不會影響到程式邏輯 
+商業邏輯層(Business Logic Tier)
+    將企業運作的邏輯獨立成元件，以方便更新程式碼時只需要異動相關的元件即可 
+資料層(Data Tier)
+    將關於資料存取的部分獨立出來，如此一來在變動資料庫架構時便不需要更改程式邏輯或畫面 
+
+接下來，讓我們來瞭解程式開發架構是如何由1-Tier走向N-Tier的
+單機架構(1-Tier)
+
+展示層，商業邏輯層，資料層都在單機上處理，適用於文字處理，個人資料處理(PIM)等單機架構，其瓶頸為
+
+    * 檔案型的資料有傳輸浪費頻寬與異動需鎖定等問題
+    * 商業邏輯或使用者介面改變，需重新部署
+
+主從架構(Client/Server , 2-Tier)
+
+將資料層分離出來，儲存到資料庫伺服器，適用於多人存取資料的環境，其瓶頸為
+
+    * 商業邏輯或使用者介面改變，需重新部署
+    * 資料庫伺服器容易成為效率的瓶頸，例如Client端的連線數會增加伺服器connection紀錄負擔 //因此我們應該只在取用資料與將資料回存時才進行connection
+    * 商業邏輯應該放在client或server端的問題
+          o 放在前端，資料庫可不受限制的抽換，但商業邏輯改變，需重新部署
+          o 放在後端，通常是利用Stored Procedure，但這樣就不易抽換資料庫軟體
+
+分散式架構(N-Tier)
+
+將展示層，商業邏輯層(放在AP Server)，資料層(放在Database Server)都各自獨立，適用於平台不同，網際網路的環境。
+若展示層以一般開發工具開發稱為 Rich Client ，若利用動態網頁技術運作於瀏覽器上則稱之為 Thin Client 。
+其瓶頸為
+
+    * AP Server 與 Database Server除了穩定運作的需求外，也易成為效率的瓶頸
+    * 需要能將商業邏輯包裝成元件的技術，門檻較高
+
+網路服務(Web Service)
+
+將整個網際網路視為區域網路甚或是作業系統般，徹底實踐分散式系統的美麗新天地，使用網際網路上的資源就如同取用單機資源一般容易，主要是利用XML作為資料轉換的標準，透過SOAP通訊協定穿過防火牆，打破網際網路的隔閡，目前有Sun 的Java One架構與Microsoft的.NET架構可供參考。
+</sect1>
+<sect1><title>系統開發模式(SoftWare Process Model)</title>
+
+    * 編碼與修正模式(Code-andfix Model)
+    * 階段模式(Stagewise Model)：Benington(1956)
+<sect2><title>瀑布式(Waterfall)</title>
+    * 瀑布模式(Waterfall Model)：Royce(1970) = 系統發展生命週期(System Development Life Cycle;SDLC)
+          o 特徵
+                + 適用於需求明確，領域知識(Domain KnowHow)容易取得的專案
+                + 強調開發過程需有完整的規劃，分析，設計，測試及文件等管理控制
+                + 前一階段完成後才能進入下一階段，各階段僅循環一次
+                + 沒有明確規定要劃分成多少個階段，每一階段皆有文件產出
+          o 至少劃分3階段
+                + 分析
+                + 設計
+                + 實施
+          o 通常劃分5~7階段不等(每一家學說都不同,掌握精神即可)
+                + 初步調查 (Preliminary Investigation)
+                + 系統分析 (System Analysis)
+                + 系統設計 (System Design)
+                + 系統開發 (System Development)
+                + 系統實施與評估 (System Implementation and Evaluation)
+</sect2>
+<sect2><title>反覆式(Iterative)</title>
+
+    * 漸增模式(Incremental Model)：Mills(1971)
+          o 強調需求可分成幾個部分
+          o 開發週期可反覆進行
+    * 雛形模式(Prototyping Model)：Bally(1977)
+          o 適用於需求不明確，專案小，應用領域不熟悉或高風險之專案
+          o 強調雛形之快速開發，以雛形作為使用者與資訊人員溝通之工具，使用者高度參與等
+          o 雛形策略
+                + 演進式雛形(Evolutionary Prototyping)
+                + 用後丟棄式雛形(Rapid Throwaway Prototyping)：因成本較高，故適用於風險最高的情形
+    * 螺旋模式(Spiral Model)：Boehm(1988)
+          o 強調「風險分析」結合了SDLC與雛形模式
+          o 螺旋模式的4個步驟
+                + 找出系統目標，可行方案與限制
+                + 依目標與限制評估方案
+                + 開發雛形
+                + 使用者評估，決定下一步驟
+    * 同步模式(Concurrent Model)：Aoyama(1993)
+          o 構想源於製造業的同步工程(Concurrent Engineering)目的在於縮短產品開發時間，適用於套裝軟體的專案
+          o 同步模式的構想
+                + 活動同步(Activity Concurrency)：不同團隊平行開發
+                + 資訊同步(Information Concurrency)：不同團隊資訊共享
+                + 整合性的管理系統：協調各種資源的互動關係
+</sect2>
+</sect1>
+<sect1><title>物件導向的系統開發流程(Process)</title>
+
+物件導向的系統開發是一個反覆(Iterative)的過程，包括了三個階段
+
+   1. 需求分析 ->
+      (需求模式) 主要以使用個案圖、活動圖、藍圖、資料詞彙、介面元件等作為表達工具。
+   2. 系統分析與設計 ->
+      (分析模式) 將需求模式中的系統表達成一個物件架構，包括了物件圖與類別圖
+      (設計模式) 將物件架構至現況之實施環境，包括了循序圖、合作圖、狀態圖、活動圖。
+   3. 實施與測試 ->
+      (實施模式)元件圖、部署圖。
+      (測試模式)
+
+這種反覆的開發方式，在每個iteration(反覆的期間)結束後，希望能產生具備產品品質、測試、整合過的軟體出來，所以會有多個發行版本(release)存在
+重要的物件導向的系統開發方法 方法名稱 	方法論者(3 Amigo)
+Booch 	Grady Booch
+OMT(Object Modeling Technique)物件塑模技術 	Jim Rumbaugh
+OOSE(Object-Oriented Software Engineering)物件導向軟體工程 	Ivar Jacobson
+RUP(Rational Unified Process)Rational統一流程 	Rational / IBM
+XP(eXtreme Programming)極致程式設計 	Kent Beck
+要看看還有哪些系統開發方法，可參考： http://www.cetus-links.org/oo_ooa_ood_methods.html
+<sect2><title>Booch</title>
+Booch之方法將系統開發過程分為 觀念期、分析期、設計期、進化期、維護期，常用於大型軟體專案。
+
+    * 觀念期：確定核心需求
+    * 分析期：發展系統行為模式
+    * 設計期：建構系統架構
+    * 進化期：改良系統
+    * 維護期：改良移交後之系統
+</sect2>
+
+<sect2><title>OMT</title>
+
+Rumbaugh之OMT方法將系統開發過程分為 觀念形成、物件導向分析、物件導向設計三個階段，常用於企業資訊系統。
+</sect2>
+
+<sect2><title>OOSE</title>
+Jacobson之OOSE方法將系統開發過程分為 分析、建構、測試三個階段，以使用個案著名。
+RUP
+
+    * 初始階段(inception)
+    * 詳述階段(elaboration)
+    * 建構階段(construction)
+    * 轉換階段(transition)
+</sect2>
+</sect1>
+<sect1><title>結構化技術 </title>
+<itemizedlist>
+<listitem>結構化技術 ：將資料與流程分開考慮
+<itemizedlist>
+<listitem>流程塑模：主要透過資料流程圖(DFD)</listitem>
+<listitem>資料塑模：主要透過實體關係模式(E-R Diagram)</listitem>
+<listitem>行為塑模：主要透過狀態轉移圖(State Transform Diagram)</listitem>
+<listitem>使用者介面塑模</listitem>
+</itemizedlist></listitem>
+<listitem>物件導向技術</listitem>
+</itemizedlist>
+</sect1>
+<sect1><title>物件導向技術(Object-Oriented Technique，OOP)</title>
+
+    * 針對日趨複雜之軟體需求的挑戰，軟體業界發展出了物件導向 (OO) 的軟體發展模式，作為針對「軟體危機」的最佳對策。
+    * 物件導向之觀念起源於模擬語言(1966, Simula 語言)，以物件模式來描述真實系統，並將資料抽象化(Data Abstraction)、封裝、繼承與同名異式的觀念融入於物件系統開發中。
+    * 第一個純粹的OOP語言：1980全錄(Xerox)公司的PARC研究中心所開發的 Smalltalk-80
+
+OOP的先驅 Brad Cox 曾提出Software-IC的概念，而要達到軟體IC的概念，則需要下列特性
+
+    * 物件 &amp; Message
+    * 繼承性(inheritance)
+    * 封裝性(encapsulation)
+    * 動態連結(dynamic binding)
+
+抽象化(Abstraction)
+
+    * 抽象化所描述的過程，就是由許多物件中抽離出重要的特性來，而這些特性，足以讓被抽象化的物件，與別的物件分別開來。同時，對於物件抽象化的結果，也因我們的需要不同，而有所變化。
+    * 所有的抽象化都是系統的發展，為了維繫存在，必須適應變化的唯一路途。
+    * 抽象化的目標與物件導向一樣，就是『讓我們更容易模擬世界，並加以處理』。
+
+物件(Object)=案例(Instance)
+
+    * 由一群具有相同資料結構與相同行為的物件所描述的集合中，某一個特定且存在的物件。
+    * 物件是一個具有狀態(State)、行為(Behavior)與識別(Identity)的實體或抽象化概念(Abstract Concept)，且其行為會影響其狀態。
+    * 物件是一個封包，包括了名稱(name)、 屬性(attribute) 及 操作(operation) 3部分。
+          o 在C++中稱為 資料成員(Data Member) 與 成員函式(Member Function)
+      在Java中稱為 欄位(Field) 與 方法(Method)
+    * 每一個物件都是一個被class所分類的instance (Every object is an instance of a class)
+
+類別(Class)=物件類型(Object Type)=抽象化資料型態(Abstract Data Type;ADT)
+
+    * 由一群具有相同資料結構與相同行為的物件描述，所形成的集合，經由抽象化(Abstraction)後稱之為類別。
+    * 類別是一種定義(Definition)、描述(Description)、樣版(Template)，故可以類別建立新的物件。
+
+封裝(Encapsulation)
+
+    * 將資料與操作此資料的方法包裝成一個物件稱之為封裝。
+    * 封裝後物件的結構分為2部分 1.介面(Interface)2.實作(Implementation)
+    * 封裝將物件的實作細節隱藏，使其與外界環境隔離，只允許該物件所包含之操作修改其資訊，稱之為資訊隱藏(informatiion hiding)。
+
+繼承(Inheritance)
+
+    * 所謂繼承就是從基底類別(base class)，建立衍生類別(derived class)。衍生類別除了繼承基底類別的所有特性外，可依據需求建立新的功能或修改，其基底類別不會受任何影響。繼承可提升程式碼的重複使用性(reusability)。
+          o 多重繼承(multiple inheritance)：一個類別可以直接繼承多個基底類別─網路結構。多重繼承最常引發的麻煩便是「模稜兩可」(ambiguity) 。
+          o 簡單繼承(single inheritance)：一個類別最多只能直接繼承一個基底類別─樹結構。
+    * 類別間的層級關係
+          o 父類別(Superclass)、泛化、一般化(Generalization)：萃取類別的相同屬性與操作所成的上層類別。
+          o 子類別(Subclass)、繼承、特殊化(Specialization)：在既存類別下，加上專門的特性所成的下層類別。
+          o 「is a」的關係：子類別 is a 父類別，如鋼琴是樂器。
+
+同名異式(Polymorphism)=多型=動態繫結(Dynamic binding)
+
+    * 定義相同名稱的操作，以不同的方式處理不同類型的資料。
+    * 多型在程式執行期利用動態連結(Dynamic Binding)的方式判斷訊息參數的類型與個數來決定運作的方法。
+    * 達到物件導向中「多型」的方法
+          o 抽象類別 (abstract class)：抽象類別是為了讓方法的使用更多樣化，物件轉換型別為抽象類別後，即使方法名稱相同，其實作的內容與執行結果卻不同。
+
+</sect1>
+</chapter>
+<chapter><title>可行性分析(Feasibility Analysis)</title>
+<para>
+<emphasis>可行性分析</emphasis>是在 SA 提出改變建議前，
+必須對<emphasis>替代方案</emphasis>作澈底的評估。
+通常會考慮以下的標準。
+</para>
+<itemizedlist>
+<listitem><emphasis>技術可行性(Technical Feasibility)</emphasis>
+<para>
+需考慮人員的技術。
+</para>
+</listitem>
+<listitem><emphasis>管理可行性(Managerial Feasibility)</emphasis>
+<para>
+需考慮管理面的可行，包括管理支援、投入的員工及<emphasis>公司上層支持</emphasis>。
+</para>
+</listitem>
+<listitem><emphasis>經濟可行性(Economic Feasibility)</emphasis>
+<para>
+考慮投入的成本是否<emphasis>可回收</emphasis>，
+常用成本效益分析評估。
+</para>
+</listitem>
+<listitem><emphasis>社會可行性(Social Feasibility)</emphasis>
+<para>
+考慮<emphasis>使用者是否支持</emphasis>。
+</para>
+</listitem>
+<listitem><emphasis>財務可行性(Financial Feasibility)</emphasis>
+<para>
+應與經濟可行性分開考量，
+考慮是否<emphasis>有足夠的預算支持專案的進行</emphasis>。
+</para>
+</listitem>
+<listitem>文化可行性(Culture Feasibility)
+<para>
+考慮宗教、文化等因素。
+</para>
+</listitem>
+<listitem><emphasis>安全可行性(Safety Feasibility)</emphasis>
+<para>
+考慮<emphasis>專案活動的危險度是否能讓專案投入下去</emphasis>。
+</para>
+</listitem>
+<listitem><emphasis>政治可行性(Political Feasibility)</emphasis>
+<para>
+考慮<emphasis>政治法規的影嚮</emphasis>。
+</para>
+</listitem>
+<listitem><emphasis>環境可行性(Environmental Feasibility)</emphasis>
+<para>
+考慮<emphasis>整體環境的影嚮</emphasis>。
+</para>
+</listitem>
+<listitem><emphasis>市場可行性(Market Feasibility)</emphasis>
+<para>
+考慮專案<emphasis>是否有市場</emphasis>。
+</para>
+</listitem>
+</itemizedlist>
+<sect1><title>成本效益分析(Cost-Benefit Analysis)</title>
+<para>
+用來定義經濟可行性，評估投入的成本是否<emphasis>可回收</emphasis>。
+<emphasis>正常的投資現金流</emphasis>通常第一筆為負現金流，
+往後都為正現金流。
+<emphasis>不正常的投資現金流</emphasis>通常第一筆為負現金流，
+往後正負現金流都有。
+</para>
+<sect2><title>還本期(PP, Payback Period)</title>
+<para>
+專案的<emphasis>回收期</emphasis>是專案成本(負值)加上每時期的現金流，
+直到累積現金流成為正值的時間長度。
+</para>
+<equation><title>PP</title>
+SUM(CF(t))=0，t 即為 PP。
+</equation>
+<example><title>專案的還本期</title>
+<table>
+<tgroup cols="6">
+<thead>
+<row>
+<entry>時間(年)</entry>
+<entry>0</entry>
+<entry>1</entry>
+<entry>2</entry>
+<entry>2.4</entry>
+<entry>3</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>現金流</entry>
+<entry>-100</entry>
+<entry>10</entry>
+<entry>60</entry>
+<entry>30</entry>
+<entry>80</entry>
+</row>
+<row>
+<entry>累積值</entry>
+<entry>-100</entry>
+<entry>-90</entry>
+<entry>-30</entry>
+<entry>0</entry>
+<entry>50</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<para>
+其還本期為 2+30/80=2.375 年。
+</para>
+<para>
+還本期的優點是<emphasis>提供專案的風險及流動的指標</emphasis>及
+<emphasis>易於計算理解</emphasis>。
+</para>
+<para>
+其缺點是<emphasis>忽略金錢的時間價值</emphasis>及
+<emphasis>忽略還本後的現金流</emphasis>。
+</para>
+</example>
+</sect2>
+<sect2><title>折現還本期(DPP, Discounted Payback Period)</title>
+<para>
+以<emphasis>現值流(PV of CF)</emphasis>取代現金流的還本期。
+</para>
+<example><title>專案的折現還本期，假設銀行年率為 10%</title>
+<table>
+<tgroup cols="6">
+<thead>
+<row>
+<entry>時間(年)</entry>
+<entry>0</entry>
+<entry>1</entry>
+<entry>2</entry>
+<entry>2.7</entry>
+<entry>3</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>現金流</entry>
+<entry>-100</entry>
+<entry>10</entry>
+<entry>60</entry>
+<entry></entry>
+<entry>80</entry>
+</row>
+<row>
+<entry>現值流</entry>
+<entry>-100</entry>
+<entry>10/(1.1)=9.09</entry>
+<entry>60/(1.1)^2=49.59</entry>
+<entry></entry>
+<entry>80/(1.1)^3=60.11</entry>
+</row>
+<row>
+<entry>累積值</entry>
+<entry>-100</entry>
+<entry>-90.91</entry>
+<entry>-41.32</entry>
+<entry>0</entry>
+<entry>18.79</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<para>
+其折現還本期為 2+41.32/60.11=2.7 年
+</para>
+</example>
+</sect2>
+<sect2><title>淨現值(NPV, Net Present Value)</title>
+<para>
+專案期間<emphasis>所有正負現金流現值的加總</emphasis>。
+</para>
+<equation><title>NPV</title>
+NPV=Sum(CF<subscript>t</subscript>/(1+k)<superscript>t</superscript>
+<para>
+k 為利率
+</para>
+</equation>
+<example><title>專案的 NPV</title>
+<table>
+<tgroup cols="6">
+<thead>
+<row>
+<entry>時間(年)</entry>
+<entry>0</entry>
+<entry>1</entry>
+<entry>2</entry>
+<entry>3</entry>
+<entry>NPV</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>現金流</entry>
+<entry>-100</entry>
+<entry>10</entry>
+<entry>60</entry>
+<entry>80</entry>
+<entry></entry>
+</row>
+<row>
+<entry>現值流</entry>
+<entry>-100</entry>
+<entry>10/(1.1)=9.09</entry>
+<entry>60/(1.1)^2=49.59</entry>
+<entry>80/(1.1)^3=60.11</entry>
+<entry>18.79</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<para>
+NPV 的優點是<emphasis>考慮整個專案的現金流</emphasis>及
+<emphasis>能評價許多獨立的專案，並從中選取一個</emphasis>。
+</para>
+<para>
+其缺點是<emphasis>折現率很難決定</emphasis>。
+</para>
+</example>
+</sect2>
+<sect2><title>投資報酬率(ORI, return-on-investment)</title>
+<para>
+<emphasis>利潤</emphasis>與<emphasis>創造利潤所需投資額(成本)</emphasis>之間的關係，
+稱為<emphasis>投資報酬率</emphasis>。
+投資報酬率已廣泛被認為是衡量企業經營績效之有效方法。
+從相同風險的兩家公司之投資報酬率互相作一比較，
+可以觀察兩家公司<emphasis>經營績效之高低</emphasis>。
+投資報酬最明顯之來源係來自營業淨利，
+因此投資報酬率實質上乃是<emphasis>顯示營業淨利與產生淨利之投資金額間之關係</emphasis>。
+其基本公式如下：
+</para>
+<equation id="ROI"><title>投資報酬率公式</title> 
+投資報酬率 = 淨利 / 投資額
+</equation>
+<para>
+投資報酬率顯示企業獲利能力之高低，
+一家公司其獲利能力之高低常受到兩項因素之影響，
+一為純益率，
+二為投資金額之週轉率。
+故投資報酬率之計算可分解成純益率及資產週轉率兩個要素，列示如下：
+</para>
+</sect2>
+</sect1>
+<qandaset defaultlabel='number'>
+<title>習題</title>
+<qandaentry>
+<question>
+<para>
+系統分析師(System Analyst)在進行分析之前，必須考慮系統各方面的可行性，此
+稱為可行性分析(Feasibility Analysis)，請列舉至少五項的可行性分析並詳細說明。
+(20 分)
+<biblioref linkend="BOI94"/>
+</para>
+</question>
+<answer>
+<itemizedlist>
+<listitem><emphasis>技術可行性(Technical Feasibility)</emphasis>
+<para>
+需考慮人員的技術。
+</para>
+</listitem>
+<listitem><emphasis>管理可行性(Managerial Feasibility)</emphasis>
+<para>
+需考慮管理面的可行，包括管理支援、投入的員工及<emphasis>公司上層支持</emphasis>。
+</para>
+</listitem>
+<listitem><emphasis>經濟可行性(Economic Feasibility)</emphasis>
+<para>
+考慮投入的成本是否<emphasis>可回收</emphasis>。
+常用成本效益分析評估。
+</para>
+</listitem>
+<listitem><emphasis>社會可行性(Social Feasibility)</emphasis>
+<para>
+考慮<emphasis>使用者是否支持</emphasis>。
+</para>
+</listitem>
+<listitem><emphasis>政治可行性(Political Feasibility)</emphasis>
+<para>
+考慮<emphasis>政治法規的影嚮</emphasis>。
+</para>
+</listitem>
+</itemizedlist>
+</answer>
+</qandaentry>
+<qandaentry>
+<question>
+<para>
+在開發一套電腦資訊系統時，常使用兩種方法來進行成本與效益的分析（Cost/Benefit
+Analysis），何謂：投資報酬率（Return on Investment），
+回收時間（Payback Period）？並比較這兩種方法的不同。（20 分）
+<biblioref linkend="BOI94"/>
+</para>
+</question>
+<answer>
+ROI 其基本公式如下：
+<equation id="ROI"><title>投資報酬率公式</title> 
+投資報酬率 = 淨利 / 投資額
+</equation>
+<para>
+因此投資報酬率實質上乃是<emphasis>顯示營業淨利與產生淨利之投資金額間之關係</emphasis>，
+可以觀察兩家公司<emphasis>經營績效之高低</emphasis>。
+</para>
+<para>
+專案的<emphasis>回收時間</emphasis>是專案成本(負值)加上每時期的現金流，
+直到累積現金流成為正值的時間長度。
+其基本公式如下：
+</para>
+<equation><title>PP</title>
+SUM(CF(t))=0，t 即為 PP。
+</equation>
+<para>
+還本期的優點是<emphasis>提供專案的風險及流動的指標</emphasis>及
+<emphasis>易於計算理解</emphasis>。
+</para>
+<para>
+其缺點是<emphasis>忽略金錢的時間價值</emphasis>及
+<emphasis>忽略還本後的現金流</emphasis>。
+</para>
+</answer>
+</qandaentry>
+</qandaset>
+</chapter>
+<chapter><title>結構化分析</title>
+<sect1><title>初步分析</title>
+<para>
+一個 SDLC 是由使用者提出 System Request 開始。
+系統分析師於接收到 System Request 後，
+進行<emphasis>初步分析</emphasis>，
+概略了解整個系統的目的，功能，限制條件，主要資訊需求，
+簡要作業流程問題癥結所在，
+及發生問題原因等等俾研究是否值得進行系統開發。 
+</para>
+<orderedlist>
+<listitem>可行性評估</listitem>
+<listitem>排定優先順序</listitem>
+<listitem>進一步調查</listitem>
+<listitem>口頭與書面報告 </listitem>
+</orderedlist>
+</sect1>
+<sect1><title>細部分析</title>
+<para>
+詳細蒐集系統相關資料，並加以分析，
+以其能得知系統的真正需求，
+並給予<emphasis>需求明確定義</emphasis>。
+</para>
+<sect2><title>輸出入資料結構分析</title>
+<sect3><title>資料元素分析單</title>
+</sect3>
+<sect3><title>報表內容分析單</title>
+</sect3>
+<sect3><title>報表使用分析單</title>
+</sect3>
+</sect2>
+</sect1>
+<sect1><title>處理規格描述(Process Specification)</title>
+<sect2><title>決策表(decision table)</title>
+</sect2>
+<sect2><title>決策樹(decision tree)</title>
+</sect2>
+<sect2><title>結構化英文(structured English)</title>
+</sect2>
+</sect1>
+<sect1><title>系統定義</title>
+<para>
+將系統分析的結果予以系統化整理與確認，
+並撰寫成書面文件，使能正確描述定義系統的內容與性質。
+</para>
+</sect1>
+<sect1><title>因果關系圖</title>
+</sect1>
+<sect1><title>需求擷取與分析</title>
+使用者需求的分類
+
+    * 巨觀需求：欲電腦化的環境，作業程序與範圍，輸出與輸入所需之資訊或表單及系統目標，限制，主要功能等，盡可能在需求分析階段中釐清與確定。
+    * 細部需求：使用者介面之要求，例外狀況之處理，錯誤及輔助訊息之顯示，通常到設計階段處理。
+
+需求的擷取方式
+
+    * 查閱文件
+    * 實地觀察(Observation)
+    * 訪談(Interview)
+          o 開放式訪談(Open Interview)：類似交談
+          o 結構化訪談(Structured Interview)：類似詢問
+    * 問卷
+          o 簡單隨機抽樣
+          o 分層抽樣
+          o 便利抽樣
+          o 判斷抽樣
+    * 開會討論
+    * 聯合開發(Joint Application Development;JAD)
+         1. 範圍界定
+         2. 關鍵人員的熟悉
+         3. 會議準備
+         4. 會議進行
+         5. 文件產生
+
+需求的表達工具
+
+    * 流程圖(Flow Chart)
+          o □：表達作業處理，可配合 處理描述
+          o ◇：表達流程控制
+          o →：表達資訊流向
+          o 波浪形：表達資訊的展示與儲存，可配合 藍圖(Drawing) 與 資料詞彙(Data Glossary)
+
+需求分析文件的樣版
+
+   1. 問題描述
+   2. 新系統目標
+   3. 新系統限制
+   4. 使用者需求
+          * 流程圖
+               1. 處理描述
+               2. 藍圖
+               3. 資料詞彙
+</sect1>
+</chapter>
+<chapter><title>結構化設計</title>
+<para>
+系統分析師根據分析結果研究，規劃以電腦為工具的資訊處理系統以取代現行作業方法。
+</para>
+<sect1><title>輸出設計</title>
+</sect1>
+<sect1><title>輸入設計</title>
+</sect1>
+<sect1><title>檔案與資料庫設計</title>
+<sect2><title>關聯式資料庫的正規化(normalization)</title>
+
+若關聯表中每一欄位的值都是唯一而不可分割的(Atomic)，則稱之為正規化
+關聯式資料庫的鍵(Key)
+
+   1. 候選鍵(Candidate key)：能在資料表中將各列分別出來的欄位(一個資料表可以有多個)
+   2. 主鍵(Primary key)：從候選鍵中選出來作為主要鍵的欄位
+   3. 替代鍵(Alternate key)：其他未被選為主鍵的候選鍵欄位
+   4. 連結鍵(Concatenated key)：指候選鍵是由多個欄位所組成
+
+一階正規化 (First Normal Form; 1NF)
+
+又稱為平坦檔(Flat File)，若關聯表中的任一行與任一列的交叉格(Cell)上均只有一個值，但會有插入，刪除，更改等異常(Anomalies)
+二階正規化 (Second Normal Form; 2NF)
+
+符合一階正規化的關聯表，再除去資料的 部分功能相依(Partial Dependency)
+(將1NF中由部分主鍵就可以決定其值的欄位移出成為另一個關聯表)
+三階正規化 (Third Normal Form; 3NF)
+
+符合二階正規化的關聯表，再除去資料的 遞移相依(Transitive Dependency)
+(將2NF中由非由主鍵決定其值的欄位移出成為另一個關聯表)
+Boyce-Codd正規化 (Boyce-Codd Normal Form; BCNF)
+
+符合三階正規化的關聯表，再除去任何因功能相依所造成的異常結果
+四階正規化 (Fourth Normal Form; 4NF)
+
+符合BCNF正規化的關聯表，再除去所有的多值相依
+五階正規化 (Fifth Normal Form; 5NF)
+
+符合四階正規化的關聯表，再除去剩餘的所有異常情況
+</sect2>
+</sect1>
+<sect1><title>處理設計</title>
+<sect2><title>系統類型</title>
+1.批次處理（batch system）
+
+2.連線處理（on-line system）
+
+3.即時處理（real-time system） 
+</sect2>
+<sect2><title>程式類別</title>
+1.編審程式（edit program）：避免錯誤資料發生。
+
+2.排序程式（sort program）：內外部排序
+
+3.更新程式（vpdata program）： 更新， 刪除。
+
+4.合併程式（merge program）
+
+5.列表程式（list program）
+
+6.查詢程式（queny program） 
+</sect2>
+<sect2><title>系統功能層次圖（hierarchic chart）</title>
+又稱 vtoc圖 hipo圖的一種=>將系統資料流程圖轉成樹狀的功能層次圖圖。
+</sect2>
+<sect2><title>系統流程圖</title>
+</sect2>
+</sect1>
+<sect1><title>控制設計</title>
+<para>
+控制設計：確保資訊系統的可靠性與準確性，避免錯誤發生
+1.機器故障
+
+2.人為錯誤
+
+3.軟體錯誤 
+一、組織控制：在企業內部設置資訊系統的專責單位，劃分權責每項作業分別由不同人員或單位負責辦理。
+
+   1. \pnb0軟體控制： 
+
+\pnb0設計編審程式
+
+1.類別檢查是否為空白數文字正負
+
+2.合理性檢查
+
+3.限制檢查合乎範圍內
+
+4.一致性檢查
+
+5.順序檢查
+
+6.檢查碼檢查
+
+7.總數檢查人工計算比對報表
+
+8.平衡檢查會計借貸平衡
+
+三、原始憑證控制
+
+四、登錄的控制：
+
+1.校驗（人工） 2.審查（電腦編審程式）
+
+五、資料檔與資料庫控制：備分
+
+六、操作控制：
+
+1.每次使用機器，填寫作業申請單。 2.提供Recovery（復原）處理規範。
+
+七、輸出控制：
+
+1.比較法比較各相關資料
+
+2.異常控制（結果是否與以前相差很大）
+
+3.抽樣核計
+
+4.總數查核
+
+5.記錄數控制 
+</para>
+</sect1>
+
+    * 結構化設計(1960)：強調系統的結構化與可維護性，決定系統應有哪些模組(模組名稱,輸入,輸出,內部資料,處理邏輯)
+      結構化技術所需工具 文件 	工具 	經驗法則 	評估準則
+      結構圖(Structure Chart) 	  	模組大小：小模組200行以內 	內聚力
+      HIPO圖(Hierarchical Input Process Output) 	  	控制間距：(Magic Number 7±2) 	耦合力
+      
+          o 結構化英語(Structured English)
+          o 程式設計語言(Program Design Language;PDL)
+      	  	影響範圍 	 
+      資料字典(Data Dictionary;DD) 	  	控制範圍 	 
+    * 結構化分析(1970)：利用圖形化文件工具(Graphic Documentation Tools)進行企業流程及企業資料格式塑模
+          o 事件列(Event List)
+                + 資料流導向：客戶輸入代號
+                + 時間導向：下午3點要簽發支票
+                + 控制導向：系統的開啟或關閉
+<sect1><title>實體關係圖(Entity-Relationship Diagram;ERD)</title>
+                + 表示符號
+                      # 矩形：代表實體類型 (Entity Type)
+                      # 菱形：代表實體類型與實體類型間之關係 (Relationship)
+                      # 橢圓：代表實體類型或關係之屬性 (Attribute)
+                      # 直線：把屬性連結到實體類型或把實體類型連結到關係
+                      # 基數率(Cardinality Ratio)：代表實體類型與實體類型間之關係程度。常見的基數率是「1:1」、「1:N」及「M:N」三種
+                      # 參與限制(Participation Constraint)：個體的存在是否藉由與另一個個體之間的關係而存在。參與限制分為「全部參與(Total Participation)」、「部份參與(Partial Participation)」兩種。
+</sect1>
+<sect1><title>狀態轉移圖(State Transition Diagram;STD)</title>
+</sect1>
+<sect1><title>結構化程式設計(1969)：Dijkstra提出，避免GOTO所造成的混亂</title>
+o 循序(Sequence)：compute,read,write
+o 選擇(Condition)：if then else, case
+o 重複(Repetition)：do while
+</sect1>
+<sect1><title>由上而下發展</title>
+          o 由上而下設計(Top-Down Design)
+          o 由上而下編碼(Top-Down Coding),由下而上編碼(Bottom-Up Coding)
+          o 由上而下實施(Top-Down Implementation)由上而下測試(Top-Down Integration Test)
+                + 白箱測試：由上而下或由下而上依功能測試
+                      # 單元測試
+                      # 整合測試
+                + 黑箱測試：情況極端與例外的測試
+                      # 系統測試
+                      # 驗收測試
+</sect1>
+</chapter>
+<chapter><title>模組設計</title>
+<sect1><title>模組(Module)</title>
+<para>
+<emphasis>模組(Module)</emphasis>是一套一致而互相有緊密關連的軟體組織。
+它分別包含了程式和資料結構兩部份。
+現代軟體開發往往利用模組作合成的單位。
+模組通常將實作和介面分開，實作<emphasis>抽象化</emphasis>，
+<emphasis>介面(Interface)</emphasis>規定該模組可提供的功能和使用它時所需傳入的資訊。
+模組是可能分開地被編寫的單位。
+這提高了程式的可再用性和允許將大系統切割成不同的模組，
+讓許多程式師同時協作、編寫及研究不同的模組。
+</para>
+</sect1>
+<sect1><title>模組設計的準則</title>
+<orderedlist>
+<listitem><emphasis>分割原理</emphasis>：
+每一個程式的功能必須依其層次關，係逐層細分務使每一模組之功能趨於單純化。</listitem>
+<listitem><emphasis>低藕合性原理(low coupling)</emphasis>：
+指模組與模組間的相互關係程度，相互關係愈低者其藕合性即愈弱，
+反之愈強，模組的藕合性應愈弱愈好。</listitem>
+<listitem><emphasis>高內驟力原理(high cohesion)</emphasis>：
+模組功能的單純性程度，內弱強的模組其功能只單純一種，
+反之模組功能不只一種時，其內驟力即較弱，模組的內驟力愈強愈好。
+</listitem>
+<listitem><emphasis>控制幅度原理(control span)</emphasis>：
+當某一模組的控制幅度（control span）很大，
+可在它們的中間增加一層模組。 </listitem>
+<listitem><emphasis>共用模組原理</emphasis>：
+儘量增加叢驟模組（fan-in），可減少程式指令重複。
+</listitem>
+<listitem><emphasis>標識原理</emphasis>：
+每一模組應清楚的註明其功能名稱，及收受訊息名稱。</listitem>
+</orderedlist>
+</sect1>
+<sect1 id="ModuleDesign"><title>模組的內聚力及耦合力(Cohesion and Coupling)</title>
+<para>
+良好的模組設計希望達到高功能內聚力，
+低資料耦合力。上述兩個都是<emphasis>質的指標</emphasis>。
+</para>
+<para>
+<emphasis>內聚力(Cohesion)</emphasis>：
+衡量模組內的各部份源碼合作完成特定功能的程度，
+一個模組內每一部份的源碼應與模組的功能有關。
+內聚力由低到高如下：
+</para>
+<itemizedlist>
+<listitem><emphasis>偶發內聚力(Coincidental Cohesion)</emphasis>：
+模組各部份源碼功能不同，但本身具有功能內聚力，
+例如一般的 Utility 模組，只是把常用的共同程式聚集在一起</listitem>
+<listitem><emphasis>邏輯內聚力(Logical Cohesion)</emphasis>：
+根據傳來的參數決定執行的模組那一部份功能源碼
+</listitem>
+<listitem><emphasis>時間內聚力(Tempral Cohesion)</emphasis>：
+不同功能組織成一個模組，因為這些功能執行無順序關係但總在某個特定時間點後執行
+</listitem>
+<listitem><emphasis>程序內聚力(Procedural Cohesion)</emphasis>：
+不同功能組織成一個模組，因為這些功能總按照一定順序執行但不共用資料
+</listitem>
+<listitem><emphasis>溝通內聚力(Communication Cohesion )</emphasis>：
+不同功能組織成一個模組，因為這些功能使用相同的資料
+</listitem>
+<listitem><emphasis>順序內聚力(Sequential Cohesion) </emphasis>：
+不同功能組織成一個模組，功能按某順序執行，且一個模組的輸出會成為下一組的輸入
+</listitem>
+<listitem><emphasis>功能內聚力(Function Cohesion) </emphasis>：
+不同功能組織成一個模組，因為這些功能要合作完成一項功能</listitem>
+</itemizedlist>
+<para>
+<emphasis>耦合力(Coupling)</emphasis>：衡量模組間相互關連的程度，
+<emphasis>低耦合力表示模組的合作依賴一個穩定的介面，
+不需知道另一模組內部的結構</emphasis>，
+這提供各個模組良好的<emphasis>資訊隱藏(Information Hiding)</emphasis>，
+耦合力由低到高如下：
+</para>
+<itemizedlist>
+<listitem><emphasis>資料耦合力(Data Coupling)</emphasis>：
+模組間藉由<emphasis>傳遞參數(parameter)</emphasis>共享資料</listitem>
+<listitem><emphasis>標記(資料結構)耦合力(Stamp Coupling)</emphasis>：
+模組各自使用資料結構的一部份，
+各模組不知其它模組使用了資料結構的那一部份</listitem>
+<listitem><emphasis>控制耦合力(Control Coupling)</emphasis>：
+A 模組傳遞旗標控制 B 模組要執行那一部份的程式碼</listitem>
+<listitem><emphasis>外部耦合力(External Coupling)</emphasis>：
+兩模組使用相同的外部資料格式，如通訊協定，設備介面等</listitem>
+<listitem><emphasis>共同耦合力(Common Coupling)</emphasis>：
+兩模組使用相同的全域變數(資料儲存區)</listitem>
+<listitem><emphasis>內容耦合力(Content Coupling)</emphasis>：
+A模組可使用B模組的程式碼或改變其區域變數</listitem>
+</itemizedlist>
+</sect1>
+<qandaset defaultlabel='number'>
+<title>習題</title>
+<qandaentry>
+<question>
+<para>
+在結構化系統設計中，模組（Module）的內聚力（Cohesion）和模組的連結性
+（Coupling）是兩項重要的考慮原則，請詳細描述這兩個原則。（20 分）
+<biblioref linkend="BOI94"/>
+</para>
+</question>
+<answer>
+<xref linkend="ModuleDesign"/>
+</answer>
+</qandaentry>
+</qandaset>
+<para>
+93year
+二、說明Top-Down 與Bottom-Up 兩種設計方式，及其適宜開發之系統。（25 分）
+三、風險管理的步驟為何？在軟體生命週期的開發中，如何進行風險管理？（25 分）
+92
+一、試比較傳統資訊系統發展方法與使用CASE（computer-aided software engineering）
+開發系統之差異性。（10 分）
+請說明CASE 導入的步驟。（10 分）
+三、何謂物件導向分析與設計（object-oriented analysis and design）？請詳述其特色及優缺
+點。（20 分）
+五、解釋名詞：（20 分）
+pseudocode（虛擬碼）
+file activity（檔案活動性）
+group decision support systems（群體決策支援系統）
+turnaround document（回轉文件）
+</para>
+</chapter>
+<chapter><title>系統建置</title>
+第十章 系統建置
+
+一. 模組設計
+
+二, 模組設計的方法
+
+三. 模組的描述
+
+四. 測試
+
+系統建置之步驟：
+
+   1. 擬定系統建置計劃 
+
+（1）擬定工作進度（Grantt chart critical path method）
+
+（2）分配工作
+
+2.程式定義：描述每一個程式的輸出入資料檔與處理需求
+
+3.程式邏輯規劃：（1）模組設計 （2）模組描述
+
+4.程式設計
+
+5.測試
+
+一、模組設計：結構圖edward yourdon
+
+三、模組的描述：
+
+   1. 程式流程圖 
+
+
+
+
+1.
+
+
+四、測試：
+
+   1. 測試方法： 
+
+   1. 白箱測試（white-box testing）：以程式指令為基準，各種可能狀況皆有測試資料 
+
+對於編審程式除正確資料外尚須有不正確資料。
+
+   1. 黑箱測試（black-box testing）：以處理功能為基準，測試處理結果是否符合使 
+
+用者的需求或系統規範。
+
+（2）結構化測試：
+
+a.單元測試模組測試不需將整個程式寫完才測試
+
+b.相關程式測試測試程式與程式間的資料檔組織型態
+
+2.系統測試：
+
+a.鑑定系統的處理程序是否適當。
+
+b.確定輸出報表格式與資料檔是否符合系統的需求
+
+c.鑑定操作方式是否方便
+
+d.評估系統的處理績效與作業時間
+
+3.驗收測試：系統測試完成以後，系統分析師應將整個系統提供給使用者或有關主管作最後制試稱為驗收測試。
+
+</chapter>
+<!--
+&OO;
+-->
+<chapter><title>物件導向分析(OOA)</title>
+<sect1><title>物件導向的塑模</title>
+物件導向的塑模 = 軟體架構
+
+軟體開發如同音樂譜曲及建築設計，其過程中必須將需求、分析、設計、實作、佈署等各項工作流程之不同觀點予以呈現，這就是軟體系統之塑模(Modeling)。
+
+Booch等人 / Rational Software 提出可從4+1觀點(4+1 view)來看軟體系統架構(凸顯使用個案的重要性)
+
+    * 使用個案觀點(Use Case View)：以使用個案充分表達軟體功能需求
+    * 設計觀點(Design View)：以物件的觀念，表達出軟體設計結果 (Logical View)
+    * 流程觀點(Process View)：
+    * 實施觀點(Implementation View)
+    * 佈署觀點(Deployment View)
+
+根據上述5個觀點我們可以整理出6種塑模
+
+    * 使用個案塑模：使用個案圖
+    * 物件資料結構塑模：類別圖、物件圖
+    * 物件互動行為塑模：互動圖(包含了循序圖、合作圖)
+    * 作業行為塑模：活動圖、狀態圖
+    * 使用者介面塑模：
+    * 系統元件與組織結構塑模：元件圖、部署圖
+</sect1>
+</chapter>
+<chapter><title>物件導向設計(OOD)</title>
+<sect1><title>物件導向的軟體維護</title>
+<itemizedlist>
+<listitem>軟體的維護就是軟體的再生，維護較開發而言要花更多的金錢與時間</listitem>
+<listitem>軟體維護的思維上就是要考慮到 可維護性(Maintainability) 與 可重複使用性(Reuseability)</listitem>
+<listitem>傳統的重複使用方案並無法兼顧可維護性與可重複使用性的目標，物件導向設計的重複使用方式可在含有宏觀商業邏輯的抽象層次的上層結構來考量，以達到可維護與可重複使用的目標。</listitem>
+<listitem>物件導向類別設計的法則
+<itemizedlist>
+<listitem>開閉原則(Open-Closed Principle ; OCP)</listitem>
+<listitem>Liskov代換原則(Liskov Substitution Principle ; LSP)</listitem>
+<listitem>依賴倒轉原則(Dependency Inversion Principle ; DIP)</listitem>
+<listitem>介面隔離原則(Interface Segregation Principle ; ISP)</listitem>
+<listitem>組合/聚合重複使用原則(Composition / Aggregation Principle ; CARP)</listitem>
+<listitem>Demeter原則(Law of Demeter; LoD)</listitem>
+</itemizedlist></listitem>
+</itemizedlist>
+</sect1>
+<sect1><title>OOD 原則</title>
+<sect2><title>開閉原則(Open-Closed Principle ; OCP)</title>
+<itemizedlist>
+<listitem>模組應當敞開擴充大門，但關閉修改之窗 。</listitem>
+<listitem>如何達成開閉原則，關鍵在抽象化。</listitem>
+<listitem>不允許更改的是系統的抽象層，允許擴充的是系統的實作層。</listitem>
+<listitem>OCP的另一個角度是EVP對可變性的封裝原則(Principle of Encapsulation of Variation)即找到一個系統的可變因素，並將之封裝起來。</listitem>
+<listitem>可變性必須被封裝，那不同的可變性呢？應用繼承來處理，因此繼承應被視為封裝變化的方法，但繼承的層數避免超過2層以免不同的可變性混和。</listitem>
+<listitem>應避免將單純的流程控制轉移語句改寫成多型，除非內含了某種商務邏輯。</listitem>
+<listitem>所有的設計樣式(Design Pattern)都是針對不同的可變性封裝，使系統在不同的角度上達到開閉原則。</listitem>
+</itemizedlist>
+</sect2>
+<sect2><title>Liskov代換原則(Liskov Substitution Principle; LSP)</title>
+<itemizedlist>
+<listitem>子類別應該可以使用其基礎類別替代 。</listitem>
+<listitem>Liskov代換原則是繼承之所以能重複使用的基石，只有當衍生類別可以替換掉基礎類別，且軟體的功能不受影響時，其類別才算真正的被重複使用，而衍生類別也才能夠在基礎類別的基礎上增加新的行為。</listitem>
+<listitem>Liskov代換原則要求凡是基礎類別使用的地方，衍生類別一定適用，故衍生類別必須包含全部基礎類別的介面</listitem>
+<listitem>針對違反LSP設計時可行的重構(Refactoring)方式</listitem>
+<listitem>當類別A錯誤的繼承類別B時，可建構一個新的抽象類別C，作為2個具體類別A,B的父類別</listitem>
+<listitem>當類別A錯誤的繼承類別B時，可重構為類別B委派(Delegate)類別A</listitem>
+</itemizedlist>
+</sect2>
+<sect2><title>依賴倒轉原則(Dependency Inversion Principle; DIP)</title>
+<itemizedlist>
+<listitem>要依賴於抽象，而不要依賴於具體 。</listitem>
+<listitem>依賴倒轉原則的策略是依賴介面或抽象方法及類別，而不是具體方法或類別，包括了下列情況都得遵循DIP
+<itemizedlist>
+<listitem>變數的類別宣告</listitem>
+<listitem>參數的類別宣告</listitem>
+<listitem>方法的傳回型態宣告</listitem>
+<listitem>型態的轉換</listitem>
+</itemizedlist></listitem>
+<listitem>抽象層級含有宏觀和重要的商務邏輯，具體層級含有與實作有關的演算法語次要的商業邏輯，而傳統的程序性設計或錯誤的類別規劃會讓抽象層級依賴於具體層級，因此依賴倒轉原則可倒轉此一現象，讓實作改變時，商業邏輯無須變動。</listitem>
+<listitem>一個具體Java類別應當只實作Java介面和抽象Java類別中宣告的方法，而不應當給出多餘的方法。</listitem>
+<listitem>若Java程式要參照一個物件，若此物件有一個抽象型態，則應使用此抽象型態作為靜態型態(Static Type)
+<itemizedlist>
+<listitem>靜態型態(Static Type) = 實際型態(Apparent Type)：變數被宣告時的類別</listitem>
+<listitem>實際型態(Actual Type)：變數所參照的物件真實型態</listitem>
+<listitem>若一個物件存在其抽象類別，就應當在任何參照此物件的地方使用抽象類別</listitem>
+</itemizedlist></listitem>
+<listitem>Java語言中建構一個物件的程式是違背OCP與DIP的，但可在此類別被建構出來後過多型性使得使用端依賴於其抽象類別。</listitem>
+<listitem>List employees = new Vector();</listitem>
+<listitem>DIP是最難實作的原則，因為會使用到物件工廠就會產生大量的類別。</listitem>
+<listitem>DIP假定所有的具體類別都是會變化的並不完全正確，因為某些具體類別是相當的穩定因此並不需要為此發明一個抽象型態。</listitem>
+</itemizedlist>
+</sect2>
+<sect2><title>介面隔離原則(Interface Segregation Principle; ISP)</title>
+
+<itemizedlist>
+<listitem>由客戶端指定的許多介面比一個一般用途的介面好。</listitem>
+<listitem>使用多個專門的介面比使用單一的總介面要好，否則會造成對介面的污染(Interface Contamination)。</listitem>
+<listitem>一個類別對另一個類別的依賴性應當是建立在最小的介面上的。</listitem>
+</itemizedlist>
+</sect2>
+
+<sect2><title>組合/聚合重複使用原則(Composition / AggregationPrinciple ; CARP)</title>
+</sect2>
+<sect2><title>Demeter原則(Law of Demeter; LoD)</title>
+</sect2>
+</sect1>
+<sect1><title>統一塑模語言(Unified Modeling Language ; UML)</title>
+
+    * 由Rational software corporation融合了物件導向三劍客的方法論，統一了以物件導向分析與設計的表示法，於1997年11月由 OMG(Object Management Group) 公布為物件導向視覺化塑模的標準，目前 最新的版本為 2.0 (2003/06/01)
+    * UML是一種塑模語言，而非方法論，它並沒有規範符號的使用時機與次序僅利用符號來達到溝通的目的，從分析，設計到實作都可以使用同一套符號來表達，因此應用時可以搭配適合的方法論。
+    * UML之所以重要，就是因為他有助於軟體開發人員之間的溝通。我們必須在某種程度上使用他以協助溝通，而非阻礙溝通。
+    * 循序圖、合作圖合稱互動圖。
+    * UML設計的理念
+          o 使用個案導向(強調以使用者的角度來定義功能需求)
+          o 軟體架構設計(強調系統開發要有藍圖)
+          o 往覆，漸增式流程(強調降低專案風險)
+
+使用個案圖(Use Case Diagram)
+
+    * 以OO技術開發系統時在需求分析時常利用典型的情節(Scenario)來進行需求塑模，這種個案模式一直沒有統一的表達方式直到Ivar Jacobson等人(1996) 才將使用個案的表達正式化。
+    * 使用個案圖表示從使用者之觀點描述系統的行為者與系統間之互動行為與關係，包含了行為者和使用個案二個元件，此法在資料與展示格式上僅利用文字描述，若能搭配結構化中的藍圖與資料詞彙則可補強其不足之處。
+    * 使用案例是專業分工的依據，是專案進度評量的重要因素。
+
+行為者(Actor) = 參與者
+
+    * 環境中與系統有互動關係的人或事物，有該使用個案的啟動者即 主要行為者(Primary Actor) 與其他參與者即 次要行為者(Secondary Actor) 。
+    * 參與者被繪製成一個火柴棒形狀的小人並將名稱置其下方。
+
+使用個案(Use Case)
+
+    * 使用者透過介面要求系統所做一系列相關的事件流，包含了最主要的事件即 基本路徑(Basic Course) 與其他衍生事件或可能發生的錯誤即 替代路徑(Alternative Courses) 。
+    * 使用案例被繪製成橢圓形並將名稱置於圖形內部或底部來表示
+    * 使用個案間的關係：
+          o 關聯(association)：使用個案與行為者之間的關係，以實線段表示。
+          o 包含(Include)：一個使用個案會用到另一個使用個案，二個或以上的使用個案具有相同的行為模式時，可將該段行為模式獨立出來成為一個新的使用個案，再建立包含的關係，用一個虛線實心箭頭的線段並含有關鍵字 &lt;&lt;include>> 。
+          o 延伸(Extend)：在某情況下，使用個案會插入另一使用個案的定義中，用一個虛線實心箭頭的線段並含有關鍵字 &lt;&lt;extend>> 。
+          o 一般化(Generalization)：一個使用個案繼承另一個使用個案的行為， 用一個實線空心箭頭表示的線段從子使用個案指向父使用個案，且箭頭朝向父使用個案端。
+
+情節(Scenario)
+
+使用個案中的某一個單一執行路徑，可能是基本路徑也可能是替代路徑。
+建構使用個案圖的步驟
+
+   1. 找出行為者：從環境圖找
+   2. 找出使用個案：由行為者找出使用個案
+   3. 描述使用個案：可用自然語言或事件條列式
+   4. 找出使用個案間的關係：
+   5. 繪製使用個案圖
+
+類別圖(Class Diagram)
+
+    * 表示系統存在之類別、介面及它們間之靜態資料結構與邏輯關係
+    * 通常以三層表示
+          o 類別名：正體字：具體類別，斜體字：抽象類別，介面：&lt;interface>
+          o 屬性層：
+          o 方法層：
+    * 屬性與方法有四種封裝方式
+          o public:以符號 + 表示
+          o private:以符號 - 表示
+          o protected:以符號 # 表示
+          o static:以符號 _ 表示
+    * 描述介面的類別圖：沒有private的封裝
+    * 描述物件的類別圖：描述類別的實體，名稱下需加底線
+
+關係
+
+類別間的關係包括了
+
+    * 依賴 / 相依(Dependency)
+          o 使用的關係，表達一個類別會用到另一個類別
+          o 另一個類別的改變會影響到使用他的類別，但反之不必然
+          o 一類別的區域變數，方法參數，方法返回值，對靜態方法呼叫時是另一個類別時稱之
+          o 以虛線開箭頭表示。------->
+    * 一般化(Generalization)
+          o 繼承的關係，包括了類別間的繼承，介面間的繼承，類別對介面的實作等
+          o 以實線空心箭頭表示。
+    * 關聯/結合(Association)
+          o 同一層級的類別間靜態的結構關係
+          o Java語言中是使用實體屬性實作的
+          o 其關係有雙向與單向，建議多用單向
+          o 關係有基數(Multiplicity)，關係有名稱，但通常均予以省略
+          o 以實線段表示。 —
+                + 依關聯的類別個數來分
+                      # 二元關聯(Binary Association)
+                      # 多元關聯(n-ary Association)
+                + 依描述整體與部分的關係來分(不同層級的類別)
+                      # 聚合 / 聚集(Aggregation)：以實線且整體端加一個空心的菱形表示。◇—
+                      # 合成 / 組合(Composition)：整體物件需負責部分物件的生命週期，以實線且整體端加一個實心的菱形表示。◆—
+    * 實現化(Realization)
+          o 以介面實現其他類別之描述
+          o 以虛線空心箭頭表示。
+
+基數(Multiplicity) =多重性
+
+在類別連線上與類別之旁以數字標示與之關聯的數量。
+物件圖(Object Diagram)
+
+    * 描述系統於某一時間點的靜態結構，也稱為案例圖，包含了 物件 與連線二個元件。
+    * 物件間的關係稱為連線(Link)。
+
+循序圖(Sequence Diagram)
+
+    * 以時間發生之先後順序來表達物件間的訊息傳遞與處理之程序，包含了類別之物件、訊息、操作、生命線與控制焦點等元件。
+    * 循序圖有2個象線
+          o 垂直象線依照訊息呼叫發生的時間順序，來描述訊息呼叫的先後次序。
+          o 水平象線描述一個物件實體傳送訊息給哪一個物件實體。
+
+訊息(Message) =刺激(Stimuli)
+
+由某一物件傳送訊息至另一物件以啟動操作，以上下位置表示順序。
+生命線(Lifeline)
+
+表達物件再某時段的存在，以物件下與物件垂直之虛線表示。
+控制焦點 (Focus of Control) =啟動條(ActivationBar)
+
+表達物件執行某動作之時段，與生命線重疊且以高瘦的矩形表示。
+系統邊界 (System Border)
+
+系統與外界溝通之介面，通常放置在循序圖的最左側。
+建構循序圖的步驟
+
+   1. 確認物件
+   2. 描述操作
+   3. 描述訊息
+   4. 繪製循序圖
+
+合作圖(Collaboration Diagram)
+
+    * 著重表達物件間之連結結構，並能同時展現物件間的訊息傳遞與處理之程序，包含了類別之物件、連結、訊息與操作等元件。
+    * Rational Rose可將循序圖直接轉換成合作圖。
+    * 合作圖與循序圖相比較，少了物件生命線與焦點控制，多了路徑與序數
+
+連結(Link)
+
+以直線連接二個物件也就是物件間的路徑(Path)。
+訊息(Message)
+
+訊息發生順序以自然數或杜威數等編號來表達。
+活動圖(Activity Diagram)
+狀態圖(State Diagram)
+元件圖(Component Diagram)
+部署圖(Deployment Diagram)
+</sect1>
+<sect1><title>樣式理論(Pattern Theory)</title>
+    * 研究一再發生的典型事例，以便研究者可以研習至融會貫通，舉一反三，推陳出新的理論，叫做樣式理論。
+    * 樣式不是發明，而是發現
+    * 現代樣式理論：建築設計學家 亞歷山大 Christopher Alexander提出
+          o 無名之 質 (The Quality Without a Name ; QWAN)
+          o 門 (The Gate)
+          o 道 (The Way)：又稱作「永恆之道」(The Timeless Way)
+    * Alexander認為 透過追尋「道」，可以通過「門」到達「質」是任何一種工程設計的發展過程
+    * 「樣式是某外在背景環境 (Context) 下﹐對特定問題 (Problem) 的慣用解決之道 (Solution) 」 。
+    * 樣式是不斷的重複發生，而有其重複性。但重複的不是問題的本身，而是問題的本質，所以要把不同問題以相同的樣式來處理，勢必要擷取其本質，也就是『抽象』。所以研究樣式必須重視問題本質而非問題的表象。同樣的問題的背景環境及解決之道也是抽象的。
+    * 設計樣式是對軟體設計模型進行不斷追求完善的使用工具，但樣式的使用無絕對的公式，需要經過大量的個人實踐才能熟練掌握。
+    * 重構(Refacotrying)是對不滿意的程式碼進行彌補的時候所需要的技術，因此重構的存在證明了樣式並非軟體設計的銀彈(Silver Bullet)
+    * 樣式的要素
+          o 名字(Name)
+          o 問題(Problem)
+          o 初始環境(Initial Context)
+          o 力(Forces)
+          o 解答(Solution)
+          o 舉例(Examples)
+          o 末態環境(Resulting Context)
+          o 推理(Rationale)
+          o 相關樣式(Related Patterns)
+          o 已知應用(Known Uses)
+    * 樣式的種類
+          o 設計樣式(Design Patterns)：GoF提出
+                + 建構型樣式(Creational Pattern)
+                + 結構型樣式(Structural Pattern)
+                + 行為樣式(Behavioral Pattern)
+          o 架構樣式(Architecture Patterns)
+          o 分析樣式(Analysis Patterns)：Martin Fowler提出
+          o 反樣式(Anti-Patterns)
+    * 物件導向樣式的經典：四人幫(Gang of Four ; GoF) 即Erich Gamma、Richard Helm、Ralph Johnson、John Vlissides等四人，於1995年出版之 Design Patterns - Elements of Reusable Object-Oriented Software這本經典著作，包含23種軟體設計樣式，例如MVC Pattern，將軟體設計分為Model、View和Control三個部分，Model是屬於企業邏輯的部分，例如網路購物的交易機制；View是使用者介面的設計；Control則串連Model與View的程式碼。
+</sect1>
+</chapter>
+<chapter><title>系統建置</title>
+<sect1><title>資訊系統的建置策略</title>
+
+   1. 公司內部獨力完成
+          * 使用者自建(End User Development;EUD)
+          * 資訊部門發展
+   2. 公司外部取得
+          * 委外開發(Outsourcing)
+          * 套裝軟體(Application Package)
+   3. 其他方式
+          * 與軟體公司合作等
+</sect1>
+</chapter>
+<chapter id="SysConv"><title>系統轉換(System Conversion)</title>
+<para>
+<emphasis>系統轉換（conversion）</emphasis>程序指企業現有的系統，
+轉移成新的或改善過的系統。
+<emphasis>轉換成本</emphasis>指系統轉換所花費的資源。
+<emphasis>轉換方法</emphasis>常見有以下幾種：
+<itemizedlist>
+<listitem><emphasis>驟然轉換(abrupt cut-over)</emphasis>
+<para>
+在特定日期直接把舊系統轉換成新系統，無緩衝期。
+</para>
+<para>
+無<emphasis>轉換成本</emphasis>，但新系統失敗時風險最大。
+</para>
+</listitem>
+<listitem><emphasis>平行轉換(parallel conversion)</emphasis>
+<para>
+新舊系統同時運作一段時間，直到新系統已能穩定運作並取代舊系統的功能，
+再捨棄舊系統。
+</para>
+<para>
+<emphasis>轉換成本</emphasis>最高，但新系統失敗時風險最小。
+</para>
+</listitem>
+<listitem>
+<emphasis>定點轉換(location
+conversion)或先導測試轉換(beta-test-location)</emphasis>
+<para>
+選定一測試點轉換成新系統，當此地點接受新系統時，
+其餘地點可驟然轉換成新系統，並從測試點的經驗獲益。
+第一個測試點又稱為<emphasis>beta 測試點</emphasis>。
+</para>
+</listitem>
+<listitem><emphasis>階段轉換(Staged conversion)</emphasis>
+<para>
+新系統切割成不同<emphasis>版本</emphasis>漸次取代舊系統。
+每個版本可用上述三方法轉換。
+</para>
+</listitem>
+</itemizedlist>
+</para>
+<qandaset defaultlabel='number'>
+<title>習題</title>
+<qandaentry>
+<question>
+<para>
+新系統在啟用前的系統轉換（system conversion）工作，有那些轉換方法？
+各有何優缺點？（20 分）
+<biblioref linkend="BOI92"/>
+</para>
+</question>
+<answer>
+<xref linkend="SysConv"/>
+</answer>
+</qandaentry>
+</qandaset>
+</chapter>
+</part>
+<part><title>結構化分析圖型</title>
+<chapter id="WODia"><title>王亞圖(Warnier-orr Diagram)</title>
+<para>
+以由左而右的<emphasis>大括號"{"</emphasis>來作結構化分割，
+其可表達以下的元素間關係：
+</para>
+<itemizedlist>
+<listitem>階層(sequence):{</listitem>
+<listitem>序列(sequence):-</listitem>
+<listitem>選項(selection):⊕</listitem>
+<listitem>重覆(repeatation):(2,3)</listitem>
+<listitem>並行(concurrent):+</listitem>
+<listitem>遞迴(recursion):-{-</listitem>
+</itemizedlist>
+<para>
+能用此結構描述<emphasis>資料(data)</emphasis>及<emphasis>程式
+(program)</emphasis>的層次結構，
+尤其對階層式資料能有完美的描述。
+其無法描述<emphasis>條件邏輯</emphasis>、
+<emphasis>關聯式資料庫</emphasis>及如
+HIPO 描述<emphasis>資料和程式間的輸出輸入關係</emphasis>。
+</para>
+<figure><title>王亞圖的元素</title>
+<imagedata fileref="pic/wob_trans.gif" />
+</figure>
+<qandaset defaultlabel='number'>
+<title>習題</title>
+<qandaentry>
+<question>
+<para>
+何謂沃泥爾圖（Warnier-Orr diagram）？請說明其功用及優缺點。（20 分）
+<biblioref linkend="BOI92"/>
+</para>
+</question>
+<answer>
+<xref linkend="WODia"/>
+</answer>
+</qandaentry>
+</qandaset>
+</chapter>
+<chapter><title>資料流程圖(Data Flow Diagram;DFD)</title>
+<para>
+表達系統作業處理與資料流之關係，
+利用圖形工具來表達<emphasis>資料在資訊系統中之移轉情況</emphasis>，
+它可以展現出系統內<emphasis>資料間之關聯</emphasis>及<emphasis>資料如何被儲存</emphasis>
+用在結構化分析中的<emphasis>流程塑模</emphasis>。
+</para>
+<para>
+<emphasis>DFD 無法表示出作業處理方式、時點、處理週期</emphasis>，
+換句話說無法處理流程會<emphasis>邏輯</emphasis>需要由流程圖或狀態移轉圖來表示。
+</para>
+<itemizedlist>
+<listitem><emphasis>→：資料流(Data Flows)</emphasis>
+<para>
+<emphasis>代表資料之流動</emphasis>，
+範例 : 傳票、記帳憑證、報表、資料庫查詢結果、螢幕上出現之結果、某項資料… 
+(通常為名詞) 
+</para>
+</listitem>
+<listitem><emphasis>○：處理(Process)</emphasis>
+<para>
+<emphasis>各種加諸於資料之行動
+，使得資料產生改變、儲存、分割之結果(通常為動詞) 
+</emphasis>。
+註 : 此類處理作業可為人工或自動化
+</para>
+</listitem>
+<listitem><emphasis>二：資料儲存(Data Store)</emphasis>
+<para>
+<emphasis>各種人工或自動化之資料儲存方式</emphasis>，
+範例 : 資料夾、各式電腦檔案(磁帶、磁碟、…)、筆記本… 
+</para>
+</listitem>
+<listitem><emphasis>□：外部實體(Entity, Source/Sink)</emphasis>
+<para>
+<emphasis>發動或終止資料流動者</emphasis>，
+可能為一個組織或單位、
+企業內部或外部人員、
+另一系統等等，例如：客戶、行員、環保署、供銷商…
+</para>
+</listitem>
+</itemizedlist>
+<sect2><title>由上往下分割(Top-Down Partitioning)</title>
+<itemizedlist>
+<listitem><emphasis>環境圖(Context Diagram)</emphasis>
+<para>
+表示系統與外界環境關聯圖，
+用來<emphasis>確定</emphasis>與系統有關的<emphasis>外界實體</emphasis>，
+及系統與外界實體的輸入/輸出關係，
+<emphasis>僅有一個處理表示系統</emphasis>且<emphasis>不能有資料儲存</emphasis>。
+</para>
+</listitem>
+<listitem><emphasis>Level-0 Diagram</emphasis>
+<para>
+將系統切割成<emphasis>主要處理作業</emphasis>，
+來分析系統<emphasis>內部</emphasis>的<emphasis>主要處理作業</emphasis>。
+</para>
+</listitem>
+<listitem><emphasis>Level-1 Diagram</emphasis>
+<para>
+針對某項主要處理作業再予以細部分解
+</para>
+</listitem>
+<listitem><emphasis>Level-2 Diagram</emphasis>
+<para>
+對於較模糊之作業進行再分解
+</para>
+</listitem>
+</itemizedlist>
+</sect2>
+<sect2><title>建構方式</title>
+<para>
+</para>
+</sect2>
+<sect2><title>資料流程圖(DFD)與流程圖的差異</title>
+<segmentedlist><title>DFD VS Flow Chart</title>
+<?dbhtml list-presentation="table"?>
+<segtitle>DFD</segtitle>
+<segtitle>Flow Chart</segtitle>
+<seglistitem>
+<seg>資料流程圖上的處理可以<emphasis>平行作業</emphasis></seg>
+<seg>流程圖上的處理一次只能執行一個</seg>
+</seglistitem>
+<seglistitem>
+<seg>資料流程圖顯示流經系統的資料流</seg>
+<seg>流程圖顯示在<emphasis>演算法或程式中處理或運算的順序</emphasis></seg>
+</seglistitem>
+<seglistitem>
+<seg>資料流程圖能夠顯示<emphasis>時間先後差異很大</emphasis>的程序</seg>
+<seg>在流程圖上的處理僅能顯示部分時間一致的程序</seg>
+</seglistitem>
+</segmentedlist>
+</sect2>
+<qandaset defaultlabel='number'>
+<title>習題</title>
+<qandaentry>
+<question>
+<para>
+在進行系統分析(System Analysis)時，常會用系統概圖(Context Diagram)和第0
+層的資料流程圖(Level-0 Data Flow Diagram)來對系統做分析，請詳細描述這兩種
+工具及兩者之間的不同。(20 分)
+<biblioref linkend="BOI94"/>
+</para>
+</question>
+<answer>
+<segmentedlist>
+<?dbhtml list-presentation="table"?>
+<segtitle>Context Diagram</segtitle>
+<segtitle>Level-0 DFD</segtitle>
+<seglistitem>
+<seg><emphasis>僅有一個處理代表系統</emphasis>且<emphasis>不能有資料儲存</emphasis>。</seg>
+<seg>含有 DFD 全部的元件</seg>
+</seglistitem>
+<seglistitem>
+<seg>表示系統與外界環境關聯圖，
+用來<emphasis>確定</emphasis>與系統有關的<emphasis>外界實體</emphasis>，
+及系統與外界實體的輸入/輸出關係
+</seg>
+<seg>表示系統<emphasis>內部</emphasis>主要處理作業</seg>
+</seglistitem>
+</segmentedlist>
+</answer>
+</qandaentry>
+</qandaset>
+</chapter>
+<chapter id="DD"><title>資料字典(Data Dictionary)</title>
+<para>
+DFD 中的實體及 ERD 的資料結構通常會使用<emphasis>資料字典(Data
+Dictionary)</emphasis>來紀錄資料定義，及資料的結構、限制等後設資訊，
+以達到<emphasis>集中管理資料定義來達到一致化</emphasis>，
+每個資料字典的項目都要編號，
+讓 DFD 及 ERD 的實體只要附上 DD 的編號就能查到定義。
+DD 的記錄項目有以下幾種：
+</para>
+<itemizedlist>
+<listitem><emphasis>資料儲存(Data Store)</emphasis>
+<para>
+<emphasis>各種人工或自動化之資料儲存方式</emphasis>，
+範例 : 資料夾、各式電腦檔案(磁帶、磁碟、…)、筆記本… 
+</para>
+</listitem>
+<listitem><emphasis>資料結構(Data Structure)</emphasis>
+<para>
+描述<emphasis>資料流的實例(instance)</emphasis>，
+RDBMS 術語稱為表格(table)，
+ERD 術語稱為實體(entity)，
+OO 術語稱為類別(table)，
+其可再分解成資料元素。
+</para>
+</listitem>
+<listitem><emphasis>資料元素(Data Elements)</emphasis>
+<para>
+組成資料結構的元素，
+RDBMS 術語稱為欄位(field)，
+ERD 術語稱為屬性(attribute)，
+OO 術語稱為性質(property)。
+</para>
+</listitem>
+<listitem><emphasis>資料流(Data Flows)</emphasis>
+<para>
+<emphasis>代表資料之流動</emphasis>，
+範例 : 傳票、記帳憑證、報表、資料庫查詢結果、螢幕上出現之結果、某項資料… 
+(通常為名詞) 
+</para>
+</listitem>
+<listitem><emphasis>處理(Process)</emphasis>
+<para>
+<emphasis>各種加諸於資料之行動
+，使得資料產生改變、儲存、分割之結果(通常為動詞) 
+</emphasis>。
+註 : 此類處理作業可為人工或自動化
+</para>
+</listitem>
+<listitem><emphasis>外部實體(Entity, Source/Sink)</emphasis>
+<para>
+<emphasis>發動或終止資料流動者</emphasis>，
+可能為一個組織或單位、
+企業內部或外部人員、
+另一系統等等，例如：客戶、行員、環保署、供銷商…
+</para>
+</listitem>
+</itemizedlist>
+<sect1><title>處理規格描述(Process Specification)</title>
+</sect1>
+<qandaset defaultlabel='number'>
+<title>習題</title>
+<qandaentry>
+<question>
+<para>
+資料字典包括那幾個項目，詳細說明之。（25 分）
+<biblioref linkend="BOI93"/>
+</para>
+</question>
+<answer>
+<xref linkend="DD"/>
+</answer>
+</qandaentry>
+</qandaset>
+</chapter>
+<chapter><title>處理規格描述(Process Specification)</title>
+<sect2><title>決策表(decision table)</title>
+</sect2>
+<sect2><title>決策樹(decision tree)</title>
+</sect2>
+<sect2><title>結構化英文(structured English)</title>
+</sect2>
+</chapter>
+<chapter id="HIPO"><title>HIPO 圖(HIPO Diagram)</title>
+<para>
+<emphasis>HIPO 圖(HIPO
+Diagram)</emphasis>使用一組圖來描述系統的輸入、輸出及功能。
+與結構圖一樣，只描述系統作什麼(What)，而非系統如何作(How)。
+</para>
+<para>
+<emphasis>VTOC(Visual Table of Content)</emphasis>
+類似結構圖，用來描述功能元件的階層關系，
+但不能描述任何關於元件間資料如何傳遞、控制的資訊。 
+</para>
+<figure><title>VTOC</title>
+<imagedata fileref="pic/vtoc.gif" />
+</figure>
+<para>
+<emphasis>IPO(Input-Process-Output) 圖</emphasis>
+描述每個功能元件的輸入-處理-輸出。
+IPO 通常又分為<emphasis>整體概觀圖</emphasis>及<emphasis>細部 IPO</emphasis>，
+整體概觀圖描述 VTOC 的功能元件，
+而細部 IPO 從整體概觀圖流程中某項功能的詳細描述，
+IPO 能將系統的功能不斷的分割，
+並用輸入-處理-輸出來描述各個功能。
+</para>
+<figure><title>IPO 圖</title>
+<imagedata fileref="pic/ipo.gif" />
+</figure>
+<qandaset defaultlabel='number'>
+<title>習題</title>
+<qandaentry>
+<question>
+<para>
+四、說明HIPO（Hierarchical Input Process Output）及其運用。（25 分）
+<biblioref linkend="BOI93"/>
+</para>
+</question>
+<answer>
+<xref linkend="HIPO"/>
+</answer>
+</qandaentry>
+</qandaset>
+</chapter>
+</part>
+<chapter><title>CMMI(Capability Maturity Model Integrated)</title>
+<sect1><title>CMMI 的由來</title>
+<para>
+美國國防部對於軟體的策略是希望<emphasis>外包(outsourcing)</emphasis>的，
+但為了掌握軟體產品的品質與進度，
+希望開發過程能夠透明化，因此於1980 年時，
+提出對軟體承包商的軟體開發能力進行評估的要求。
+於是美國國防部與卡內基美隆大學(Carnegie-Melon University ; CMU)
+共同設立了軟體工程研究所(Software Engineering Institute; SEI)。
+</para>
+<para>
+SEI於1988年研究發佈了軟體開發程序成熟度框架(CMM)，
+提供了軟體開發程序評估和軟體能力評價兩種評估方法和軟體成熟度提問單，
+來自產官學的技術和管理專家陸續進駐該機構，
+開始對工、商、政府提供產品和服務。
+</para>
+<para>
+1991年，SEI將軟體開發程序成熟度框架提升為軟體能力成熟度模型
+(Capability Maturity Model For Software，簡稱SW-CMM)，
+並發佈了最早的SW-CMM 1.0版。2000年底SEI發表了 CMMI ， 
+整合軟體工程(Software Engineeing ; SW)、
+系統工程(Systems Engineering ; SE)、
+產品與流程發展(Integrated Product and Procss development , IPPD)
+與供應商來源管理 (Supplier Sourcing ; SS)的整合模式。
+</para>
+<para>
+SEI 試圖在軟體界建立一套工程般的制度，
+讓個人和組織在軟體開發上能有改進的依據。
+SEI 的 Capability Maturity Model (CMM) for Software 
+已經成為許多軟體公司所採行的標準，用作為改進公司內部軟體工程的依據。
+</para>
+</sect1>
+<sect1><title>CMM 模型</title>
+<para>
+CMMI 用 KPA 來描述模型的特徵，共有兩種模型，
+連續性模型，其利用功能來區分 KPA，
+階段式模型，用五個等級來區分 KPA。
+<sidebar><title>KPA(Key Process Area), 關鍵流程領域</title>
+<para>
+指產品發展時，會被組織流程的那些面向涵蓋
+</para>
+</sidebar>
+</para>
+<itemizedlist>
+<listitem>Process Management
+<itemizedlist>
+<listitem>OID(Organizational Innovation and Deployment)</listitem>
+<listitem>OPD(Organizational Process Definition)</listitem>
+<listitem>OPF(Organizational Process Focus)</listitem>
+<listitem>OPP(Organizational Process Performance)</listitem>
+<listitem>OT(Organizational Training)</listitem>
+</itemizedlist>
+</listitem>
+<listitem>Project Management
+<itemizedlist>
+<listitem>PP(Project Planning)</listitem>
+<listitem>PMC(Project Monitoring and Control)</listitem>
+<listitem>SAM(Supplier Management Agreement)</listitem>
+<listitem>IPM(Integrated Project Management)</listitem>
+<listitem>RSKM(Risk Management)</listitem>
+<listitem>QPM(Quantitative Project Management)</listitem>
+</itemizedlist>
+</listitem>
+<listitem>Engineering
+<itemizedlist>
+<listitem>REQM(Requirements Management)</listitem>
+<listitem>RD(Requirements Development)</listitem>
+<listitem>TS(Technical Solution)</listitem>
+<listitem>PI(Product Integration)</listitem>
+<listitem>VER(Verification)</listitem>
+<listitem>VAL(Validation)</listitem>
+</itemizedlist>
+</listitem>
+<listitem>Support
+<itemizedlist>
+<listitem>CM(Configuration Management)</listitem>
+<listitem>PPQA(Process and Product Quality Assurance)</listitem>
+<listitem>MA(Measurement and Analysis)</listitem>
+<listitem>DAR(Decision Analysis and Resolution)</listitem>
+<listitem>CAR(Causal Analysis and Resolution)</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<orderedlist>
+<listitem>CMM-Level 1(initial)：
+<para>
+軟體程序漫無章法，程序未被定義。
+專案流程無統一程序，專案計劃的成功仰賴於工作人員個別的努力。
+</para>
+<itemizedlist>
+<listitem>
+參與範圍： 個人
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>CMM-Level 2(repeatable)：
+<para>
+已建立基本的管理與分析的程序( Measurement and Analysis ; MA )，
+對成本、時程、和職務權責能加以追蹤、查詢。
+已有作業程序所須具有的紀律，
+所以有能力重覆使用相類似的專案成功的案例與經驗。
+</para>
+<itemizedlist>
+<listitem>
+參與範圍：專案或團隊
+</listitem>
+<listitem>KPA:
+<itemizedlist>
+<listitem>CM(Configuration Management)</listitem>
+<listitem>MA(Measurement and Analysis)</listitem>
+<listitem>PMC(Project Monitoring and Control)</listitem>
+<listitem>PP(Project Planning)</listitem>
+<listitem>PPQA(Process and Product Quality Assurance)</listitem>
+<listitem>REQM(Requirements Management,需求管理)</listitem>
+<listitem>SAM(Supplier Agreement Management)</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>CMM-Level 3(defined)：
+<para>
+屬於管理和工程的活動都已設計、定義好，並且文件化，
+完整地整合成組織內的標準作業程序。
+各個專案計劃延用標準程序或被認可的標準程序修改程序。
+</para>
+<itemizedlist>
+<listitem>
+參與範圍：組織或公司
+</listitem>
+<listitem>KPA:
+<itemizedlist>
+<listitem>DAR(Decision Analysis and Resolution)</listitem>
+<listitem>IPM(Integrated Project Management)</listitem>
+<listitem>OPD(Organizational Process Definition)</listitem>
+<listitem>OPF(Organizational Process Focus)</listitem>
+<listitem>OT(Organizational Training)</listitem>
+<listitem>PI(Product Integration)</listitem>
+<listitem>RD(Requirements Development)</listitem>
+<listitem>RSKM(Risk Management)</listitem>
+<listitem>TS(Technical Solution)</listitem>
+<listitem>VAL(Validation, 確認)</listitem>
+<listitem>VER(Verification, 驗證)</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>CMM-Level 4(managed)：
+<para>
+組織可收集詳細的軟體程序以及軟體產品的量測資料。
+軟體作業程序和產品都有一組量測的數據，
+可讓工程師和經理們了解程序和產品的狀況。
+</para>
+<itemizedlist>
+<listitem>
+參與範圍：組織或公司
+</listitem>
+<listitem>KPA:
+<itemizedlist>
+<listitem>QPM(Quantitative Project Management)</listitem>
+<listitem>OPP(Organizational Process Performance)</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>CMM-Level 5(optimized)：
+<para>
+評估革新性的新技術，做反省與提升，有規則地依序導入採用，以持續不斷地改進程序。
+</para>
+<itemizedlist>
+<listitem>
+參與範圍：組織或公司
+</listitem>
+<listitem>KPA： 
+<itemizedlist>
+<listitem>CAR(Causal Analysis and Resolution)</listitem>
+<listitem>OID(Organizational Innovation and Deployment)</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</sect1>
+<sect1><title>CMMI實施</title>
+<para>
+CMM是一種軟體開發的流程標準，可說是種軟體開發的品質保証，
+就像ISO是組織管理的品質保証一樣。細分之下，CMM/CMMI分成五級，
+從第一級(level 1)到第五級(level 5)，
+分別標示軟體公司流程管理的競爭力程度，一級只要提出申請即可列入，
+不需經過審查，而到第四級為可做質量管理，第五級則為最佳化，可預防缺陷。
+</para>
+<para>
+軟體先進國家都已體認到CMM/CMMI的重要性。
+目前全球約有700餘個包括公司及組織的單位通過CMM認証。
+其中最難的四、五兩級，全球各自有73與67個單位獲得，
+多數集中在美國及印度，其他則以個位數分佈在澳洲、蘇俄、以、法、新加坡等國。
+</para>
+<para>
+我國行政院於91年11月院頒之『行政院所屬各機關資訊業務委外服務作業參考原則』中，
+亦明訂通過CMMI 評鑑得列為採購加分項目。 
+</para>
+</sect1>
+</chapter>
+<bibliography><title>參考文獻</title>
+<biblioentry id="BOI94">
+<abbrev>調94</abbrev>
+<title>94 年公務人員特種考試法務部調查局調查人員系統分析與設計考試試題</title>
+<publisher>
+<publishername>考試院</publishername>
+<pubdate>2005</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="BOI93">
+<abbrev>調92</abbrev>
+<title>93 年公務人員特種考試法務部調查局調查人員系統分析與設計考試試題</title>
+<publisher>
+<publishername>考試院</publishername>
+<pubdate>2003</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="BOI92">
+<abbrev>調92</abbrev>
+<title>92 年公務人員特種考試法務部調查局調查人員系統分析與設計考試試題</title>
+<publisher>
+<publishername>考試院</publishername>
+<pubdate>2003</pubdate>
+</publisher>
+</biblioentry>
+</bibliography>
+</book>

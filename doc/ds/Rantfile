@@ -1,0 +1,10 @@
+require 'RAM'
+task :DrawRAM do
+	begin
+	  ram = RAMBlock.new(960, 5)
+		ram.store(963, "a")
+		ram.to_png
+	rescue OutOfRAMBlock
+		puts $!.message
+	end
+end

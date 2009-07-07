@@ -1,0 +1,1066 @@
+<?xml version="1.0" encoding="Big5"?>
+<?xml-stylesheet type="text/xsl" href="../html/docbook.xsl"?>
+<!--<!DOCTYPE DocBook>-->
+<article>
+<artheader><title>工程筆記：順應機率式規劃器工程</title>
+<authorgroup>
+<author>
+<surname>Onder</surname>
+<firstname>Nilufer</firstname>
+</author>
+<author>
+<surname>Whelan</surname>
+<firstname>Garrett C. Whelan</firstname>
+</author>
+<author>
+<surname>Li</surname>
+<firstname>Li</firstname>
+</author>
+</authorgroup>
+</artheader>
+<abstract><title>摘要</title>
+<para>
+本文描述 Probapop，一個偏序順應機率式規劃器，
+它參與了 IPC-4 的盲目軌跡競賽。
+也說明了在機率領域應用中，如何修改基於距離的經驗法則，
+Probapop 也整合了基於成功機率的經驗法則，
+最後並說套 Probapop 在設計與實作中所遭遇的成功與困難。
+</para>
+</abstract>
+<sect1><title>簡介</title>
+<para>
+Probapop 是一個順應機率式規劃器，它參與了一項機率競賽，
+第四屆國際規劃器競賽(IPC-4)，也是唯一獲勝的順應式規劃器。
+在順應機率計劃典範中(Hyafil &amp; Bacchus, 2003)，
+行動及狀態的初始化可以是機率式的，
+它能有幾個可能的結果，每個結果由其發生機率所標示。
+除此，計劃問題可以是順應式的，
+像是規劃器在行動執行結果不必被觀察到之下，可以建構最佳計劃。
+下例是一個順應機率式的計劃問題，考慮一個學生正申請研究所，
+申請程序中，學生需要填寫幾個表格，並附上教授的推薦函
+(一封是必要條件，但多封也可接受)。
+再來假設學生此系所的教授有 80% 的機率會準時寫好信。
+此例中，如果學生只要求一位教授的推薦，
+完成申請程序的機率是 0.8，
+因為若學生觀察到教授沒準時寫好，便無法完成申請，
+此時再去請求另一個教授已經太晚了。
+所以觀察行動是無用的，
+而學生唯一可提高拿到推薦函的機率是向更多教授請求幫忙。
+如要求 9 個教授，拿到信的機率是 0.999997，相當接近 1。
+明顯地，要求太多教授是費時的，
+所以學生必須能衡量請求更多人所提高的好處，
+以及所費的成本之比例。
+</para>
+<para>
+順應機率式規劃器的任務是規劃出最佳的行動排程，
+而每個行動結果有一個預定的機率，但不能被觀察到。
+在此考量下，
+順應機率式規劃器可分成兩類，
+不可觀察馬可夫決定過程(NOMDPs) (Boutilier, Dean, &amp; Hanks, 1999)，
+以及完全可觀察的 MDPs (FOMDP)，
+FOMDP 是代理人具有完整且無成本限制的感應器來指出目前的狀態。
+FOMDP 架構下的規劃器可產生策略，也就是從狀態對映到行動的函數。
+由於環境不能被觀察，
+NOMDP 規劃器只能產生基於預測模式的非條件行動序列(Boutilier et al., 1999)。
+中間地帶是部份可觀察 MDP (POMDPs)以及例外事件規劃，
+其結果領域只有部份可被觀察到，
+且行動的執行是根據觀察的結果。 (Kaelbling,
+Littman, &amp; Cassandra, 1998; Majercik &amp; Littman, 1999; Onder &amp; Pollack, 1999; Hansen
+&amp; Feng, 2000; Karlsson, 2001; HoRmann &amp; Brafman, 2005)
+也有表示了不完美行動順應式規劃器，其可能有數個結果，
+但沒有相關的機率資訊。
+(Ferraris &amp; Giunchiglia, 2000; Bertoli, 
+Cimatti, &amp; Roveri, 2001; Brafman &amp; HoRmann, 2004)
+</para>
+<para>
+我們在 Probapop 的工作是受到偏序規劃在順應機率式規劃中，
+是可實行的選項所啟發。主要理由是三重的。
+首先，偏序規劃器在參數式或順序可變的活動上作用地很好，
+這在對大型領域編碼相當有用。
+其次，由於策略對步驟順序要求最少，
+偏序規劃(POP)能產生高度平行的計畫。
+最後，許多處理複雜時序限制的規劃器，
+都是基於 POP 典範(Smith, Frank, &amp; Jonsson, 2000)。
+上述的好處使我們在設計 Probapop 上，
+直覺想到兩個不明顯描述狀態的典範：
+POP 規劃器並不需要表徵狀態，因為它直接找尋計畫空間，
+而盲目規劃器不能觀察狀態，因為任何觀察行動是不可行的
+</para>
+<para>
+我們的基本取向是使用可決定式偏序規劃技術，
+來形成基本計劃，
+然後評估最佳方式，來改進這些計劃。
+最近，Repop(Nguyen &amp; Kambhampati, 2001)及
+Vhpop(Younes &amp; Simmons, 2003)規劃器已展示一樣的經驗，
+非偏序規劃器的加速通常會修正為偏序規劃。
+我們展示出基於距離的經驗(McDermott, 1999; Bonet &amp; GeRner, 2001)
+可用「展開式」計劃圖實作於偏序規劃器上，
+如 Repop 和 Vhpop 可用在機率式的領域。
+這些經驗加上可選擇計劃修正經驗和漸進式計技術具有明顯的好處，
+結果顯示，Probapop 使偏序規劃能應用在機率領域。
+我們在 Probapop 
+的工作在理解及辨識出對於機率順應計劃的關鍵解法有很大的貢獻。
+</para>
+</sect1>
+<sect1><title>Probapop 和偏序規劃</title>
+<para>
+對偏序機率式規劃，我們實作 Buridan 機率計劃演算法於 Vhpop(Younes &amp;
+Simmons, 2003)，這是一個新近的偏序規劃器。
+一個偏序規劃 pi 是六元序對
+&lt;STEPS, BIND, ORD, LINKS, OPEN, UNSAFE>，
+表示動作、關連限制、順序限制、因果連接、開放條件以及不安全連接。
+關連限制是動作參數與其它動作參數或是基本實字間的限制。
+一個順序限制 Si &lt; Sj 表示步驟 Si 先於步驟 Sj。
+因果連接是三元序對 &lt; Si, p, Sj>，
+Si 是生產步驟，Sj 是消費步驟而 p 表示 Si 對 Sj 支持的條件。
+開放條件是二元序對 &lt; p, S>， 
+p 表步驟 S 所需的條件。因果連接 &lt; Si, p, Sj> 
+為不安全，若計畫包含一威脅步驟 Sk，Sk 在其效力中會產生 !p，
+且 Sk 可能介入 Si 及 Sj 之間。
+如吃早點的計畫可能為[買早點 Si->吃早點 Sj->叫老公吃早點 Sk]，
+其中 p 為有早點可吃，
+若先叫老公吃早點，可能把早點吃光了，造成無早點可吃的情況 !p，
+則我就不能吃早點了。
+開放條件和不安全連接總稱為缺陷。
+規劃問題是四元組 &lt; D, I, G, T>，
+其中 D 是一個由(機率)算子組成的領域理論，I 是初始狀態，
+為狀態的機率分配，G 為實字集合，這些實字必須在執行後為真，
+T 是終止條件，如機率門檻或時間限制。
+規劃器的目標是找出最有可能把代理人從狀態 I 轉換至 G 的計畫。
+若計劃具有相同的成功機率，則選擇最少步驟或是最小成本的計劃。
+</para>
+<figure id="probapop_algo"><title>機率式 POP 演算法</title>
+<programlisting>
+function Probapop (D, initial, goal, T)
+returns a solution plan, or failure
+   plans := Make-Minimal-Plan(initial, goal)
+   BestPlan := null
+   loop do
+     if a termination criterion is met then return BestPlan
+     if plans is empty then return failure
+     plan := Remove-Front(plans)
+     if Solution?(plan) then return plan
+     plans := Merge(plans, Refine-Plan(plan))
+   end
+function Refine-Plan (plan)
+returns a set of plans (possibly null)
+   if Flaws(plan) is empty then
+     if ProbSuccess (plan) > ProbSuccess (BestPlan)
+        BestPlan := plan
+     plan := Reopen-Conditions(plan)
+   flaw := Select-Flaw(plan)
+   if flaw is an open condition then choose:
+       return Reuse-Step(plan, flaw)
+       return Add-New-Step(plan, flaw)
+   if flaw is a threat then choose:
+       return Demotion(plan, flaw)
+       return Promotion(plan, flaw)
+       return Separation(plan, flaw)
+       return Confrontation(plan, flaw)
+</programlisting>
+</figure>
+<para>
+Probapop 演算法<xref linkend="probapop_algo"/>
+是古典的 POP 演算法
+(Russell &amp; Norvig, 2003; Younes &amp; Simmons, 2003)。
+它首先將初始狀態及目標轉換成無功能的初始及目標步驟來建構出初始的計畫，
+並將其作為計劃的第一及最後步驟，這兩個步驟均無內容。
+之後它精鍊搜尋佇列的計畫直到它滿足終止條件。
+終止條件可能實作為時間限制(如執行 5 分後終止)、
+記憶體限制(如大於 256MB 停止)、
+機率門檻(如計畫其機率大於或等於 0.9 時停止)、
+缺乏顯明的成功流程(如成功機率不能增加到 2 以上時停止)。
+我們可以指定多個終止條件並只要在任一條件符合後便終止，
+當終止條件成立，會傳回機率最高的計劃。
+</para>
+<para>
+計畫精鍊運算包括修復缺陷，
+開放條件可加入新的步驟至領域理論或重用計劃中的步驟來關閉；
+不安全連接可由升降級或是隔離操作來處理(當具有前後不定動作時)，
+或是對質(Penberthy &amp; Weld, 1992)。
+這些技術均是 Vhpop 實作的一部份。考慮一步驟 Sk 威脅到因果連接
+&lt; Si, p, Sj>。
+升級是新增一個額外的順序限制如 Sk 在 Sj 之後，
+(Sj &lt; Sk 會加入到 ORD)。
+降級是新增一個額外的順序限制如 Sk 在 Sj 之前，
+(Sj > Sk 會加入到 ORD)。
+隔離新增一個不等限制至 BIND 中，如 Sk 的威脅效果不能與 !p 相結合。
+最後，當動作有多重效果時，對質可用來承諾 Sk 的非威脅效果，
+如 Sk 效果沒有包含會與 !p 統合的命題。
+在決定性領域中，
+有多重效果的動作必須有多重次前題(如 when 條件)。
+在機率性領域中，機率性動作總是有多種效果。
+</para>
+<para>
+計畫搜尋演算法實作成由評比函數所引導的 A* 
+演算法，評比函數能求出 f 值。
+一般對計畫 pi， f(pi) = g(pi) + h(pi)，其中 g(pi) 
+是計畫的成本，而 h(pi) 是計畫完成的估計成本。
+評比函數被用在演算法的合併(Merge)步驟，
+來決定計畫在搜尋佇列的次序。
+在競爭階段，Probapop 使用距離經驗 (ADD)，這會在下節解釋。
+在 Select-Flaw 方法中的缺陷選取策略，使用了 Vhpop 的靜態，
+它給定靜態開放條件(如一條件值並未被領域理論中任何行動修改)優先權，
+若計劃中的缺陷未包含任何靜態開放條件的威脅，將在下次被處理；
+較低優先權將給予剩下的開放條件。
+我們會在下面討論競爭結果時，評論其它經驗法則及缺陷選擇技術。
+</para>
+<figure id="jair25_1_15f1">
+<title>由空計劃開始並尋找第一個完整計畫</title>
+<imagedata fileref="jair25_1_15/jair25_1_15f1.GIF" />
+</figure>
+<figure id="jair25_1_15f2">
+<title>由一個完整計畫並尋找改良的計劃</title>
+<imagedata fileref="jair25_1_15/jair25_1_15f2.GIF" />
+</figure>
+<para>
+確定式 POP 演算法中，
+無任何缺陷(OPEN = UNSAFE = 0)的計畫稱為完整計畫。
+在機率式領域中，成功機率不充份(如低於 1 - esp)的完整計畫可能再被改進。
+Probapop 藉由重新開啟失敗條件來引導搜尋，來改進這類計畫，
+這會在下節解釋。
+Probapop 可視為先找出確定式完整計畫，
+再找出改進的方法。
+在目前的實作中，
+我們會在找出第一個計畫之後丟棄搜尋佇列，
+並在第一個完整計畫找到後，執行所有改進操作
+我們預計未來實作多重搜尋佇列以期能在不同計畫及其改進過程中切換。
+在<xref linkend="jair25_1_15f1" xrefstyle="short"/>(a)，
+我們展示一個對應到第一節中，學生申請案領域的初始計劃。
+開放條件是送出表格(forms-sent)和取得推薦信(letter-sent)。
+Probapop 使用 Vhpop 並由評比函數及缺陷選擇經驗法則引導下，
+產生一個如<xref linkend="jair25_1_15f1"/>(b) 中的完整計畫。
+直線表示兩個動作的因果連接，
+而 z 形線表忽略中間細節的因果連接，使展示更為清楚。
+Probapop 重開啟條件 "letter-sent"，
+如<xref linkend="jair25_1_15f2"/>(a)
+並使用相同的經驗法則回復其搜尋來完成並改進計劃成為請求二位教授協助，
+如<xref linkend="jair25_1_15f2"/>(b)。
+假設 ASK-PROFx 是唯一具有機率效果的動作，
+則第一個完整計畫的成功機率是 0.8，
+第二個則是 0.8 + 0.2*0.8。
+在反覆重開條件並搜尋後，Probapop 會找到一個成功機率為
+0.999997 的計劃。此計劃無法再由單精度計算改進了。
+</para>
+</sect1>
+<sect1><title>Probapop 中的距離評比</title>
+<para>
+Younes 及 Simmons (2003) 提出的 Vhpop 決定性偏序規劃器，
+能使用距離經驗法則來估計關閉一個開放條件所需要的新動作個數。
+在開始搜尋前，
+規劃器先建立一個只具有初始狀態實字的計劃圖(Blum &amp; Furst, 1997)，
+然後一步步的展開計劃圖直到所有目標實字均顯現的程度。
+計劃圖與 Graphplan 的計劃圖不同點在於它是鬆散的，
+串列刪除會被忽略，且互斥關係不會被計算(Bonet &amp; GeRner, 2001)。
+</para>
+<para>
+為了產生能表現多重機率效果的鬆散計劃圖，
+必須分成同機率式動作中的許多後果分支一樣多的計劃圖。
+為了防止爆炸的可能性，
+我們將背景中每個動作分解成與非空結果串列一樣多的決定性動作。 
+<figure id="jair25_1_15f3">
+<title>機率性動作 A1 分解成決定性動作 A1-1, A1-2, A1-3</title>
+<imagedata fileref="jair25_1_15/jair25_1_15f3.GIF" />
+</figure>
+每個分解動作表示一個原始動作可能的運作方式，
+<xref linkend="jair25_1_15f3"/>顯示出動作 A1，
+有兩種機率性的效果 a 及 b，在條件 P 和 Q 成立時，
+效果 c 在條件 P 成立而 Q 不成立時產，
+除此之外並無其它效果。每個分解對應到一組非空效果。
+Probapop 中，雖然計劃圖使用分解動作，
+但建構的計劃總是包含完整的原始動作，
+所以規劃器能正確的計算成功的機率。
+經由分解動作，我們可以利用距離經驗法則估計出完整計畫所需的動作數。
+</para>
+<para>
+決定型偏序規劃與機率型偏序規劃的主要區別在於對計劃實字的多重支持，
+在決定型中，開放條件只要解決了便會從缺陷中移除，
+在機率型中，則可能被重新開啟，
+所以規劃器能搜尋額外的步驟來增加實字的機率。
+Buridan 系統實作此技術，
+經由重開完整計畫中所有已關閉的條件，
+並回復搜尋來找出另一個完整計畫。
+我們的實作使用選擇式重開(SR)，
+只有不保證達到的條件才重開。
+換句話說，實字其機率為 1 的不會被重開。
+要注意的對機率型計畫而言，檢驗實字的機率是成本很高，
+我們只在強制估計計劃完整性時，才執行檢驗以節省成本。
+顯而易見，防止冗餘搜尋對計畫器有很多好處。目前的實作，
+我們重開所有機率值小於 1 的實字，
+並將新前題集的選擇交給缺陷選擇經驗法則，
+我們的實作不包含任何機率型經驗法則。
+</para>
+<para>
+值得注意的是，
+不論是動作分解或是選擇性重開技術都不會改變 Buridan
+演算法基礎的可證性及完整性。
+動作分解只用在鬆散計畫圖，
+而選擇性動開技術不會阻隔任何已找到替代步驟，
+當她們已被搜尋佇的計畫所涵蓋。
+</para>
+</sect1>
+<sect1><title>IPC-4 中的 Probapop</title>
+<para>
+Probapop 是 7 個領域獨立且通過 IPC-4 機率競賽的計畫器之一。
+領域獨立指計畫器只使用 PPDDL 描述領域來解決計畫問題，
+具不借助任何已編碼的控制資訊。
+<table id="ipc4_planner"><title>依競賽代碼順序排列的計畫器</title>
+<tgroup cols="2">
+<thead>
+<row>
+<entry>計畫器(代碼)</entry>
+<entry>描述</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>UMass (C)</entry>
+<entry>
+符號經驗法則搜尋，
+基於符號 AO* 使用 LAO* 遞迴及符號式即時動態規畫(RTDP)
+</entry>
+</row>
+<row>
+<entry>NMRDPP (G1)</entry>
+<entry>
+使用非馬可夫回應(也是馬可夫)
+</entry>
+</row>
+<row>
+<entry>Classy (J2)</entry>
+<entry>
+漸進策略反覆，併使用隨機行走問題的歸納式機器學習
+</entry>
+</row>
+<row>
+<entry>FF-rePlan (J3)</entry>
+<entry>決定型再計畫者，使用快速前推式</entry>
+</row>
+<row>
+<entry>mGPT (P)</entry>
+<entry>標記式即時動態程式規畫(LRTDP)，
+從 MDP 的決定性展開找出其下界</entry>
+</row>
+<row>
+<entry>Probapop (Q)</entry>
+<entry>POP 式計畫空間的 A* 搜尋，
+使用距離經驗法則及失敗分析</entry>
+</row>
+<row>
+<entry>CERT (R)</entry>
+<entry>經驗式狀態空間搜尋，使用結構式策略反覆演法，
+被因子化的 MDPs 及可達性分析</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<xref linkend="ipc4_planner"/>中，我們展示了每個計畫器的簡短描述
+(Edelkamp, HoRman, Littman, &amp; Younes, 2004; 
+Younes, Littman, Weissman, &amp; Asmuth, 2005; Bonet
+&amp; GeRner, 2005; Fern, Yoon, &amp; Givan, 2006; Thiebaux, Gretton, Slaney, Price, &amp; Kabanza,
+2006)。
+競賽過程如下：每個計畫器會給 24 個由 PDDL (PPDDL) 所編碼的問題，
+且有 5 分鐘解題。
+之後，伺服器模擬一個可能的來執行計畫方式，
+由送出狀態序列，其開頭為初始狀態，
+計畫器回應每個狀態一個動作，此動作是基於它們所找到的解答。
+每個問題會引出 30 個模擬。
+目標導向問題，其成功是檢測模擬終點，其目標是否到達。
+對於獎金導向問題則是計算總獎金，
+這 24 個問題包含上述的形態。
+</para>
+<para>
+這個競賽的領域如下列：
+</para>
+<itemizedlist>
+<listitem>
+區塊空間：包含撿起及放下的動作，每個動作都可能失敗。
+6 個題目，各給定 5、8、11、15、18及21個區塊，
+目標是建立一或多個區塊塔。
+</listitem>
+<listitem>
+上色區塊空間：動作如同區塊空間，每個區塊可有顏色，
+共有三種顏色。目標塔可由存在量詞指定，如有綠色區塊在桌上，
+有紅色區塊在綠區塊上。
+</listitem>
+<listitem>
+爆炸性區塊空間：類似區塊空間領域，
+但是第一個放下的動作永遠會毀了下面的物體(區塊或是桌子)。
+由於爆炸的不可回復的天性，再計劃及重覆的方法會失敗。
+</listitem>
+<listitem>
+箱子空間：一個箱子搬運問題，具有載入、載出、推及跳過等動作。
+動作推在帶箱子至錯誤的城市可能失敗。
+</listitem>
+<listitem>
+檔案空間：目標包含將文件放置符合類型的檔案中，文件類型可以由動作觀察得知，
+此動作具有機率型結果。
+</listitem>
+<listitem>
+輪胎空間：動作包含在幾個城市的移動，且輪胎可能在途中爆胎。
+</listitem>
+<listitem>
+河內斯塔：河內塔問題的變體，其中可以搬運一或二個盤子，且移動的盤子可以上下交換。
+</listitem>
+<listitem>
+季諾旅行：一個旅行領域包含飛行相關動作，而登機及飛行都可能失敗。
+</listitem>
+</itemizedlist>
+<para>
+應該可查覺到所有的競賽領域是設計給完全觀察者，
+且必須對盲目計畫者合作作調整。
+例如區塊空間中的 PICKUP 動作，具有一個前題，可 PICKUP
+的區塊不能在手臂中。此動作有兩個機率型效果，
+區塊被手臂拿起及不被拿起。
+由於計畫者沒有觀察力，
+具有 PICKUP 的計畫不能被改進，
+因為動作一定要前題滿足才能執行。
+所以 Probapop 計畫都不能插入第二個 PICKUP 動作來涵蓋第一個動作的失敗。
+藉由競爭協調者的協助，我們實作一個變通，若動作在其條件未滿足時執行，
+不會引發錯誤，而是沒有任何效果。
+</para>
+<table id="ipc4_planner_result"><title>
+未使用領域知識的計畫器 30 個嘗試的成功數。
+只有 Probapop (Q) 挑戰的問題被列出來。
+橫線指計畫器沒有挑戰此問題，Bw-nc-r-5 是五個區塊的區塊空間。
+Tire-nr 和 tire-r 分別是目標導向及獎金導向的輪胎空間問題。
+Zeno 是使用季諾旅行的問題。
+</title>
+<tgroup cols="6">
+<thead>
+<row>
+<entry>計畫器(代碼)</entry>
+<entry>問題數</entry>
+<entry>bw-nc-r-5</entry>
+<entry>tire-nr</entry>
+<entry>tire-r</entry>
+<entry>zeno</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>UMass (C)</entry>
+<entry>4</entry>
+<entry>30</entry>
+<entry>30</entry>
+<entry>30</entry>
+<entry>30</entry>
+</row>
+<row>
+<entry>NMRDPP (G1)</entry>
+<entry>7</entry>
+<entry>30</entry>
+<entry>9</entry>
+<entry>30</entry>
+<entry>30</entry>
+</row>
+<row>
+<entry>Classy (J2)</entry>
+<entry>18</entry>
+<entry>30</entry>
+<entry>-</entry>
+<entry>-</entry>
+<entry>-</entry>
+</row>
+<row>
+<entry>FF-rePlan (J3)</entry>
+<entry>24</entry>
+<entry>30</entry>
+<entry>7</entry>
+<entry>30</entry>
+<entry>0</entry>
+</row>
+<row>
+<entry>mGPT (P)</entry>
+<entry>10</entry>
+<entry>30</entry>
+<entry>16</entry>
+<entry>30</entry>
+<entry>30</entry>
+</row>
+<row>
+<entry>Probapop (Q)</entry>
+<entry>4</entry>
+<entry>11</entry>
+<entry>7</entry>
+<entry>6</entry>
+<entry>1</entry>
+</row>
+<row>
+<entry>CERT (R)</entry>
+<entry>3</entry>
+<entry>30</entry>
+<entry>9</entry>
+<entry>0</entry>
+<entry>27</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<para>
+Probapop (比賽代碼 Q) 挑戰了 24 個問題的其中 4 個。
+挑戰大部份題目的是 Classy (J2) 和 FF-rePlan (J3)。
+其它規劃器挑戰題目數在 3 至 10 間，如<xref linkend="ipc4_planner_result"/>。
+Probapop 只挑戰少數問題是有三個原因。首先，
+當我們建構 Probapop 時，Vhpop 版本只到 2.0。
+Vhpop 在 2.2 版時其效能明顯提昇，且記憶體管理技術更為加強。
+但我們沒有足夠的時間將實作轉換到新版。
+其次，區塊空間的題目包含全稱量詞的前題，但在 Vhpop 不支援全稱量詞。
+我們的實作在處理有 FORALL 關鍵字的前題其效能不好。
+最後我們的實作不使用 Vhpop 在不同的經驗法則使用不同的搜尋佇列，
+只使用最快完成的。所以我們必須使用單一經驗法則來執行競賽題目。
+結果，我們使用 ADD 作為評比度量，使用靜態作為缺陷選取技術，
+並對所有題目使用這個組合。
+</para>
+<figure id="pickup"><title>PPDDL 的 PICK-UP 動作</title>
+<programlisting>
+(:action pick-up-block-from
+  :parameters (?top - block ?bottom)
+  :effect (when (and (not (= ?top ?bottom)) (on-top-of ?top ?bottom)
+                   (forall (?b - block) (not (holding ?b)))
+                   (forall (?b - block) (not (on-top-of ?b ?top))))
+             (and (decrease (reward) 1)
+             (probabilistic 0.75 (and (holding ?top) (not (on-top-of ?top ?bottom)))
+                         0.25 (when (not (= ?bottom table))
+                              (and (not (on-top-of ?top ?bottom)) (on-top-of ?top table)))))))
+</programlisting>
+</figure>
+<figure id="simp_pickup"><title>PPDDL 的 PICK-UP 動作的簡化</title>
+<programlisting>
+ (:action pick-up
+  :parameters (?x)
+  :precondition (and (clear ?x) (ontable ?x) (handempty))
+  :effect 
+     (probabilistic 0.75
+       (and (not (ontable ?x)) (not (clear ?x)) (not (handempty)) (holding ?x))))
+
+(:action unstack
+  :parameters (?x ?y)
+  :precondition (and (on-top-of ?x ?y) (clear ?x) (handempty))
+  :effect 
+     (probabilistic 0.75
+       (and (holding ?x) (clear ?y) (not (clear ?x)) (not (handempty)) (not (on-top-of ?x ?y)))))
+</programlisting>
+</figure>
+<para>
+在結果出爐後，我們觀察到只有三個背景獨立的計畫器，
+Classy (J2), FF-rePlan (J3), 和 mGPT (P) 可能解決最大的區塊空間題目，
+而 Probapop 只能處理 5 區塊的題目(比賽包括  5, 8, 11, 15, 18, 及 21
+個區塊。所以我們尋找可以改善 Probapop 在這些問題效能的方法。
+首先升級 Probapop 的 Vhpop 至 2.2 版。其次我們引入近於 STRIPS
+的語言到區塊空間。特別是我們移除了 FORALL 前題及 WHEN 條件。
+例如將在<xref linkend="pickup"/>PPDDL 的 PICK-UP 動作，由
+<xref linkend="simp_pickup"/> 的兩個動作替換。
+雖然版本升級及語言簡化不能讓 Probapop 解決 8 個區塊的問題，
+但前面解釋過，Probapop 的策略是先找出「基本計畫」，
+後在可能的失敗點，改進計畫。
+所以找出「基本計畫」是最關鍵的。下一步我們會找出其它經驗法則，
+以及缺陷選擇策略可以使區塊空間問題可解。
+我們從解釋 Vhpop 的 ADD 經驗法則的細節開始。
+</para>
+<para>
+ADD 經驗法則若利用鬆散計畫圖的開放條件的每步驟的成本加總來計算，
+能達到良好的效能。例如計畫的經驗成本是利用
+h(pi) = hadd(OPEN(pi)) 來計算。完成實字 q 的成本第一個動作完成
+q: hadd(q) = min(a) in  GA(q)hadd(a) if GA(q) != 0，其中 GA(q) 
+是產生效果 q 的動作。若 q 在初始即滿足，則 hadd(q) 為 0，
+若 hadd(q) 為 1 則表示 q 永遠無法滿足。
+動作的程度是前題滿足的第一個程度：hadd(a) = 1+hadd(PREC(a))。
+ADDR 經驗法則是 ADD
+的修正，動作可被動用，如前述的條件下，若計畫包已包含滿足 q 的動作，實字 q
+經驗成本為 0。
+</para>
+<table id="flaw_sel"><title>
+Vhpop 不同的缺陷選擇策略的說明。
+n 表示非隔離的威脅，s 表可隔離的威脅、o 表示開放條件、
+t 表靜態開放條件、l 表本地開放條件、u 表示不安全的開放條件。
+</title>
+<tgroup cols="2">
+<thead>
+<row>
+<entry>策略</entry>
+<entry>說明</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>ucpop</entry>
+<entry>
+{n,s} LIFO / {o} LIFO
+</entry>
+</row>
+<row>
+<entry>static</entry>
+<entry>
+{t} LIFO / {n,s} LIFO / {o} LIFO
+</entry>
+</row>
+<row>
+<entry>lcfr </entry>
+<entry>
+{n,s,o} LR
+</entry>
+</row>
+<row>
+<entry>lcfr-loc</entry>
+<entry>{n,s,l} LR</entry>
+</row>
+<row>
+<entry>lcfr-conf</entry>
+<entry>{n,s,u} LR / {o} LR</entry>
+</row>
+<row>
+<entry>lcfr-loc-conf</entry>
+<entry>{n,s,u} LR / {l} LR</entry>
+</row>
+<row>
+<entry>mc</entry>
+<entry>{n,s} LR / {o} MCadd</entry>
+</row>
+<row>
+<entry>mc-dsep</entry>
+<entry>{n} LR / {o} MCadd / {s} LR</entry>
+</row>
+<row>
+<entry>mc-loc</entry>
+<entry>{n,s} LR / {l} MCadd</entry>
+</row>
+<row>
+<entry>mc-dsep</entry>
+<entry>{n} LR / {l} MCadd / {s} LR</entry>
+</row>
+<row>
+<entry>mw 	</entry>
+<entry>{n,s} LR / {o} MWadd</entry>
+</row>
+<row>
+<entry>mw-dsep</entry>
+<entry>{n} LR / {o} MWadd / {s} LR</entry>
+</row>
+<row>
+<entry>mw-loc 	</entry>
+<entry>{n,s} LR / {l} MWadd</entry>
+</row>
+<row>
+<entry>mw-loc-dsep</entry>
+<entry>{n} LR / {l} MWadd / {s} LR</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<para>
+我們觀察到，在區塊空間中，以 Vhpop 中不同的缺陷選擇策略測試下，
+ADDR 比 ADD 更有效。缺陷選擇策略展示在<xref linkend="flaw_sel"/>。
+我們修正了 Pollack et al. (1997) 提出的記號，且被 Younes 和
+Simmons(2003) 檢視過。此記號中，
+每個策略是一串選擇判準，
+LR 指最少精鍊優先、
+MCadd 指 ADD 的最大成本計算、
+MWadd 指 ADD 的最作功用、
+靜態開放條件是開放條件，其實字只有初態提供，沒有動作以此實字作為效果。
+區域開放條件指到最近新加的動作的開放條件，且用來維護單一目標的達成。
+不安全開放修件指開放條件，其因果連接會被威脅。
+</para>
+<para>
+有五個主要策略對缺陷處理優先是不同的。
+ucpop 策略優先處理威脅、靜態策略優先處理靜態開放條件、
+lcfr 策略依預期成本處理缺陷、
+mc 策略則依鬆散計畫圖所得成本來排定開放條件的處理次序、
+mw 策略則依鬆散計畫圖所得預期效用來排定開放條件的處理次序、
+加註 loc 的策略會優先處理區域開放條件、
+加註 conf 的策略會優先處理不安全開放條件。
+我們認為讀者應查閱 Younes 和 Simmons (2003) 
+的論文以取得些經驗法則完整的說明，
+及其它領域的相關實驗結果。
+ </para>
+<table id="timecost1"><title>在 5 至 8 個區塊的區塊空間中，
+找出基本計畫所費的時間(msec)</title>
+<tgroup cols="12">
+<thead>
+<row>
+<entry></entry>
+<entry>ucpop </entry>
+<entry>static </entry>
+<entry>lcfr </entry>
+<entry>lcfr-</entry>
+<entry>lcfr-</entry>
+<entry>lcfr-</entry>
+<entry>mc</entry>
+<entry>mc-</entry>
+<entry>mw</entry>
+<entry>mw-</entry>
+<entry>mw-</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry></entry>
+<entry>loc </entry>
+<entry>conf </entry>
+<entry>loc-conf</entry>
+<entry></entry>
+<entry>loc </entry>
+<entry></entry>
+<entry>loc </entry>
+<entry>loc-conf</entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry>80</entry>
+<entry>70 </entry>
+<entry>0 </entry>
+<entry>60 </entry>
+<entry>570</entry>
+<entry>90 </entry>
+<entry>10 </entry>
+<entry>50 </entry>
+<entry>0 </entry>
+<entry>20 </entry>
+<entry>220 </entry>
+</row>
+<row>
+<entry>5o </entry>
+<entry>0 </entry>
+<entry>0 </entry>
+<entry>10 </entry>
+<entry>50 </entry>
+<entry>10 </entry>
+<entry>770 </entry>
+<entry>0 </entry>
+<entry>40 </entry>
+<entry>0 	</entry>
+<entry>30 </entry>
+<entry>120 </entry>
+</row>
+<row>
+<entry>8 </entry>
+<entry>- </entry>
+<entry>- </entry>
+<entry>55K </entry>
+<entry>- </entry>
+<entry>- </entry>
+<entry>- </entry>
+<entry>13K </entry>
+<entry>-</entry>
+<entry>-</entry>
+<entry>-</entry>
+<entry>-</entry>
+</row>
+<row>
+<entry>8o </entry>
+<entry>- </entry>
+<entry>-  </entry>
+<entry>- </entry>
+<entry>- </entry>
+<entry>-  </entry>
+<entry>- </entry>
+<entry>42K  </entry>
+<entry>- </entry>
+<entry>41K </entry>
+<entry>-</entry>
+<entry>-</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<table id="timecost2"><title>在 5 至 8 個區塊的區塊空間中，
+由延緩可隔離威脅找出基本計畫所費的時間(msec)</title>
+<tgroup cols="9">
+<thead>
+<row>
+<entry></entry>
+<entry>mc </entry>
+<entry>mc-dsep</entry>
+<entry>mc-loc</entry>
+<entry>mc-loc-dsep</entry>
+<entry>mw </entry>
+<entry>mw-dsep</entry>
+<entry>mw-loc</entry>
+<entry>mw-loc-dsep</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>5 </entry>
+<entry>10 </entry>
+<entry>0 </entry>
+<entry>40 </entry>
+<entry>20 </entry>
+<entry>0 </entry>
+<entry>0 </entry>
+<entry>20 </entry>
+<entry>30 </entry>
+</row>
+<row>
+<entry>5o </entry>
+<entry>0 </entry>
+<entry>0 </entry>
+<entry>50 </entry>
+<entry>30 </entry>
+<entry>0 </entry>
+<entry>0 </entry>
+<entry>30 </entry>
+<entry>20 </entry>
+</row>
+<row>
+<entry>8 </entry>
+<entry>13K </entry>
+<entry>73K </entry>
+<entry>-</entry>
+<entry>22K </entry>
+<entry>-</entry>
+<entry>73K </entry>
+<entry>-</entry>
+<entry>22K </entry>
+</row>
+<row>
+<entry>8o </entry>
+<entry>42K </entry>
+<entry>104K </entry>
+<entry>- </entry>
+<entry>- </entry>
+<entry>41K </entry>
+<entry>103K </entry>
+<entry>- </entry>
+<entry>- </entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<para>
+ 	我們將區塊空間題目第一次的實驗結果描繪在<xref linkend="timecost1"/>
+的第一及第三行(<xref linkend="timecost1"/>及
+<xref linkend="timecost2"/>的第二及第四行會在後面說明)。
+可以發現只有 lcfr 及 mc 策略能解決 8 區塊問題。
+更大的問題便無法解決。由於行動可以提升，
+我們試著延緩可區隔威脅來縮小搜尋空間。
+Peot 和 Smith (1993) 說明延緩可區隔威脅能降低分支因素，
+因為可能有許多方法會為了區隔加入許多不等限制。
+由於更多變數連結後，許多威脅可能消失，使延緩更有幫助。
+我們修正最佳作用策略，
+mc 及 mw 名義上的變體，並實作延緩可區隔威脅(在
+<xref linkend="timecost1"/> 中，名稱字尾為 dsep 的策略)，
+我們在<xref linkend="timecost2"/>展示有無使用 dsep 的實驗(
+重覆<xref linkend="timecost1"/>的欄以作比較用)。
+結果顯示 5 區塊問題時間效率上有改善。
+8 區塊問題中，費時增長是因為每個威脅必須被檢驗是否可區隔。
+延緩威脅使 8 區塊問題能在 mc-loc, mw 和 mw-loc 中解決，
+然而更大的問題仍無法解決。
+</para>
+<para>
+不同經驗法則及策略的實驗結果顯示出搜尋時間會劇烈的增加，
+當問題從 5 個區塊成長到 8 個區塊時，而更大的問題是無法可解的。
+我們沒找到解決更大問題的經驗法則組合。
+可以注意到區塊空間的競賽問題，
+會由上而下列出目標塔且當初始目標順序能維持住，
+計畫器則費許多時間在死角計畫上。
+若塔是由下而下的建造，初始的目標必須復原才能完成之後的目標。
+結論是這種交互動作不能由經驗法則查覺到，
+因為此法則視每個子目標都是獨立的。
+Koehler 和 Hoffmann (2000) 
+描述了一個可以將上述形態的復原降到最少的目標排序，
+只要費多項式的時間。
+操作基礎動作描述的演算法可由動作綱要產生出來，
+且能在 FF 計畫系統實作(HoRman &amp; Nebel, 2001)。
+我們使用這個演算法去對上層目標排程，
+並使用個排程去重覆所有的實驗，
+這個排程本質上是由下而上把塔建構出來。
+<xref linkend="timecost1"/>及<xref linkend="timecost1"/>的 2, 4 
+列為以此排序的結果。排序這些目標有混合的結果，
+像對 8 區塊問題，此排序對 lcfr 經驗法無效，
+但對 mw 經驗法則有效。然而，最小費時從 13K 升到 41K 微秒，
+而大問題仍無法解決。
+</para>
+<para>
+我們的最終策略是結合 FF 計畫器的計畫方法和 POP 式的搜尋。
+特別的是我們使用 FF 的排序演算法來對上層目標排序，
+並對有 n 個上層目標的問題執行 n 次 Vhpop，
+第一個問題只有第一個目標，且當 Vhpop 回傳計畫時，
+步驟被模擬去找到結果狀態。
+問題二其結果狀態如同初始狀態及目標 1 和目標 2 的狀態，
+所以目標 1 可保持或是復原，而目標 2 將被達成。
+當使 Vhpop 的預設經驗法則及上述策略來解決 21 區塊問題，
+總費時 70 毫秒，而大部份階段都是費時 0 毫秒。
+Koehler 和 HOffmann (2000) 解釋此方法在可反轉計畫上運作較好，
+像是動作可復原的區塊世界。
+在我們的情形中，付出代價是有可能產出非最佳化的計畫，
+這是當在對 i + 1st 目標規畫時，第 i 個目標的計畫便已設定好了。
+第二項代價是會得到幾個問題中斷點的偏序計畫，
+而不是單一的最佳平行規畫。
+我們相信研究合併獨立計畫去維持最小順序限制的演算法是值得的。
+可能的策略為依因果將動作前題及最後產出器作連結，
+或使用 Edelkamp (2004) 的方法及使用關鍵路徑分析的平行序列規畫。
+</para>
+</sect1>
+<sect1><title>結論及研究建議</title>
+<para>
+我們展示了 Probapop 的設計及實作，
+它是一個偏序、機率式、順應型規劃器，
+也描述了我們所使用的，
+基於距離及基於條件機率的經驗法則。
+我們也討論了漸近式演算法的優缺點，
+它首先將目標排序，
+再一步一步的完成目標。
+我們的短期計畫是實作多重搜尋佇列，
+每個佇列由不同基礎的計畫使用，
+並與 PPDDL 的 ADL 建構子作整合。
+未來的研究可能會有三個進程。
+首要進程，會研究將機率資訊加入規畫圖，
+則開放條件的機率能作最佳的估計，
+來改善 Probapop 的效能。
+我們也考慮加入領域相關的資訊至機率領域中(Kuter &amp; Nau, 2005)。
+第二個進程會探索不可觀察及完全可觀察的中間地帶，
+藉由偏序設定的 POMDP 式的問題。
+最後會將登山演算法技術加入我們的機率式框架，
+目前 Probapop 2.0 可從 
+www.cs.mtu.edu/~nilufe 取得。
+</para>
+</sect1>
+<bibliography><title>參考文獻</title>
+<biblioentry>
+Bertoli, P., Cimatti, A., &amp; Roveri, M. (2001). 
+Heuristic search + symbolic model checking = efficient conformant planning.
+ In Proceedings of Eighteenth International Joint
+Conference on Artificial Intelligence (IJCAI-01), pp. 467-472.
+</biblioentry>
+<biblioentry>
+Blum, A. L., &amp; Furst, M. L. (1997). 
+Fast planning through planning graph analysis. Artificial Intelligence, 90, 281-300.
+</biblioentry>
+<biblioentry>
+Bonet, B., &amp; GeRner, H. (2001). Planning as heuristic search. Artificial Intelligence, 129 (1-2), 5-33.
+</biblioentry>
+<biblioentry>
+Bonet, B., &amp; GeRner, H. (2005). mGPT: A probabilistic planner based on heuristic search.
+Journal of Artificial Intelligence Research, 24, 933-944.
+</biblioentry>
+<biblioentry>
+Boutilier, C., Dean, T., &amp; Hanks, S. (1999). Decision theoretic planning: Structural as-
+sumptions and computational leverage. Journal of Artificial Intelligence Research,
+11, 1-94.
+</biblioentry>
+<biblioentry>
+Brafman, R. I., &amp; HoRmann, J. (2004). Conformant planning via heuristic forward search: A
+new approach. In Proceedings of Fourteenth International Conference on Automated
+Planning &amp; Scheduling (ICAPS-04), pp. 355-364.
+</biblioentry>
+<biblioentry>
+Onder, Whelan &amp; Li
+Edelkamp, S. (2004). Extended critical paths in temporal planning. In Workshop on In-
+tegrating Planning Into Scheduling International Conference on Automated Planning
+and Scheduling (ICAPS-04), pp. 38-45.
+</biblioentry>
+<biblioentry>
+Edelkamp, S., HoRman, J., Littman, M., &amp; Younes, H. (2004). International planning com-
+petition. Proceedings of Fourteenth International Conference on Automated Planning
+&amp; Scheduling (ICAPS-04).
+</biblioentry>
+<biblioentry>
+Fern, A., Yoon, S., &amp; Givan, R. (2006). Approximate policy iteration with a policy language
+bias: Solving relational Markov decision processes. Journal of Artificial Intelligence
+Research, 25.
+</biblioentry>
+<biblioentry>
+Ferraris, P., &amp; Giunchiglia, E. (2000). Planning as satisfiability in nondeterministic do-
+mains. In Proceedings of the Seventeenth National Conference on Artificial Intelligence
+(AAAI-00), pp. 748-754.
+</biblioentry>
+<biblioentry>
+Hansen, E. A., &amp; Feng, Z. (2000). Dynamic programming for POMDPs using a factored
+state representation. In Proceedings of the Fifth International Conference on Artificial
+Intelligence Planning &amp; Scheduling (AIPS-00), pp. 130-139.
+</biblioentry>
+<biblioentry>
+HoRman, J., &amp; Nebel, B. (2001). The FF planning system: Fast plan generation through
+heuristic search. Journal of Artificial Intelligence Research, 14, 253-302.
+</biblioentry>
+<biblioentry>
+HoRmann, J., &amp; Brafman, R. I. (2005). Contingent planning via heuristic forward search
+with implicit belief states. In Proceedings of Fifteenth International Conference on
+Automated Planning &amp; Scheduling (ICAPS-05), pp. 71-80.
+</biblioentry>
+<biblioentry>
+Hyafil, N., &amp; Bacchus, F. (2003). Conformant probabilistic planning via CSPs. In Proceed-
+ings of Thirteenth International Conference on Automated Planning &amp; Scheduling
+(ICAPS-03), pp. 205-214.
+</biblioentry>
+<biblioentry>
+Kaelbling, L. P., Littman, M. L., &amp; Cassandra, A. R. (1998). Planning and acting in
+partially observable stochastic domains. Artificial Intelligence, 101, 99-134.
+</biblioentry>
+<biblioentry>
+Karlsson, L. (2001). Conditional progressive planning under uncertainty. In Proceedings of
+Eighteenth International Joint Conference on Artificial Intelligence (IJCAI-01), pp.
+431-436.
+</biblioentry>
+<biblioentry>
+Koehler, J., &amp; HoRmann, J. (2000). On reasonable and forced goal orderings and their use
+in an agenda-driven planning algorithm. Journal of Artificial Intelligence Research,
+12, 339-386.
+</biblioentry>
+<biblioentry>
+Kushmerick, N., Hanks, S., &amp; Weld, D. S. (1995). An algorithm for probabilistic planning.
+Artificial Intelligence, 76, 239-286.
+</biblioentry>
+<biblioentry>
+Kuter, U., &amp; Nau, D. (2005). Using domain-configurable search control in probabilistic plan-
+ners. In Proceedings of the Twentieth National Conference on Artificial Intelligence
+(AAAI-05).
+</biblioentry>
+<biblioentry>
+Majercik, S. M., &amp; Littman, M. L. (1999). Contingent planning under uncertainty via
+stochastic satisfiability. In Proceedings of the Sixteenth National Conference on Arti-
+ficial Intelligence (AAAI-99), pp. 549-556.
+</biblioentry>
+<biblioentry>
+McDermott, D. (1999). Using regression-match graphs to control search in planning. Arti-
+ficial Intelligence, 109 (1-2), 111-159.
+</biblioentry>
+<biblioentry>
+Nguyen, X., &amp; Kambhampati, S. (2001). Reviving partial order planning. In Proceedings of
+Eighteenth International Joint Conference on Artificial Intelligence (IJCAI-01), pp.
+459-464.
+</biblioentry>
+<biblioentry>
+Onder, N., &amp; Pollack, M. E. (1999). Conditional, probabilistic planning: A unifying al-
+gorithm and eRective search control mechanisms. In Proceedings of the Sixteenth
+National Conference on Artificial Intelligence (AAAI-99), pp. 577-584.
+</biblioentry>
+<biblioentry>
+Penberthy, J. S., &amp; Weld, D. S. (1992). UCPOP: A sound, complete, partial order planner
+for ADL. In Proceedings of Third International Conference on Principles of Knowledge
+Representation &amp; Reasoning (KR-92), pp. 103-114.
+</biblioentry>
+<biblioentry>
+Peot, M. A., &amp; Smith, D. E. (1993). Threat-removal strategies for partial order planning. In
+Proceedings of the Eleventh National Conference on Artificial Intelligence (AAAI-93),
+pp. 492-499.
+</biblioentry>
+<biblioentry>
+Pollack, M. E., Joslin, D., &amp; Paolucci, M. (1997). Flaw selection strategies for partial-order
+planning. Journal of Artificial Intelligence Research, 6, 223-262.
+</biblioentry>
+<biblioentry>
+Russell, S. J., &amp; Norvig, P. (2003). Artificial Intelligence: A Modern Approach, Second
+Edition. Pearson Education, Upper Saddle River, NJ.
+Smith, D. E., Frank, J., &amp; Jonsson, A. K. (2000). Bridging the gap between planning and
+scheduling. Knowledge Engineering Review, 15 (1), 47-83.
+</biblioentry>
+<biblioentry>
+Thiebaux, S., Gretton, C., Slaney, J., Price, D., &amp; Kabanza, F. (2006). Decision-theoretic
+planning with non-Markovian rewards. Journal of Artificial Intelligence Research, 25.
+</biblioentry>
+<biblioentry>
+Younes, H. L., Littman, M. L., Weissman, D., &amp; Asmuth, J. (2005). The first probabilistic
+track of the international planning competition. Journal of Artificial Intelligence
+Research, 24, 851-887.
+</biblioentry>
+<biblioentry>
+Younes, H., &amp; Simmons, R. (2003). VHPOP: Versatile heuristic partial order planner.
+Journal of Artificial Intelligence Research, 20, 405-430.
+</biblioentry>
+</bibliography>
+</article>

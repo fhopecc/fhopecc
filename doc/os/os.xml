@@ -1,0 +1,1162 @@
+<?xml version="1.0" encoding="Big5"?>
+<?xml-stylesheet type="text/xsl" href="../xhtml/docbook.xsl"?>
+<!--<!DOCTYPE DocBook>-->
+<book><title>作業系統</title>
+<chapter><title>電腦硬體架構</title>
+<sect1><title>CPU</title>
+CPU 執行指令。
+<programlisting>
+for(;;){
+  run next instruction
+}
+</programlisting>
+</sect1>
+<sect1><title>暫存器(registers)</title>
+<para>
+最快的記憶體，揮發性，且容量最小，因為最貴。
+在 x86 有 AX, CX, DX, BX 等暫存器。
+</para>
+</sect1>
+<sect1><title>記憶體(memory)</title>
+<para>
+CPU 會經由<emphasis>記憶體線路(address lines)</emphasis>來送出位址，
+記憶體線路是一位元一條電線。
+資料會由<emphasis>資料線路(data lines)</emphasis>回來，
+或是將資料寫入資料線路。
+</para>
+<sect2><title>指向記憶體的暫存器</title>
+<itemizedlist>
+<listitem>SP - 堆疊指標</listitem>
+<listitem>BP - frame base pointer</listitem>
+<listitem>SI - source index</listitem>
+<listitem>DI - destination index</listitem>
+</itemizedlist>
+<para>
+以上只在 16-bit 的機器，
+若大於 64KB 的記憶體要用<emphasis>區段暫存器(segment
+registers)</emphasis>，
+位址表示(seg:off)指實體位址為 seg*16+off：
+</para>
+<itemizedlist>
+<listitem>CS - code segment</listitem>
+<listitem>DS - data segment</listitem>
+<listitem>SS - stack segment</listitem>
+<listitem>ES, FS, GS - extra segments</listitem>
+</itemizedlist>
+<para>
+要執行的指令也位於記憶體中：
+</para>
+<itemizedlist>
+<listitem>IP - instruction pointer (PC on PDP-11, everything
+else)</listitem>
+</itemizedlist>
+<para>
+每執行一個指令 IP 便會加 1，
+IP 的值能由 CALL, RET, JMP, conditional jumps 修改。
+</para>
+<para>
+每執行一個指令 IP 便會加 1，
+IP 的值能由 CALL, RET, JMP, <emphasis>條件跳躍(condition
+jumps)</emphasis>修改。
+</para>
+<para>
+<emphasis>旗標(FLAGS)</emphasis>能指向目前的狀態：
+</para>
+<itemizedlist>
+<listitem>whether last arithmetic operation overflowed</listitem>
+<listitem>... was zero</listitem>
+<listitem>... was positive</listitem>
+<listitem>... was negative</listitem>
+<listitem>... etc.</listitem>
+<listitem>whether interrupts are enabled</listitem>
+<listitem>direction of data copy instructions</listitem>
+</itemizedlist>
+<para>
+JG, JZ, JNZ, ...
+</para>
+</sect2>
+<sect2><title>指向 IO 的暫存器</title>
+<para>
+和記憶體的方式相同，但要設定<emphasis>I/O 信號(signal)</emphasis>，
+只有<emphasis>1024 I/O 位址</emphasis>是在正常的記憶體中，
+不需要特別的指令，魔術記憶體位址，系統控制器會輪循此記憶體。
+</para>
+<programlisting>
+enum {
+  Data = 0x378+0
+  Status = 0x378+1,
+  Notbusy = 0x80,
+  Ctl = 0x378+2,
+  Strobe = 0x01,
+};
+lptputc(c)
+{
+  while((inb(Status)&amp;Notbusy) == 0)
+  ;
+  outb(Data, c)
+  outb(Ctl, Strobe)
+  outb(Ctl, 0)
+}
+</programlisting>
+</sect2>
+<sect2><title>X86 指令集</title>
+<sect3><title>二元指令</title>
+<itemizedlist>
+<listitem>Intel: op dst, src</listitem>
+<listitem>AT&amp;T (gcc/gas): op src, dst
+<para>
+指令加字尾 b, w, l 來指定指令的大小。 
+</para>
+</listitem>
+<listitem>o Operands are registers, constant, memory via register,
+memory via constant
+<programlisting>
+edx = eax;
+edx = 0x123
+at&amp;t "C"
+movl %eax, %edx
+movl $0x123, %edx
+movl (%ebx), %edx edx = mem[ebx];
+movl 4(%ebx), %edx edx = mem[ebx+4];
+movl 0x123, %edx edx = mem[0x123];
+</programlisting>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3><title>指令類別</title>
+<itemizedlist>
+<listitem>data movement: MOV, PUSH, POP, ...</listitem>
+<listitem>arithmetic: TEST, SHL, ADD, AND, ...</listitem>
+<listitem>i/o: IN, OUT, ...</listitem>
+<listitem>control: JMP, JZ, JNZ, CALL, RET</listitem>
+<listitem>string: REP MOVSB, ...</listitem>
+<listitem>system: IRET, INT</listitem>
+</itemizedlist>
+<para>Intel architecture manual Volume 2 is the reference</para>
+</sect3>
+</sect2>
+</sect1>
+
+
+
+gcc x86 calling conventions
+
+    * x86 dictates that stack grows down:
+          o pushl %eax
+
+        subl $4, %esp
+        movl %eax, (%esp)
+
+          o
+
+popl %eax
+
+
+
+     movl (%esp), %eax
+
+     addl $4, %esp
+
+          o
+
+call $0x12345
+     
+        pushl %eip
+        movl $0x12345, %eip
+
+          o
+
+ret
+
+  popl %eip
+       
+
+    *
+
+Gcc dictates the rest. Contract between caller and callee on x86:
+
+          o
+
+after call instruction:
+
+                + %eip points at first instruction of function
+                + %esp+4 points at arguments
+                + %esp points at return address
+          o after ret instruction:
+                + %eip contains return address
+                + %esp points at arguments
+                + caller may have trashed arguments
+                + %eax contains return value
+                + %ecx, %edx may be trashed
+                + %ebp, %ebx, %esi, %edi must contain contents from time of call
+                + %ecx, %edx are "caller save"
+                + %ebp, %ebx, %esi, %edi are "callee save"
+    *
+
+Can do anything that doesn't violate contract. By convention, gcc does more:
+
+          o
+
+each function has a stack frame marked by %ebp, %esp
+
+
+
+             +----------------------+
+
+              | arg 2                   |
+
+             +----------------------+
+
+              | arg 1                   |
+
+             +----------------------+
+
+              | ret %eip             |
+
+             +============+
+
+%ebp-> | saved %ebp       |
+
+             +----------------------+
+
+              |                            |
+
+              |                            |
+
+              |                            |
+
+              |                            |
+
+              |                            |
+
+%esp->  |                           |
+
+              +---------------------+
+
+          o
+
+%esp can move to make stack frame bigger, smaller
+
+          o
+
+%ebp points at saved %ebp from previous function, chain to walk stack
+
+          o
+
+function prologue:
+
+pushl %ebp
+movl %esp, %ebp
+
+          o
+
+function epilogue:
+movl %ebp, %esp
+popl %ebp
+       
+or
+
+leave
+
+    *
+
+Big example:
+
+          o C code
+
+            int main(void) { return f(8)+1; }
+            int f(int x) { return g(x); }
+            int g(int x) { return x+3; }
+          o assembler
+
+     _main:
+                    prologue
+            pushl %ebp
+            movl %esp, %ebp
+                    body
+            pushl $8
+            call _f
+            addl $1, %eax
+                    epilogue
+            movl %ebp, %esp
+            popl %ebp
+            ret
+        _f:
+                    prologue
+            pushl %ebp
+            movl %esp, %ebp
+                    body
+            pushl 8(%esp)
+            call _g
+                    epilogue
+            movl %ebp, %esp
+            popl %ebp
+            ret
+        _g:
+                    prologue
+            pushl %ebp
+            movl %esp, %ebp
+                    save %ebx
+            pushl %ebx
+                    body
+            movl 8(%ebp), %ebx
+            addl $3, %ebx
+            movl %ebx, %eax
+                    restore %ebx
+            popl %ebx
+                    epilogue
+            movl %ebp, %esp
+            popl %ebp
+            ret
+
+    *
+
+Super-small _g:
+
+      _g:
+            movl 4(%esp), %eax
+            addl $3, %eax
+            ret
+<sect1><title>動態連結函式庫</title>
+1.1	動態連結函式庫 vs 靜態連結函式庫	
+	動態連結函式庫是一組函式庫，在程式執行時，才動態
+	載入至記憶體。
+1.2	DLL 運作原理
+</sect1>
+</chapter>
+<chapter><title>工作管理(Task Management)</title>
+<sect1><title>工作和程式</title>
+<para>
+<emphasis>工作(task)</emphasis>就是正在執行的程式，
+擁有 CPU 時間及佔有記憶體。
+</para>
+<para>
+<emphasis>程式(program)</emphasis>則是執行的計劃書，
+是一串可以表示執行步驟的資料。
+</para>
+<para>
+若以作菜比擬，程式就是食譜，而工作就是作菜的活動。
+</para>
+</sect1>
+<sect1><title>多工系統(Multitask System)</title>
+<para>
+<emphasis>多工系統(Multitask System)</emphasis>
+指能夠同時執行多項工作的系統。
+一次只能執行一項工作的稱為
+<emphasis>批次系統(Batched System)</emphasis>。
+</para>
+<sect2><title>單一 CPU 模擬多工：分時及內容轉換</title>
+<para>
+在單一 CPU 上，
+會使用<emphasis>分時機制(time slicing)</emphasis>模擬多工。
+分時的時指的是<emphasis> CPU 時間</emphasis>，
+為 CPU 執行指令的數量。
+分時機制便是協調執行中的工作如何佔用 CPU 的時間，
+換言之，那些工作在那些時間可以執行 CPU 指令。
+</para>
+<para>
+每個工作執行一些指令後，
+便換另一個工作執行，
+CPU 轉換執行工作的過程稱為<emphasis>內容轉換(context switch)</emphasis>。
+</para>
+<para>
+分時機制會把 CPU 時間分配給同時執行的工作交錯執行，
+這樣不致於讓一個工作佔據 CPU 太久。
+例如：若工作執行到較費時的 IO 指令，
+則 CPU 切換給另一工作使用，
+這樣可提高 CPU 的使用率。
+<!--
+由於記憶體的存取動作遠遠快於在磁碟的存取動作。
+-->
+</para>
+</sect2>
+</sect1>
+<sect1><title>行程同步</title>
+<para>
+如果不同工作間，存取一共用資料，為了維持共用資料的一致性，
+則要使用同步機制協調不同工作存取共用資源的順序。
+</para>
+<sect2><title>競爭情況 Race Condition</title>
+<para>
+<programlisting>
+int i=0;
+
+void proc1() {
+  i++;	  
+}
+
+void proc2() {	 
+  printf(i);
+}
+</programlisting>
+通常在多工系統，其輸出會為 
+<programlisting>
+1 1 2 2 3 3 3 4 4 4 5 5 
+</programlisting>
+而不會是
+<programlisting>
+1 2 3 4 5
+</programlisting>
+因為往往不會剛剛好先執行 proc1 後，再執行 proc2，
+像是執行結果，與<emphasis>工作執行的先後</emphasis>有關的話，
+稱為<emphasis>競爭情況</emphasis>。
+會造成競爭情況的條件，
+與同時執行的工作存取到共用資源有關，
+像上例的 i。
+</para>
+</sect2>
+<sect2><title>同步 Synchronization</title>
+<para>
+同步是針對時間的協調機制，
+協調不同工作存取工作間共用資源的機制，
+多工系統中，重點並非時間的量，而是不同工作存取資源的順序。
+以避免競爭情況，
+<emphasis>也就是使存取共用資源，獨立於工作執行的先後順序</emphasis>。
+</para>
+</sect2>
+<sect2><title>互斥與臨界區段 Mutex and Critical Section</title>
+<para>
+工作內，存取共用資源的程式碼段，
+稱為<emphasis>臨界區段(Critical Section)</emphasis>。
+</para>
+一工作可分為，
+<programlisting>
+void proc() {
+  entry_cs();//臨界區段入口
+  critical_sec();//臨界區段
+  exit_cs();//臨界區段出口
+  noncritical_sec();//非臨界區段
+}
+</programlisting>
+<para>
+<emphasis>互斥(Mutex)</emphasis>
+指系統必須限制一次只能有一個工作進入臨界區段存取共用資源。
+一個系統成互斥狀態則必須滿足下面三個條件：
+</para>
+<orderedlist>
+<listitem id="mutex1" xreflabel="互斥條件 1">
+不能有兩個工作同時進入臨界區段</listitem>
+<listitem id="mutex2" xreflabel="互斥條件 2">
+在非臨界區段的工作，不能阻止另一工作進入臨界區段</listitem>
+<listitem id="mutex3" xreflabel="互斥條件 3">
+一工作不能永遠無法進入臨界區段</listitem>
+</orderedlist>
+</sect2>
+<sect2><title>盤旋鎖(spinlock)</title>
+<para>
+<emphasis>盤旋鎖</emphasis>是在入口處不停進行一空迴圈，
+直到可以進入臨界區段才停止，並進入臨界區段，
+又稱為<emphasis>忙碌等待(busy-waiting)</emphasis>。
+</para>
+</sect2>
+<sect2><title>共用鎖(sharedlock)</title>
+<para>
+此盤旋鎖使用一共用變數陣列 lock 來判別是否有工作進入臨界區段。
+</para>
+<programlisting>
+void proc1() {
+  //臨界區段入口
+  lock[1]=1;            //指出 proc1 要進入臨界區段
+  while(lock[2]);       //當 proc2 已先進入其臨界區段時，則忙碌等待
+  critical_sec();       //臨界區段
+  lock[1]=0;            //臨界區段出口
+  noncritical_sec();    //非臨界區段
+}
+</programlisting>
+<para>
+此演算法無法滿足<xref linkend="mutex2"/>。
+當 proc1 執行至 lock[1]=1 時，
+則切換到 proc2，
+且 proc2 也執行 lock[2]=1 
+則 proc1 及 proc2 都無法進入臨界區段。
+</para>
+</sect2>
+<sect2><title>嚴格交替執行</title>
+<para>
+使用一共用變數 turn 來判別輪到那個工作可進入臨界區段，
+每個工作輪一次。
+</para>
+<programlisting>
+void proc0() {
+  //臨界區段入口
+  while(turn!=0);       //當未輪到 proc0，則忙碌等待
+  critical_sec();       //臨界區段
+  turn=1;               //臨界區段出口，輪到 proc1
+  noncritical_sec();    //非臨界區段
+}	
+</programlisting>
+<para>
+此演算法無法滿足<xref linkend="mutex2"/>。
+若 proc0 非臨界區段的執行速度遠大於 proc1，
+則當 proc1 已在他的非臨界區段，輪到 proc0 執行臨界區段，
+proc0 執行至其非臨界區段完後，由於 proc1 還在執行上一輪的臨界區段，
+使得 proc0 必須等候 proc1 執行完一輪。
+這讓 proc1 在其非臨界區段，但仍阻止了 proc0 進入臨界區段。
+</para>
+</sect2>
+<sect2><title>彼得森演算法 Peterson's Algorithm</title>
+此演算法結合了共用鎖及嚴格交替執行。
+<programlisting>
+void proc0() {
+  //臨界區段入口
+  want_ent[0]=true;	//proc0 想要進入臨界段
+  turn=1;		//先輪另一個執行
+  while(turn==1 &amp;&amp; want_ent[1]=true);//忙碌等待
+  critical_sec();       //臨界區段
+  want_ent[0]=false;	//臨界區段出口
+  noncritical_sec();    //非臨界區段
+}	
+</programlisting>
+<sect3 hclass="theorem"><title>彼得森演算法滿足互斥的三項要求</title>
+<para>
+</para>
+</sect3>
+</sect2>
+<sect2><title>麵包店演算法 Lamport's Bakery Algorithm</title>
+人很多的麵包店，會用一台序號機為每位顧客產生唯一序號，
+顧客等櫃台叫到號時，才能進行交易。
+此演算法使用一 number 數字陣列來紀錄每個工作取到的序號，
+基於硬體的限制，會有工作可能取到相的的號碼。但每個工作有自已的程序編號，再使用這個編號作為選擇誰可以進到臨界區間。
+<programlisting>
+void proc0() {
+  //臨界區段入口
+  choosing[0]=true;
+  number[0]=max_of_ary(number[])+1; //取序號 
+  choosing[0]=false;
+  for(j=0; j &lt; n; j++){
+    while(choosing[j]);
+    while((number[j]!=0 &amp;&amp; ((number[j],j) &lt; (number[i],i)));
+  }
+  want_ent[0]=true;	//proc0 想要進入臨界段
+  turn=1;		//先輪另一個執行
+  while(turn==1 &amp;&amp; want_ent[1]=true);//忙碌等待
+  critical_sec();       //臨界區段
+  number[0]=false;	//臨界區段出口
+  noncritical_sec();    //非臨界區段
+}	
+</programlisting>
+<sect3 hclass="theorem"><title>麵包店演算法滿足互斥的三項要求</title>
+<para>
+</para>
+</sect3>
+</sect2>
+<sect2><title>測試設定指令 TestAndSet instruction	</title>
+<programlisting>
+boolean TestAndSet(boolean &amp;target) {
+  boolean rv = target;
+  target = true;
+  return rv;
+}
+</programlisting>
+
+	若硬體能實作 TestAndSet 成為一個不可分割指令，則可簡化互斥成
+	為以下的程式：
+
+	void proc() {
+	  while(TestAndSet(lock));//臨界區段入口
+
+	  critical_sec();       //臨界區段
+
+	  lock=false;		//臨界區段出口
+	  noncritical_sec();    //非臨界區段
+	}
+	
+	定理：
+	測試設定演算法滿足互斥的三項要求
+	證明：	
+</sect2>
+		
+<sect2><title>睡眠喚醒指令 Sleep and wakeup instruction</title>
+	sleep;
+	睡眠指令是定義為使目前的工作停止，直到有另一個工作喚醒它。
+	wakeup(proc p);
+	喚醒指令接受一參數，指向一睡眠的指令，並把其狀態改為就緒，
+	等待 cpu 排班。
+	
+	這些指令通常為系統呼叫。
+
+	實作可用盤旋鎖或是停止硬體中斷。
+</sect2>
+
+<sect2><title>生產消費問題 Producer&amp;Consumer
+Problem</title>
+	生產者及消費者各是一個工作，他們共用一個有限的產品庫存區。
+	生產者會一直生產產品至庫存區，在庫存滿時，生產者工作則會停
+	止生產，直到消費者用了一個產品後，再喚醒生產者。
+	消費者則在用完庫存後，停止消費，等到生產者生產出一個產品後，
+	再喚醒消費者。
+	
+	#define bound 100 
+	int count;
+	
+	void producer() {
+	  while(1){
+	    produce_item;
+	    if(count == bound) sleep;
+	    store_item;
+ 	    count++;
+	    if(count == 1) wakeup(consumer);
+	  }
+	}
+
+	void consumer() {
+	  while(1) {	    
+	    if(count == 0) sleep;
+	    take_item;
+            count--;
+            if(count == bound - 1) wakeup(producer);
+            consume_item;	
+	  }
+	}
+	
+	以上會造成一個同步問題的產生。當庫存為空時，消費者判斷到庫存為
+	空，但還未進入睡眠時，則轉到生產者，此時生產者生產一個產品，並
+	喚醒尚未睡眠的消費者，再轉到消費者，消費者便執行下一步睡眠指令
+	，於是喚醒執行於睡眠之前，使消費者少一次喚醒，則當庫存滿時，生
+	產者和消費者都會一直睡眠下去。
+</sect2>
+
+<sect2><title>信號 semaphore</title>
+	信號可用來解決上述問題，信號是一受保護的資料結構，可定義如下：
+
+	void probeer(semaphore s) {
+	  if(s == 0) then sleep(s); 
+	  s--;
+	  if(s == bound-1) then wakeup(s);
+        }
+	
+	void verhoog(semaphore s) {
+	  if(s == bound) then sleep(s);
+	  s++;
+	  if(s == 1) then wakeup(s);   	  
+        }
+
+	請注意上述的 probeer 及 verhoog 都不可以被中斷。
+</sect2>
+</sect1>
+
+<sect1><title>工作排程 Task Schedualing</title>
+<para>
+	排程是對時間資源的分配，由於系統資源有限，所以我們需要排程
+	原則來將資源給重要的工作。
+</para>
+
+<sect2><title>評量</title>
+	*反應時間	
+	*可交談性	
+</sect2>
+
+<sect2><title>輪流排程 Round-robin</title>
+	每個工作公平輪流佔用相同的 CPU 時間。
+
+	**註 robin 源自法文 ruban，指絲帶	
+</sect2>
+</sect1>
+</chapter>
+<chapter><title>記憶體管理</title>
+<sect1><title>記憶體階級</title>
+<para>
+記憶體存取速度由快至慢、容量由小至大、價格由貴到便宜、
+資料保存由揮發至持久保存，能分成以下三級：
+</para>
+<itemizedlist>
+<listitem>一級記憶體
+<para>
+暫存器(registers)、RAM等
+</para>
+</listitem>
+<listitem>二級記憶體
+<para>
+硬碟
+</para>
+</listitem>
+<listitem>三級記憶體
+<para>
+光碟、磁帶、軟碟、快閃記憶體
+</para>
+</listitem>
+</itemizedlist>
+<para>
+<emphasis>記憶體管理</emphasis>就是協調資料如何在這三階級記憶體的配置。
+一般包含下面三項工作：
+</para>
+<itemizedlist>
+<listitem><emphasis>記錄記憶體的使用狀態(track usage status)</emphasis>，
+那些段被使用，那些段未使用</listitem>
+<listitem><emphasis>管理行程記憶體空間的配置(allocation)</emphasis>，
+配置需要的記憶體空間給行程，並收回行程不需要的記憶體空間</listitem>
+<listitem><emphasis>管理行程記憶體資料與磁碟的置換(swapping)</emphasis></listitem>
+</itemizedlist>
+</sect1>
+<sect1><title>單使用者程式</title>
+<para>
+每次只配置一個使用者程式到記憶體，
+當結束時，清除記憶體的使用者程式，
+再載入下一個使用者程式。
+通常記憶體的配置圖有三種，如以下所示：
+<table><title>單使用者程式配置</title>
+<tgroup cols="3">
+<tbody>
+<row>
+<entry>作業系統存放在 ROM</entry>
+<entry morerows="1" valign="middle">使用者程式</entry>
+<entry>設備趨動程式存放在 ROM</entry>
+</row>
+<row>
+<entry morerows="1" valign="middle">使用者程式</entry>
+<entry>使用者程式</entry>
+</row>
+<row>
+<entry>作業系統存放在 RAM</entry>
+<entry>作業系統存放在 RAM</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</para>
+</sect1>
+<sect1><title>多使用者程式固定分割配置</title>
+<para>
+記憶體若一次配置多個程式，
+則需要將使用者空間分割成數個區塊，
+每個區塊配置一個行程。
+若行程結束，則從磁碟再載入一個新程式到行程原區塊。
+<table><title>多使用者程式配置</title>
+<tgroup cols="1">
+<tbody>
+<row>
+<entry>ROM</entry>
+<entry>設備趨動程式存放在 ROM</entry>
+</row>
+<row>
+<entry>0x0600</entry>
+<entry>使用者程式 1</entry>
+</row>
+<row>
+<entry>0x0500</entry>
+<entry>未使用</entry>
+</row>
+<row>
+<entry>0x0400</entry>
+<entry morerows="2" valign="middle">使用者程式 2</entry>
+</row>
+<row>
+<entry>0x0300</entry>
+</row>
+<row>
+<entry>0x0200</entry>
+</row>
+<row>
+<entry>0x0100</entry>
+<entry>未使用</entry>
+</row>
+<row>
+<entry>0x0000</entry>
+<entry>作業系統存放在 RAM</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</para>
+</sect1>
+<sect1><title>重定址與保護(relocation and protection)</title>
+<para>
+當記憶體某個分割區空閒時，
+則要從磁碟選一個新行程並配置分割區，
+則需要引發兩個新問題，
+<emphasis>重定址</emphasis>與<emphasis>保護</emphasis>。
+</para>
+<sect2><title>重定址</title>
+<para>
+當程式有參考到某位址的內容時，
+如以下的碼：
+<programlisting>
+mov AX, 010B
+</programlisting>
+會將位址 010B 的 1 Byte 內容，
+複製到 AX 暫存器。
+</para>
+<para>
+若是記憶體採取上述的多分割區，
+則程式設計參考到位址的命令時，
+還要考慮記憶體的分割方式。
+不然程式的位址要採取<emphasis>相對位址</emphasis>，
+當採入分割區時，
+再依分割區的狀態重新將相對位址映射到實體位址。
+</para>
+<para>
+最簡單的實作是利用一個<emphasis>基底暫存器(BX,Base register)</emphasis>，
+儲存分割區的起始位址，
+若基底是 0100，則上面的 010B 會對應到實體位址 020B。
+</para>
+</sect2>
+<sect2><title>保護</title>
+<para>
+若相對位址大於分割區長度，則會影嚮到別人的程式，
+所以要用一個<emphasis>限制暫存器(LX,limit register)</emphasis>，
+測試相對位址是否大於 LX 存放的位址。
+</para>
+<para>
+也可用為每個分割區給一個分割區識別字，
+在存取位址時，若分割區識別字不同，則不能存取。
+在 IBM 360 的電腦此識別字稱為 PSW。
+</para>
+</sect2>
+<sect2><title>配置額外空間</title>
+<para>
+由於程式某些區域是會成長的，
+像是副程式呼叫會用到的<emphasis>呼叫堆疊</emphasis>，
+或是儲放變數物件的<emphasis>資料堆積</emphasis>。
+所以一定要有額外的空間存放這些資料，
+常用的配置方式如下：
+</para>
+<table><title>一分割區的配置</title>
+<tgroup cols="1">
+<tbody>
+<row>
+<entry>0x0700</entry>
+<entry>堆疊區</entry>
+</row>
+<row>
+<entry>0x0600</entry>
+<entry morerows="3" valign="middle">備用空間</entry>
+</row>
+<row>
+<entry>0x0500</entry>
+</row>
+<row>
+<entry>0x0400</entry>
+</row>
+<row>
+<entry>0x0300</entry>
+</row>
+<row>
+<entry>0x0200</entry>
+<entry>資料堆積區</entry>
+</row>
+<row>
+<entry>0x0100</entry>
+<entry>程式碼區</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</sect2>
+</sect1>
+<sect1><title>磁碟置換(Disk Swaping)</title>
+<sect2><title>以 BitMap 記錄記憶體資訊</title>
+</sect2>
+<sect2><title>以 LinkedList 記錄記憶體資訊</title>
+</sect2>
+<sect2><title>記憶體合併</title>
+</sect2>
+<sect2><title>選擇置換程序</title>
+<sect3><title>First Fit</title>
+</sect3>
+<sect3><title>Next Fit</title>
+</sect3>
+<sect3><title>Best Fit</title>
+</sect3>
+<sect3><title>Worst Fit</title>
+</sect3>
+<sect3><title>Quick Fit</title>
+</sect3>
+</sect2>
+</sect1>
+<sect1><title>虛擬記憶體(Virtual Memory)</title>
+<para>
+當程式比主記憶體大時，無法完全載入主記憶體時，
+最初是用<emphasis>覆蓋(overlay)</emphasis>法來解決，
+此法是將程式切成數個覆蓋，
+程式執行時，先載入第一個覆蓋，
+當覆蓋執行完，會在叫第二個覆蓋，
+其缺點是<emphasis>程式師必須親自處理覆蓋的分割及呼叫</emphasis>。
+</para>
+<para>
+另一個解法是<emphasis>虛擬記憶體(Virtual Memory)</emphasis>，
+它將用到的程式片段載入的記憶體，未用的放在磁碟，
+當要用到某個程式片段，則動態置換到記憶體中。
+</para>
+<sect2><title>分頁(Paging)</title>
+<para>
+虛擬記憶體常以<emphasis>分頁(Paging)</emphasis>實作，
+程式所產生的記憶體參考位址稱為<emphasis>虛擬位址空間(Virtual Address Space)</emphasis>，
+並不會直接經由記憶體匯流排來存取實體位址，
+而是經由<emphasis>記憶體管理單元(MMU, Memory Management Unit)</emphasis>
+可將虛擬位址空間對映到實體位址。
+</para>
+<para>
+通常會將虛擬位址空間分成小單位，稱為<emphasis>頁(Page)</emphasis>，
+而實體位址空間會有大小相等的單位稱為<emphasis>頁框(Page
+frame)</emphasis>。
+在 MMU 用來描述將頁對應到頁框的稱為<emphasis>分頁表(Page
+Table)</emphasis>，其表格每一筆記錄包含以下欄位：
+</para>
+<itemizedlist>
+<listitem><emphasis>頁序號</emphasis></listitem>
+<listitem><emphasis>存在位元(Present/absent bit)</emphasis>
+<para>
+表示此頁是否有對應頁框，
+有的話表示對應頁框序號所表示的對應頁框存放此頁的內容，
+否則此頁內容目前不存在記憶體裡。
+</para>
+</listitem>
+<listitem><emphasis>對應頁框序號</emphasis></listitem>
+</itemizedlist>
+</sect2>
+<sect2><title>需求分頁(demand paging)</title>
+<para>
+<emphasis>需求時分頁(demand
+paging)</emphasis>是實作虛擬記憶體最簡單的方式，
+只有在程式開始指向到分頁時，才把分頁載入到記憶體，
+行程開始執行時，並無任何分頁在記憶體，
+隨後開始一連串的分頁失敗，
+使作業系統將此行程的工作集內的分頁一一載入到記憶體，
+當工作集幾手在記憶體中時，PFF 便會降低。
+此實作的優點如下：
+</para>
+<itemizedlist id="advOfDemandPaging" xreflabel="需求時分頁優點">
+<listitem>不會載入從未存取的分頁，節省記憶體，尤其在多工系統中</listitem>
+<listitem>在程式啟動時不會延遲，不需載入工作集</listitem>
+<listitem>較少磁碟存取成本(overhead)，因為讀取較少的分頁</listitem>
+<listitem>分頁較能讓多支程式分享，直到分頁內容改變，
+<emphasis>寫入時烤貝(copy on write)</emphasis>的技術能省更多資源</listitem>
+<listitem>能執行比記憶體還大的程式，比舊技術覆蓋(overlay)好</listitem>
+<listitem>比需求分頁(what paging need)要求更少的硬體支援，
+因為保護失敗(protection fault)可用來取得分頁失敗</listitem>
+</itemizedlist>
+<para>
+其缺點如下：
+</para>
+<itemizedlist id="dadvOfDemandPaging" xreflabel="需求時分頁缺點">
+<listitem>程式在第一次存取分頁時會延遲，而
+<emphasis>前置分頁(prepaging)</emphasis>，
+記住幾個行程最後使用的分頁，並在下次行程啟動時一次載入，能用來改善效率。
+</listitem>
+<listitem>使替換分頁演算法更複雜</listitem>
+</itemizedlist>
+<para>
+在 UNIX 系統，需求時分頁是由 mmap() 系統呼叫來達成。
+</para>
+</sect2>
+<qandaset defaultlabel='number'>
+<title>習題</title>
+<qandaentry>
+<question>
+<orderedlist>
+<listitem>
+需求分頁（demand paging）是一種虛擬記憶體（virtual memory）技術，
+試說明其優點。（10 分）
+</listitem>
+<listitem>
+試說明要得到前述之優點，要付出的代價為何？（10 分）
+</listitem>
+</orderedlist>
+<biblioref linkend="BOI94"/>
+</question>
+<answer>
+<para>
+見<xref linkend="advOfDemandPaging"/>及<xref linkend="dadvOfDemandPaging"/>。
+</para>
+</answer>
+</qandaentry>
+</qandaset>
+</sect1>
+</chapter>
+<chapter><title>輸出/輸入</title>
+<sect1><title>SPOOL(simultaneous peripheral operations on-line)</title>
+<para>
+當客戶端與服務端完成工作的速度不一致時，
+則客戶端會將工作置入一個特別的緩衝區，
+讓服務端完成一項工作時，可從此緩衝區在讀出下個工作，
+讓服務端可以它的速度來執行工作。
+</para>
+<para>
+SPOOL 指以前裁縫機的線軸，
+使用者將要使用的線先纏繞上去，
+等要用到時，便將線拉出來，
+這也來自於以前的磁帶和線軸很像，
+工作先存到磁帶中，再從磁帶讀出來。
+</para>
+<para>
+常見的有 printer spooler 及 mail spooler。
+</para>
+</sect1>
+</chapter>
+<chapter><title>死結(deadlock)</title>
+<para>
+<emphasis>死結(deadlock)</emphasis>指正在等待資源的懸置行程無法改變其等待狀態，
+因為其等待的資源被一個懸置行程所佔有。
+</para>
+<sect1><title>資源</title>
+<para>
+</para>
+<sect2><title>資源配置圖(Resource Allocation Diagram)</title>
+<figure><title>資源配置圖</title>
+<imagedata fileref="pic/ResAlloDiagram.gif" />
+</figure>
+<para>
+資源以方型表示，而行程以橢圓表示，
+當資源指向行程表示此資源被行程佔有，
+當行程指向資源表示此行程要求此資源。
+如上圖，行程 P 佔有資源 R，且要求資源 R2。
+</para>
+</sect2>
+</sect1>
+<sect1><title>死結的條件</title>
+<figure><title>循環等待</title>
+<imagedata fileref="pic/CircularWait.gif" />
+</figure>
+<itemizedlist>
+<listitem><emphasis>互斥(mutal exclusion)</emphasis>
+指資源佔有互斥
+</listitem>
+<listitem><emphasis>佔有並等待(hold and wait)</emphasis>
+佔有某個資源並等待下個資源
+</listitem>
+<listitem><emphasis>不可插隊(nonpreempt resource)</emphasis>
+資源不可插隊
+</listitem>
+<listitem><emphasis>循環等待(Circular Wait)</emphasis>
+要求資源及佔有資源形成一個鏈，如上圖。
+</listitem>
+</itemizedlist>
+</sect1>
+<sect1><title>鴕鳥預防法(ostrich)</title>
+<para>
+假裝系統不會有死結發生。
+</para>
+</sect1>
+<sect1><title>死結偵測與復原(Deadlock Detection and Recovery)</title>
+<para>
+允許系統進入死結狀態，並能偵測出死結狀態，並復原之。
+</para>
+</sect1>
+<sect1><title>死結預防(Deadlock Prevention)</title>
+<para>
+指限制行程存取資源不能同時滿足死結四條件。
+</para>
+<sect2><title>互斥預防</title>
+<itemizedlist>
+<listitem>若資源可共用，則不要互斥，如讀取資料庫表格</listitem>
+<listitem>若資源不可共用，則要維持互斥，如更新資料庫表格</listitem>
+<listitem>不太可能達到互斥預防，因為很多硬體資源是不可共享的</listitem>
+</itemizedlist>
+</sect2>
+<sect2><title></title>
+</sect2>
+<sect2><title></title>
+</sect2>
+<sect2><title></title>
+</sect2>
+</sect1>
+<sect1><title>死結避免(Deadlock Avoidance)</title>
+<sect2><title>銀行家演算法(Banker's Algorithm)</title>
+</sect2>
+</sect1>
+</chapter>
+<chapter><title>檔案管理</title>
+<sect1><title>檔案系統實作</title>
+<para>
+磁碟空間其組成儲存單元大部份是區塊，
+所以儲存檔案必須將檔案轉換成以區塊為單位，
+其儲存配置有以下幾種：
+</para>
+<sect2><title>連續空間配置</title>
+<para>
+每個檔案記錄有以下兩個欄位：
+</para>
+<itemizedlist>
+<listitem><emphasis>起始位址</emphasis></listitem>
+<listitem><emphasis>佔據區塊長度</emphasis></listitem>
+</itemizedlist>
+<para>
+此法的優點是，戴入檔案只要找到起始位址，
+便能一次載入，速度較快。
+</para>
+<para>
+其缺點在當刪除檔案時，
+會在連續檔案區塊中殘留許多不連續區塊，
+稱為<emphasis>洞</emphasis>，
+當要再新增檔案時，若要存放在洞，
+則新檔案要考慮存放在洞所佔的區塊接近其佔據長度，
+這會使得磁碟利用率不高，快速用完。
+不然就得重整磁碟，釋放洞的空間。
+</para>
+</sect2>
+<sect2><title>鏈結串列配置</title>
+<para>
+主要是採取<emphasis>單向鏈結串列</emphasis>來實作，
+在每個區塊頭存放<emphasis>下個區塊位址</emphasis>，
+最後一個區塊頭存放<emphasis>檔案結尾</emphasis>，
+來表示佔據結束。
+</para>
+<para>
+優點是解決洞的問題。
+</para>
+<para>
+此法的缺點是，戴入檔案要延著區塊一個一個往下找，
+每次只載入一個區塊，存取速度慢。
+同時區塊頭用來存放下個區塊位址，
+會破壞原本以 2 的次方為基底的區塊長度，
+造成必須以緩衝區來將兩個區塊的資料組合成原本的區塊長度，
+這會更加減慢運算的速度。
+</para>
+</sect2>
+<sect2><title>檔案配置表(FAT,File Allocation Table)</title>
+<para>
+<emphasis>檔案配置表</emphasis>是一個額外的表格，
+表格的列號是區塊編號，
+而表格有一個欄位是記載下個區塊編號。
+整個方法是建立一個索引表，
+並在索引表作<emphasis>邏輯鏈結</emphasis>取代上面<emphasis>實體鏈結</emphasis>，
+這樣會解決以單向鏈結串列實作的問題。
+</para>
+<para>
+但是記憶體必須要能載入整個 FAT，
+若磁碟越大，則 FAT 就越大。
+</para>
+</sect2>
+<sect2><title>inode(index node)</title>
+<para>
+inode 是 Unix 系統族儲存檔案系統基本資訊的資料結構，
+包含兩個資訊：
+</para>
+<itemizedlist>
+<listitem><emphasis>檔案屬性</emphasis></listitem>
+<listitem><emphasis>檔案儲存區塊位址</emphasis></listitem>
+</itemizedlist>
+<para>
+當系統要使用一個檔案時，只要載入此檔案的 inode，
+和 FAT 相比，inode 只和檔案大小相關，與磁碟無關。
+</para>
+</sect2>
+</sect1>
+<sect1><title>檔案共享</title>
+<sect2><title>Hard Link</title>
+</sect2>
+<sect2><title>符號連結(Symbolic Link)</title>
+</sect2>
+</sect1>
+</chapter>
+<chapter><title>能源管理</title>
+<sect1><title>冬眠(Hiebernate)</title>
+<para>
+<emphasis>冬眠(Hiebernate)</emphasis>指在關機前，
+將目前記憶體的狀態，
+原封不動的抄到<emphasis>非揮發性記憶體</emphasis>，
+然後關機，來節省能源，在手提電腦上是常見的機制。
+</para>
+</sect1>
+</chapter>
+<bibliography><title>參考文獻</title>
+<biblioentry id="BOI94">
+<abbrev>調94</abbrev>
+<title>94 年公務人員特種考試法務部調查局調查人員系統程式考試試題</title>
+<publisher>
+<publishername>考試院</publishername>
+<pubdate>2005</pubdate>
+</publisher>
+</biblioentry>
+</bibliography>
+</book>

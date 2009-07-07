@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>圖狀結構</title>
+<sect1><title>背景</title>
+<sect2 hclass="definition"><title>圖 Graph</title>
+<para>
+<emphasis>圖</emphasis>(Graph)由
+<emphasis>點</emphasis>(vertex)集合及
+<emphasis>邊</emphasis>(eage)集合組成，
+邊代表兩點間的關係，通常又可以把邊可為兩個點的集合或序對。
+令圖 G=(V, E)，其中 V 為點集，而 E 為邊集，若邊為兩點集合，則圖 G 為
+<emphasis>無向圖</emphasis>(undirected graph)，
+記作 e=(v1,v2)，其中 v1, v2 稱為邊 e 的
+<emphasis>端點</emphasis>(endpoint)， 同時稱 v1, v2 為
+<emphasis>相鄰點</emphasis>(adjacent nodes)，邊 e 
+<emphasis>附屬</emphasis>(incident)在 v1, v2 上，
+若邊為兩點序對，則 G 為
+<emphasis>有向圖</emphasis>(digraph)，記作 e=&lt;v1,v2>。
+若圖中，有一對點 v1, v2 有條以上的邊，稱為
+<emphasis>多重邊</emphasis>(multiple eages)，稱此圖為
+<emphasis>多重圖</emphasis>(multiple graph)，反之則為
+<emphasis>簡單圖</emphasis>(simple graph)。
+</para>
+</sect2>
+</sect1>
+<sect1><title>無向圖</title>
+<para>
+點的
+<emphasis>級數</emphasis>(degree)定義為附屬於上邊的數目。
+一條由點 v1 至點 vn 的
+<emphasis>路徑</emphasis>(path)為相連的邊 
+{(v1, v2), (v2, v3),...(v(n-1), vn)} 所組成，通常記作 p=(v1, v2,..., vn)。
+若 v1=vn 則 p 稱為
+<emphasis>封閉路徑</emphasis>(closed path)或
+<emphasis>迴路</emphasis>(circuit)，
+若 p 中所有點均不同，則稱 p 為
+<emphasis>簡單路徑</emphasis>(simple path)，
+若 p 為長度大於 3 的簡單封閉路徑，則稱為<emphasis>環</emphasis>(cycle)，
+長度為 k 稱為<emphasis>k-環</emphasis>(k-cycle)，
+</para>
+<para>
+若圖 G 任兩點均存在一條路徑，則稱 G 為<emphasis>連通圖</emphasis>(Connected graph)。
+若點 v1 至 v2 存在路徑，則稱 v1 可從 v2 <emphasis>到達</emphasis>(reachable)。
+</para>
+<para>
+若圖 G 不存在任何環，則稱圖 G 為<emphasis>森林</emphasis>(forest)。
+若森林 F 為連通圖，則稱為<emphasis>樹</emphasis>。
+</para>
+<para>
+若圖 G 中點集 U 包含於 V，邊集 F 包含於 E，則定義 H=(U, F) 為 
+G 的<emphasis>子圖</emphasis>(subgraph)。
+G 的最大的連通子圖稱為<emphasis>連通元件</emphasis>(Connected component)，
+若連通元件含有 G 所有的點，且為樹則稱為<emphasis>擴張樹</emphasis>(spanning tree)。
+</para>
+<sect2 hclass="theorem" id="TheoremOfConnectedComponent"><title>令 n 為圖的節點數，m 為圖的邊數，
+c 為圖的連通元件數，若且為若 G 為森林則
+<inlineequation>n=m+c</inlineequation></title>
+<para>
+(->)當 m=0 則 G 無邊，故有 n 個連通元件，n=n+0 成立。
+</para>
+<para>
+令 m=i 成立，c=n-i，則當 m=i+1 時，因為 G 森林，多一個邊會減少 1 個元件，
+故 c=n-i-1，可以得到 m+c=i+1+n-i-1=n 成立。
+</para>
+<para>
+依數學歸納法可得知 G 為森林，則 n=m+c。
+</para>
+<para>
+(&lt;-)令 n=m+c 但 G 不為森林，則 G 至少存在一含環元件 c'，
+必存在 e 當自 c' 移走時，c' 仍為連通元件，
+但邊數已成為 m-1 故 (m-1)+c != n 矛盾，故可推論
+<para>
+</para>
+當 n=m+c 時，G 必為森林。
+</para>
+</sect2>
+<example><title>尤拉環與七橋問題</title>
+<para>
+包含所有邊的環稱為<emphasis>尤拉環</emphasis>(Eulerian cycle)，
+圖為尤拉環的條件是<emphasis>所有點的級數必須為偶數</emphasis>，
+尤拉環為七橋問題的解。
+包含所有邊的路徑稱為<emphasis>尤拉鏈</emphasis>(Eulerian chain)，
+圖為尤拉鏈的條件是<emphasis>只能有兩點的級數為奇數，其餘為偶數</emphasis>。
+</para>
+</example>
+</sect1>
+<sect1><title>有向圖</title>
+為其兩點的的連結邊具有方向。 
+
+*屬性 *方法 **距離 Distance int G.dist(u, v)
+圖中兩個點 u 及 v 的距離定義為在圖中此兩點間最短的路 徑的長度。 若 u 和 v 為同一點，則定義其距離為 0；若
+u 和 v 不存 在連接的路徑，則定義其距離為無窮大。
+</sect1>
+<sect1><title>有向無環圖 DAG</title>
+<para>
+若有向圖 G 中，不包含任何有向環，就稱 G 為 DAG。
+若某點 v 無任何進入邊，則稱其為<emphasis>源點(source)</emphasis>，
+反之 v 無任何外出邊，則稱其為<emphasis>終點(sink)</emphasis>。
+</para>
+
+</sect1>
+<sect1><title>圖的表示法</title>
+
+<sect2><title>圖集合表示法</title>
+圖可定義為
+</sect2>
+可用兩種結構來表示圖，一為鏈，二為矩陣。 
+若以鏈作為結構的話，較省空間，但是存取較 前者常用來表示稀疏圖，後者表示有向圖
+<sect2><title>相鄰矩陣 Adjacency Martrix</title>
+</sect2>
+<sect2><title>相鄰鏈 Adjacency List</title>
+</sect2>
+<sect2><title>索引表 Index Table</title>
+</sect2>
+</sect1>
+<sect1><title>圖的探訪</title>
+<sect2 hclass="definition"><title>先深後廣探訪 DFS</title>
+<procedure><title>先深後廣探訪 DFS</title>
+<step>初始 T 用來維護已探訪的節點</step>
+<step>初始<emphasis>堆疊 S</emphasis>用來維護將探訪的節點</step>
+<step>選定一起點 s 屬於 V，將 s 加入 T，並把與 s 相鄰的節點放入 S</step>
+<step>若 S 不為空，選出下一節點 v' 加入 T，
+並把與 v' 相鄰的節點放入 S</step>
+<step>回上一步驟反覆進行至 S 為空</step>
+</procedure>
+</sect2>
+<sect2 hclass="definition"><title>先廣後深探訪 BFS</title>
+<procedure><title>先廣後深探訪 BFS</title>
+<step>初始 T 用來維護已探訪的節點</step>
+<step>初始<emphasis>佇列 Q </emphasis>用來維護將探訪的節點</step>
+<step>選定一起點 s 屬於 V，將 s 加入 T，並把與 s 相鄰的節點放入 Q</step>
+<step>若 Q 不為空，選出下一節點 v' 加入 T，
+並把與 v' 相鄰的節點放入 Q</step>
+<step>回上一步驟反覆進行至 Q 為空</step>
+</procedure>
+</sect2>
+</sect1>
+<sect1><title>最小擴張樹 Minimum spanning tree</title>
+<sect2 hclass="definition"><title>擴張樹</title>
+<para>
+無向圖中，<emphasis>擴張樹</emphasis>是連接每一個節點的子樹，
+</para>
+</sect2>
+<sect2 hclass="theorem" id="TheoremOfMST"><title>若圖其節點數為 n，則其擴張樹的邊數一定為 n-1。</title>
+<para>
+因為擴張樹是連接每一個節點，
+故每個圖至多只能有一個擴張樹，
+再由<xref linkend="TheoremOfConnectedComponent"/>可得知擴張樹的邊數一定為 n-1。
+</para>
+</sect2>
+<sect2 hclass="definition"><title>最小擴張樹</title>
+<para>
+網路中，權重和最小的擴張樹，定義為網路的最小擴張樹。
+</para>
+</sect2>
+<sect2><title>找出最小擴張樹</title>
+<procedure><title>Kruskal 演算法</title>
+<step>初始 T 為空樹，E 為圖的邊集合</step>
+<step>當 T 的邊數
+<itemizedlist>
+<listitem>少於 n-1 </listitem>
+<listitem>且 E 非空集合</listitem>
+</itemizedlist>
+進行下面步驟
+<substeps>
+<step><emphasis>選擇 E 中權重最小的邊 e</emphasis></step>
+<step>自 E 移除 e</step>
+<step>若 e 加入 T 不會形成環，則將 e 加入至 T，反之跳過 e</step>
+</substeps>
+</step>
+<step>若<emphasis> T 的邊數小於 n-1 </emphasis>則觸發例外「E 不存在 MST」，
+反之傳回 T 為最小擴張樹。
+請參閱<xref linkend="TheoremOfMST"/>。
+</step>
+</procedure>
+<procedure><title>Prim 演算法</title>
+<step>初始 T 為空樹，U 包含圖 G 的起始節點，V 為 G 的節點集合</step>
+<step>若 |U| &lt; |G| 進行下面步驟
+<substeps>
+<step>從 U 選擇 u，從 V-U 中選擇 v 則形成邊 (u,v) 為權重最小的邊</step>
+<step>將 (u,v) 加入 T</step>
+<step>將 v 加入 U</step>
+<step>回到迴圈頭</step>
+</substeps>
+</step>
+</procedure>
+<para>
+Prim 演算法每次連一個點，
+<emphasis>並將節點區分成已處理及未處理</emphasis>，
+故不會形成環，少掉 Kruskal 中需要判別環的步驟。
+</para>
+<example><title>擴張樹協定</title>
+所以在有備緩橋接器的網路上，為了避免無窮廣播，
+利用擴張樹來消除網路上的環。 
+</example>
+<example><title>TCP/IP 群播實作</title>
+<para>
+在 TCP/IP 的類別 D 的位址，是保留給群播的。
+<emphasis>群播 Multicast</emphasis>是指將訊息傳給特定一組機器群，
+而<emphasis>最小擴張樹可用來找出最有效率的群播路徑</emphasis>。
+群播位址定義在 RFC 3171，如下表所示
+</para>
+<table><title>TCP/IP 群播位址</title>
+<tgroup cols="2">
+<thead>
+<row>
+<entry>位址</entry><entry>描述主機集合</entry>	
+</row>
+</thead>
+<tbody>
+<row>
+<entry>224.0.0.0</entry><entry>保留位址</entry>
+</row>
+<row>
+<entry>224.0.0.1</entry><entry>廣播到同一網路區段的所有主機</entry>
+</row>
+<row>
+<entry>224.0.0.2</entry><entry>廣播到同一網路區段的所有路由器</entry>
+</row>
+<row>
+<entry>224.0.0.5</entry><entry>廣播到同一網路區段的所有 OSPF 路由器</entry>
+</row>
+<row>
+<entry>224.0.0.6</entry><entry>廣播到同一網路區段的所有 OSPF 指定路由器</entry>
+</row>
+<row>
+<entry>224.0.0.9</entry><entry>廣播到同一網路區段的所有 RIPv2 路由器</entry>
+</row>
+<row>
+<entry>224.0.0.18</entry><entry>Virtual Router Redundancy Protocol</entry>
+</row>
+<row>
+<entry>224.0.1.41</entry><entry>H.323 GateKeeper 發現位址</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</example>
+</sect2>
+</sect1>
+<sect1><title>最短路徑</title>
+<sect2 hclass="definition"><title>最短路徑</title>
+<para>
+令圖 G={V, E}，
+則可定義一權重函數 w:e->d, e 屬於 E, d>=0，
+若 e 不屬於 E 則定義其 W 為無限大。
+</para>
+<para>
+路徑 p 的權重函數可定義為
+<equation>W(p)=sum(w(v1, v2),w(v2, v3)...w(v(n-1), vn)</equation>
+故可定義最短路徑距離 d(u,v)=min(w(p)), 其中 p 為從 u 到 v 的路徑。
+</para>
+</sect2>
+<sect2 hclass="theorem"><title>若 s 是最短路徑，且 s' 包含於 s，則 s'
+也是最短路徑。</title>
+<titleabbrev>最短路徑的最佳子結構定理</titleabbrev>
+</sect2>
+<sect2 hclass="theorem"><title>若 u, x, v 屬於 V，則右方不等式成立：
+<inlineequation>d(u,v)&lt;=d(u,x)+d(x,v)</inlineequation></title>
+<titleabbrev>最短路徑的三角不等式</titleabbrev>
+</sect2>
+<sect2 hclass="application"><title>距離向量協定</title>
+<para>
+採用 Bellman-Ford 演算法，所以不須知道所有網路的拓撲狀態。
+</para>
+</sect2>
+<sect2><title>最短路徑演算法比較</title>
+<table frame='all'><title>最短路徑演算法比較</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+<entry>問題</entry>
+<entry>非負權重邊</entry>
+<entry>通用</entry>
+<entry>DAG</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>單起點最短路徑問題</entry>
+<entry>Dijkstra:O(E+VlgV)</entry>
+<entry>Bellman-Ford:O(VE)</entry>
+<entry>One pass of Bellman-Ford:O(V+E)</entry>
+</row>
+<row>
+<entry>全對最短路徑問題</entry>
+<entry>Dijkstra*|V|次:O(VE+V<superscript>2</superscript>lgV)</entry>
+<entry>動態規劃, Floyd-Warsshell, 遞移閉包</entry>
+<entry></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</sect2>
+</sect1>
+<sect1><title>Dijkstra 演算法</title>
+<sect2 hclass="definition"><title>找尋源點最短路徑問題</title>
+<para>
+給定一起點 s 屬於 V，對所有 v 屬於 V，找出所有 d(s,v)。
+</para>
+</sect2>
+<para>
+其程序與 BFS 很像，但是其佇列 Q 是使用優先佇列，
+而 Dijkstra<emphasis>必須知道網路的拓撲狀態</emphasis>，
+同時<emphasis>不能有負權邊</emphasis>。
+</para>
+<procedure><title>Dijkstra 演算法</title>
+<step>初始 T 用來維護已探訪的節點</step>
+<step>初始優先佇列 Q，並將所有節點放入</step>
+<step>初始陣列 D 用來維護<emphasis>目前階段所有點與 s
+最短的距離</emphasis>，
+D(v)便是存放 d(s,v)，
+初始值為 D(s)=0, D(v)=無限大，其中 v 屬於 V-s</step>
+<step>若 Q 不為空，則執行以下子程序
+<substeps>
+<step>自 Q 取出<emphasis>最近節點</emphasis>
+（也就是 D(u) 值最小的節點） u 加入 T</step>
+<step>更新 Q 
+<substeps>對每個與 u 相鄰點 v，依下面公式重算其最短距離 D(v)
+<para>
+<equation>D(v)=min(D(v),D(v)+ w(u,v))</equation>
+</para>
+<step>對每個 D(v) 值改變的點 v，在 Q 執行降級(decrease key)的動作</step>
+</substeps>
+</step>
+</substeps>
+</step>
+<step>反覆進行至 Q 為空</step>
+</procedure>
+<procedure id="dijkstra"><title>Dijkstra 演算法</title>
+<programlisting>
+def dijkstra(graph, source)
+  #1:初始化圖
+	vs=graph.vertices
+	es=graph.edges
+  for v in vs
+    v.predecessor := null
+    v.distance = infinity
+    v.distance = 0 if v == source
+  end
+  q = FQueue[vs]  #Fibonacci Queue
+  s = Set.new
+
+  #2:展開每個邊的權值
+  until q.empty? 
+    u = q.deqMin
+    s = s.union(u)
+    for e in u.outEdges
+      v = e.destination
+      if v.distance > u.distance + e.weight
+        v.distance = u.distance + e.weight
+        q.decrease(v) # 對 fq 作鍵 v 的降級
+        v.prev = u 
+      end
+    end
+  end
+end
+</programlisting>
+</procedure>
+<para>
+其 Q 以費伯納希堆實作為佳。
+</para>
+<sect2 hclass="application"><title>OSPF 協定</title>
+採用 Dijkstra 演算法，所以必須知道所有網路的拓撲狀態。
+</sect2>
+</sect1>
+<sect1><title>Bellman-Ford 演算法</title>
+<para>
+與 Dijkstra 最大的不同在於，
+Bellman-Ford 每一次展開邊時，
+是圖的所有邊作展開，
+而 Dijkstra 則是對最小權值節點的所有發出邊作展開。
+</para>
+<procedure><title>Bellman-Ford 演算法</title>
+<programlisting>
+def bellman_ford(graph, source)
+  # 1:初始化圖
+	vs=graph.vertices
+	es=graph.edges
+  q =FibonacciQueue.new(vs)
+  s =Set.new();
+  vs.each do |v| 
+    if v == source
+      v.distance = 0
+    else
+      v.distance = infinity
+    end
+    v.predecessor=null
+  end
+
+  # 2:重覆地展開邊
+  for i in 1..(vs.size)
+    for e in es
+      u=e.source
+      v=e.destination
+      v.distance = min(v.distance, u.distance + e.weight)
+      v.prev = u if v.distance == u.distance + e.weight
+    end
+  end
+
+  # 3:檢查負權邊
+  for e in es
+    u=e.source
+    v=e.destination
+    throw NegWeightEdgeError if v.distance > u.distance + e.weight
+  end
+end
+</programlisting>
+</procedure>
+<sect2><title>找尋全對最短路徑問題</title>
+</sect2>
+</sect1>
+<sect1><title>AOV-網路 Activity on Vertex network</title>
+<para>
+所有的工程或者某種流程可以分為若干個小的工程或階段，
+這些小的工程或階段稱為<emphasis>活動(Activity)</emphasis>。
+若以有向無環圖(DAG)的頂點來表示活動，
+有向邊表示活動之間的<emphasis>優先關係</emphasis>，
+則這樣活動在頂點上的 DAG 稱為 AOV 網路。
+</para>
+<para>
+在 AOV 網路中，若從點 i 到點 j 之間存在一條有向路徑，
+稱 i 是 j 的<emphasis>前驅</emphasis>，
+或者稱 j 是 i 的<emphasis>後繼</emphasis>。
+若 (i,j) 是圖中的邊，則稱 i 是 j 的<emphasis>直接前驅</emphasis>，
+j 是 i 的<emphasis>直接後繼</emphasis>。
+AOV 網中的邊表示了活動之間存在的<emphasis>先後關係</emphasis>。
+</para>
+<para>
+在<emphasis>AOV 網路中不能出現有向環</emphasis>。
+如果出現了有向環，則意味著某項活動應以自己作為先決條件。
+因此，對給定的AOV網路，必須先判斷它是否存在有向環。
+<emphasis>檢測有向環的一種方法是對 AOV
+網路求出拓撲有序序列</emphasis>。
+即將各個點（代表各個活動）排列成一個線性有序的序列，
+使得 AOV 網路中所有應存在的前驅和後繼關係都能得到滿足。
+這種構造 AOV
+網路全部頂點的拓撲有序序列的運算就叫做<emphasis>拓撲排序</emphasis>。
+如果通過拓撲排序能將 AOV 網路的所有頂點都排入一個拓撲有序的序列中, 
+則該網路中必定不會出現有向環。
+</para>
+<procedure><title>拓撲排序</title>
+<step>令 G 為具有 n 個元素的有向圖，初始化陣列 A[n] 用來儲存排序結果</step>
+<step>若 |A| 小於 n，執行以下子程序
+<substeps>
+<step>在 G 中選一個沒有進入邊的頂點 v</step>
+<step>將 v 加入至 A 中</step>
+<step>從 G 中刪除 v 和所有以它為尾的邊</step>
+</substeps>
+</step>
+<step>傳回 A 為 G 的拓撲排序陣列</step>
+<remark>拓撲排序演算法時間複雜度為 O(n＋e)。</remark>
+</procedure>
+</sect1>
+<sect1><title>AOE-網路 Activity On Eage network</title>
+<para>
+一般就是 PERT 圖，其可以回答
+<segmentedlist>
+<?dbhtml list-presentation="table"?>
+<segtitle>元素</segtitle>
+<segtitle>說明</segtitle>
+<seglistitem><seg>工作(task)</seg>
+<seg>
+又稱為活動，在有向圖中的以邊表示，
+工作會消耗資源，用來達到其進入里程碑。
+<emphasis>其出來的里程碑若沒達到，則此工作永達無法完成。</emphasis>
+</seg>
+</seglistitem>
+<seglistitem><seg>里程碑(milestone)</seg>
+<seg>
+又稱為事件，在網路圖以節點表示，
+里程碑不消耗資源（時間、勞務、金錢等等）。
+若此點的里程碑沒有發生，
+則表示此點的離邊所代表的工作就不能進行。
+所謂的<emphasis>完成里程碑</emphasis>是指此點的入邊所代表的工作皆已完成。
+</seg>
+</seglistitem>
+<seglistitem><seg>樂觀時間 O</seg>
+<seg>完成工作最少所耗費的時間</seg>
+</seglistitem>
+<seglistitem><seg>悲觀時間 P</seg>
+<seg>完成工作最多所耗費的時間</seg>
+</seglistitem>
+<seglistitem><seg>可能時間 M</seg>
+<seg>完成工作最有可能耗費的時間</seg>
+</seglistitem>
+<seglistitem><seg>預期時間 T<subscript>E</subscript></seg>
+<seg>T<subscript>E</subscript>=(O+4M+P)/6</seg>
+</seglistitem>
+<seglistitem><seg>延誤 S(Slack)</seg>
+<seg>
+一個里程碑的延誤是指到達此里程碑所多費的時間，
+<simplelist>
+<member>若 S > 0 則稱為進度超前</member>
+<member>若 S &lt; 0 則稱為進度落後</member>
+<member>若 S = 0 則稱為趕上進度</member>
+</simplelist>
+</seg>
+</seglistitem>
+<seglistitem><seg>關鍵路徑 CR</seg>
+<seg>從開始到最終里程碑的路徑中，耗時最長的路徑，
+若關鍵路徑延遲，會延遲整個專案時程</seg>
+</seglistitem>
+</segmentedlist>
+</para>
+<para>
+</para>
+</sect1>
+</chapter>

@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding="Big5"?>
+<chapter><title>語意分析</title>
+<sect1 id="SyntaxDirectedTranslation"><title>語法引導翻譯</title>
+<para>
+翻譯是一個輸入為源碼，輸出為目的碼的函數，
+語法引導翻譯有幾個要件，
+一是其文法必須為 CFG，
+其次其每個文法符號可以附屬幾個屬性，
+再來則是每個展開規則有一個對應的語意動作，
+每個語意動作定義了左邊的文法符號其屬性值如何由右邊的文法符號序列產生出來，
+將 CFG 轉成剖析樹時，
+轉換的動作為對剖析樹作先深後廣的巡訪，
+並將中間節點的屬性值依其子樹及對應的語意動作計算出來，
+屬性值必須由其子樹及對應的語意動作計算出來的稱為綜合屬性。
+翻譯的結果即為根節點的屬性。
+</para>
+<example><title>前置文法轉後置文法</title>
+<figure><title>前置文法</title>
+<![CDATA[
+<expr>   ::= <expr>+<term>|<expr>-<term>|<term>
+<term>   ::= <term>*<digit>|<digit>
+<digit>  ::= 1|2|3|4|5|6|7|8|9|0
+]]>
+</figure>
+<table><title>前置文法轉後置文法的語意動作表</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+<entry>展開規則</entry>
+<entry>語意動作</entry>
+</row>
+</thead>
+<tbody>
+<row><entry><![CDATA[<expr>   ::= <expr1>+<term1>]]></entry>
+<entry>
+<![CDATA[
+<expr>.a ::= <expr1>.a || <term1>.a || +
+]]>
+</entry>
+</row>
+<row><entry><![CDATA[<expr>   ::= <expr1>-<term1>]]></entry>
+<entry>
+<![CDATA[
+<expr>.a ::= <expr1>.a || <term1>.a || -
+]]>
+</entry>
+</row>
+<row><entry><![CDATA[<expr>   ::= <term1>]]></entry>
+<entry>
+<![CDATA[
+<expr>.a ::= <term1>.a
+]]>
+</entry>
+</row>
+<row><entry><![CDATA[<term>   ::= <term1>*<digit1>]]></entry>
+<entry>
+<![CDATA[
+<term>.a   ::= <term1>.a ||<digit1>.a || *
+]]>
+</entry>
+</row>
+<row><entry><![CDATA[<term>   ::= <term1>/<digit1>]]></entry>
+<entry>
+<![CDATA[
+<term>.a   ::= <term1>.a ||<digit1>.a || /
+]]>
+</entry>
+</row>
+<row><entry><![CDATA[<term>   ::= <digit1>]]></entry>
+<entry>
+<![CDATA[
+<term>.a   ::= <digit1>.a 
+]]>
+</entry>
+</row>
+<row>
+<entry><![CDATA[<digit>  ::= 1]]></entry>
+<entry>
+<![CDATA[
+<digit>.t ::= 1
+]]>
+</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+</example>
+</sect1>
+<sect1 id="PredictiveParse"><title>預測剖析法</title>
+<para>
+對源碼詞串的剖析，一般是由左而右的讀取，
+正讀取到的詞稱為讀取詞，
+預測剖析法為遞降剖析法的一種，
+它利用一個副程序表示每個非終結文法元。
+預測剖析法主要是利用展開規則的右邊的展開式的第一個文法元，
+來判斷要選用那個展開式。
+</para>
+</sect1>
+</chapter>

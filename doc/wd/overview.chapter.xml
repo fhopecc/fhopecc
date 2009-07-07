@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding="Big5"?>
+<chapter><title>Web 課程設計</title>
+
+<figure id="web_tech_dep"><title>Web 技術課程相依圖</title>
+<graphic fileref="web_tech_dep.png"/>
+</figure>
+<para>
+Web 技術其相依如<xref linkend="web_tech_dep"/>所示，
+由於其為主從式架構，
+是故設計者需掌握客戶端及伺服端的技術，
+如<xref linkend="web_tech_dep"/>客戶端的技術主要是產出網頁，
+這包含 HTML、JavaScript 以及
+DHTML(DOM) 等技術，客戶端技術與使用者介面息息相關，
+是故對使用者滿意度有很大的影嚮。
+另外客戶端技術其各個技術異質度高，
+所以要能掌握需要長期的撰寫經驗，以及正確的觀念，
+才能有效的整合不同的技術。
+正確的觀念有賴於對原始碼的熟悉度，
+所以一開始訓練最好不要依賴 GUI 的開發工具，
+而是一行一行的熟悉原始碼，及不同的技術在原始碼中是怎樣整合起來。
+</para>
+<para>
+伺服端的技術有二個重點：一是客戶端技術的熟悉、二是對 HTTP 協定的熟悉。
+由於伺服端主要的產品是產生網頁，並傳給客戶端的瀏覽器執行，
+所以熟悉網頁的結構是前題。
+再來 HTTP 協定為網頁主要的傳輸協定，
+這對於理解 session, request, response, cookies
+等物件的用法及客戶端伺服端資訊流的溝通相當重要。
+</para>
+<para>
+XML 則為 AJAX 及 Webservice 的基礎。
+重點在理解 XML 的結構，以及如何用程式語言操作 XML 的 DOM 的結構。
+</para>
+<procedure id="course_seq"><title>課程順序</title>
+<step>知識管理:JSP Wiki 的使用</step>
+<step>客戶端程式設計
+<substeps>
+<step>HTML
+<substeps>
+<step>基礎標籤</step>
+<step>表格標籤</step>
+<step>框架標籤</step>
+<step>CSS</step>
+</substeps>
+</step>
+<step>Javascript
+<substeps>
+<step>語法</step>
+<step>DOM 物件的操作</step>
+</substeps>
+</step>
+</substeps>
+</step>
+<step>伺服端程式設計
+<substeps>
+<step>Java 程式設計</step>
+<step>HTTP 協定介紹</step>
+<step>Servlet 物件</step>
+<step>JSP 語法</step>
+<step>JSP Session 控制</step>
+</substeps>
+</step>
+<step>XML
+<substeps>
+<step>XML 語法</step>
+<step>Java 的 JDOM 用法</step>
+</substeps>
+</step>
+<step>AJAX
+<substeps>
+<step>XMLHttpRequest 物件</step>
+<step>prototype 函式庫</step>
+</substeps>
+</step>
+<step>Webservice
+<substeps>
+<step>SOAP</step>
+<step>WSML</step>
+<step>UDDI</step>
+</substeps>
+</step>
+</procedure>
+<para>
+<xref linkend="course_seq"/>為依照各主題的相依關系定出來的課程順序，
+其中的次要主題大綱是大概列舉，
+真正主題大綱應由授課人員制定。
+</para>
+<para>
+以上的課程可區分為兩種，
+一種是技術獨立的，像是 HTML、XML 語法及 Java 語法，
+而一種是需要整合不同技術，
+如 JavaScript、DHTML(DOM)、JDOM、AJAX 及 WebService。
+而這兩種的教學方法主要如下：
+技術獨立的部份，由於概念獨立，
+所以可將主題分解由學員們互相上台教學，可達教學相長之效，
+並可促進學習。
+而技術需要整合的部份，由於概念較為複雜，則由有經驗的人教學。
+</para>
+<para>
+以往資訊室的文件總是散在各個地方，
+每個人撰寫文件上傳知識、搜尋知識都很不方便，
+所以應簡介 JSPWiki 系統，
+讓學員把學習的心得、作業、FAQ 都能有一個集中存放、管理的地方，
+讓知識能分享給大家。
+</para>
+</chapter>

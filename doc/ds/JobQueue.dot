@@ -1,0 +1,16 @@
+digraph JobQueue {
+ rankdir = "LR"
+ node [fontname="Arial" shape="plaintext"];
+ edge [fontname="Arial"];
+ subgraph queue {
+   style = "filled";
+   label = "工作佇列";
+   fontname = "標楷體";
+   "cp *dot *dot_bk"-> "del *.~" -> "cat *dot > all.dot";
+  }
+
+ "ls -l fhope*" -> "cp *dot *dot_bk" [style="dotted" label="enqueue"];
+ "cat *dot > all.dot" -> "wc textfile" [style="dotted"
+label="dequeue"];
+ "OS" -> "wc textfile" [label="執行" fontname="標楷體"];
+}

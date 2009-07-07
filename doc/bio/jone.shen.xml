@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="Big5"?>
+<!--<!DOCTYPE DocBook>-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                    "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+>
+<article><title>履歷表</title>
+<sect1><title>基本資料</title>
+<table>
+<tgroup cols="5">
+<thead>
+</thead>
+</tgroup>
+</table>
+</sect1>
+</article>

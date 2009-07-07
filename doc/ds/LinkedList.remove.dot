@@ -1,0 +1,25 @@
+digraph LinkedList {
+  rankdir = "LR";
+  edge[fontname="arial"];
+  node[fontname="arial" shape="record"];
+  A [
+  label = "{{<addr> 0x0010 | <data> A }|<next>}"
+  ];
+  B [
+  label = "{{<addr> 0x0112 | <data> B }|<next>}"
+  ];
+  C [
+  label = "{{<addr> 0x0009 | <data> C }|<next>}"
+  ];
+  D [
+  label = "{{<addr> 0x0035 | <data> D }|<next>}"
+  ];
+  node[shape="point"];
+  A:next -> B:addr [label="鏈結指標重定位" fontname="標楷體"]
+  A:next -> D:addr [style="dotted" label="刪除鏈結指標" fontname="標楷體"]
+  D:next -> B:addr [style="dotted" label="刪除鏈結指標" fontname="標楷體"]
+  B:next -> C:addr 
+  C:next -> NULL
+  node[shape="plaintext"];
+  head -> A:addr
+}

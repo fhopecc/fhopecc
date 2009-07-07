@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="Big5"?>
+<chapter><title>檔案分享系統</title>
+	<sect1><title>SMB</title>
+		<para>
+			SMB(Server Message Block)，又稱 Common Internet File System(CIFS)是由微軟開發的，
+			用於連接伺服器和 Windows 客戶端。經過 Unix 伺服器廠商重新開發後，
+			可以用於連接 Unix 伺服器和 Windows 客戶端，
+			主要用來執行列印和檔案分享等任務。
+			CIFS 的訊息格式不同與 NFS 的固定長度格式， 
+			大多數訊息體都包含可變長的數據，這帶來一定的複雜性。
+			CIFS 訊息一般在 NETBIOs 或 TCP 上，分別使用埠 139 及 445，
+			目前傾向於使用 445 埠。
+			CIFS 訊息包括一個訊息標頭（32位元組）和訊息主體（1個或多個，長度可變）。 
+		</para>
+		<para>
+			常見的實作有 "Microsoft Windows Network"，
+			及 GPL 授權的 Samba。
+		</para>
+	</sect1>
+</chapter>

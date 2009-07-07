@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>二元堆</title>
+<para>
+堆為一種特殊的樹狀結構，
+其滿足以下的性質：
+<orderedlist>
+<listitem>內部父節點的鍵值永遠小於子節點</listitem>
+<listitem>除了葉以外，堆是滿樹</listitem>
+<listitem>堆的根結點的值最小</listitem>
+<listitem>根結點的兩個子樹也是一個堆</listitem>
+</orderedlist>
+上面的堆性質 1 為父節點小於子節點，
+所以堆稱之為最小堆(Min Heap)，
+反之若性質 1 改為父節點大於子節點，則稱之為最大堆(Max Heap)，
+而同一層的子節點則無需理會其大小關係。
+</para>
+<para>
+因此堆常用來實現優先隊列，
+或者被某些圖論演算法所利用，
+如費伯納希堆。
+堆也能實作排序演算法，如堆排序。
+</para>
+<para>
+堆一般都會定義插入節點、刪除節點、
+取出值最小的節點、
+減小節點的值等基本操作。
+</para>
+<para>
+<figure id="heap"><title>二元堆</title>
+	<imagedata fileref="ds/heap.jpg" />
+</figure>
+若二元樹滿足堆性質，
+則稱為<emphasis>二元堆</emphasis>(Binominal Heap)，
+<xref linkend="heap"/>為一個最小二元堆的例子。
+</para>
+<sect1><title>用陣列表示二元堆</title>
+<para>
+<figure id="heapArray"><title>二元堆陣列</title>
+<imagedata fileref="ds/heapArray.jpg" />
+</figure>
+可以使用一維陣列來儲存堆積樹的所有元素與其順序，
+為了計算方便，使用的起始索引是1而不是0，
+索引1是樹根位置，如果左子節點儲存在陣列中的索引為s，
+則其父節點的索引為s/2，而右子節點為s+1，
+就<xref linkend="heap"/>所示，
+可將其轉換為如<xref linkend="heapArray"/>的一維陣列。
+</para>
+<para>
+由二元堆的定義可得，若陣列 A={a[1], a[2],...a[N]} 為二元堆所轉換，
+則 A 必滿足以下條件：
+<itemizedlist>
+<listitem>a[s/2]&lt;a[s], 2&lt;=s&lt;=N, a[s/2]=a[floor(s/2)]</listitem>
+<listitem>a[s]&lt;a[2s], a[s]&lt;a[2s+1], 1&lt;=s&lt;=(N-1)/2</listitem>
+</itemizedlist>
+反之若 A 滿足以上條件，則 A 可用二元堆表示。
+</para>
+</sect1>
+<sect1><title>加入元素至堆</title>
+<para>
+<figure id="heapAdd12"><title>加入 12 至堆</title>
+<imagedata fileref="ds/heapAdd12.jpg" />
+</figure>
+加至堆積樹的元素會先放置在最後一個樹葉節點位置，
+然後檢查父節點是否小於子節點，
+將小的元素不斷與父節點交換，直到滿足堆積樹的條件為止，
+例如在上圖的堆積加入一個元素 12，
+則堆積樹的調整方式如所<xref linkend="heapAdd12"/>示：
+</para>
+</sect1>
+<sect1><title>自堆取出最小元素</title>
+<para>
+<figure id="heapPop1"><title>自堆取出最小元素 10</title>
+<imagedata fileref="ds/heapPop1.jpg" />
+</figure>
+<figure id="heapPop2"><title>自堆取出最小元素 12</title>
+<imagedata fileref="ds/heapPop2.jpg" />
+</figure>
+<procedure>
+<step>將最小值取出</step>
+<step>然後調整樹為堆積樹</step> 
+</procedure>
+最小值的取出方式是將樹根與最後一個樹葉節點交換，
+然後切下樹葉節點，重新調整樹為堆積樹，
+如<xref linkend="heapPop1"/>所示，
+左圖是把最小值 10 自堆彈出，
+右圖把最後一個樹葉節點 20 與樹根交換。
+樹根此時並非最小值，
+然後檢查父節點是否大於子節點，
+將小的元素不斷與父節點交換，直到滿足堆積樹的條件為止，
+調整完畢後，樹根節點又是最小值了，
+如<xref linkend="heapPop2"/>左圖所示。
+</para>
+</sect1>
+<sect1><title>堆排序</title>
+<para>
+選擇排序法的概念簡單，每次從未排序部份選一最小值，
+插入已排序部份的後端，其時間主要花費於在整個未排序部份尋找最小值，
+如果能讓搜尋最小值的方式加快，選擇排序法的速率也就可以加快，
+堆排序法讓搜尋的路徑由樹根至最後一個樹葉，
+而不是整個未排序部份，因而稱之為改良的選擇排序法。
+<procedure><title>堆排序</title>
+<step>初始化結果陣列來儲存排序結果</step>
+<step>將未排序元素組織成堆</step>
+<step>依序從堆中取出元素加到結果陣列
+<substeps>
+<step id="popMinLoop">取出最小值，並加入到結果陣列</step>
+<step>調整樹為堆</step> 
+<step>若堆為空，完成排序，否則回到<xref linkend="popMinLoop"/></step>
+</substeps>
+</step>
+</procedure>
+如此重覆步驟之後，由於使用一維陣列來儲存堆積樹，
+每一次將樹葉與樹根交換的動作就是將最小值放至後端的陣列，
+所以最後陣列就是變為已排序的狀態。
+</para>
+<para>
+如<xref linkend="heapPop1"/>取出堆的最小值 10，
+並加入到其圖下方的結果陣列，
+<xref linkend="heapPop2"/>取出堆的次小值 12，
+並加入到其圖下方的結果陣列，
+如此反覆進行，
+則結果陣列則為已排序的陣列。
+</para>
+<para>
+其實堆積在調整的過程中，就是一個選擇的行為，
+每次將最小值選至樹根，而選擇的路徑並不是所有的元素，
+而是由樹根至樹葉的路徑，
+因而可以加快選擇的過程，
+所以堆排序法才會被稱之為改良的選擇排序法。 
+</para>
+</sect1>
+<!--
+<sect2>
+<title>將隨機數列轉成二元堆數列，Floyd 演算法</title>
+<para>
+如隨機數列 S={6,2,7,9,5,3,4,8,10,1} 經 Floyd 可轉成上圖左堆。
+</para>
+</sect2>
+<sect2>
+<title>長度為 n 數列有多少種二元堆數列(Sloane's A056971)</title>
+<para>
+Sloane's A056971={1, 1, 2, 3, 8, 20, 80, 210, 896,
+3360...} 數列表示 a(n), n=1,2,3... 長度的數列，有幾種二元堆數列。
+</para>
+</sect2>
+-->
+</chapter>

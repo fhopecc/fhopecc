@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>高等樹狀結構</title>
+<sect1><title>自我平衡二叉搜尋樹</title>
+	
+
+<sect2><title>製作查詢表</title>
+	例如編譯器中的變數表，或是處理鍵盤及滑鼠動作的事件表。
+	但其二叉樹其存取鍵值的動作太多，不適合作為會存取磁碟等
+	二級記憶體的查詢表實作。
+</sect2>
+
+</sect1>
+<sect1 id="AVLTree"><title>AVL 樹</title>
+<sect2 hclass="definition"><title>AVL 樹</title>
+<para>
+在任一二叉搜尋樹 T 中，其任一節點 n 可定義一個
+<emphasis>平衡因子(balance factor)</emphasis>
+如下：
+</para>
+<equation>
+平衡因子=右子樹高度-左子樹高度
+</equation>
+<para>
+若規定平衡因子只能為 1, 0, -1，
+則 T 稱為<emphasis>AVL 樹</emphasis>。
+換言之，<emphasis>AVL 樹平衡法則</emphasis>是
+AVL 樹其中任意兩子樹的高度差在 -1 及 1 之間。
+</para>
+</sect2>
+<sect2 hclass="theorem">
+<title>任意具有 n 個節點 AVL 樹其高度至多為<emphasis>1.441*log(n)</emphasis></title>
+<para>
+令節點 x 高度為 x.h，節點數為 x.n 包含 x 本身，其平衡因子 x.bf=1，
+所以可得：
+</para>
+<para>
+右子樹 r 高度 r.h 為 x.h-1，左子樹 l 高度 l.h 為 x.h-2。
+</para>
+
+<sect3 hclass="definition"><title>w</title>
+<emphasis>w</emphasis> 定義為 
+<equation>w={w|w<superscript>2</superscript> = w+1}</equation>
+可改寫為 
+<equation>w<superscript>2</superscript> - w - 1 = 0</equation>
+由二式根式解求出
+<equation>w = 1+5<superscript>(1/2)</superscript>/2 ~ 1.6</equation>
+</sect3>
+
+<sect3 hclass="lemma"><title>x.h >= 0 則 x.n >= w<superscript>x.h</superscript></title>
+<programlisting linenumbering="numbered">
+<![CDATA[	
+基本條件滿足	
+x.h=0 -> x.n=1 = w^0=1 成立
+x.h=1 -> x.n=2 > w^1=1.6 成立
+	
+*假設條件	
+假設 x 成立，則 x.n >= w^x.h
+
+*遞迴條件	
+令 p 為 x 的父節點，x 為 p 右子樹，y 為 p 左子樹，
+且 bf 為 1，可得 y.h-x.h = 1
+則 p.n =  x.n + y.n + 1
+       >= w^x.h + w^y.h + 1
+       >= w^(p.h-2) + w^(p.h-1) + 1
+              =  w^(p.h-2)*(1+w) + 1    由 (1) 的定義可得
+       =  w^(p.h-2)*w^2 + 1
+              =  w^p.h + 1
+              >= w^p.h
+*Q.E.D	
+
+]]>
+</programlisting>
+</sect3>
+	
+	*由引理可得	
+        h &lt;= log(w, n)=log2(n)/log2(w) ~ 1.441*log2(n)
+	*搜尋複雜度	
+	由 bf 的定義，可得 AVL 樹高 H 其範圍為
+	log2(n+1)&lt;=H&lt;=1.44*log2(n+2)-0.328
+	對應平衡樹樹高 H' 為
+	H'=ceil(log2(n+1))
+	AVL 的樹高不會超過對應平衡樹的 50%
+</sect2>
+</sect1>
+<sect1><title>B-樹</title>
+<sect2><title>B-樹定義</title>
+<para>
+<emphasis>B-樹</emphasis>是符合下面限制的樹：
+</para>
+<itemizedlist>
+<listitem>
+B-樹每個節點會存放數個鍵值，且滿足以下條件：
+<para>
+令 x 為 B-樹的節點，且節點存放 n(x) 的鍵值，
+令 k<subscript>i</subscript>表示第 i 位置的鍵值，
+則鍵值應滿足：
+<inlineequation>
+  <mml:math> 
+    <mml:msub>
+      <mml:mi>k</mml:mi>
+      <mml:mn>1</mml:mn>
+    </mml:msub>
+    <mml:mo>&leq;</mml:mo>
+    <mml:msub>
+      <mml:mi>k</mml:mi>
+      <mml:mn>2</mml:mn>
+    </mml:msub>
+    <mml:mo>&leq;</mml:mo>
+    <mml:msub>
+      <mml:mi>k</mml:mi>
+      <mml:mn>3</mml:mn>
+    </mml:msub>
+    <mml:mo>...</mml:mo>
+    <mml:msub>
+      <mml:mi>k</mml:mi>
+      <mml:mrow>
+        <mml:mi>n</mml:mi>
+        <mml:mfenced> <mml:mi>x</mml:mi> </mml:mfenced>
+        <mml:mo>&minus;</mml:mo>
+        <mml:mn>1</mml:mn>
+      </mml:mrow>
+    </mml:msub>
+    <mml:mo>&leq;</mml:mo>
+    <mml:msub>
+      <mml:mi>k</mml:mi>
+      <mml:mrow>
+        <mml:mi>n</mml:mi>
+        <mml:mfenced> <mml:mi>x</mml:mi> </mml:mfenced>
+      </mml:mrow>
+    </mml:msub>
+  </mml:math>
+</inlineequation>
+</para>
+</listitem>
+<listitem>
+B-樹每個節點會存放一指標，用來指出此節點的型態，
+節點有兩種型態：<emphasis>葉</emphasis>和<emphasis>內部節點</emphasis>，
+沒有父節點的節點稱為<emphasis>根</emphasis>。
+</listitem>
+<listitem>若 x 為內部節點，則有 n(x)+1 的指標指向不同子樹，
+每個子樹也是 B-樹，
+令 k<subscript>c(i)</subscript>為第 i 個指標指向的子樹 c(i) 的任意節點，
+則滿足
+<inlineequation>
+  <mml:math> 
+  <mml:mrow> 
+  <mml:mo>{</mml:mo>
+  <mml:mtable columnalign="left"> 
+    <mml:mtr><mml:mtd> 
+      <mml:msub>
+        <mml:mi>k</mml:mi>
+        <mml:mrow>
+          <mml:mi>c</mml:mi>
+          <mml:mfenced> <mml:mi>1</mml:mi> </mml:mfenced>
+        </mml:mrow>
+      </mml:msub>
+      <mml:mo>&leq;</mml:mo>
+      <mml:msub>
+        <mml:mi>k</mml:mi>
+        <mml:mn>1</mml:mn>
+      </mml:msub>
+    </mml:mtd></mml:mtr> 
+    <mml:mtr><mml:mtd> 
+    <mml:msub>
+      <mml:mi>k</mml:mi>
+      <mml:mrow>
+        <mml:mi>i</mml:mi>
+        <mml:mo>&minus;</mml:mo>
+        <mml:mn>1</mml:mn>
+      </mml:mrow>
+    </mml:msub>
+    <mml:mo>&leq;</mml:mo>
+    <mml:msub>
+      <mml:mi>k</mml:mi>
+      <mml:mrow>
+        <mml:mi>c</mml:mi>
+        <mml:mfenced> <mml:mi>i</mml:mi> </mml:mfenced>
+      </mml:mrow>
+    </mml:msub>
+    <mml:mo>&leq;</mml:mo>
+    <mml:msub>
+      <mml:mi>k</mml:mi>
+      <mml:mi>i</mml:mi>
+    </mml:msub>
+    </mml:mtd></mml:mtr> 
+    <mml:mtr><mml:mtd> 
+      <mml:msub>
+        <mml:mi>k</mml:mi>
+        <mml:mrow>
+          <mml:mi>n</mml:mi>
+          <mml:mfenced> <mml:mi>x</mml:mi> </mml:mfenced>
+        </mml:mrow>
+      </mml:msub>
+      <mml:mo>&leq;</mml:mo>
+      <mml:msub>
+        <mml:mi>k</mml:mi>
+        <mml:mrow>
+          <mml:mi>c</mml:mi>
+          <mml:mfenced> 
+            <mml:mrow>
+              <mml:mi>n</mml:mi>
+              <mml:mfenced> <mml:mi>x</mml:mi> </mml:mfenced>
+              <mml:mo>+</mml:mo>
+              <mml:mn>1</mml:mn>
+            </mml:mrow>
+          </mml:mfenced>
+        </mml:mrow>
+      </mml:msub>
+    </mml:mtd></mml:mtr>
+  </mml:mtable>
+  </mml:mrow>
+  </mml:math>
+</inlineequation>
+</listitem>
+<listitem>
+每個 B-樹都有一個最小因子，用來控制子樹的數目，
+令最小因子為 m 則，除根葉外的節點 x，
+其子樹數目 n(x)+1 滿足式：
+<inlineequation>
+  <mml:math> 
+    <mml:mi>m</mml:mi>
+    <mml:mo>&leq;</mml:mo>
+    <mml:mi>n</mml:mi>
+    <mml:mfenced> <mml:mi>x</mml:mi> </mml:mfenced>
+    <mml:mo>+</mml:mo>
+    <mml:mn>1</mml:mn>
+    <mml:mo>&leq;</mml:mo>
+    <mml:mn>2</mml:mn>
+    <mml:mi>m</mml:mi>
+  </mml:math>
+</inlineequation>
+，同理可推得鍵值數目必須滿足式：
+<inlineequation>
+  <mml:math> 
+    <mml:mi>m</mml:mi>
+    <mml:mo>-</mml:mo>
+    <mml:mn>1</mml:mn>
+    <mml:mo>&leq;</mml:mo>
+    <mml:mi>n</mml:mi>
+    <mml:mfenced> <mml:mi>x</mml:mi> </mml:mfenced>
+    <mml:mo>&leq;</mml:mo>
+    <mml:mn>2</mml:mn>
+    <mml:mi>m</mml:mi>
+    <mml:mo>-</mml:mo>
+    <mml:mn>1</mml:mn>
+  </mml:math>
+</inlineequation>
+，而葉其子樹數目為 0，但其鍵值數目同內部節點。
+</listitem>
+<listitem>葉等高</listitem>
+</itemizedlist>
+</sect2>
+<sect2><title>B-樹定理</title>
+<para>
+令 h 為 B-樹的高度，n 為其鍵值數目，m 為最小因子，則
+<inlineequation>
+  <mml:math> 
+    <mml:mi>h</mml:mi>
+    <mml:mo>&leq;</mml:mo>
+    <mml:msub>
+      <mml:mi>log</mml:mi>
+      <mml:mi>m</mml:mi>
+    </mml:msub>
+    <mml:mfrac>
+      <mml:mrow>
+        <mml:mi>n</mml:mi>
+        <mml:mo>+</mml:mo>
+        <mml:mn>1</mml:mn>
+      </mml:mrow>
+      <mml:mn>2</mml:mn>
+    </mml:mfrac> 
+  </mml:math>
+</inlineequation>
+</para>
+<para>
+<emphasis>證明：</emphasis>
+<equation>
+  <mml:math> 
+    <mml:mrow>
+      <mml:mi>n</mml:mi>
+      <mml:mo>&geq;</mml:mo>
+      <mml:mn>1</mml:mn>
+      <mml:mo>+</mml:mo>
+      <mml:mo>(</mml:mo>
+      <mml:mi>m</mml:mi>
+      <mml:mo>-</mml:mo>
+      <mml:mn>1</mml:mn> 
+      <mml:mo>)</mml:mo>
+      <mml:msubsup> 
+        <mml:mo>&Sigma;</mml:mo>
+        <mml:mrow>
+          <mml:mi>i</mml:mi>
+          <mml:mo>=</mml:mo>
+          <mml:mn>1</mml:mn>
+        </mml:mrow>
+        <mml:mi>h</mml:mi> 
+      </mml:msubsup>
+      <mml:mn>2</mml:mn> 
+      <mml:msup> 
+        <mml:mi>m</mml:mi>
+        <mml:mrow>
+          <mml:mi>i</mml:mi>
+          <mml:mo>-</mml:mo>
+          <mml:mn>1</mml:mn>
+        </mml:mrow>
+      </mml:msup>
+      <mml:mo>=</mml:mo>
+    </mml:mrow>
+
+    <mml:mrow>
+    <mml:mo>=</mml:mo>
+    </mml:mrow>
+
+
+    <mml:mo>&leq;</mml:mo>
+    <mml:msub>
+      <mml:mi>log</mml:mi>
+      <mml:mi>m</mml:mi>
+    </mml:msub>
+    <mml:mfrac>
+      <mml:mrow>
+        <mml:mi>n</mml:mi>
+        <mml:mo>+</mml:mo>
+        <mml:mn>1</mml:mn>
+      </mml:mrow>
+      <mml:mn>2</mml:mn>
+    </mml:mfrac> 
+  </mml:math>
+</equation>
+</para>
+</sect2>
+6.5.1	B*-樹	B*-Tree	
+	*B*T除根葉外，子樹數目 d 滿足下式：	
+	ceil(M*2/3)&lt;=d&lt;=M	
+6.5.2	B+-樹	B+-Tree	
+	所有的資料都存在葉子的 BT。
+	這樣的話，索引及資料都可以存在同一個結構。而 B*-樹節點
+	存的只是指標。
+	在 Oracle 中，B+T用來制作 Clustered Index
+6.5.3	應用為 DBMS 的 INDEX	
+	*BT 可作為大量資料的 index 的實作	
+	像是 Oracle DBMS 便是使用 B*T 作為 Index 的結構。
+
+	DBMS 使用 INDEX 的目的如下：
+	*加快搜尋速度	
+
+	*實作 UNIQUE CONSTRAINT	
+	由於 DBMS 常需要某欄位的值不含有重覆值，像是 RDBMS 中
+	table 的主鍵，故要能快速判斷新插入的值是否重覆，便要使
+	為主鍵建立 INDEX。	
+</sect1>
+<sect1><title>紅黑樹(Red black tree)</title>
+<sect2 hclass="definition"><title>紅黑樹</title>
+<para>
+<emphasis>顏色</emphasis>為節點的額外資訊，
+若一二元樹滿足以下的<emphasis>紅黑樹平衡法則</emphasis>，
+則稱為<emphasis>紅黑樹</emphasis>
+</para>
+<itemizedlist>
+<listitem>紅黑樹節點僅可為紅色或黑色</listitem>
+<listitem>紅節點不可有紅節點的子孫</listitem>
+<listitem>任意節點到其葉的路徑均包含同樣數目的黑節點</listitem>
+</itemizedlist>
+</sect2>
+<para>
+	*搜尋複雜度	
+	由紅黑樹定理，可得 RBT 高 H 其範圍為
+	log2(n+1)&lt;=H&lt;=2*log2(n+1)
+	對應平衡樹樹高 H' 為
+	H'=ceil(log2(n+1))
+		
+	*紅黑樹定理	
+	證明任意具有 n 個節點紅黑樹其高度至多為 2log(n+1)	
+
+	**黑高 black height	
+	黑高為節點 x 至葉的路徑中，黑節點的個數，但不包含節點
+	本身。
+	若 x 為節點，由限制法則，則子節點 y 的黑高只可為 x.bh 或 
+	x.bh-1。
+	y.bh = {x.bh, x.bh-1}
+
+	令 x.bh 表節點 x 的黑高
+		x.n 表節點 x 的內部節點數，含 x 本身
+	x.h 表節點 x 的樹高
+
+	**a 任意節點 x 其節點數 x.n 至少為 2^(x.bh)-1	
+	若 x 為葉，則x.bh=0
+	其節點數為 
+	x.n=2^(x.bh)-1=2^0-1=1-1=0 成立
+	
+	令 y 為 x 的子節點
+	設 y.n=2^(y.bh)-1 成立
+	取 y.bh=x.bh-1
+	則 x.n=2*(2^(y.bh)-1)+1
+	      =2*(2^(x.bh-1)-1)+1
+	      =2^x.bh-1
+
+	依數學歸納法 x.n=2^x.bh-1 得證
+	
+	由限制法則可得	
+	x.bh >= x.h/2
+	則由**a x.n >= 2^(x.h/2)-1
+	則 x.n+1 >= 2^(x.h/2)
+	則 log(x.n+1) >= x.h/2
+	則 2*log(x.n+1) >= x.h
+	令 x 為根，則具 n 個內部節點的紅黑樹，其高度不超過
+	2*log(n+1)
+</para>
+</sect1>
+<sect1><title>splay 樹</title>
+</sect1>
+<sect1><title>Huffman 樹</title>
+<sect2><title>二叉權樹 Weighted Binary Tree</title>
+<para>
+令 WBT 為一二叉樹，其每個葉帶有一權重，
+則稱 WBT 為<emphasis>帶權二叉樹</emphasis>。
+</para>
+<para>
+令 L<subscript>i</subscript> 表示葉 i 至根的長度，
+而 W<subscript>i</subscript> 表示葉 i 的權重，
+定義 WBT 的<emphasis>權徑長 WPL</emphasis> 為：
+<equation>WPL<subscript>WBT</subscript> =
+L<subscript>1</subscript>*W<subscript>1</subscript>+
+L<subscript>2</subscript>*W<subscript>2</subscript>...+
+L<subscript>n</subscript>*W<subscript>n</subscript>
+</equation>
+</para>
+<para>
+若 O 為一帶權二叉樹，具有 n 個葉，其葉權重由 W 定義，
+若 O 其權徑長為所有具有 n 葉，且葉權函為 W 的帶權二叉樹中最小的，
+則稱 O 為<emphasis>最佳帶權二叉樹</emphasis>。
+</para>
+</sect2>
+<sect2 id="HuffmanTree"><title>Huffman 樹</title>
+<para>
+給定 n 葉，權重由 W 定義，則由以下程序所建構的樹稱為
+<emphasis>Huffman 樹</emphasis>：</para>
+<procedure><title>建構 Huffman 樹</title>
+<step>初始一優先佇列 q 儲存所有的葉</step>
+<step>建樹程序 I
+<substeps>
+<step>自 q 彈出最小葉 a 及次小的葉 b</step>
+<step>建立節點 p 其權重為 W<subscript>a</subscript>+W<subscript>b</subscript></step>
+<step>將 p 推入 q 中</step>
+<step>當 q 為空時，跳出建樹程序 I，不為空時，重覆以上步驟</step>
+</substeps>
+</step>
+<step>建立節點 p 其權重為 W<subscript>a</subscript>+W<subscript>b</subscript></step>
+<step>傳回 p 為樹根，便為 Huffman 樹</step>
+</procedure>
+</sect2>
+<sect2><title>定理：Huffman 樹為最佳帶權二叉樹</title>
+</sect2>
+<sect2><title>給定一 n 葉及一權函 W 只有有一個最佳帶權二叉樹</title>
+</sect2>
+<sect2><title>應用：Huffman 編碼</title>
+</sect2>
+</sect1>
+<sect1><title>費伯納希堆 Fibonacci Heap</title>
+<para>
+費伯納希堆是出自於 Tarjan 的論文，
+當初是在找尋解決 Dijkstra 演算法的優先佇列而發明的。
+</para>
+
+<sect2>
+<title>結構</title>
+<para>
+費伯納希堆是堆的集合，裡面堆均符合最小堆特性， 
+意即子節點的值小於父節點的值。於是可以推論出最小值的節點，
+一定是某顆堆的根節點。
+</para>
+</sect2>
+<sect2><title>刪除根</title>
+<para>
+要進刪除根前，
+先定義節點的<emphasis>等級（rank）</emphasis>為節點之子節點數。
+刪除根有以下三個步驟：
+</para>
+<procedure>
+<title>刪除根</title>
+<step>刪除根（最小值節點），其子節點均成為子堆。</step>
+<step>將兩個等級相同的堆，連結成為一新堆。</step>
+<step>當所有的堆其等級均不同時，再將其根連結成一串列，並找出最小根</step>
+</procedure>
+</sect2>
+<sect2><title>節點降值</title>
+<para>
+節點降級是將某節點的值，降為較小的值，其程序如下：
+</para>
+<procedure><title>節點降值</title>
+<step>將指定節點降值</step>
+<step>若降值後違反堆的定義，則將此節點與其父節點分離，
+並以自已為根自成一堆</step>
+<step>若是其父節點有標記，則父節點與祖節點分離，自成一堆，
+此動作稱為<emphasis>連帶刪除</emphasis>；
+否則將父節點標記</step>
+</procedure>
+</sect2>
+<sect2 hclass="lemma"><title>若 x 為 FHEAP 的任意點，
+將 x 的子節點以加入的先後順序編號，則編號 i 的子節點其級數至少為 i-2。</title>
+<para>
+令 y 為編號 i 的子節點，則考慮當 y 與 x 連結時，x 至少有 i-1 個子節點，
+這可讚上面節點降值連帶刪除的限制推論出庲。再由連結的限制可推論出 y 
+也至少有 i-1 個節點，又 y 依連帶刪除限制，可在連結後刪除一節點，
+於是 y 其至少具有 i-2 個節點。
+</para>
+</sect2>
+<sect2 hclass="corollary"><title>FHEAP 中級為為 k 的節點，含自身至少有 F(k+2)>=G^k 
+的子孫數，其中 F(k) 為第 k 個費伯納希數，而 G=(1+5^(1/2))/2 為黃金比例。</title>
+<para>
+令 S(k) 為級數為 k 節點可能最少的子孫數，可看出
+S(0)=1, S(1)=2。又引理一可推出 S(k) >= SUM[S(i)]+2, 0&lt;=i&lt;=(k-2), k>=2
+</para>
+</sect2>
+<para>
+費伯納希堆每個節點遵守以下限制：
+<itemizedlist>
+<listitem>
+每個節點其級數不可超過 O(log n) 級，級數指節點的子節點數目。
+</listitem>
+<listitem>
+當某子樹其根的級數為 k 時，子樹的大小至少要為 F(k+2)，函數 F(k)
+指第 k 個費伯納希數。
+</listitem>
+</itemizedlist>
+上述規則指出，當移走一個子節點時，樹沒有任何更動，但再移走一個子節點時，
+便要分割此節點成為一新樹，才能滿足上面的限制。 所以樹的數目會在移走節點時減少。
+</para>
+</sect1>
+</chapter>

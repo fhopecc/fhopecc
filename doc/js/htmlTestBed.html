@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html><head><title>fhopecc's HTML Test Bed</title>
+</style>
+<script language="JavaScript">
+<!-- Hide Script From Old Browsers
+/*
+ * htmlTestBed.html 
+ * 
+ *
+ */
+function trestart(){
+ if (script) {
+   clear = confirm("確定清除這個網頁？",'');
+   if(clear) {
+     document.script.reset();
+     document.script.value = "";
+   }
+ }
+
+}	
+
+function test(){
+  temp = document.script.tester.value;
+  testwin= open("", "testwin","status=yes,menubar=yes,toolbar=yes,scrollbars=yes");
+  testwin.document.open();
+  testwin.document.write(temp);
+  testwin.document.close();
+}
+
+function about(){
+ alert("[HTMl 測試頁]版本 1.0 (C) 2006 fhopecc.")
+}
+
+</script></head>
+<body alink="#ff0000" bgcolor="#ffffff" link="#0000cd" text="#000000" vlink="#0000cd">
+<center>
+<table border="0" cellpadding="10" cellspacing="0" width="545">
+<tbody><tr><td align="left" bgcolor="#0052e7" width="545">
+&nbsp;<font color="white" face="verdana,arial,helvetica,sans-serif" size="3">
+<b>[HTMl 測試頁]版本 1.0</b></font>
+</td></tr></tbody></table>
+
+<table bgcolor="#0063f7" border="1" cellpadding="10" cellspacing="2" width="545">
+
+<tbody><tr><td align="center" bgcolor="#ffffff" valign="middle">
+<center>
+	將 html 寫入到下面的文字方塊內，<br/><br/>
+  按下 [測試 html...] 就會碰出一個內含結果頁的新視窗。<br/><br/><br/>
+</center>
+<form name="script">
+	<center><textarea name="tester" rows="8" cols="50" wrap="off">
+&lt;script language="javascript">
+	str = "Hello World!";
+	document.write(str);
+&lt;/script>
+	</textarea></center>
+<br>
+<input value=" 測試 html... " onclick="test()" type="button">&nbsp;&nbsp;
+<input value=" 清除文字 " onclick="trestart()" type="button">&nbsp;&nbsp;
+<input value=" 關於... " onclick="about()" type="button">&nbsp;&nbsp;
+</form>
+</td></tr></tbody></table>
+</p></center>
+</body></html>

@@ -1,0 +1,19 @@
+digraph LinkedList {
+  rankdir = "LR";
+  edge[fontname="arial"];
+  node[fontname="arial" shape="record"];
+  A [
+  label = "{{<addr> 0x0010 | <data> A }|<next>}"
+  ];
+  B [
+  label = "{{<addr> 0x0112 | <data> B }|<next>}"
+  ];
+  C [
+  label = "{{<addr> 0x0009 | <data> C }|<next>}"
+  ];
+  node[shape="point"];
+  A:next -> B:addr
+  B:next -> C:addr
+  C:next -> NULL
+  node[shape="plaintext"];
+}
