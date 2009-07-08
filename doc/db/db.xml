@@ -179,7 +179,6 @@ F(f_pks, f_cols)
 <chapter><title>可擴展標記語言(XML)</title>
 </chapter>
 <chapter><title>並行控制</title>
-
 <sect1><title>時戳並行控制</title>
 <para>
 時戳並行控制的基本邏輯如下：

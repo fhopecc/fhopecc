@@ -161,7 +161,7 @@ T1T2...Tn 表示當下的未完成交易</listitem>
 </procedure>
 </para>
 </sect1>
-<sect1><title>重作日誌</title>
+<sect1><tit>重作日誌</title>
 <para>
 重作日誌是當機時，重作未全部完成的動作，
 其多定義了一個日誌項目如下：
