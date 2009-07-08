@@ -1,11 +1,12 @@
 <%section '呼叫 Windows 的 API' do %>
 <%paragraph do%>
-在 Windows 環境中，如果支援 OLE 介面的函式庫仍不能解決您的問題的話，
+在 Windows 環境中，
+如果支援 OLE 介面的函式庫仍不能解決您的問題的話，
 那麼只好利用更低階的 WINAPI 函式。
 Ruby 主要利用 Win32API 物件來存取到 WINAPI 的函式。
 <%end%>
 <%paragraph do%>
-WINAPI 主要是包裝在 DLL 中，
+由於 WINAPI 主要是包裝在 DLL 中，
 要存取 DLL 中的函式， 
 <%end%>
 <%code '取得游標位置', 'get_cursor_position', 'ruby' do %>
