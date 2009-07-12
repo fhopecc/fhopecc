@@ -1,20 +1,28 @@
 <%section '實體關系模型' do%>
-<%section '96警2-1.1' do%>
-<%paragraph%>
+% section '96警2-1.1' do
+<%paragraph do%>
 指出ERDs（Entity Relationship Diagrams）三個要素名稱。
 <%end%>
-<%end%>
+% end
 <%section '96警2-3' do%>
-<%paragraph%>
+<%paragraph do%>
 三、下圖為有關「警察人事」資料庫之超類型/子類型關係圖。
 <%end%>
-<%=figure '96p2-3'%>
-<%paragraph%>
-請回答下列各問題：（第至第小題各5 分，第小題10 分）
-說明分離性法則（Disjoint Rule）與重疊性法則（Overlap Rule）的內涵。
-超類型與子類型的定義。
-將上圖轉換成相對應的關聯表。
-利用SQL CREATE TABLE statement 將關聯表產生相對應的資料表。（註：資料
-型別與長度可以自訂）
+%= figure '「警察人事」資料庫之超類型/子類型關係圖', '96p2-3'
+<%paragraph do%>
+請回答下列各問題：（第(1)至第(3)小題各5分，第(4)小題10 分）
+<%end%>
+<%paragraph do%>
+(1)說明分離性法則（Disjoint Rule）與重疊性法則（Overlap Rule）的內涵。
+<%end%>
+% paragraph do
+(2)超類型與子類型的定義。
+% end
+% paragraph do
+(3)將上圖轉換成相對應的關聯表。
+% end
+% paragraph do
+(4)利用SQL CREATE TABLE statement 將關聯表產生相對應的資料表。（註：資料型別與長度可以自訂）
+% end
 <%end%>
 <%end%>

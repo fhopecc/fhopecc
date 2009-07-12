@@ -18,13 +18,18 @@ namespace 'doc' do
 		Rake::Task[docroot].invoke
 		Rake::Task[pubroot].invoke
 		Rake::Task[File.join(pubroot, 'main.html')].invoke
+		Dir["#{docroot}/*jpg"].each do |f|
+			FileUtils.copy f, pubroot
+		end
 	end
 	task :deploy do
 		url = 'fhopecc.freeoda.com'
 		Net::FTP.open url, url, '19790729' do |ftp|
 			ftp.put 'public/index.html'
-			ftp.mkdir 'db'
 			ftp.put 'public/db/main.html', 'db/main.html'
+	  	Dir["public/db/*jpg"].each do |f|
+			  ftp.put f, File.join('db', File.basename(f))
+		  end
 		end
 	end
 end
