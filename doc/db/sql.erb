@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="big5"?>
+<chapter><title>SQL 語言</title>
+<!--
+<html><head><title>SQL Tutorial</title></head><body>		
+<h1>SQL 入門</h1>		
+<h2><ol>
+<li>(1 hr)基本資料型態與相關函數
+  <ol>
+  <li>數字型態</li>
+  <li>字串型態</li>
+  <li>日期型態</li>
+  </ol>		
+</li>
+<li>(3 hrs)查詢語法與條件式
+  <ol>
+  <li>Select 與集合投影操作</li>
+  <li>Order by 與 Distinct</li>
+  <li>where 與集合限制操作</li>
+  <li>From 與集合的卡式積</li>
+  <li>JOIN</li>
+  <li>OUT JOIN</li>
+  <li>子查詢</li>
+  </ol>
+</li>
+<li>(1 hr)集合運算
+  <ol>
+  <li>Union ALL</li>
+  <li>聯集 Union</li>
+  <li>交集 Intersect</li>
+  <li>差集 Minus</li>
+  </ol>
+</li>
+<li>(2 hrs)摘要查詢
+  <ol>
+  <li>Group by</li>
+  <li>摘要函數</li>
+  <li>Having 2</li>
+  </ol>
+</li>
+<li>(2 hrs)資料操作語法 DML
+  <ol>
+  <li>插入資料 INSERT</li>
+  <li>更新資料 UPDATE</li>
+  </ol>
+</li>
+</ol></h2>
+
+
+<h2>(1 hr)基本資料型態與相關函數</h2>
+<h3>
+  <ol>
+  <li>數字型態<ol>
+    <li>Integer</li>	  
+    <li>Number</li>	  
+    <li>函數</li>
+  </ol></li>
+  <li>字串型態<ol>
+    <li>實字</li>	  
+    <li>限制</li>	  
+    <li>函數</li>
+  </ol></li>
+  <li>日期型態<ol>
+    <li>實字</li>	  
+    <li>限制</li>	  
+    <li>函數</li>
+  </ol></li>
+  </ol>		
+</h3>
+
+<h3>數字型態</h3>
+<h4>Integer</h4>	  
+<b>實字 literal</b> <br/>
+  實字就是永遠指向固定值的識別字，SQL 有兩大類識別字，
+  數字及文字。<br/>
+<b>語法</b><br/>
+<em>Integer</em> := [+|-] {DIGIT} <br/>
+<b>例子</b><br/>
+<em>1234</em> 永遠指向 Integer 值 1234。<br/>
+
+<p>撰寫人：張簡稜剛<br/>
+	日期：094/9/12
+	
+<chapter><title>UPDATE</title></chapter>
+<para>
+	UPDATE &lt;table_expr>
+	SET &lt;column_expr>=&lt;expr>
+	&lt;where_clause>
+</para>
+
+</p>
+</body></html>
+DML	
+3	DCL	
+5	Dictionary	
+6	資料的顯示設計	
+7	關聯式代數	
+8	資料正規化	
+9	FAQ	
+
+1.1	資料型態	
+1.1	數字型態的操作	
+1.2	文字型態的操作	
+1.3	日期型態的操作	
+1.4	型態轉換	
+1.5	空值處理	
+1.6	SQL 函數	
+
+	*實字 literal	
+	實字就是永遠指向固定值的識別字。
+	SQL 有兩大類識別字，數字及文字。
+
+1.1	數字型態的操作	
+1.1.1	數字實字的語法	
+
+1.2	文字型態的操作	
+1.2.1	文字實字的語法	
+1.2.1	文字實字的語法	
+	cl := N'<C>'
+	
+	<C> 為任何合法的字元集
+	 N  修飾其後的字元應使用本國的字元集
+	
+	Oracle 中，文字實字其最大長度為 4000 bytes。
+
+	若要表示單引號在實字裡，用 '' 兩個連續單引號表示
+	例如'Mother''s desk' 其值為 Mother's desk。
+	
+1.5	空值處理	
+1.5.1	COALESCE ORACLE/NVL	
+
+1.5.1	COALESCE ORACLE/NVL	
+	語法：COALESCE(arg1, arg2) return arg%type
+	若 arg1 是 null 值，則傳回 arg2，否則傳回 arg1。		
+	
+
+1.6	SQL 函數	
+1.5.2	Decode  類似其它語言的 switch 陳述式	
+	
+1.5.2	Decode  類似其它語言的 switch 陳述式	
+	語法：
+
+2.2 	to_number
+	語法：to_number(char [, fmt [, 'nlsparams'] ])	
+
+2.3	數學格式模型
+	數學格式模型是用來指出數學值其文字表示式的格式。
+	
+	元素	意義
+	
+	9	
+
+	0	數字可用 0 開頭
+
+	*ex	
+	
+
+1.3	文字型態的操作	
+1.3.2	to_char	
+1.3.7	substr	
+
+1.3.7	substr	
+
+	語法：
+	substr(src in varchar2, off in number[, len in number])
+	return varchar2
+
+	src 來源字串
+	off 由左數過來的位置，第一位置為 1
+	len 要取出長度的字串
+
+1.4	日期型態的操作	
+1.4.1	指定日期	
+1.4.2	to_date	
+1.4.3	日期格式模型	
+1.4.4	指定今天的日期 - sysdate	
+1.4.5	日期比較規則	
+1.4.6	動態更改日期顯示的歷法格式 NLS_CALENDAR=GREGORIAN	
+1.4.7	nls_calendar 的有效值	
+
+	Oracle 中日期值包含了年、月、日、時、分、秒的資訊。
+
+1.4.1	指定日期	
+	在 Oracle SQL 中，日期值並無實字表示法，所以必須使用
+	to_date 函數將數字及文字轉成日期值。
+
+1.4.2	to_date	
+
+	語法：to_date(char [, fmt [, 'nlsparams'] ])	
+
+	to_date 是用來將字元值轉換成日期值的函數。
+	fmt 是指定文字日期表示所用的格式模型。
+	
+	*ex	
+	select to_date('19790729', 'yyyymmdd') from dual;
+
+1.4.3	日期格式模型	
+	日期格式模型是用來指出日期值其文字表示式的格式。
+	
+	元素	to_date 意義
+		可用？
+
+	-/,.;:	Yes	分隔符號或標點符號，
+	'text'		會在文字表示式中顯示出來
+	
+	AD	Yes
+	A.D.
+
+	AM	Yes
+	A.M.
+
+	BC	Yes
+	B.C.	
+
+	YYYY	Yes	年份以 4 位數字表示
+	YYY	Yes	年份以 3 位數字表示
+	YY	Yes	年份以 2 位數字表示
+	Y	Yes	年份以 1 位數字表示
+
+	MM	Yes	月份以 1-12 表示
+	MON	Yes	月份以 3 字元英文縮寫
+	MONTH	Yes	月份全名以 9 字元英文表示
+
+	D	Yes	星期名以 1-7 表示
+	DY	Yes	星期名的 3 字元英文縮寫
+	DAY	Yes	星期名以 9 字元英文表示
+
+	DD	Yes	月中的第幾日，以數字 1-31 表示
+	DDD	Yes	年中的第幾日，以數字 1-366 表示
+
+	MI	Yes	分名以 1-59 表示
+	
+	SS	Yes	秒名以 1-59 表示
+
+1.4.4	指定今天的日期 - sysdate	
+
+	傳回現在的時間
+	ex.計算年紀
+	select emp.name, 
+	       round(months_between(sysdate, emp.birth)/12) as age
+	from emp
+
+1.4.5	日期比較規則	
+
+	較晚的日期大於較早的日期
+
+1.4.6	動態更改日期顯示的歷法格式 NLS_CALENDAR=GREGORIAN	
+	
+	ex. 把日期改成西元
+	TO_DATE(' 2004-02-01 00:00:00', 
+	'SYYYY-MM-DD HH24:MI:SS', 
+	'NLS_CALENDAR=GREGORIAN')) 
+
+1.4.7	nls_calendar 的有效值	
+	Arabic Hijrah, English Hijrah, Gregorian,
+	Japanese Imperial, Persian, ROC Official (Republic of China),
+	Thai Buddha 
+
+2	定義表格 DDL	
+2.1	建立表格	
+2.2	修改表格定義	
+2.2.1	如何刪除表格的欄位？	
+	語法：ALTER TABLE tbl
+	      DROP COLUMN(col1,col2,...)
+	tbl:要作用的表格
+	col1,col2,...:要刪除的欄位
+	
+	*例一：刪除表格 employee，欄位 fee	
+	ALTER TABLE employee
+	DROP COLUMN(fee);
+	
+	註一：在 Oracle 中，當原本欄位的欄名是非法的如 to，	
+	那麼要刪除時，必須加上雙引號 "" 才能刪除。
+	EX 強制刪除非法欄名的欄位
+	ALTER TABLE tbl DROP COLUMN("to");
+	但是若是 peep/ps 這種則無法作用
+
+2	資料操作語言 DML	
+2.1	投影、別名 Projection, Rename	
+2.2	限制 Restriction	
+2.3	合併 Join		
+2.4	卡積 Cartisian product	
+2.5	集合運算子 Set Operator	
+2.6	摘要 Summary	
+2.5	進階的 Summary				
+
+2.1	投影、別名 Projection, Rename	
+	投影就是將抽取表格上的欄位，組合成新的表格。在 SQL 中，我們
+	是利用 select 來完成此項運算。
+
+	*語法	
+	select [distinct] *|cex1,cex2... 
+	from table;
+
+	*
+	字元 * 表示選取所有的欄位
+
+  	distinct
+	若於 select 後加入 distinct 修飾，則合併重覆欄.
+
+	cex=col[[as]alias]
+	其中 col 為欄位名，alias 為欄位的別名, as 字可加可不加.
+
+	*ex1.	
+	select * from emp;
+	選出 emp 表所有的欄位.
+
+	*ex2.	
+	select id, name, deptno from emp;
+	從 emp 表中，選出 id, name 及 deptno 三欄成為新表.
+
+	*ex3.	
+	select distinct id, name, deptno from emp;
+	從 emp 表中，選出 id, name 及 deptno 三欄成為新表, 並合併重覆欄.
+
+	*ex4.	
+	select id as i, name n
+	from emp;
+	從 emp 表中選出 id 
+
+2.2	限制 Restriction	
+	
+	*語法	
+  	select *|cex1,cex2...
+  	from table
+  	where codition;
+
+	*ex	
+	select ename, sal, mgr, hiredate
+	from emp
+
+	where hiredate='01-Jan-95'; 
+  
+	where sal>=1500;
+
+	where ename='SMITH';
+
+	where sal between 1000 and 1500;
+
+2.2	集合運算子
+
+3	Oracle SQL 效能調校
+
+5	進階的 group 功能
+5.1	rollup
+5.2	cube
+5.3	grouping function
+
+	rollup 及 cube 是 Oracle8i 之後版本才支援。
+	
+5.1	rollup
+
+	語法：
+	select	[<key_columns>], <group_function(column)>
+	from <table>
+	[where <conditions>]
+	group by ROLLUP(<columns>)
+	[having <having_conditions>]
+	[order by <key_columns>]
+
+	此運算子能夠自動產生小計列，其產生小計是 key_columns
+	由右至左分層依次產生小計列。
+	
+	
+	若 columns 個數為 n ，則一個 rollup 等於 (n+1) select。
+	Ex. 在阮醫院的 opd 資料庫
+
+	select a.curr_dept_id dept, a.curr_title_id title, count(*) t
+	from hiatt0090 a
+	group by rollup(a.curr_dept_id, a.curr_title_id)
+	等於下列 3 行 select
+	select a.curr_dept_id dept, a.curr_title_id title, count(*) t
+	from hiatt0090 a
+	group by a.curr_dept_id, a.curr_title_id
+	union all
+	select a.curr_dept_id dept, '' title,count(*) t
+	from hiatt0090 a
+	group by a.curr_dept_id
+	union all
+	select '' dept, '' title, count(*) t
+	from hiatt0090 a
+	order by dept, title
+
+5.2	cube
+	
+	語法：
+	select	[<key_columns>], <group_function(column)>
+	from <table>
+	[where <conditions>]
+	group by CUBE(<columns>)
+	[having <having_conditions>]
+	
+	此運算子能夠自動產生小計列，除與 rollup 一樣是由
+	key_columns 由右至左分層依次產生小計列，並在後面
+	由左至右再產生一次小計列。
+
+5.3	grouping 函數 
+	
+	grouping 函數以 rollup 的 columns 作為參數，若此
+	行其參數欄為為小計層次，則傳為 1，否則為 0。
+		
+5.4	grouping sets
+	
+6	階層資料處理
+	
+	階層資料是自我指涉形成階層。
+
+3	DCL	
+3.1	主鍵 Primary key	
+	構成表格主鍵的欄位不得為虛值。
+	
+3.2	外鍵 Foreign key	
+	若表格 B 的外鍵 FK 與表格 A 的主鍵 PK 相配合 (亦即 FK 和
+	PK 為相同欄位)， 則 FK 的值必須等於表格 A 裡某筆記錄的 PK 值，
+	或者 FK 的每個成分欄位都為虛值。
+
+9	FAQ	
+9.1	ODBC 中，Embeded Oracle SQL 的日期格式必須限制為西元	
+9.2	Oracle 如何轉檔	
+
+9.1	ODBC 中，Embeded Oracle SQL 的日期格式必須限制為西元	
+	在 ODBC 中，日期格式僅能為 yyyy/mm/dd，其中 yyyy 為西元年，
+	即使 oracle 環境使用 ROC，在 ODBC 中還是要使用西元年。
+	
+	像在開發 asp 程式，利用 ODBC 則必須遵守上述格式設定。
+
+9.2	Oracle 如何轉檔	
+9.2.1	利用 DBMS_UTILITY.comma_to_table & table_to_comma	
+	*ex	
+	SET SERVEROUTPUT ON
+	DECLARE
+	  l_list1   VARCHAR2(50) := 'A,B,C,D,E,F,G,H,I,J';
+	  l_list2   VARCHAR2(50);
+	  l_tablen  BINARY_INTEGER;
+	  l_tab     DBMS_UTILITY.uncl_array;
+	BEGIN
+	  DBMS_OUTPUT.put_line('l_list1 : ' || l_list1);
+
+	  DBMS_UTILITY.comma_to_table (
+	     list   => l_list1,
+	     tablen => l_tablen,
+	     tab    => l_tab);
+
+	  FOR i IN 1 .. l_tablen LOOP
+	    DBMS_OUTPUT.put_line(i || ' : ' || l_tab(i));
+	  END LOOP;
+
+	  DBMS_UTILITY.table_to_comma (
+	     tab    => l_tab,
+	     tablen => l_tablen,
+	     list   => l_list2);
+
+	  DBMS_OUTPUT.put_line('l_list2 : ' || l_list2);
+	END;
+	/
+
+9.2.2	利用 SQL+ 的 SPOOL 指令	
+	語法：spo[ol] [file_name[.ext]|OFF|OUT]
+	*ex 將 species_ratings 轉至 csv 的程式	
+	spool species.csv
+	set termout off
+	set pagesize 0
+	set heading off
+	set feedback off
+	select species||','||count||','|| rating from species_ratings; 
+	quit	
+	
+6	資料的顯示設計	
+6.1	表單 Form	
+6.2	表格 Table	
+6.3	Master-Detail View	
+6.4	報表 Report	
+6.5	矩陣式報表 Martrix Report	
+6.6	圖表 Chart	 
+
+6.1	表單 Form	
+6.2	表格 Table	
+6.3	Master-Detail View	
+	使用Master/Detail方式來顯示資料可以說是在企業裡最常見的需求。所謂
+	Master/Detail指的是一對多的關係，例如一家出版商可能會出版多本書、
+	一個訂單裡可能會包含多個產品...等。以前面的例子來說，我們通常會希
+	望可以瀏覽所有的出版商，同時另外還可以檢視個別出版商所出版的書籍。	
+6.4	報表 Report	
+6.5	矩陣式報表 Martrix Report	
+6.6	圖表 Chart	 
+
+-->
+
+</chapter>
+<%#include sql_aggregator.erb#%>

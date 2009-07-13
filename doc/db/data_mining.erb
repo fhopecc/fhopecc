@@ -1,0 +1,31 @@
+<%section '資料探堪' do%>
+<%section '96警2-2' do%>
+<%paragraph%>
+在警察刑事之資料庫知識探索（Knowledge Discovery in Database，KDD）程序上，
+常會用到資料轉換（Data Transformation）。有關「最小值－最大值正規化法」
+（Min-Max Normalization）資料轉換公式如下：
+*
+oldMax - oldMin
+newValue = newMax - newMin （OriginalValue - oldMin）+ newMin
+其中oldMax 與oldMin 分別代表資料庫之資料表內某一資料行的最大值與最小值；
+newMax 與newMin 分別為正規化後的最大值與最小值。現考慮一個名叫「CrimeDB」
+的資料庫與其內含一個名叫「CrimeTable」的資料表，此資料表之資料行名稱、資
+料型別、Null 與限制如下：
+資料行名稱 資料型別 允許Null 限制
+ID nvarchar(10) (不允許) Primary key
+CName nvarchar(8)  無
+Age int  無
+Age_01 float (允許) 無
+試以關聯式DBMS SQL 語法與名為sp_Normalization 的預存程序（Stored
+Procedure），撰寫預存程序功能如下：（20 分）
+建立CrimeTable 資料表。
+新增四筆（ID, CName, Age）資料，分別為（A120999121, 王黑白, 32）、
+（G124994120, 林大家, 25）、（V223456787, 王妃妃, 51）、（S123456787,
+張老大, 33）。
+將Age 年齡值轉換成落在0 與1 之間，並將轉換值存入Age_01 內，以便可供
+資料採礦（Data Mining）類神經網路處理之用。
+將CrimeTable 所有資料行資料依ID 排序顯示在螢幕上。
+撰寫「建立CrimeDB 資料庫，呼叫sp_Normalization」的程式碼。（5 分）
+<%end%>
+<%end%>
+<%end%>

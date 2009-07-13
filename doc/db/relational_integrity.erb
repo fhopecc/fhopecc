@@ -1,0 +1,22 @@
+<%section '關連模型的完整性' do%>
+<%section '96警2-4' do%>
+<%paragraph do%>
+為確保資料庫內的資料能正確被處理，
+遵循完整性法則（Integrity Rules）是有其必要的。
+請回答下列各問題：
+寫出實體與參考完整性法則內涵。（8 分）
+DBMS 除了支援參考完整性外，還可能支援包括預設值、
+檢查範圍與NULL等完整性控制。
+試寫出後面三個完整性控制的主要用途，
+並利用SQL CREATE TABLE statement 舉出實例。（9 分）
+根據下面兩個關聯表（Crime_BK與Crime_Case），
+利用SQL CREATE TABLE statement 來建立相對應的資料表，
+以確保資料庫資料的完整性。（註：資料型別與長度可自訂）（8 分）
+關聯表名稱：Crime_BK
+ID CName Gender Birth_of_Date
+關聯表名稱：Crime_Case
+CrimeNo CrimeType Crime_Event_Date ID
+Crim_BK.ID -- Crime_Case.ID
+<%end%>
+<%end%>
+<%end%>

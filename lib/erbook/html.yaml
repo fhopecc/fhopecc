@@ -98,6 +98,12 @@ code: |
         title.to_s.to_inline_xhtml
       end
 
+      def figure_html
+        imgf ||= args[2]
+        imgf ||= "#{id.to_s}.jpg"
+        "<img src=\"#{imgf}\" alt=\"Angry face\"/>"
+      end
+
       # Returns the content of this node as XHTML.
       def content_xhtml
         content.to_s.to_xhtml
@@ -134,16 +140,6 @@ code: |
       # its LaTeX-style index number and its title.
       def index_and_title_link #:nodoc:
         "#{index_link}&nbsp;&nbsp;#{title_link}"
-      end
-
-      # Returns a navigation menu relative to this node.
-      def navigation
-        self.class.navigation(
-          here_frag,
-          (list_frag if defn['toc'] || defn['lof']),
-          (prev_node.here_frag if prev_node),
-          (next_node.here_frag if next_node)
-        )
       end
 
       LIST_SIGN = '&equiv;'  # identical to
@@ -354,7 +350,6 @@ nodes:
       silent: true
       output: |
         <div id="<%= @node.type_label %>">
-          <%= @node.navigation %>
           <h1 class="title"><%= @node.type_label %></h1>
           <%= @node.content_xhtml_div %>
         </div>
@@ -369,7 +364,6 @@ nodes:
       silent: false
       output: |
         <div class="<%= @node.type %>">
-          <%= @node.navigation %>
           <h1 class="title">
             <%= @node.type_label %>&nbsp;<%= @node.index_link %>
             <br/>
@@ -390,7 +384,6 @@ nodes:
       output: |
         <% depth = [6, @node.depth + 1].min %>
         <div class="<%= @node.type %>">
-          <%= @node.navigation %>
           <h<%= depth %> class="title">
             <%= @node.index_and_title_link %>
           </h<%= depth %>>
@@ -406,7 +399,6 @@ nodes:
       silent: false
       output: |
         <div class="<%= @node.type %>">
-          <%= @node.navigation %>
           <p class="title"><%= @node.title_link %></p>
           <%= @node.content_xhtml_div %>
         </div>
@@ -421,7 +413,6 @@ nodes:
       silent: false
       output: |
         <div class="<%= @node.type %>">
-          <%= @node.navigation %>
           <p class="title"><%= @node.number_and_title_link %></p>
           <div class="content">
             <%= ICON_BY_NAME[@node.type].to_xhtml %>
@@ -445,9 +436,8 @@ nodes:
       silent: false
       output: |
         <div class="<%= @node.type %>">
-          <%= @node.navigation %>
           <p class="title"><%= @node.number_and_title_link %></p>
-          <%= @node.content_xhtml_div %>
+          <%= @node.figure_html %>
         </div>
 
     table: *formal
@@ -464,7 +454,6 @@ nodes:
       silent: false
       output: |
         <div class="<%= @node.type %>">
-          <%= @node.navigation %>
           <p class="title"><%= @node.number_and_title_link %></p>
           <%= "<code>\n#{@node.content}</code>\n".to_s.to_xhtml%>
         </div>
@@ -592,14 +581,7 @@ output: |
         %{#{ERBook::Document::Node.navigation label, "rev:#{label}", nil, nil}<h2 class="title">#{label}</h2> <ol>#{nested}</ol>}
       end
   %>
-  <?xml version="1.0" encoding="utf-8"?>
-  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" [
-    <% ICONS.each do |icon| %>
-      <!ENTITY <%= icon.entity_name %> "<%= icon.data_uri %>">
-    <% end %>
-  ]>
-  <html xmlns="http://www.w3.org/1999/xhtml">
+  <html>
     <head>
       <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
       <meta name="generator" content="<%= ERBook::DISPLAY %>"/>
@@ -616,12 +598,6 @@ output: |
         <meta name="date" content="<%= $date %>"/>
       <% end %>
 
-      <% if $feeds %>
-        <% $feeds.each_pair do |url, fmt| %>
-          <link rel="alternate" type="application/<%= fmt %>+xml" href="<%= url %>"/>
-        <% end %>
-      <% end %>
-
       <% @format['styles'].each do |style| %>
         <% style.each_pair do |media, code| %>
           <style type="text/css" media="<%= media %>">
@@ -631,51 +607,10 @@ output: |
       <% end %>
 
       <style type="text/css" media="screen">
-      <![CDATA[
-        /* decorate external hyperlinks with a visual indicator */
-        a[href]:not([href^="#"])
-        {
-            background          : <%= ICON_BY_NAME['link'].data_css %>;
-            background-position : center right;
-            background-repeat   : no-repeat;
-            padding-right       : 13px;
-        }
-
-        /* display icon for blockquote elements */
-        blockquote
-        {
-            background-image    : <%= ICON_BY_NAME['quote'].data_css %>;
-            background-repeat   : no-repeat;
-            margin-left         : 0;
-            padding-left        : 65px;
-            min-height          : 50px;
-        }
-      ]]>
       </style>
     </head>
     <body>
     <div id="body">
-      <%
-        # menu of links to link sections
-        nav = [
-          ('Abstract' if abstract),
-          'Contents',
-          lof_sections,
-          ('References' if references)
-        ].flatten.compact
-
-        if nav.length > 1
-      %>
-      <ul id="nav" class="nav">
-        <% nav.each do |section| %>
-          <li><a id="rev:<%= section %>" href="#<%= section %>"><%= section %></a></li>
-        <% end %>
-      </ul>
-      <% end %>
-
-      <br style="display: none"/>
-      <hr style="display: none"/>
-      <br style="display: none"/>
 
       <%= node = @nodes_by_type['header_outside_above'].first and node.output %>
       <div id="header">
@@ -683,10 +618,6 @@ output: |
       <% if header = @nodes_by_type['header'].first %>
         <%= header.output %>
       <% else %>
-        <% if $logo %>
-          <div class="logo"><%= $logo %></div>
-        <% end %>
-
         <% if $title %>
           <h1 class="title"><%= $title.to_s.to_inline_xhtml %></h1>
         <% end %>
@@ -711,19 +642,24 @@ output: |
           <h3 class="date"><%= $date %></h3>
         <% end %>
       <% end %>
+      <script type="text/javascript"><!--
+      google_ad_client = "pub-7516968926110807";
+      /* 728x90, created 7/11/09 */
+      google_ad_slot = "6383692460";
+      google_ad_width = 728;
+      google_ad_height = 90;
+      //-->
+      </script>
+      <script type="text/javascript"
+      src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+      </script>
+
       <%= node = @nodes_by_type['header_inside_below'].first and node.output %>
       </div>
       <%= node = @nodes_by_type['header_outside_below'].first and node.output %>
-
       <%= abstract.output if abstract %>
-
-      <br style="display: none"/>
-      <hr style="display: none"/>
-      <br style="display: none"/>
-
       <% unless toc.empty? %>
         <div id="toc">
-          <%= ERBook::Document::Node.navigation "Contents", "rev:Contents", nil, nil %>
           <h1 class="title">Contents</h1>
           <ul>
             <%= toc %>
@@ -739,15 +675,10 @@ output: |
         <div id="lof"><%= lof %></div>
       <% end %>
 
-      <br style="display: none"/>
-      <hr style="display: none"/>
-      <br style="display: none"/>
-
       <div id="content"><%= @content %></div>
 
       <% if references %>
       <div id="bib">
-        <%= ERBook::Document::Node.navigation "References", "rev:References", nil, nil %>
         <h1 class="title" >References</h1>
         <ol>
         <% references.each do |n| %>
@@ -756,44 +687,15 @@ output: |
         </ol>
       </div>
       <% end %>
-
-      <br style="display: none"/>
-      <hr style="display: none"/>
-      <br style="display: none"/>
-
       <%= node = @nodes_by_type['footer_outside_above'].first and node.output %>
       <div id="footer">
       <%= node = @nodes_by_type['footer_inside_above'].first and node.output %>
       <% if footer = @nodes_by_type['footer'].first %>
         <%= footer.content.to_s.to_xhtml %>
       <% else %>
-        Generated by <a href="<%= ERBook::WEBSITE %>"><%= ERBook::DISPLAY %></a> on <%= Time.now %>.
+        Generated on <%= Time.now %>.
       <% end %>
-
-      <div id="footer-credits">
-        <p>
-          <% ICONS.select {|i| i.origin == 'tango' }.each do |icon| %>
-            <%= icon.to_xhtml %>
-          <% end %>
-
-          <br/>
-
-          The icons shown above are &copy; 2005 <a href="http://tango.freedesktop.org">Tango Desktop Project</a>. They are part of the <a href="http://tango.freedesktop.org/Tango_Icon_Library">Tango Icon Theme</a> set, which is distributed under the <a href="http://creativecommons.org/licenses/by-sa/2.5/">Creative Commons Attribution-ShareAlike 2.5 License Agreement</a>.
-        </p>
-
-        <p>
-          <% ICONS.select {|i| i.origin == 'mediawiki' }.each do |icon| %>
-            <%= icon.to_xhtml %>
-          <% end %>
-
-          <br/>
-
-          The icons shown above are &copy; 2007 <a href="https://www.ohloh.net/projects/mediawiki/contributors">MediaWiki contributors</a>. They are part of the <a href="http://www.mediawiki.org/wiki/MediaWiki">MediaWiki</a> software, which is distributed under the <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU General Public License, version 2</a>.
-        </p>
       </div>
-      <%= node = @nodes_by_type['footer_inside_below'].first and node.output %>
-      </div>
-      <%= node = @nodes_by_type['footer_outside_below'].first and node.output %>
     </div>
     </body>
   </html>
@@ -806,578 +708,5 @@ fonts:
 
 styles:
 - all: |
-    /* general */
-      body
-      {
-          color             : #000000;
-          background-color  : #FFFFFF;
-          line-height       : 1.5em;
-          font-family       : <%= @format['fonts']['sans-serif'] %>;
-      }
-
-    /* emphasis */
-      blockquote
-      {
-          color             : #333;
-          font-style        : italic;
-      }
-
-      em
-      {
-          font-family       : <%= @format['fonts']['serif'] %>;
-          font-size         : 105%;
-      }
-
-      hr
-      {
-          height            : 0;
-          border            : 0;
-          border-top        : 2px solid #FF0000;
-      }
-
-    /* source code */
-      tt,
-      code,
-      pre
-      {
-          font-family       : <%= @format['fonts']['monospace'] %>;
-          font-size         : 100%; /* appears like "size: small" otherwise */
-      }
-
-    /* hyperlinks */
-      a > img
-      {
-          border            : none;
-      }
-
-      a img
-      {
-          _border           : none; /* for IE6 */
-      }
-
-    /* headings */
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6,
-      .title
-      {
-          font-weight       : lighter;
-          font-family       : <%= @format['fonts']['serif'] %>;
-      }
-
-      #lof h1,
-      #lof h2,
-      #lof h3,
-      #lof h4,
-      #lof h5,
-      #lof h6
-      {
-          margin-top        : 1.25em;
-      }
-
-      #content h1,
-      #content h2,
-      #content h3,
-      #content h4,
-      #content h5,
-      #content h6
-      {
-          margin-top        : 2.5em;
-          line-height       : 1.25em;
-      }
-
-      #content h1
-      {
-          font-size         : 2.0em;
-      }
-
-      #content h2
-      {
-          font-size         : 1.8em;
-      }
-
-      #content h3
-      {
-          font-size         : 1.6em;
-      }
-
-      #content h4
-      {
-          font-size         : 1.4em;
-      }
-
-      #content h5
-      {
-          font-size         : 1.2em;
-      }
-
-      #content h6
-      {
-          font-size         : 1.0em;
-      }
-
-    /* tables */
-      table
-      {
-          border-collapse   : collapse; /* no spacing between cell borders */
-          margin            : auto; /* center horizontally */
-          margin-top        : 1em;
-      }
-
-      th,
-      td
-      {
-          padding           : 1em;
-          border            : 1px solid #bbb;
-          vertical-align    : top;
-          background-color  : #FFFFFF;
-          _background-color : #FFFFFF; /* for IE6 */
-      }
-
-      th
-      {
-          background-color  : #F5F5F5;
-      }
-
-    /* document structure */
-      #header
-      {
-          text-align        : center;
-      }
-
-      .logo,
-      .header_outside_above,
-      #header,
-      .header_outside_below
-      {
-          margin-bottom     : 5em;
-      }
-
-      .footer_outside_above,
-      #footer,
-      .footer_outside_below
-      {
-          margin-top        : 5em;
-      }
-
-      #header .header_inside_above,
-      #footer .footer_inside_above
-      {
-          margin-bottom     : 4em;
-      }
-
-      #header .header_inside_below,
-      #footer .footer_inside_below
-      {
-          margin-top        : 4em;
-      }
-
-      #Abstract
-      {
-          margin-bottom     : 5em;
-      }
-
-      #toc li
-      {
-          list-style-type   : none;
-      }
-
-      #toc li ul
-      {
-          padding-bottom    : 1em;
-          border-left       : thick solid #F5F5F5;
-          _border-left      : none; /* for IE6 */
-      }
-
-      #toc li ul:hover
-      {
-          border-color      : #DCDCDC;
-      }
-
-      #toc > ul
-      {
-          padding-left      : 1em;
-      }
-
-      #bib
-      {
-          margin-top        : 5em;
-      }
-
-      #footer
-      {
-          border-top        : thick dotted #DCDCDC;
-          padding-top       : 1em;
-          text-align        : center;
-      }
-
-      #footer-credits
-      {
-          margin-top        : 2em;
-          margin-bottom     : 2em;
-      }
-
-    /* document nodes */
-      .part    > .title,
-      .chapter > .title
-      {
-          padding-bottom    : 0.5em;
-      }
-
-      .part    > .title > big,
-      .chapter > .title > big
-      {
-          display           : block;
-          margin-top        : 0.25em;
-      }
-
-      .part    .title big,
-      .chapter .title big
-      {
-          _display          : block; /* for IE6 */
-          _margin-top       : 0.25em; /* for IE6 */
-          _margin-bottom    : 0.75em; /* for IE6 */
-      }
-
-      .paragraph > .title,
-      .tip       > .title,
-      .note      > .title,
-      .caution   > .title,
-      .warning   > .title,
-      .important > .title,
-      .figure    > .title,
-      .table     > .title,
-      .example   > .title,
-      .equation  > .title,
-      .procedure > .title
-      {
-          font-size         : large;
-          margin-top        : 2em;
-      }
-
-      .paragraph .title,
-      .tip       .title,
-      .note      .title,
-      .caution   .title,
-      .warning   .title,
-      .important .title,
-      .figure    .title,
-      .table     .title,
-      .example   .title,
-      .equation  .title,
-      .procedure .title
-      {
-          _font-size        : large; /* for IE6 */
-          _font-weight      : bold; /* large is not bold in IE6 */
-          _margin-top       : 2em; /* for IE6 */
-      }
-
-      .tip      ,
-      .note     ,
-      .caution  ,
-      .warning  ,
-      .important,
-      .figure   ,
-      .table    ,
-      .example  ,
-      .equation ,
-      .procedure
-      {
-          margin            : 3em;
-      }
-
-      .tip       .nav,
-      .note      .nav,
-      .caution   .nav,
-      .warning   .nav,
-      .important .nav,
-      .figure    .nav,
-      .table     .nav,
-      .example   .nav,
-      .equation  .nav,
-      .procedure .nav
-      {
-          margin-left       : -7.65em;
-      }
-
-      .tip       > .content,
-      .note      > .content,
-      .caution   > .content,
-      .warning   > .content,
-      .important > .content,
-      .figure    > .content,
-      .table     > .content,
-      .example   > .content,
-      .equation  > .content,
-      .procedure > .content
-      {
-          min-height        : 48px; /* 48px is height of icon */
-      }
-
-      .tip       > .content > .icon,
-      .note      > .content > .icon,
-      .caution   > .content > .icon,
-      .warning   > .content > .icon,
-      .important > .content > .icon
-      {
-          float             : left;
-          margin            : 0 1em 1em 0; /* top right bottom left */
-      }
-
-      .tip       .content .icon,
-      .note      .content .icon,
-      .caution   .content .icon,
-      .warning   .content .icon,
-      .important .content .icon
-      {
-          _display          : none; /* IE6 cannot display embedded images */
-      }
-
-      .figure > .title
-      {
-          text-align        : center;
-      }
-
-      .figure .title
-      {
-          _text-align       : center; /* for IE6 */
-      }
-
-      .figure > .content img
-      {
-          display           : block;
-          margin            : auto;
-      }
-
-      .figure .content img
-      {
-          _display          : block; /* for IE6 */
-          _margin           : auto; /* for IE6 */
-      }
-
 - screen: |
-    /* general */
-      body
-      {
-          margin            : 0;
-          padding           : 0;
-          padding-left      : 10em; /* room for local navigation menus */
-          padding-right     : 10em; /* keep #body visually centered */
-          background-color  : #808080;
-      }
-
-      /* the actual content of the <body> element */
-      #body
-      {
-          margin            : auto;
-          max-width         : 38em;
-
-          background-color  : #FFFFFF;
-          border-left       : 0.35em solid #696969;
-          border-right      : 0.35em solid #696969;
-          padding           : 2em;
-      }
-
-    /* source code */
-      tt
-      {
-          background-color  : #F0F8FF;
-      }
-
-      pre
-      {
-          cursor            : text;
-          line-height       : normal;
-          border            : 1px solid #b1d827;
-          background-color  : #F5FFDF;
-          padding           : 1em;
-
-          /* fit container to content; no overflow! */
-          display           : inline-block;
-          margin            : 0;
-          min-width         : 92.5%;
-      }
-
-      /* output of the syntax coloring library */
-      pre.code
-      {
-          background-color  : #FFFFE8;
-          border-color      : #EEDD88;
-      }
-
-    /* hyperlinks */
-      a
-      {
-          text-decoration   : none;
-      }
-
-      a:hover
-      {
-          text-decoration   : underline;
-      }
-
-      a:link
-      {
-          color             : #0038E1; /* maximum saturation of RoyalBlue */
-      }
-
-      a:visited
-      {
-          color             : #800080;
-      }
-
-      #toc a:target:after,
-      #lof a:target:after,
-      #nav a:target:after
-      {
-          content           : "★"; /* &#x2605; */
-          color             : #FF0000;
-          font-size         : x-large;
-          padding-left      : 0.125em;
-      }
-
-    /* document structure */
-      /* mini navigation menu beside every block node */
-      .nav
-      {
-          width             : 4em;
-          float             : left; /* detach from main content */
-          margin-left       : -6.075em;
-
-          font-size         : 1.9em;
-          letter-spacing    : 0.25em;
-          text-align        : center;
-
-          color             : #696969; /* same colors to hide non-links */
-          background-color  : #696969;
-          padding           : 0.5em;
-          margin-top        : -0.5em;
-      }
-
-      .nav:target,
-      .nav:hover
-      {
-          color             : #333; /* same colors to hide non-links */
-          background-color  : #333;
-      }
-
-      .nav a:link,
-      .nav a:visited
-      {
-          color             : #D3D3D3;
-      }
-
-      .nav a:hover,
-      #nav a:target:after {
-          color             : #9ACD32;
-          text-decoration   : none;
-      }
-
-      /* global navigation menu at the top of the page */
-      #nav
-      {
-          font-size         : 1em;
-          letter-spacing    : 0;
-          width             : 8.5em;
-          margin-left       : -11.5em;
-      }
-
-      #nav li
-      {
-          list-style-type   : none;
-      }
-
 - print: |
-    /* source code */
-      tt
-      {
-          font-weight       : normal;
-      }
-
-      pre
-      {
-          border            : none;
-      }
-
-    /* headings */
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6
-      {
-          font-weight       : normal;
-          clear             : both;
-      }
-
-    /* hyperlinks */
-      /* blend all hyperlinks with normal text */
-      a:link,
-      a:visited
-      {
-          color             : #000000;
-          text-decoration   : none;
-      }
-
-      /* emphasize external and cross-reference hyperlinks */
-      a[href]:not([href^="#"]):link,
-      a[href]:not([href^="#"]):visited,
-      a.xref[title]:link,
-      a.xref[title]:visited
-      {
-          color             : #0000FF;
-          text-decoration   : underline;
-          font-weight       : bolder;
-      }
-
-      /* show URL of destination for external hyperlinks */
-      a[href]:not([href^="#"]):after
-      {
-          content           : " " attr(href);
-          font-family       : <%= @format['fonts']['monospace'] %>;
-      }
-
-      /* show name of destination for cross-references */
-      a.xref[title]:after
-      {
-          content           : " " attr(title);
-      }
-
-      a:after
-      {
-          font-weight       : normal;
-          font-size         : smaller;
-      }
-
-    /* document structure */
-      #nav,
-      .nav,
-      #lof
-      {
-          display           : none;
-      }
-
-      #toc,
-      .part,
-      .chapter,
-      #bib
-      {
-          page-break-before : always;
-      }
-
-    /* document nodes */
-      .part    > .title > big,
-      .chapter > .title > big
-      {
-          padding-bottom    : 0.5em;
-      }
-
-      .part    .title big,
-      .chapter .title big
-      {
-          _padding-bottom   : 0.5em; /* for IE6 */
-      }
