@@ -1,0 +1,35 @@
+% sect '實體關係圖轉關聯式表格'
+<sect2><title>每個實體轉成一個表格</title>
+</sect2>
+<sect2><title>每個關係轉成一個表格</title>
+</sect2>
+<sect2><title>合併多對一關係的表格</title>
+<para>
+<figure id="Many2OneRelationship"><title>多對一關係</title>
+<imagedata fileref="pic/Many2OneRelationship.gif" />
+</figure>
+可轉成
+<programlisting>
+E(e_pks, e_attrs)
+R(e_pks, f_pks, r_cols)
+F(f_pks, f_cols)
+</programlisting>
+多對一則可合併 E, R 成為
+<programlisting>
+ER(e_pks, e_attrs, f_pks, r_cols)
+F(f_pks, f_cols)
+</programlisting>
+</para>
+</sect2>
+<sect2><title>合併弱實體的表格</title>
+
+</sect2>
+<sect2><title>為每個多值屬性建一個關聯表</title>
+<para>
+如一個部門有多個地點，
+則以每個部門的主鍵加上地點的主鍵合成一個表格。
+</para>
+</sect2>
+</sect1>
+</chapter>
+

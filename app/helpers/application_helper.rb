@@ -1,7 +1,6 @@
 # Methods added to this helper will be available to all templates in the application.
 require 'ostruct'
 module ApplicationHelper
-
 	def browser
 		browser = OpenStruct.new
 		case controller.request.user_agent
