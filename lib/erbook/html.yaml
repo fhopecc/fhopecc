@@ -337,7 +337,7 @@ nodes:
 
     chapter: *latex
 
-    section:
+    section: 
       toc: true
       lof: false
       depth: true
