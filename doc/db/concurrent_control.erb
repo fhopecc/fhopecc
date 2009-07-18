@@ -1,44 +1,13 @@
-<%chapter '並行控制' do%>
-<%paragraph do%>
-<%end%>
-<%paragraph do%>
-作為一個好的黏著語言，
-本身必須不利用外部程式語言便可以執行大部份的外部程式，
-像要額外利用 C 來為 Ruby 寫 Binding 讓它引用 C 的函式庫，
-便不在本文討論之列。
-<%end%>
-<%paragraph do%>
-<%end%>
-<%table 'Ruby 黏著外部程式的方法' do%>
-<table>
-<tr><th>外部程式種類</th><th>呼叫方法</th><th>呼叫語法</th></tr>
-<tr>
-<td>可執行檔</td>
-<td>system, exec 或 `字元</td>
-<td>遵照命令的說明組成命令列字串作為引數傳入</td>
-</tr>
-<tr>
-<td>DLL</td>
-<td>DL 模組</td>
-<td>可以 Ruby 函數的語法呼叫，
-但需手動指定函數名稱及函數引數及回傳值的資料型態。
-</td>
-</tr>
-<tr>
-<td>Windows API</td>
-<td>Win32API 物件</td>
-<td>與 DL 類似，僅能用</td>
-</tr>
-<tr>
-<td>OLE</td>
-<td>WIN32OLE 物件</td>
-<td>OLE 檔案本身包含物件導向的資訊，
-可以直接利用 Ruby 的物件語法來使用函式庫</td>
-</tr>
-</table>
-<%end%>
-<%# include shell.erb #%>
-<%# include dl.erb #%>
-<%# include winapi.erb #%>
-<%# include ole.erb #%>
+<%section '並行控制' do%>
+% example '97警2-1' do
+% paragraph do
+名詞解釋：請儘可能舉例說明。(30 分)
+(1)綱要(Schema)
+(2)並行控制(Concurrency Control)
+(3)候選鍵(Candidate Key)
+(4)預儲程序(Stored Procedures)
+(5)嵌入式SQL(Embedded SQL)
+(6)回復(Rollback)
+% end
+% end
 <%end%>

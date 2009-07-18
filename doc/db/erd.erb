@@ -1,11 +1,89 @@
-<% section '實體關係模型' do%>
+<%section '實體關係模型' do%>
+% paragraph do
+實體關係模型是1976年Peter Chen發明的資料塑模化方法，
+幾乎每場資料庫考試都會出現的基本主題。
+% end
+% example '97警2-4' do
+% paragraph do
+依據學生選課之個體關聯圖，回答以下問題：（30 分）
+% end
+%= figure '學生選課之個體關聯圖', '97p2-4'
+% paragraph do
+(1)解釋此個體關聯圖的意義。
+(2)如何重新繪製此個體關聯圖，以避免出現多對多（m : n）的關聯。
+(3)若擬增加一個屬性表示「學生修課的成績」，則應如何修改題目之個體關聯圖。
+% end
+% paragraph do
+答：
+% end
+% paragraph do
+(1)
+% end
+% paragraph do
+<%=xref '97p2-4'%>表示一個學生選課模型，
+選課為一個二元關係，
+參與的實體有學生與課程。
+又為一個多對多關係，指一個學生可以選很多課程，
+而一個課程也可以讓很多學生選。
+% end
+% paragraph do
+學生實體有兩個屬性來描述，分別為學號與姓名，
+而課程也有兩個屬性來描述，分別為課程與學分。
+% end
+% end
+% section '實體關係模型基本元素', 'erd_elements' do
+% paragraph do
+實體關係模型基本元素包含實體(Entity)、
+關係(Relationship)及屬性(Attribute)。
+% end
 % example '96警2-1.1' do
 % paragraph do
 指出ERDs（Entity Relationship Diagrams）三個要素名稱。
 % end
 % paragraph do
-實體(Entity)、關係(Relationship)及屬性(Attribute)。
+答：請參閱<%=xref 'erd_elements'%>
 % end
 % end
+% section '實例' do
+% paragraph do
+實例是可以獨立識別出與其它概念不同的概念。
+% end
+% end
+% section '實體' do
+% paragraph do
+實體是一組有共同特徵的實例集合，
+如<%=xref '96p2-3'%>中，
+警察人員都有一定的特徵，便可以為一個實體。
+% end
+% paragraph do
+實體用矩形表示，
+如<%=xref '97p2-4'%>中的學生與課程都為實體。
+% end
+% end
+% section '關係' do
+% paragraph do
+關係是不同實例間的連結，也可以是不同實體的連結。
+% end
+% paragraph do
+關係用菱形表示，
+如<%=xref '97p2-4'%>中的選課關係。
+% end
+% end
+% section '屬性' do
+% paragraph do
+屬性是實體所擁有的特徵，可用一組屬性來描述實體。
+% end
+% paragraph do
+屬性用楕圓表示，
+如<%=xref '97p2-4'%>中的學生實體的學號與姓名。
+% end
+% end
+% end
+<%# include entity_type.erb #%>
+<%# include rel_degree.erb #%>
+<%# include rel_card.erb #%>
+<%# include rel_part.erb #%>
 <%# include eerd.erb #%>
+<%# include erd2table.erb #%>
+<%# include erd_err.erb #%>
 <%end%> 

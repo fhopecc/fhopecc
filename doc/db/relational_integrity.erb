@@ -1,6 +1,13 @@
 <%section '關連模型的完整性' do%>
-<%section '96警2-4' do%>
-<%paragraph do%>
+% example '96高2-3' do
+% paragraph do
+在關聯式資料庫的綱要（Schema）中，有鍵值限制（Key Constraint）、個體整合限
+制（Entity Integrity Constraint）以及參考整合限制（Referential Integrity Constraint）
+三種，試分別說明之。（30 分）
+% end
+% end
+% example '96警2-4' do
+% paragraph do
 為確保資料庫內的資料能正確被處理，
 遵循完整性法則（Integrity Rules）是有其必要的。
 請回答下列各問題：
@@ -17,6 +24,6 @@ ID CName Gender Birth_of_Date
 關聯表名稱：Crime_Case
 CrimeNo CrimeType Crime_Event_Date ID
 Crim_BK.ID -- Crime_Case.ID
-<%end%>
-<%end%>
+% end
+% end
 <%end%>

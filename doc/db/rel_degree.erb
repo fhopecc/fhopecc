@@ -1,0 +1,38 @@
+<%section '關係的度數' do%>
+% paragraph do
+關係的度數指得是參與關係的實體數目，
+或是關係所連結的實體數目。
+一般分為一元、二元及三元關係。
+% end
+% section '一元關係' do
+% paragraph do
+一元關係就是遞迴關係，參與的實體數目只有一個。
+% end
+%= figure '婚姻關係', 'unary_rel'
+% paragraph do
+如<%=xref 'unary_rel'%>Married to關係就是一元關係，
+參與的實體只有 PERSON，通常會在連結關係的線上加上註記，
+此註記稱為角色，Married to 有兩個角色，分別是 Husband 及
+Wife。
+% end
+% end
+% section '二元關係' do
+% paragraph do
+二元關係參與的實體數目有二個。
+如<%=xref '97p2-4'%>選課關係就是二元關係，
+參與的實體有學生與課程。
+% end
+% end
+% section '三元關係' do
+% paragraph do
+三元關係參與的實體數目有三個，
+只有二元關係無法表示語意時，才會使用三元關係。
+% end
+% end
+% section '四元關係' do
+% paragraph do
+四元關係參與的實體數目有四個，
+只有三元關係無法表示語意時，才會使用四元關係。
+% end
+% end
+<%end%> 

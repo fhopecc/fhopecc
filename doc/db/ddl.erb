@@ -1,0 +1,21 @@
+<%section 'DDL' do%>
+% section '建立表格' do
+% end
+% section '修改表格' do
+% code '刪除表格欄位語法', 'sql' do
+ALTER TABLE tbl
+DROP COLUMN(col1,col2,...)
+% end
+% paragraph do
+*例一：刪除表格 employee，欄位 fee	
+ALTER TABLE employee
+DROP COLUMN(fee);
+註一：在 Oracle 中，當原本欄位的欄名是非法的如 to，	
+那麼要刪除時，必須加上雙引號 "" 才能刪除。
+EX 強制刪除非法欄名的欄位
+ALTER TABLE tbl DROP COLUMN("to");
+但是若是 peep/ps 這種則無法作用
+% end
+% end
+<%end%>
+

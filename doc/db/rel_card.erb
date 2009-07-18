@@ -1,0 +1,35 @@
+<%section '關係的基數' do%>
+% paragraph do
+關係的基數指得是參與關係實體的實例個數，
+分為一對一關係、一對多關係及多對多關係。
+% end
+% section '一對一關係' do
+% paragraph do
+一對一關係指一個實例只關聯到另一個實例。
+% end
+% end
+% section '一對多關係' do
+% paragraph do
+一對多關係一個實例關聯到多個實例。
+% end
+% end
+% section '多對多關係' do
+% paragraph do
+多對多關係多個實例關聯到多個實例。
+如<%=xref '97p2-4'%>所示，一個學生可以選很多課程，
+而一個課程也可以讓很多學生選。
+% end
+% end
+% section '多對一關係' do
+% paragraph do
+多對一關係多個實例關聯到一個實例。
+% end
+% end
+% section '基數限制條件' do
+% paragraph do
+可以明確指定基數限制條件在關聯上，
+來進一步標示實體允許參與關係的範圍：
+(1,N)、(0,N)、(1,1)和(0,1)等。
+% end
+% end
+<%end%> 

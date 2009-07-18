@@ -1,14 +1,113 @@
 <%section '增強型實體關係模型' do%>
 % paragraph do
 增強型實體關係模型為在原本的實體關係模型加上階層關係。
-適合去表示具有階層關係
-% end
-% paragraph do
+適合去表示具有階層關係的領域。
 % end
 % equation '增強型實體關係模型' do
 增強型實體關係模型 = 實體關係模型 + 階層關係
 % end
-% example '96警2-3 ' do
+% section '超類型與子類型', 'supertype_and_subtype' do
+% paragraph do
+參與階層關係的實體分為超類型與子類型，
+子類型的實體一定被包含於超類型中，
+如<%=xref '96p2-3'%>中，
+行政警察、交通警察及刑事警察都可以為警察人員，
+所以行政警察、交通警察及刑事警察是警察人員的子類型，
+而警察人員是行政警察、交通警察及刑事警察的超類型，
+% end
+% end
+% section '一般化與特殊化' do
+% paragraph do
+一般化與特殊化是指設計階層關係的流程，
+這兩個流程概念相同，但是方向不同。
+% end
+% paragraph do
+特殊化是由超類型開始，並辨識出實例中的不同特徵，
+藉由這個相異來細分成幾個子類型。
+% end
+% paragraph do
+一般化是歸納幾個子類型的共同屬性，
+再建立一個超類型來表達這些共同屬性。
+% end
+% paragraph do
+如<%=xref '96p2-3'%>中，
+若從警察人員的實例中，
+辨識出行政警察、交通警察及刑事警察的相異特徵，
+再分別建立上述的子類型，即為特殊化。
+若先辨識出行政警察、交通警察及刑事警察的共同特徵，
+再建立它們的超類型警察人員，就為一般化。
+% end
+% end
+% section 'ISA 關係' do
+% paragraph do
+階層關係是由 ISA 關係(簡寫 ISA)表示，
+ISA 支援屬性繼承及關係參與，
+屬性繼承子類型會繼承所有超類型的屬性。
+如<%=xref '96p2-3'%>中，使用圓形來表示 ISA。
+關係線為直線加上 U，數學中表示屬於的符號，
+由 U 的方向來分別子類型與超類型。
+因為行政警察、交通警察及刑事警察是警察人員的子類型，
+屬性繼承使行政警察、
+交通警察及刑事警察都具有其超類型，
+警察人員的身份證字號屬性。
+% end
+% end
+% section '多重繼承' do
+% paragraph do
+一個子類型若同時繼承一個以上的超類型稱為多重繼承。
+% end
+% end
+% section '一般化與特殊化的屬性', 'spec_constraints' do
+% paragraph do
+一般化與特殊化的屬性可由兩個問題區分：
+% end
+% paragraph do
+分離性(Disjointness)：超類型的一個實例是否可同時為二個以上子類型的實例？
+% end
+% paragraph do
+若是則其屬性為重疊性，反之則為分離性。
+% end
+% paragraph do
+完全性(completeness)：超類型的一個實例是否一定要為一個以上子類型的實例？
+% end
+% paragraph do
+若是則其屬性為完全性，反之則為部份性。
+% end
+% section '分離性' do
+% paragraph do
+在特殊化過程中，若超類型的一個實例只能為一個子類型的實例，
+則此特殊化稱為分離的。
+如<%=xref '96p2-3'%>中，
+警察人員只能為行政警察、交通警察或刑事警察其中一種，
+不能同時為行政警察及交通警察，
+是故上述繼承關係為分離繼承關係。
+% end
+% paragraph do
+如<%=xref '96p2-3'%>中，
+在表示 ISA 關係的圓型中，加入 d，
+表示此繼承關係為分離繼承關係。
+% end
+% end
+% section '重疊性' do
+% paragraph do
+在特殊化過程中，若超類型的一個實例可為二個以上子類型的實例，
+則此特殊化稱為重疊的。
+% end
+% end
+% section '完全特殊化' do
+% paragraph do
+在特殊化過程中，若超類型的一個實例一定要為一個以上子類型的實例，
+則此特殊化稱為完全特殊化。
+% end
+% end
+% section '部份特殊化' do
+% paragraph do
+在特殊化過程中，若超類型的一個實例不一定要為子類型的實例，
+則此特殊化稱為部份特殊化。
+% end
+% end
+% end
+% example '96警2-3' do
 三、下圖為有關「警察人事」資料庫之超類型/子類型關係圖。
 %= figure '「警察人事」資料庫之超類型/子類型關係圖', '96p2-3'
 請回答下列各問題：（第(1)至第(3)小題各5分，第(4)小題10 分）
@@ -18,6 +117,29 @@
 (4)利用SQL CREATE TABLE statement 將關聯表產生相對應的資料表。（註：資料型別與長度可以自訂）
 % end
 % paragraph do
-分離性法則與重疊性法則
+答：
+% end
+% paragraph do
+(1)請參考<%=xref 'spec_constraints'%>。
+% end
+% paragraph do
+(2)請參考<%=xref 'supertype_and_subtype'%>。
+% end
+% paragraph do
+(3)轉成相對的表格如下
+% end
+% table '警察人員', 'police_tab' do
+<table><tr><td colspan='8'>警察人員</td></tr>
+<tr>
+<td>身份證字號</td>
+<td>姓名</td>
+<td>性別</td>
+<td>晉用日期</td>
+<td>出生日期</td>
+<td>手機</td>
+<td>電子郵件</td>
+<td>單位代碼</td>
+</tr>
+</table>
 % end
 <%end%> 

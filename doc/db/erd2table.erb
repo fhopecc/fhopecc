@@ -1,35 +1,42 @@
-% sect '實體關係圖轉關聯式表格'
-<sect2><title>每個實體轉成一個表格</title>
-</sect2>
-<sect2><title>每個關係轉成一個表格</title>
-</sect2>
-<sect2><title>合併多對一關係的表格</title>
-<para>
-<figure id="Many2OneRelationship"><title>多對一關係</title>
-<imagedata fileref="pic/Many2OneRelationship.gif" />
-</figure>
-可轉成
-<programlisting>
-E(e_pks, e_attrs)
-R(e_pks, f_pks, r_cols)
-F(f_pks, f_cols)
-</programlisting>
-多對一則可合併 E, R 成為
-<programlisting>
-ER(e_pks, e_attrs, f_pks, r_cols)
-F(f_pks, f_cols)
-</programlisting>
-</para>
-</sect2>
-<sect2><title>合併弱實體的表格</title>
-
-</sect2>
-<sect2><title>為每個多值屬性建一個關聯表</title>
-<para>
-如一個部門有多個地點，
-則以每個部門的主鍵加上地點的主鍵合成一個表格。
-</para>
-</sect2>
-</sect1>
-</chapter>
-
+<%section '實體關係圖轉關聯式表格' do%>
+% section '每個強實體轉成一個表格' do
+% paragraph do
+每個強實體都轉成一個表格，表格名稱為實體名稱，
+強實體的每個屬性都轉成對映的表格欄位，
+強實體的識別屬性則轉成對映的表格主鍵。
+% end
+% paragraph do
+如<%=xref '96p2-3'%>中的警察人員為強實體，
+故轉成一個表格如<%=xref 'police_tab'%>。
+% end
+% end
+% section '每個弱實體轉成一個表格' do
+% paragraph do
+每個弱實體都轉成一個表格，表格名稱為實體名稱，
+弱實體的每個屬性都轉成對映的表格欄位，
+加入其擁有者的識別屬性至表格欄位，
+並設為外鍵，
+擁有者的識別屬性及其本身的部份識別屬性合成表格的主鍵。
+% end
+% end
+% section '加入複合屬性的簡單屬性至表格欄位' do
+% paragraph do
+每個實體的複合屬性不加入表格，
+而是把複合屬性中的簡單屬性加入表格成為新欄位。
+% end
+% end
+% section '為每個多值屬性建一個表格' do
+% paragraph do
+為多值屬性建一個表格，
+表格名稱為實體名稱加上底線，再加上屬性名稱，
+並將實體的識別屬性加入成為主鍵，
+再新增表示屬性本身一個值欄位，其名稱同屬性名稱。
+% end
+% end
+% section '每個關係轉成一個表格' do
+% end
+% section '合併多對一關係的表格' do
+% end
+% section '合併弱實體的表格' do
+% end
+<%end%>

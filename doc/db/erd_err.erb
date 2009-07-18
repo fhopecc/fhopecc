@@ -1,0 +1,56 @@
+<%section '實體關係圖的常見錯誤' do%>
+% paragraph do
+因錯誤解釋實體間的關係造成實體關聯圖的錯誤，
+稱為「連接陷阱」（Connection Traps）。
+實體關聯圖最常見的兩種連接陷阱錯誤，如下所示：
+扇形陷阱（Fan Traps）。
+斷層陷阱（Chasm Traps）。
+% end
+% example '95高2-2' do
+% paragraph do
+假設有員工（Employee）、
+部門（Department）與專案（Project）三個個體，
+其個體關係圖（ER-Model）如圖一，
+試問此個體關係圖可能產生何種錯誤陷阱？試舉例說明。（20 分）
+% end
+%= figure '扇形陷阱', '95h2-2'
+% paragraph do
+答：請參閱<%=xref 'fan traps'%>。
+% end
+% end
+% section '扇形陷阱', 'fan traps' do
+% paragraph do
+扇形陷阱(Fan Traps)通常產生在實體擁有多個一對多的關係，
+如同風扇形散開，使實體間關係令人混淆的問題。
+% end
+% paragraph do
+如<%=xref '95h2-2'%>所示，
+DEPARTMENT 實體擁有 2 個一對多關係， 
+一個 DEPARTMENT 有多個 EMPLOYEE 為工作。
+一個 DEPARTMENT 控制多個 PROJECT。
+% end
+% paragraph do
+但是 EMPLOYEE 為那個 PROJECT 工作是混淆的，
+EMPLOYEE 不會為部門所有的 PROJECT 工作，
+可以只為 3 個 PROJECT 工作。
+% end
+%= figure '解決扇形陷阱', '95h2-2a'
+% paragraph do
+關係正確的解釋應該是以 PROJECT 建立橋樑關係。
+如<%=xref '95h2-2a'%>所示，
+確立 EMPLOYEE 為那個 PROJECT 工作的關係後，
+再由一個 DEPARTMENT 控制多個 PROJECT 的關係，
+便可連接一個 DEPARTMENT 有多個 EMPLOYEE 為工作的關係。
+% end
+% end
+% section '斷層陷阱', 'chasm traps' do
+% paragraph do
+斷層陷阱是指實體間應該存在的關聯根本不存在，
+兩個實體間並沒有辦法找到一條路徑來連接。
+通常發生在部份參與的實例。
+% end
+% paragraph do
+斷層陷阱的解決方式是新增關係，
+% end
+% end
+<%end%> 

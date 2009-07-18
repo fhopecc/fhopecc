@@ -90,6 +90,38 @@ code: |
         imgf ||= "#{id.to_s}.jpg"
         "<img src=\"#{imgf}\" alt=\"Angry face\"/>"
       end
+      def self.type_title type
+        case type
+        when 'section'
+          "節"
+        when 'table'
+          "表"
+        when 'figure'
+          "圖"
+        when 'example'
+          "例"
+        when 'code'
+          "程式碼"
+        when 'equation'
+          "等式"
+        else
+          type.to_s.capitalize
+        end
+      end
+      def type_title
+        ERBook::Document::Node.type_title type
+      end
+      def ref_title
+        case type
+        when 'section' 
+          "#{type_title}#{index}"
+        when 'figure','example', 'equation', 'table', 'code'
+          "#{type_title}#{number}"
+        end
+      end
+      def full_title
+        "#{ref_title}.&nbsp;&nbsp;#{title}"
+      end
       # Returns the content of this node as XHTML.
       def content_xhtml
         content.to_s.to_xhtml
@@ -146,26 +178,10 @@ code: |
       #   If not specified, the title and designation of
       #   this node will be used as the label instead.
       #
-      def xref_link label = nil
-        prefix = [type_label, index || number].compact.join(' ')
-
-        title_text =
-          if type == 'reference'
-            prefix
-          else
-            [prefix, title].compact.join('. ')
-          end
-
-        title_xhtml =
-          if label
-            label
-          else
-            title_text
-          end.to_s.to_inline_xhtml
-
+      def xref_link
         %{<a class="xref" href="##{here_frag}"#{
-          %( title="#{ERB::Util.h title_text}") if label
-        }>#{title_xhtml}</a>}
+          %( title="#{ERB::Util.h title}")
+        }>#{ref_title}</a>}
       end
       ##
       # URI fragments
@@ -346,9 +362,12 @@ nodes:
       silent: false
       output: |
         <% depth = [6, @node.depth + 1].min %>
+        <%if depth == 1 %>
+          <%=@format['adsense']%>
+        <%end%>
         <div class="<%= @node.type %>">
-          <h<%= depth %> class="title">
-            <%= @node.index_and_title_link %>
+          <h<%= depth %> id="<%=@node.here_frag%>" class="title">
+            <%= @node.full_title %>
           </h<%= depth %>>
           <%= @node.content_xhtml_div %>
         </div>
@@ -398,9 +417,9 @@ nodes:
       number: true
       silent: false
       output: |
-        <div class="<%= @node.type %>">
-          <p class="title"><%= @node.number_and_title_link %></p>
-          <%= @node.figure_html %>
+        <div class="<%=@node.type%>">
+          <p id="<%=@node.here_frag%>" class="title"><%=@node.full_title%></p>
+          <%=@node.figure_html%>
         </div>
 
     table: &formal
@@ -413,8 +432,8 @@ nodes:
       output: |
         <div class="<%= @node.type %>">
           <%= @node.navigation %>
-          <p class="title"><%= @node.number_and_title_link %></p>
-          <%= @node.content_xhtml_div %>
+          <p id="<%=@node.here_frag%>" class="title"><%=@node.full_title%></p>
+          <%=@node.content_xhtml_div%>
         </div>
 
     example: *formal
@@ -430,8 +449,8 @@ nodes:
       silent: false
       output: |
         <div class="<%= @node.type %>">
-          <p class="title"><%= @node.number_and_title_link %></p>
-          <%= "<code>\n#{@node.content}</code>\n".to_s.to_xhtml%>
+          <p id="<%=@node.here_frag%>" class="title"><%=@node.full_title%></p>
+          <%="<code>\n#{@node.content}</code>\n".to_xhtml%>
         </div>
   # cross-references
     xref:
@@ -445,13 +464,11 @@ nodes:
       output: |
         <%=
           query, label = @node.args
-
-          scope = @nodes.select {|n| n.content }
+          scope = @nodes
           target = scope.find {|n| n.id == query } || # id has 1st priority
                    scope.find {|n| n.title == query }
-
           if target
-            target.xref_link label
+            target.xref_link
           else
             raise ArgumentError, "invalid cross-reference to #{@node.title.inspect}", @node.trace
           end
@@ -502,7 +519,7 @@ output: |
     $title    = '$title' unless defined? $title
     $subtitle = '$subtitle' unless defined? $subtitle
     $authors  = {'$authors' => nil} unless defined? $authors
-    $date     = Time.now.strftime("%d %B %Y") unless defined? $date
+    $date     = Time.now.strftime("%Y%m%d") unless defined? $date
     abstract = @nodes_by_type['abstract'].first
     references = @nodes_by_type['reference']
     if references.empty?
@@ -545,22 +562,8 @@ output: |
         nested = nodes.map do |n|
           %{<li><a id="#{n.list_frag}" href="##{n.here_frag}">#{n.title.to_s.to_inline_xhtml}</a></li>}
         end
-
-        label = case type
-        when 'figure'
-          '圖'
-        when 'table'
-          '表'
-        when 'example'
-          '例'
-        when 'example'
-          '程式'
-        else
-          type
-        end
-
+        label = ERBook::Document::Node.type_title type
         lof_sections << label
-
         %{<h2 class="title">#{label}</h2> <ol>#{nested}</ol>}
       end
   %>
@@ -574,9 +577,9 @@ output: |
       <% if $authors %>
         <meta name="author" content="<%= $authors.keys.join(', ') %>"/>
       <% end %>
-      <% if $date %>
+      <%if $date%>
         <meta name="date" content="<%= $date %>"/>
-      <% end %>
+      <%end%>
       <% @format['styles'].each do |style| %>
         <% style.each_pair do |media, code| %>
           <style type="text/css" media="<%= media %>">
@@ -596,12 +599,10 @@ output: |
         <% if $title %>
           <h1 class="title"><%= $title.to_s.to_inline_xhtml %></h1>
         <% end %>
-
-        <% if $subtitle %>
+        <%if $subtitle%>
           <h2 class="subtitle"><%= $subtitle.to_s.to_inline_xhtml %></h2>
-        <% end %>
-
-        <% if $authors %>
+        <%end%>
+        <%if $authors%>
           <h3 class="authors"><%=
             $authors.map do |name, url|
               if url
@@ -612,26 +613,11 @@ output: |
             end.join(', ')
           %></h3>
         <% end %>
-
-        <% if $date %>
-          <h3 class="date"><%= $date %></h3>
-        <% end %>
-      <% end %>
-      <script type="text/javascript"><!--
-      google_ad_client = "pub-7516968926110807";
-      /* 728x90, created 7/11/09 */
-      google_ad_slot = "6383692460";
-      google_ad_width = 728;
-      google_ad_height = 90;
-      //-->
-      </script>
-      <script type="text/javascript"
-      src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-      </script>
-
-      <%= node = @nodes_by_type['header_inside_below'].first and node.output %>
+      <%end%>
+      <%=@format['adsense']%>
+      <%=node = @nodes_by_type['header_inside_below'].first and node.output %>
       </div>
-      <%= node = @nodes_by_type['header_outside_below'].first and node.output %>
+      <%=node = @nodes_by_type['header_outside_below'].first and node.output %>
       <%= abstract.output if abstract %>
       <% unless toc.empty? %>
         <div id="toc">
@@ -662,18 +648,38 @@ output: |
         </ol>
       </div>
       <% end %>
-      <%= node = @nodes_by_type['footer_outside_above'].first and node.output %>
-      <div id="footer">
-      <%= node = @nodes_by_type['footer_inside_above'].first and node.output %>
-      <% if footer = @nodes_by_type['footer'].first %>
-        <%= footer.content.to_s.to_xhtml %>
-      <% else %>
-        Generated on <%= Time.now %>.
-      <% end %>
-      </div>
+      <%if $date%>
+        <h3 class="date">最近修改日期：<%=$date%></h3>
+      <%end%>
+
+      <%=@format['analytics']%>
     </div>
     </body>
   </html>
+
+analytics: |
+  <script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+  try {
+  var pageTracker = _gat._getTracker("UA-8405318-2");
+  pageTracker._trackPageview();
+  } catch(err) {}</script>
+
+adsense: |
+  <script type="text/javascript"><!--
+  google_ad_client = "pub-7516968926110807";
+  /* 728x90, created 7/11/09 */
+  google_ad_slot = "6383692460";
+  google_ad_width = 728;
+  google_ad_height = 90;
+  //-->
+  </script>
+  <script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+  </script>
 
 # definition of font families for use in the CSS styles
 fonts:

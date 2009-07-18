@@ -1,0 +1,221 @@
+<h2>(1 hr)基本資料型態與相關函數</h2>
+<!--
+<html><head><title>SQL Tutorial</title></head><body>		
+<h1>SQL 入門</h1>		
+<h2><ol>
+<li>(1 hr)基本資料型態與相關函數
+  <ol>
+  <li>數字型態</li>
+  <li>字串型態</li>
+  <li>日期型態</li>
+  </ol>		
+</li>
+<h3>
+  <ol>
+  <li>數字型態<ol>
+    <li>Integer</li>	  
+    <li>Number</li>	  
+    <li>函數</li>
+  </ol></li>
+  <li>字串型態<ol>
+    <li>實字</li>	  
+    <li>限制</li>	  
+    <li>函數</li>
+  </ol></li>
+  <li>日期型態<ol>
+    <li>實字</li>	  
+    <li>限制</li>	  
+    <li>函數</li>
+  </ol></li>
+  </ol>		
+</h3>
+
+<h3>數字型態</h3>
+<h4>Integer</h4>	  
+<b>實字 literal</b> <br/>
+  實字就是永遠指向固定值的識別字，SQL 有兩大類識別字，
+  數字及文字。<br/>
+<b>語法</b><br/>
+<em>Integer</em> := [+|-] {DIGIT} <br/>
+<b>例子</b><br/>
+<em>1234</em> 永遠指向 Integer 值 1234。<br/>
+
+<p>撰寫人：張簡稜剛<br/>
+	日期：094/9/12
+	
+<chapter><title>UPDATE</title></chapter>
+<para>
+	UPDATE &lt;table_expr>
+	SET &lt;column_expr>=&lt;expr>
+	&lt;where_clause>
+</para>
+
+</p>
+</body></html>
+DML	
+3	DCL	
+5	Dictionary	
+6	資料的顯示設計	
+7	關聯式代數	
+8	資料正規化	
+9	FAQ	
+
+1.1	資料型態	
+1.1	數字型態的操作	
+1.2	文字型態的操作	
+1.3	日期型態的操作	
+1.4	型態轉換	
+1.5	空值處理	
+1.6	SQL 函數	
+
+	*實字 literal	
+	實字就是永遠指向固定值的識別字。
+	SQL 有兩大類識別字，數字及文字。
+
+1.1	數字型態的操作	
+1.1.1	數字實字的語法	
+
+1.2	文字型態的操作	
+1.2.1	文字實字的語法	
+1.2.1	文字實字的語法	
+	cl := N'<C>'
+	
+	<C> 為任何合法的字元集
+	 N  修飾其後的字元應使用本國的字元集
+	
+	Oracle 中，文字實字其最大長度為 4000 bytes。
+
+	若要表示單引號在實字裡，用 '' 兩個連續單引號表示
+	例如'Mother''s desk' 其值為 Mother's desk。
+	
+1.5	空值處理	
+1.5.1	COALESCE ORACLE/NVL	
+
+1.5.1	COALESCE ORACLE/NVL	
+	語法：COALESCE(arg1, arg2) return arg%type
+	若 arg1 是 null 值，則傳回 arg2，否則傳回 arg1。		
+	
+
+1.6	SQL 函數	
+1.5.2	Decode  類似其它語言的 switch 陳述式	
+	
+1.5.2	Decode  類似其它語言的 switch 陳述式	
+	語法：
+
+2.2 	to_number
+	語法：to_number(char [, fmt [, 'nlsparams'] ])	
+
+2.3	數學格式模型
+	數學格式模型是用來指出數學值其文字表示式的格式。
+	
+	元素	意義
+	
+	9	
+
+	0	數字可用 0 開頭
+
+	*ex	
+	
+
+1.3	文字型態的操作	
+1.3.2	to_char	
+1.3.7	substr	
+
+1.3.7	substr	
+
+	語法：
+	substr(src in varchar2, off in number[, len in number])
+	return varchar2
+
+	src 來源字串
+	off 由左數過來的位置，第一位置為 1
+	len 要取出長度的字串
+
+1.4	日期型態的操作	
+1.4.1	指定日期	
+1.4.2	to_date	
+1.4.3	日期格式模型	
+1.4.4	指定今天的日期 - sysdate	
+1.4.5	日期比較規則	
+1.4.6	動態更改日期顯示的歷法格式 NLS_CALENDAR=GREGORIAN	
+1.4.7	nls_calendar 的有效值	
+
+	Oracle 中日期值包含了年、月、日、時、分、秒的資訊。
+
+1.4.1	指定日期	
+	在 Oracle SQL 中，日期值並無實字表示法，所以必須使用
+	to_date 函數將數字及文字轉成日期值。
+
+1.4.2	to_date	
+
+	語法：to_date(char [, fmt [, 'nlsparams'] ])	
+
+	to_date 是用來將字元值轉換成日期值的函數。
+	fmt 是指定文字日期表示所用的格式模型。
+	
+	*ex	
+	select to_date('19790729', 'yyyymmdd') from dual;
+
+1.4.3	日期格式模型	
+	日期格式模型是用來指出日期值其文字表示式的格式。
+	
+	元素	to_date 意義
+		可用？
+
+	-/,.;:	Yes	分隔符號或標點符號，
+	'text'		會在文字表示式中顯示出來
+	
+	AD	Yes
+	A.D.
+
+	AM	Yes
+	A.M.
+
+	BC	Yes
+	B.C.	
+
+	YYYY	Yes	年份以 4 位數字表示
+	YYY	Yes	年份以 3 位數字表示
+	YY	Yes	年份以 2 位數字表示
+	Y	Yes	年份以 1 位數字表示
+
+	MM	Yes	月份以 1-12 表示
+	MON	Yes	月份以 3 字元英文縮寫
+	MONTH	Yes	月份全名以 9 字元英文表示
+
+	D	Yes	星期名以 1-7 表示
+	DY	Yes	星期名的 3 字元英文縮寫
+	DAY	Yes	星期名以 9 字元英文表示
+
+	DD	Yes	月中的第幾日，以數字 1-31 表示
+	DDD	Yes	年中的第幾日，以數字 1-366 表示
+
+	MI	Yes	分名以 1-59 表示
+	
+	SS	Yes	秒名以 1-59 表示
+
+1.4.4	指定今天的日期 - sysdate	
+
+	傳回現在的時間
+	ex.計算年紀
+	select emp.name, 
+	       round(months_between(sysdate, emp.birth)/12) as age
+	from emp
+
+1.4.5	日期比較規則	
+
+	較晚的日期大於較早的日期
+
+1.4.6	動態更改日期顯示的歷法格式 NLS_CALENDAR=GREGORIAN	
+	
+	ex. 把日期改成西元
+	TO_DATE(' 2004-02-01 00:00:00', 
+	'SYYYY-MM-DD HH24:MI:SS', 
+	'NLS_CALENDAR=GREGORIAN')) 
+
+1.4.7	nls_calendar 的有效值	
+	Arabic Hijrah, English Hijrah, Gregorian,
+	Japanese Imperial, Persian, ROC Official (Republic of China),
+	Thai Buddha 
+
+
