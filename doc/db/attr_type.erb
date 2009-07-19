@@ -1,0 +1,48 @@
+<%section '屬性的類型' do%>
+% paragraph do
+屬性是一組值的集合，
+這些值是屬性可能的值，
+稱為值集合(Value Set)或定義域(Domain)。
+屬性可以分成很多種，如下所示：
+% end
+% section '簡單屬性' do
+% paragraph do
+這是實體與關係的基本屬性，
+只擁有簡單值，
+用一個橢圓形來表示。
+% end
+% paragraph do
+如<%=xref '97p2-4'%>所示，
+課程的課號與學分都是簡單屬性。
+% end
+% end
+% section '複合屬性' do
+% paragraph do
+屬性是由多個簡單屬性組成，
+使用樹狀的簡單屬性橢圓形符號來表示。
+% end
+% end
+% section '多值屬性' do
+% paragraph do
+屬性值不是簡單值，而是多重值，
+使用雙線的橢圓形節點符號來標示。
+% end
+% end
+% section '導出屬性' do
+% paragraph do
+這是一種可以由其它屬性計算出的屬性，
+使用虛線的橢圓形節點符號來標示。
+% end
+% end
+% section '識別屬性' do
+% paragraph do
+如果屬性是實體中用來識別實例的屬性，
+其角色相當於關聯表的主鍵，
+識別屬性是在名稱下加上底線來標示。
+% end
+% paragraph do
+如<%=xref '96p2-3'%>所示，
+警察人員的實例可由身份證字號來唯一識別。
+% end
+% end
+<%end%> 

@@ -1,23 +1,26 @@
-<chapter><title>物件導向資料庫(Object-Oriented Database)</title>
-<para>
-<emphasis>物件導向資料庫(Object-Oriented Database)</emphasis>
+<%section '物件導向資料庫' do%>
+% paragraph do
+物件導向資料庫(Object-Oriented Database)，
 純粹 OOP 中的物件，在程式結束後，就消失了，而 SQL 等語言，
-操作的都是<emphasis>存續(Persist)</emphasis>的資料，
+操作的都是存續(Persist)的資料，
 所以 OO 資料庫便是擴充 OOP 使得裡面的物件具在存續的功能。
 一般而言擴充的方式如下：
-</para>
-<itemizedlist>
-<listitem>宣告類別有存續功能</listitem>
-<listitem>標記物件為存續物件</listitem>
-<listitem>利用交易物件來存續物件</listitem>
-</itemizedlist>
-</chapter>
-<chapter><title>物件關連資料庫(Object-Relational Database)</title>
-<para>
-<emphasis>物件關連資料庫(Object-Relational Database)</emphasis>
+% end
+% paragraph do
+宣告類別有存續功能
+% end
+% paragraph do
+標記物件為存續物件
+% end
+% paragraph do
+利用交易物件來存續物件
+% end
+% section '物件關連資料庫' do
+% paragraph do
+物件關連資料庫(Object-Relational Database)
 是擴充原本的 SQL 能定義複雜物件型態，巢狀關連等。
-</para>
-</chapter>
-<chapter><title>可擴展標記語言(XML)</title>
-</chapter>
-
+% end
+% end
+% section '可擴展標記語言(XML)' do
+% end
+<%end%>

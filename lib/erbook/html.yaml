@@ -363,7 +363,7 @@ nodes:
       output: |
         <% depth = [6, @node.depth + 1].min %>
         <%if depth == 1 %>
-          <%=@format['adsense']%>
+          <div><%=@format['adsense']%></div>
         <%end%>
         <div class="<%= @node.type %>">
           <h<%= depth %> id="<%=@node.here_frag%>" class="title">

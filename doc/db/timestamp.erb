@@ -1,98 +1,79 @@
-<chapter><title>並行控制</title>
-<sect1><title>時戳並行控制</title>
-<para>
+<%section '時戳並行控制' do%>
+% paragraph do
 時戳並行控制的基本邏輯如下：
 當一個交易欲存取某一個資料物件，
 會比較自已與資料物件上的讀取時戳，
 來確認存取動作順序不會違反可序列化順序，
-若交易動作違反條件，則會<emphasis>立即放棄並重新啟動交易</emphasis>。
-</para>
-<para>
-<emphasis>時戳</emphasis>(timestamp)表示一個即時時刻，
+若交易動作違反條件，則會立即放棄並重新啟動交易。
+% end
+% paragraph do
+時戳(timestamp)表示一個即時時刻，
 且無任兩個時戳相等。
 每個交易開始時，會立刻印上一個時戳，
-稱為<emphasis>交易時戳</emphasis>，
-<emphasis>T<subscript>i</subscript>.ts</emphasis>
-表示交易 T<subscript>i</subscript>的交易時戳。
+稱為交易時戳，
+Ti.ts
+表示交易 Ti的交易時戳。
 每個資料庫物件會有兩個時戳，
-<emphasis>讀取時戳</emphasis>和<emphasis>寫入時戳</emphasis>
-分別在讀取或寫入物件時印上<emphasis>其執行者的交易時戳</emphasis>，
-<emphasis>O<subscript>i</subscript>.rts</emphasis>及
-<emphasis>O<subscript>i</subscript>.wts</emphasis>
+讀取時戳和寫入時戳
+分別在讀取或寫入物件時印上其執行者的交易時戳，
+Oi.rts及
+Oi.wts
 分別表示資料物件的讀取時戳及寫入時戳。
-</para>
-<para>
+% end
+% paragraph do
 資料庫若維持一致，應滿足以下條件：
-<remark>
-若動作 A<subscript>i</subscript> 和 A<subscript>j</subscript> 互為衝突動作，
-且 A<subscript>i</subscript> 為交易 T<subscript>i</subscript> 的動作，
-A<subscript>j</subscript> 為交易 T<subscript>j</subscript> 的動作，
-<emphasis>若 T<subscript>i</subscript>.ts &lt; T<subscript>j</subscript>.ts，
-則 A<subscript>i</subscript> 應比 A<subscript>j</subscript> 早執行。
-</emphasis>
-</remark>
-</para>
-<para>
-若違反上述條件，應<emphasis>立即放棄並重新啟動交易</emphasis>，
-這和鎖定並行控制不同，其會<emphasis>暫停交易，等待至可以繼續交易</emphasis>。
-</para>
-<para>
-依上述限制，<emphasis>交易 T 正要讀取物件 O 時</emphasis>，應有下面的行為：
-<itemizedlist>
-<listitem>若 <emphasis>T.ts &lt; O.wts</emphasis>則 T 立即放棄並重新啟動交易。
-<remark>
-令 <emphasis>T<subscript>w</subscript> 表示最後寫入 O 的交易</emphasis>，
-上面則意指<emphasis>T.ts &lt; T<subscript>w</subscript>.ts</emphasis>，
-由於 T.r(O) 與 T<subscript>w</subscript>.w(O) 互為衝突動作，
-故依上述限制 T.r(O) 必須早於 T<subscript>w</subscript>.w(O)，
+若動作 Ai 和 Aj 互為衝突動作，
+且 Ai 為交易 Ti 的動作，
+Aj 為交易 Tj 的動作，
+若 Ti.ts &lt; Tj.ts，
+則 Ai 應比 Aj 早執行。
+% end
+% paragraph do
+若違反上述條件，應立即放棄並重新啟動交易，
+這和鎖定並行控制不同，其會暫停交易，等待至可以繼續交易。
+% end
+% paragraph do
+依上述限制，交易 T 正要讀取物件 O 時，應有下面的行為：
+% end
+% paragraph do
+若 T.ts &lt; O.wts則 T 立即放棄並重新啟動交易。
+令 Tw 表示最後寫入 O 的交易，
+上面則意指T.ts &lt; Tw.ts，
+由於 T.r(O) 與 Tw.w(O) 互為衝突動作，
+故依上述限制 T.r(O) 必須早於 Tw.w(O)，
 所以讀取物件 O 的動作違反上述限制，T 立即放棄並重新啟動交易。
-</remark>
-</listitem>
-<listitem>其餘情況則 T 讀取 O，
+% end
+% paragraph do
+其餘情況則 T 讀取 O，
 並重設 O.rts=max(T.ts, O.rts)。
-</listitem>
-</itemizedlist>
-</para>
-<para>
-依上述限制，<emphasis>交易 T 正要寫入物件 O 時</emphasis>，應有下面的行為：
-<itemizedlist>
-<listitem>若 <emphasis>T.ts &lt; O.rts</emphasis>則 T 立即放棄並重新啟動交易。
-</listitem>
-<listitem>若 <emphasis>T.ts &lt; O.wts</emphasis>則 T 立即放棄，但不重新啟動。
-<remark>
-這是<emphasis>湯瑪式寫入法則</emphasis>(Thomas Write Rule)，
-<figure id="ThomasWriteRule1"><title>一個衝突可序列化排程</title>
-<imagedata fileref="pic/thomas_write_rule1.png" />
-</figure>
-<figure id="ThomasWriteRule2"><title>另一個衝突可序列化排程</title>
-<imagedata fileref="pic/thomas_write_rule2.png" />
-</figure>
-如上兩圖，若 T<subscript>1</subscript>.ts &lt; T<subscript>2</subscript>.ts，
-則 T<subscript>1</subscript> 對 A 的寫入會被 
-T<subscript>2</subscript> 對 A 的寫入取代，
-但不會造成衝突動作，故可以忽略 T<subscript>1</subscript> 對 A 的寫入。 
-</remark>
-</listitem>
-<listitem>其餘情況則 T 寫入 O，
+% end
+% paragraph do
+依上述限制，交易 T 正要寫入物件 O 時，應有下面的行為：
+% end
+% paragraph do
+若 T.ts &lt; O.rts則 T 立即放棄並重新啟動交易。
+% end
+% paragraph do
+若 T.ts &lt; O.wts則 T 立即放棄，但不重新啟動。
+% end
+% paragraph do
+這是湯瑪式寫入法則(Thomas Write Rule)，
+一個衝突可序列化排程
+"pic/thomas_write_rule1.png"
+另一個衝突可序列化排程
+pic/thomas_write_rule2.png" 
+如上兩圖，若 T1.ts &lt; T2.ts，
+則 T1 對 A 的寫入會被 
+T2 對 A 的寫入取代，
+但不會造成衝突動作，故可以忽略 T1 對 A 的寫入。 
+% end
+% paragraph do
+其餘情況則 T 寫入 O，
 並重設 O.wts=T.ts。
-<remark>
-<emphasis>這與上述正要讀取物件不同在於，
+% end
+% paragraph do
+這與上述正要讀取物件不同在於，
 讀取可以讓很多交易同時進行，所以其 O.rts 可能會大於 T.ts，
-但寫入永遠只能一個，所以直接將 O.wts 設為 T.ts</emphasis>
-</remark>
-</listitem>
-</itemizedlist>
-</para>
-</sect1>
-<sect1><title>鎖定並行控制</title>
-<para>
-鎖定並行控制的基本邏輯如下：
-當一個交易欲存取某一個資料物件，
-必須具取得此資料物件的<emphasis>鎖定</emphasis>，
-否則需等待至其它交易釋放其鎖定，
-才能進行存取動作。
-</para>
-</sect1>
-</chapter>
-&recovery;
-&design;
+但寫入永遠只能一個，所以直接將 O.wts 設為 T.ts
+% end
+<%end%>

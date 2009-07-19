@@ -1,76 +1,72 @@
-<chapter><title>函數相依性 Functional Dependence</title>
-<sect1 hclass="definition"><title>函數相依性</title>
-<para>
+<%section '函數相依性' do%>
+% example '95關3-1' do
+% paragraph do
+假設某Relational Database Schema 為 R(A,B,C,D,E,F,G)
+其功能依賴（Functional Dependencies） 為 {A,B} →C
+與 {C,D}→E
+{D,E}→{B,F}
+F→G
+G→D
+請以功能依賴的推論（Inferences）規則，來回答：
+說明{A,B}是否為Candidate Key？（10 分）
+找出所有R 之Candidate Key。（15 分）
+% end
+% end
+% paragraph do
 令 R 為一關連表綱要(或屬性集)，A, B &subsetof; R，則在 &forall;t, t'&of;T(R) 中，
 若 t(A)=t'(A) 則可得 t(B)=t'(B)，則我們稱 
-<emphasis>A 定義 B</emphasis>
-或<emphasis>B 函數相依於 A</emphasis>，
-記作<emphasis>A</emphasis> &rarrow; <emphasis>B</emphasis>。
-</para>
-</sect1>
-<sect1 hclass="axiom"><title>阿姆斯壯公理(Armstrong's Axiom)</title>
-<para>
-<emphasis>阿姆斯壯公理</emphasis>是作用在函數相依上的推論規則
+A 定義 B
+或B 函數相依於 A，
+記作A &rarrow; B。
+一元關係就是遞迴關係，參與的實體數目只有一個。
+% end
+% section '阿姆斯壯公理' do
+% paragraph do
+阿姆斯壯公理是作用在函數相依上的推論規則
 包含下面三條推論規則：
-</para>
-<itemizedlist>
-<listitem><emphasis>反身性規則(reflexivity rule)</emphasis>：
+% end
+% equation '反身性規則' do
+% paragraph do
 若 a 是一個屬性集，且 b &subsetof; a，則 a &rarrow; b。
-</listitem>
-<listitem><emphasis>擴充性規則(augmentaion rule)</emphasis>：
+% end
+% end
+% equation '擴充性規則' do
+% paragraph do
 若 a &rarrow; b，且 c 是一個屬性集，則 cb &rarrow; ca。
-</listitem>
-<listitem><emphasis>遞移性規則(transitivity rule)</emphasis>：
+% end
+% end
+% equation '遞移性規則' do
+% paragraph do
 若 a &rarrow; b，且 b &rarrow; c，則 a &rarrow; c。
-</listitem>
-</itemizedlist>
-<qandaset>
-<qandaentry>
-<question>
-<para>
+% end
+% end
+% paragraph do
 假設某 Relational Database Schema 為 R(A,B,C,D,E,F,G)，
 其功能依賴（Functional Dependencies）為
-</para>
-<itemizedlist>
-<listitem>{A,B} &rarrow; C</listitem>
-<listitem>{C,D} &rarrow; E</listitem>
-<listitem>{D,E} &rarrow; {B,F}</listitem>
-<listitem>F &rarrow; G</listitem>
-<listitem>G &rarrow; D</listitem>
-</itemizedlist>
-<para>
+{A,B} &rarrow; C
+{C,D} &rarrow; E
+{D,E} &rarrow; {B,F}
+F &rarrow; G
+G &rarrow; D
 請以功能依賴的推論(Inferences)規則，來回答：
-</para>
-<orderedlist>
-<listitem>{A,B} 是否為 Candidate Key?</listitem>
-<listitem>找出所有 R 之 Candidate Key?</listitem>
-</orderedlist>
-</question>
-<answer>
-<literallayout>
+{A,B} 是否為 Candidate Key?
+找出所有 R 之 Candidate Key?
 {A,B} &rarrow; {A,B,C}
 由上可發現右方沒有 
 {A},{B},{C},{A,B},{A,C},{B,C},{A,B,C}
 等自變集，所以 {A,B} 不是 Candidate Key。
-
 {A,B} &rarrow; {A,B,C}
 {A,B,D} &rarrow; {A,B,C,D,E,F,G}
 故 {A,B,D} 為 Candidate Key。
 同理 {A,B,F}, {A,B,G} 也是。
-
 {D,E} &rarrow; {B,D,E,F,G}
 {A,D,E} &rarrow; {A,B,C,D,E,F,G}
 故 {A,D,E} 為 Candidate Key。
 同理 {A,F,E}, {A,G,E} 也是。
-</literallayout>
-</answer>
-</qandaentry>
-</qandaset>
-<sect2 hclass="theorem"><title>阿姆斯壯公理是健全的(sound)</title>
-</sect2>
-<sect2 hclass="theorem"><title>阿姆斯壯公理是完備的(complete)</title>
-</sect2>
-</sect1>
-</chapter>
-
-
+% end
+% end
+% section '阿姆斯壯公理是健全的' do
+% end
+% section '阿姆斯壯公理是完備的' do
+% end
+<%end%> 

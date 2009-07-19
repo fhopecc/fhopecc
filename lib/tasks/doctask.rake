@@ -29,9 +29,9 @@ namespace 'doc' do
 			#ftp.put 'public/index.html'
 			#ftp.put 'public/rubysysadm/main.html', 'rubysysadm/main.html'
 			ftp.put 'public/db/main.html', 'db/main.html'
-	  	#Dir["public/db/*jpg"].each do |f|
-			#  ftp.put f, File.join('db', File.basename(f))
-		  #end
+	  	Dir["public/db/*jpg"].each do |f|
+			  ftp.put f, File.join('db', File.basename(f))
+		  end
 		end
 	end
 end
