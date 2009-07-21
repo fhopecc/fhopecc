@@ -133,10 +133,30 @@
 % end
 % section '繼承關係的轉換' do
 % paragraph do
-繼承關係則是在子型態的表格中加入指向超型態實體表格的外鍵。
+繼承關係第一種表示法，
+是在子型態的表格中加入指向超型態實體表格的外鍵。
 % end
 % paragraph do
-RoR 的 ActiveRecord 則是採用型態欄位來辨識。
+另一種表示稱為單表繼承(STI,Single Table Inheritance)，
+由 RoR 的 ActiveRecord 採用。
+% end
+% paragraph do
+單表繼承第一步是建立一個表示型態階層的基本表格，
+並命名為型態階層根實體的名稱。
+% end
+% paragraph do
+把型態階層所有實體的屬性加入此表格，
+所有子型態專屬的屬性都要能存放空值。
+% end
+% paragraph do
+最後在此表格加入一個型態欄位來辨識型態。
+% end
+% paragraph do
+實例請參見<%=xref 'e96p2-3'%>。
+% end
+% paragraph do
+單表繼承最大的好處是節省很多表格串接的動作，
+效率較高。
 % end
 % end
 <%end%>

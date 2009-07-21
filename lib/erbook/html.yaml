@@ -418,11 +418,25 @@ nodes:
       silent: false
       output: |
         <div class="<%=@node.type%>">
-          <p id="<%=@node.here_frag%>" class="title"><%=@node.full_title%></p>
           <%=@node.figure_html%>
+          <p id="<%=@node.here_frag%>" class="title"><%=@node.full_title%></p>
         </div>
 
-    table: &formal
+    table:
+      toc: false
+      lof: true
+      depth: true
+      index: false
+      number: true
+      silent: false
+      output: |
+        <div class="<%= @node.type %>">
+          <%= @node.navigation %>
+          <p id="<%=@node.here_frag%>" class="title"><%=@node.full_title%></p>
+          <table><%=@node.content_xhtml_div%></table>
+        </div>
+
+    example: &formal
       toc: false
       lof: true
       depth: true
@@ -436,7 +450,6 @@ nodes:
           <%=@node.content_xhtml_div%>
         </div>
 
-    example: *formal
     equation: *formal
     procedure: *formal
 
@@ -681,13 +694,10 @@ adsense: |
   src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
   </script>
 
-# definition of font families for use in the CSS styles
-fonts:
-  serif:      Constantia, "Book Antiqua", "URW Bookman L", serif
-  sans-serif: Calibri, Verdana, sans-serif
-  monospace:  Monaco, Consolas, "Lucida Console", monospace
-
 styles:
 - all: |
+    table {border-style:solid}
+
 - screen: |
+
 - print: |

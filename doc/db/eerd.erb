@@ -107,14 +107,14 @@ ISA 支援屬性繼承及關係參與，
 % end
 % end
 % end
-% example '96警2-3' do
-三、下圖為有關「警察人事」資料庫之超類型/子類型關係圖。
+% example '96警2-3', 'e96p2-3' do
+下圖為有關「警察人事」資料庫之超類型/子類型關係圖。
 %= figure '「警察人事」資料庫之超類型/子類型關係圖', '96p2-3'
-請回答下列各問題：（第(1)至第(3)小題各5分，第(4)小題10 分）
-(1)說明分離性法則（Disjoint Rule）與重疊性法則（Overlap Rule）的內涵。
+請回答下列各問題：(第(1)至第(3)小題各5分，第(4)小題10 分)
+(1)說明分離性法則(Disjoint Rule)與重疊性法則(Overlap Rule)的內涵。
 (2)超類型與子類型的定義。
 (3)將上圖轉換成相對應的關聯表。
-(4)利用SQL CREATE TABLE statement 將關聯表產生相對應的資料表。（註：資料型別與長度可以自訂）
+(4)利用SQL CREATE TABLE statement 將關聯表產生相對應的資料表。(註：資料型別與長度可以自訂)
 % end
 % paragraph do
 答：
@@ -129,7 +129,7 @@ ISA 支援屬性繼承及關係參與，
 (3)轉成相對的表格如下
 % end
 % table '警察人員', 'police_tab' do
-<table><tr><td colspan='8'>警察人員</td></tr>
+<tr><td colspan='8'>警察人員</td></tr>
 <tr>
 <td style='text-decoration:underline'>身份證字號</td>
 <td>姓名</td>
@@ -139,37 +139,46 @@ ISA 支援屬性繼承及關係參與，
 <td>手機</td>
 <td>電子郵件</td>
 <td>單位代碼</td>
-</tr>
-</table>
-% end
-% table '行政警察', 'a_police_tab' do
-<table><tr><td colspan='4'>行政警察</td></tr>
-<tr>
-<td style='text-decoration:underline'>身份證字號</td>
 <td style='text-decoration:underline'>督導公文號</td>
 <td>勤務督導單位</td>
 <td>督導績效等級</td>
-</tr>
-</table>
-% end
-% table '交通警察', 't_police_tab' do
-<table><tr><td colspan='3'>交通警察</td></tr>
-<tr>
-<td style='text-decoration:underline'>身份證字號</td>
 <td>交通肇事地點</td>
 <td>肇事日期</td>
-</tr>
-</table>
-% end
-% table '刑事警察', 'c_police_tab' do
-<table><tr><td colspan='4'>刑事警察</td></tr>
-<tr>
-<td style='text-decoration:underline'>身份證字號</td>
 <td style='text-decoration:underline'>刑案代號</td>
 <td>偵辦案件名稱</td>
 <td>是否破案</td>
 </tr>
-</table>
 % end
-
+% paragraph do
+如<%=xref 'police_tab'%>所示，
+型態階層所有實體的屬性都加入到「警察人員」這個基礎表中，
+並使用「單位代碼」作為識別紀錄型態的型態辨識欄位。
+這就是所謂的單表繼承。
+% end
+% paragraph do
+(4)依單表繼承，子型態的欄位都要可為空值，故表格之 DDL 如下：
+% end
+% code '建立警察人員表格' do
+create table "警察人員" (
+  "身份證字號" varchar(10) not null,
+  "姓名" varchar(100) not null,	
+  "性別" varchar(1) not null,
+  "晉用日期" date not null,
+  "出生日期" date not null, 
+  "手機" varchar(20) not null,
+  "電子郵件" varchar(255) not null, 
+  "單位代碼" varchar(1) not null, 
+  "督導公文號" varchar(20),
+  "勤務督導單位"  varchar(20),
+  "督導公文號"  varchar(20),
+  "勤務督導單位"  varchar(255),
+  "督導績效等級"  int,
+  "交通肇事地點"  varchar(255),
+  "肇事日期" date, 
+  "刑案代號"  varchar(2),
+  "偵辦案件名稱" varchar(255),
+  "是否破案"  varchar(1),
+  primary key ("身份證字號")
+);
+% end
 <%end%> 
