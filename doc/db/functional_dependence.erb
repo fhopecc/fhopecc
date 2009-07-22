@@ -1,24 +1,19 @@
 <%section '函數相依性' do%>
-% example '95關3-1' do
 % paragraph do
-假設某Relational Database Schema 為 R(A,B,C,D,E,F,G)
-其功能依賴（Functional Dependencies） 為 {A,B} →C
-與 {C,D}→E
-{D,E}→{B,F}
-F→G
-G→D
-請以功能依賴的推論（Inferences）規則，來回答：
-說明{A,B}是否為Candidate Key？（10 分）
-找出所有R 之Candidate Key。（15 分）
+當在表格找出所有關位間的函數相依後，就可以幫助我們在表格找出：
+重複資料，一些不該屬於此表格的欄位；
+候選鍵和主鍵，
+如果表格的所有欄位都函數相依於一個或一組欄位，
+這個欄位就是候選鍵(Candidate Key)或主鍵(Primary Key)。
 % end
-% end
+% define '函數相依' do
 % paragraph do
-令 R 為一關連表綱要(或屬性集)，A, B &subsetof; R，則在 &forall;t, t'&of;T(R) 中，
-若 t(A)=t'(A) 則可得 t(B)=t'(B)，則我們稱 
-A 定義 B
-或B 函數相依於 A，
-記作A &rarrow; B。
-一元關係就是遞迴關係，參與的實體數目只有一個。
+令 R 為一表格綱要(或欄位集)，A, B 屬於 R，
+若表格 R 的 t1 和 t2 值組滿足 t1(A) = t2(A)，
+則一定滿足 t1(B) = t2(B)。
+則我們稱 A 定義 B 或 B 函數相依於 A，
+記作A > B。
+% end
 % end
 % section '阿姆斯壯公理' do
 % paragraph do
@@ -27,46 +22,60 @@ A 定義 B
 % end
 % equation '反身性規則' do
 % paragraph do
-若 a 是一個屬性集，且 b &subsetof; a，則 a &rarrow; b。
+若 a 是一個欄位集，且 b 包含 a，則 a > b。
 % end
 % end
 % equation '擴充性規則' do
 % paragraph do
-若 a &rarrow; b，且 c 是一個屬性集，則 cb &rarrow; ca。
+若 a > b，且 c 是一個欄位集，則 cb > ca。
 % end
 % end
 % equation '遞移性規則' do
 % paragraph do
-若 a &rarrow; b，且 b &rarrow; c，則 a &rarrow; c。
+若 a > b，且 b > c，則 a > c。
 % end
-% end
-% paragraph do
-假設某 Relational Database Schema 為 R(A,B,C,D,E,F,G)，
-其功能依賴（Functional Dependencies）為
-{A,B} &rarrow; C
-{C,D} &rarrow; E
-{D,E} &rarrow; {B,F}
-F &rarrow; G
-G &rarrow; D
-請以功能依賴的推論(Inferences)規則，來回答：
-{A,B} 是否為 Candidate Key?
-找出所有 R 之 Candidate Key?
-{A,B} &rarrow; {A,B,C}
-由上可發現右方沒有 
-{A},{B},{C},{A,B},{A,C},{B,C},{A,B,C}
-等自變集，所以 {A,B} 不是 Candidate Key。
-{A,B} &rarrow; {A,B,C}
-{A,B,D} &rarrow; {A,B,C,D,E,F,G}
-故 {A,B,D} 為 Candidate Key。
-同理 {A,B,F}, {A,B,G} 也是。
-{D,E} &rarrow; {B,D,E,F,G}
-{A,D,E} &rarrow; {A,B,C,D,E,F,G}
-故 {A,D,E} 為 Candidate Key。
-同理 {A,F,E}, {A,G,E} 也是。
 % end
 % end
 % section '阿姆斯壯公理是健全的' do
 % end
 % section '阿姆斯壯公理是完備的' do
+% end
+% example '95關3-1' do
+% paragraph do
+假設某Relational Database Schema 為 R(A,B,C,D,E,F,G)
+其功能依賴(Functional Dependencies) 為 
+* {A,B}→C
+* {C,D}→E 
+* {D,E}→{B,F}
+* F→G
+* G→D
+
+請以功能依賴的推論(Inferences)規則，來回答：
+說明{A,B}是否為Candidate Key？(10 分)
+找出所有R 之Candidate Key。(15 分)
+% end
+% paragraph do
+答：
+% end
+% paragraph do
+* {A,B} > {A,B,C}
+
+由上可發現右方沒有 
+* {A},{B},{C},{A,B},{A,C},{B,C},{A,B,C}
+
+等自變集，所以 {A,B} 不是 Candidate Key。
+% end
+% paragraph do
+* {A,B} > {A,B,C}
+* {A,B,D} > {A,B,C,D,E,F,G}
+
+故 {A,B,D} 為 Candidate Key。
+同理 {A,B,F}, {A,B,G} 也是。
+* {D,E} > {B,D,E,F,G}
+* {A,D,E} > {A,B,C,D,E,F,G}
+
+故 {A,D,E} 為 Candidate Key。
+同理 {A,F,E}, {A,G,E} 也是。
+% end
 % end
 <%end%> 

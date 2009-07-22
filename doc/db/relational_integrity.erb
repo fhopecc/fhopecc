@@ -1,37 +1,81 @@
-<%section '關連模型的完整性' do%>
+<%section '關聯式完整性', 'relational_integrity' do%>
+% paragraph do
+完整性是資料庫設計的一部分，
+其目的是檢查並保障資料庫儲存是否準確的限制，
+並避免表格間資料不一致。
+% end
+% paragraph do
+在關聯式模型中，有三類完整性限制，
+分別為鍵限制(Key Constraints)、
+實體完整性限制(Entity Integrity
+Constraints)及參考完整性限制(Referential Integrity
+Constraints)。
+詳述如下：
+% end
+<%# include key_constraint.erb #%>
+% section '定義域完整性限制' do
+% paragraph do
+表格的欄位值一定是屬於定義域的單元值。
+% end
+% end
+% section '實體完整性限制' do
+% paragraph do
+表格主鍵不可為空值。
+% end
+% end
+% section '空值完整性限制' do
+% paragraph do
+空值完整性用來限制某個欄位是否可為空值。
+% end
+% end
+<%# include referential_integrity.erb #%>
 % example '96高2-3' do
 % paragraph do
-在關聯式資料庫的綱要（Schema）中，有鍵值限制（Key Constraint）、個體整合限
-制（Entity Integrity Constraint）以及參考整合限制（Referential Integrity Constraint）
-三種，試分別說明之。（30 分）
+在關聯式資料庫的綱要(Schema)中，
+有鍵值限制(Key Constraint)、
+個體整合限制(Entity Integrity Constraint)以及參考整合限制(Referential Integrity Constraint)三種，試分別說明之。(30 分)
 % end
-% end
-% example '95關3-4' do
 % paragraph do
-請以SQL 建立第三題中的關連資料庫Schema，你可自行假設合理的資料型態，但
-必須包含所有鍵限制（Key Constraints）、實體完整性限制（Entity Integrity
-Constraints）、參考完整性限制（Referential Integrity Constraints），並分別建議
-其違反時的動作（Violation Actions）。（20 分）
+答：請參考<%=xref 'relational_integrity'%>
 % end
 % end
 % example '96警2-4' do
 % paragraph do
 為確保資料庫內的資料能正確被處理，
-遵循完整性法則（Integrity Rules）是有其必要的。
+遵循完整性法則(Integrity Rules)是有其必要的。
 請回答下列各問題：
-寫出實體與參考完整性法則內涵。（8 分）
+% end
+% paragraph do
+寫出實體與參考完整性法則內涵。(8 分)
+% end
+% paragraph do
 DBMS 除了支援參考完整性外，還可能支援包括預設值、
 檢查範圍與NULL等完整性控制。
 試寫出後面三個完整性控制的主要用途，
-並利用SQL CREATE TABLE statement 舉出實例。（9 分）
-根據下面兩個關聯表（Crime_BK與Crime_Case），
+並利用SQL CREATE TABLE statement 舉出實例。(9 分)
+% end
+% paragraph do
+根據下面兩個關聯表(Crime_BK與Crime_Case)，
 利用SQL CREATE TABLE statement 來建立相對應的資料表，
-以確保資料庫資料的完整性。（註：資料型別與長度可自訂）（8 分）
-關聯表名稱：Crime_BK
-ID CName Gender Birth_of_Date
-關聯表名稱：Crime_Case
-CrimeNo CrimeType Crime_Event_Date ID
-Crim_BK.ID -- Crime_Case.ID
+以確保資料庫資料的完整性。(註：資料型別與長度可自訂)(8 分)
+% end
+% table 'Crime_BK' do
+<tr>
+<td>ID</td><td>CName</td><td>Gender</td><td>Birth_of_Date</td>
+</tr>
+% end
+% table 'Crime_Case' do
+<tr>
+<td>CrimeNo </td><td>CrimeType </td><td>Crime_Event_Date </td>
+<td>ID</td><td>Crim_BK.ID</td>
+<td>Crime_Case.ID</td>
+</tr>
+% end
+% paragraph do
+答：
+% end
+% paragraph do
+(1)請參考<%=xref 'relational_integrity'%>
 % end
 % end
 <%end%>

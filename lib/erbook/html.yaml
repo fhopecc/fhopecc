@@ -104,6 +104,8 @@ code: |
           "程式碼"
         when 'equation'
           "等式"
+        when 'define'
+          "定義"
         else
           type.to_s.capitalize
         end
@@ -115,7 +117,7 @@ code: |
         case type
         when 'section' 
           "#{type_title}#{index}"
-        when 'figure','example', 'equation', 'table', 'code'
+        when 'figure','example', 'equation', 'table', 'code', 'define'
           "#{type_title}#{number}"
         end
       end
@@ -452,6 +454,7 @@ nodes:
 
     equation: *formal
     procedure: *formal
+    define: *formal
 
     code: &formal
       toc: false
