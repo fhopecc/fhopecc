@@ -8,11 +8,11 @@
 % end
 % define '函數相依' do
 % paragraph do
-令 R 為一表格綱要(或欄位集)，A, B 屬於 R，
+令 R 為一個欄位集，A, B 屬於 R，
 若表格 R 的 t1 和 t2 值組滿足 t1(A) = t2(A)，
 則一定滿足 t1(B) = t2(B)。
-則我們稱 A 定義 B 或 B 函數相依於 A，
-記作A > B。
+則稱 A 定義 B 或 B 函數相依於 A，
+記作 A → B。
 % end
 % end
 % section '阿姆斯壯公理' do
@@ -20,25 +20,86 @@
 阿姆斯壯公理是作用在函數相依上的推論規則
 包含下面三條推論規則：
 % end
-% equation '反身性規則' do
+% define '反身性規則', 'reflective' do
 % paragraph do
-若 a 是一個欄位集，且 b 包含 a，則 a > b。
+若 a 是一個欄位集，且 a 包含 b，則 a → b。
 % end
 % end
-% equation '擴充性規則' do
+% define '擴充性規則', 'augmentation' do
 % paragraph do
-若 a > b，且 c 是一個欄位集，則 cb > ca。
+若 a → b 且 c 是一個欄位集，則 ac → bc。
 % end
 % end
-% equation '遞移性規則' do
+% define '遞移性規則', 'transitivity' do
 % paragraph do
-若 a > b，且 b > c，則 a > c。
+若 a → b 且 b → c，則 a → c。
 % end
 % end
 % end
-% section '阿姆斯壯公理是健全的' do
+% section '額外定理' do
+% theorem '自我定義' do
+% paragraph do
+a → a
 % end
-% section '阿姆斯壯公理是完備的' do
+% paragraph do
+證明：
+% end
+% paragraph do
+因為 a 包含 a，所以 a → a。
+% end
+% end
+% theorem '分解', 'decomposition' do
+% paragraph do
+若 a → bc，則 a → b 且 a → c 。
+% end
+% paragraph do
+證明：
+% end
+% paragraph do
+* bc 包含 b，bc → b，引用<%=xref 'reflective'%>。
+* bc 包含 c，bc → c，引用<%=xref 'reflective'%>。
+* a → bc 且 bc → b，則 a → b，引用<%=xref 'transitivity'%>。
+* a → bc 且 bc → c，則 a → c，引用<%=xref 'transitivity'%>。
+
+% end
+% end
+% theorem '聯集', 'union' do
+% paragraph do
+若 a → b 且 a → c，則 a → bc 。
+% end
+% paragraph do
+證明：
+% end
+% paragraph do
+* a → b 則 ac → bc，引用<%=xref 'augmentation'%>
+* bc 包含 c，bc → c，引用<%=xref 'reflective'%>
+* a → bc 且 bc → b，則 a → b，引用<%=xref 'transitivity'%>。
+* a → bc 且 bc → c，則 a → c，引用<%=xref 'transitivity'%>。
+
+% end
+% end
+% theorem '組合' do
+% paragraph do
+若 a → b 且 c → d，則 ac → bd 。
+% end
+% paragraph do
+證明：
+% end
+% paragraph do
+* c → d 則 ac → ad，引用<%=xref 'augmentation'%>
+* a → b 則 ad → bd，引用<%=xref 'augmentation'%>
+* ac → ad 且 ad → bd，則 ac → bd，引用<%=xref 'transitivity'%>。
+% end
+% end
+% theorem '虛擬遞移性' do
+% paragraph do
+若 a → b 且 bc → d，則 ac → d 。
+% end
+% end
+% end
+% theorem '阿姆斯壯公理是健全的' do
+% end
+% theorem '阿姆斯壯公理是完備的' do
 % end
 % example '95關3-1' do
 % paragraph do
@@ -49,7 +110,6 @@
 * {D,E}→{B,F}
 * F→G
 * G→D
-
 請以功能依賴的推論(Inferences)規則，來回答：
 說明{A,B}是否為Candidate Key？(10 分)
 找出所有R 之Candidate Key。(15 分)
@@ -58,7 +118,7 @@
 答：
 % end
 % paragraph do
-* {A,B} > {A,B,C}
+* {A,B} → {A,B,C}
 
 由上可發現右方沒有 
 * {A},{B},{C},{A,B},{A,C},{B,C},{A,B,C}
@@ -66,13 +126,13 @@
 等自變集，所以 {A,B} 不是 Candidate Key。
 % end
 % paragraph do
-* {A,B} > {A,B,C}
-* {A,B,D} > {A,B,C,D,E,F,G}
+* {A,B} → {A,B,C}
+* {A,B,D} → {A,B,C,D,E,F,G}
 
 故 {A,B,D} 為 Candidate Key。
 同理 {A,B,F}, {A,B,G} 也是。
-* {D,E} > {B,D,E,F,G}
-* {A,D,E} > {A,B,C,D,E,F,G}
+* {D,E} → {B,D,E,F,G}
+* {A,D,E} → {A,B,C,D,E,F,G}
 
 故 {A,D,E} 為 Candidate Key。
 同理 {A,F,E}, {A,G,E} 也是。
