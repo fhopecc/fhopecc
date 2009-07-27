@@ -126,15 +126,14 @@ C 為表格 T 的欄位集，
 % end
 % paragraph do
 如<%=xref 'attr_closure.rb'%>所示，
-計算欄位封閉集可以很簡單的用電腦算出來。
+可以很簡單的用電腦算出欄位封閉集。
 % end
-% section '欄位封閉集的應用' do
 % paragraph do
 因為欄位封閉集可以很簡單的用電腦算出來，
 便能用來測試某個函數相依是否為某函數相依封閉集裡，
 如<%=xref 'attr_clo_test'%>所示。
 % end
-% theorem '欄位封閉集測試', 'attr_clo_test' do
+% theorem '測試函數相依', 'attr_clo_test' do
 % paragraph do
 令 S 為一組函數相依，FD: X→Y 為一個函數相依， 
 則若 FD 屬於 S，則 Y 必為 X 在 S 下的 X+ 的子集。
@@ -144,12 +143,11 @@ C 為表格 T 的欄位集，
 欄位封閉集也可用來判斷某欄位集是否為超鍵，
 如<%=xref 'attr_clo_test_superkey'%>所示。
 % end
-% theorem '欄位封閉集超鍵測試', 'attr_clo_test_superkey' do
+% theorem '測試超鍵', 'attr_clo_test_superkey' do
 % paragraph do
 令 S 為表格 T 的一組函數相依， C 為 T 的一組欄位集， 
 若 C+ 等於 T 的所有欄位，
 則 C 為 T 的超鍵。
-% end
 % end
 % end
 % end
@@ -200,6 +198,16 @@ C 為表格 T 的欄位集，
 由以上的屬性封閉集可得
 {A,B,D}, {A,B,F}, {A,B,G},{A,D,E},{A,F,E},{A,G,E}
 為 Candidate Key。
+% end
+% end
+% section '最簡函數相依' do
+% paragraph do
+若是表格 T 的一組函數相依集 S 具有下列性質：
+* S 中每個函數相依 FD:X→Y，值域 Y 只有一個欄位。
+* X 是最簡，也就是刪除 X 任何一個欄位會改變 S+。
+* S 是最簡的，若刪除 S 中任何一個 FD 會改變 S+。
+
+我們稱 S 為 T 的最簡函數相依。
 % end
 % end
 <%end%> 

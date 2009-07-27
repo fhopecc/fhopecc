@@ -1,0 +1,62 @@
+<%section '進階的 group 功能' do%>
+% paragraph do
+rollup 及 cube 是 Oracle8i 之後版本才支援。
+% end
+% section 'rollup' do
+% code 'rollup 語法' do
+select	[key_columns], group_function(column)
+from table
+[where conditions]
+group by ROLLUP(columns)
+[having having_conditions]
+[order by key_columns]
+% end
+% paragraph do
+此運算子能夠自動產生小計列，其產生小計是 key_columns
+由右至左分層依次產生小計列。
+% end
+% paragraph do
+若 columns 個數為 n ，則一個 rollup 等於 (n+1) select。
+Ex. 在阮醫院的 opd 資料庫
+% end
+% code 'rollup 例子' do
+select a.curr_dept_id dept, a.curr_title_id title, count(*) t
+from hiatt0090 a
+group by rollup(a.curr_dept_id, a.curr_title_id)
+% end
+% paragraph do
+等於下列 3 行 select
+% end
+% code 'rollup 等式' do
+select a.curr_dept_id dept, a.curr_title_id title, count(*) t
+from hiatt0090 a
+group by a.curr_dept_id, a.curr_title_id
+union all
+select a.curr_dept_id dept, '' title,count(*) t
+from hiatt0090 a
+group by a.curr_dept_id
+union all
+select '' dept, '' title, count(*) t
+from hiatt0090 a
+order by dept, title
+% end
+% end
+% section 'cube' do
+% code 'cube 語法' do
+select	[key_columns], group_function(column)
+from table
+[where conditions]
+group by CUBE(columns)
+[having having_conditions]
+% end
+% paragraph do
+此運算子能夠自動產生小計列，除與 rollup 一樣是由
+key_columns 由右至左分層依次產生小計列，並在後面
+由左至右再產生一次小計列。
+% end
+% paragraph do
+grouping 函數以 rollup 的 columns 作為參數，若此
+行其參數欄為為小計層次，則傳為 1，否則為 0。
+% end
+% end
+<%end%>

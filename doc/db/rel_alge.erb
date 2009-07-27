@@ -1,163 +1,89 @@
-<?xml version="1.0" encoding="big5"?>
-<chapter><title>ÃöÁp¦¡¥N¼Æ(Relational Algebra)</title>
-<sect1><title>ªí®æ¹Bºâ¤l</title>
-<para>
-	ÃöÁp¦¡¥N¼Æ - ­ì©l¹Bºâ¤l»P SQL ªº¹ïÀ³Ãö«Y
-
-	ÃöÁp¦¡¸ê®Æ®wªº SQL »yªk¬O¥HÃöÁp¦¡¥N¼Æ§@¬°°òÂ¦ªº¡C
-
-	¥H¤U´N°w¹ï E. F. Codd ³o¦ì¤j®v¹ï©óÃöÁp¦¡¥N¼Æªº¤K­Ó³Ì­ì©lªº¹Bºâ
-	¤l¡A»P SQL »yªkªº¹ïÀ³Ãö«Y§@¤@­Ó»¡©ú¡C
-
-	*I. ­ì©l¹Bºâ¤l¡G	
-	¦b³o¤K­Ó¹Bºâ¤l¸Ì­±¦³¤­­Ó¹Bºâ¤l¥iºÙ¬°¡u­ì©l¹Bºâ¤l¡v¡A¦]¬°³o¨Ç¹B
-	ºâ¤lµLªk¥H¨ä¥Lªº¹Bºâ¤l¨Ó©w¸q¥L­Ìªº¡C
-
-	**1. Select¡G	
-	±q¤@­Ó Table ¤¤¨ú¥X²Å¦X±ø¥óªº¸ê®Æ¡A¤]´N¬O¨ú±o Row ªº¸ê®Æ¡A½Ðª`
-	·N³o¸Ìªº Select ¬O¹Bºâ¤l¨Ã¤£¬O«ü SQL »yªk¤¤ªº Select¡C
-
-        ¨ú¥Xªº¸ê®Æ¦p¤U¹Ï Table ¤Ï¥Õ³¡¤À©Ò¥Ü¡G
-        Table ( T1 )
-        C1 	C2 	C3 	C4
-        ¡@ 	¡@ 	¡@ 	¡@
-        ¡@ 	¡@ 	¡@ 	¡@
-        ¡@ 	¡@ 	¡@ 	¡@
-        ¡@ 	¡@ 	¡@ 	¡@
-        ¡@ 	¡@ 	¡@ 	¡@
-
-        ¹ïÀ³ªº SQL »yªk¡G
-
-            Select *
-                From T1
-                Where expression
-
-	**2. Project¡G	
-	±q¤@­Ó Table ¤¤¨ú¥X©Ò»Ý­nªºÄæ¦ì¡A¤]´N¬O¨ú±o Column ªº¸ê®Æ¡C
-
-        ¨ú¥Xªº¸ê®Æ¦p¤U¹Ï Table ¤Ï¥Õ³¡¤À©Ò¥Ü¡G
-        Table ( T1 )
-        C1 	C2 	C3 	C4
-        ¡@ 	¡@ 	¡@ 	¡@
-        ¡@ 	¡@ 	¡@ 	¡@
-        ¡@ 	¡@ 	¡@ 	¡@
-        ¡@ 	¡@ 	¡@ 	¡@
-        ¡@ 	¡@ 	¡@ 	¡@
-
-        ¹ïÀ³ªº SQL »yªk¡G½Ðª`·N¨S¦³±ø¥ó¿z¿ïªº³]©w¡C
-
-            Select C1, C2:
-                From T1
-
-	**3.¥d¦¡¿n Cartesian Product¡G	
-	±N¨â­Ó Table ²Õ¦X¦¨¤@­Ó Table¡A³o­Ó¬O²z½×°òÂ¦¤Wªº¹Bºâ¤l¡A¦b
-	¹ê°È¤W¬OÁ×§K³oºØ¨Ï¥Î¤è¦¡ªº¡C
-
-        ±N Table T1 »P Table T2 °µ¥d¦¡¿n¹Bºâªºµ²ªG¦p¤U¡ATable ¤¤ªº¸ê®Æ¬°
-	°²³]­È¡C
-        Table ( T1 )
-        C11 	C12
-        c11a 	c12a
-        c11b 	c12b
-        c11c 	c12c
-
-        Table ( T2 )
-        C21 	C22
-        c21a 	c22a
-        c21b 	c22b
-        ¡@
-
-        Table ( T1 ) »P Table ( T2 ) °µ Cartesian Product ¹Bºâªºµ²ªG
-        C11 	C12 	C21 	C22
-        c11a 	c12a 	c21a 	c22a
-        c11a 	c12a 	c21b 	c22b
-        c11b 	c12b 	c21a 	c22a
-        c11b 	c12b 	c21b 	c22b
-        c11c 	c12c 	c21a 	c22a
-        c11c 	c12c 	c21b 	c22b
-
-        ¹ïÀ³ªº SQL »yªk¡G½Ðª`·N¨S¦³±ø¥ó¿z¿ïªº³]©w¡C
-
-            Select *
-                From T1, T2
-</para>
-</sect1>
-<sect1><title>¶°¦X¹Bºâ¤l</title>
-<sect2><title>Áp¶°</title>	
-<para>
-	±q¨â­Ó Table ¤¤¨ú¥XÁp¶°ªº¸ê®Æ¡A­«½Æªº¸ê®Æ¥u¨ú¥X¤@µ§¡A½Ðª`·N³o¸Ìªº Union ¬O¹Bºâ¤l¨Ã¤£¬O«ü SQL »yªk¤¤ªº Union¡C
-
-        ±N Table T1 »P Table T2 °µ Union ¹Bºâªºµ²ªG¦p¤U¡ATable ¤¤ªº¸ê®Æ¬°°²³]­È¡C
-        Table ( T1 )
-        C1 	C2
-        c1a 	c2a
-        c1b 	c2b
-
-        Table ( T2 )
-        C1 	C2
-        c1a 	c2a
-        c1c 	c2c
-
-        Table ( T1 ) »P Table ( T2 ) °µ Union ¹Bºâªºµ²ªG
-        C1 	C2
-        c1a 	c2a
-        c1b 	c2b
-        c1c 	c2c
-
-        ¹ïÀ³ªº SQL »yªk¡G­nª`·Nªº¬O¨â­Ó Table ¶¡ªº¹ïÀ³Äæ¦ì¸ê®Æ«¬ºA¥²¶·¬O¬Û¦P©Î¬O¥i¥HÂà´«ªº¡C
-
-            Select *
-                From T1
-            Union
-            Select *
-                From T2
-</para>
-</sect2>
-<sect2><title>®t¶°</title>
-<para>
-	**5. Difference¡G
-	±q¤@­Ó Table ¤¤§R°£¥t¤@­Ó Table ¤¤¦³ªº¸ê®Æ¡AÁÙ¬O¬Ý¹Ï¥Ü¤ñ¸û²M·¡¡C
-
-        ±N Table T1 »P Table T2 °µ Difference ¹Bºâªºµ²ªG¦p¤U¡ATable ¤¤ªº¸ê®Æ¬°°²³]­È¡C
-        Table ( T1 )
-        C1 	C2
-        c1a 	c2a
-        c1b 	c2b
-
-        Table ( T2 )
-        C1 	C2
-        c1a 	c2a
-        c1c 	c2c
-
-        Table ( T1 ) »P Table ( T2 ) °µ Difference ¹Bºâªºµ²ªG
-        C1 	C2
-        c1b 	c2b
-
-        ¹ïÀ³ªº SQL »yªk¡G­nª`·Nªº¬O¨â­Ó Table ¶¡ªº¹ïÀ³Äæ¦ì¸ê®Æ«¬ºA¥²¶·¬O¬Û¦P©Î¬O¥i¥HÂà´«ªº¡C
-
-            Select *
-                From T1
-                Where not exists (
-                    Select *
-                        From T2
-                        Where T1.C1 = T2.C1 and T1.C2 = T2.C2 )
-³o´N¬OÃöÁp¦¡¥N¼Æ¤K¤j¹Bºâ¤l¤¤¡A¤­­Ó­ì©l¹Bºâ¤lªº³¡¤À¡A¤U¦¸¦A¬°¤j®a¤¶²Ð¨ä¥L¤T­Ó«D­ì©l¹Bºâ¤lªº¤º®e¡C
-</para>
-</sect2>
-</sect1>
-<sect1><title>¦X¨Ö¹Bºâ¤l</title>
-<sect2><title>¥~³¡¦X¨Ö</title>
-<para>
-¥~³¡¦X¨Ö¬O§@¥Î¦b¨â­ÓÃö³s¤Wªº¹Bºâ¤l¡A
-¨ä±NÃö³s¤À¦¨¥DÃö³s¤Î°ÆÃö³s¡A
-­ì¥»¬Ûµ¥¦X¨Ö°£¥h©Ò¦³¤£º¡¨¬¦X¨Ö±ø¥óªº¦C¡A
-¦Ó¥~³¡¦X¨Ö«h«O¯d¥DÃö³sªº©Ò¦³¦C¡A
-­Y¨S¦³°ÆÃö³sªº¦C«h°ÆÃö³sªºÄæ¦ì³]¬° NULL ­È¡C
-¥ª¥~³¡¦X¨Ö¹Bºâ¤l¨ä¥ª¤èÃö³sªº¬O¥DÃö³s¡A
-¥k¤èÃö³s¬°°ÆÃö³s¡F
-¥k¥~³¡¦X¨Ö¹Bºâ¤l¨ä¥k¤èÃö³sªº¬O¥DÃö³s¡A
-¥ª¤èÃö³s¬°°ÆÃö³s¡C
-</para>
-</sect2>
-</sect1>
-</chapter>
+<%section 'é—œè¯å¼ä»£æ•¸' do%>
+% paragraph do
+E.F.Codd å°æ–¼é—œè¯å¼ä»£æ•¸æœ€åŽŸå§‹çš„å®šç¾©ä¸­åŒ…å«äº†å…«å€‹é‹ç®—ï¼Œåˆ†ç‚ºå…©çµ„ï¼š
+ã€ŒåŽŸå§‹é‹ç®—å­ã€é€™äº›é‹ç®—å­ç„¡æ³•ä»¥å…¶ä»–çš„é‹ç®—å­ä¾†å®šç¾©ã€‚
+% end
+% section 'åŽŸå§‹é‹ç®—å­' do
+% section 'é™åˆ¶' do
+% paragraph do
+å¾žä¸€å€‹è¡¨æ ¼ä¸­å–å‡ºç¬¦åˆæ¢ä»¶çš„ç´€éŒ„ã€‚
+% end
+% end
+% section 'æŠ•å½±' do
+% paragraph do
+å¾žä¸€å€‹è¡¨æ ¼ä¸­å–å‡ºæ‰€éœ€è¦çš„æ¬„ä½ã€‚
+% end
+% end
+% section 'å¡å¼ç© ' do
+% paragraph do
+é‹ç®—ä»¥é›†åˆè«–ä¸­æ‰€å®šç¾©çš„ã€Œå¡å¼ç©ã€ï¼Œ
+å°‡å…©å€‹è¡¨æ ¼çµ„åˆæˆä¸€å€‹è¡¨æ ¼ï¼Œ
+é€™å€‹æ˜¯ç†è«–åŸºç¤Žä¸Šçš„é‹ç®—å­ï¼Œåœ¨å¯¦å‹™ä¸Šæ˜¯é¿å…é€™ç¨®ä½¿ç”¨æ–¹å¼çš„ã€‚
+% end
+% end
+% section 'è¯é›†' do	
+% paragraph do
+æ­¤é‹ç®—ä»¥é›†åˆè«–ä¸­æ‰€å®šç¾©çš„è¯é›†ï¼Œå¾žå…©å€‹è¡¨æ ¼ä¸­å–å‡ºè¯é›†çš„è³‡æ–™ï¼Œ
+é‡è¤‡çš„è³‡æ–™åªå–å‡ºä¸€ç­†ã€‚
+% end
+% end
+% section 'äº¤é›†' do	
+% paragraph do
+æ­¤é‹ç®—ä»¥é›†åˆè«–ä¸­æ‰€å®šç¾©çš„äº¤é›†ï¼Œ
+å³å°‡å…©å€‹é—œè¯è¡¨ä¸­å±¬æ€§ç›¸åŒçš„è³‡æ–™é›†æˆä¸€å€‹é—œè¯è¡¨
+% end
+% end
+% section 'å·®é›†' do
+% paragraph do
+æ­¤é‹ç®—ä»¥é›†åˆè«–ä¸­æ‰€å®šç¾©çš„å·®é›†é‹ç®—ï¼Œ
+å¾žä¸€å€‹è¡¨æ ¼ä¸­åˆªé™¤å¦ä¸€å€‹è¡¨æ ¼ä¸­æœ‰çš„è³‡æ–™ã€‚
+% end
+% end
+% section 'é™¤æ³•' do
+% paragraph do
+é‹ç®—æœ‰å…©å€‹é‹ç®—å…ƒï¼š
+ç¬¬ä¸€å€‹è¡¨æ ¼ç•¶ä½œæ˜¯ã€Œè¢«é™¤è¡¨ã€ï¼Œ
+ç¬¬äºŒå€‹è¡¨æ ¼ç•¶ä½œæ˜¯ã€Œé™¤è¡¨ã€ã€‚
+è¢«é™¤è¡¨çš„å±¬æ€§å¿…é ˆè¦æ¯”é™¤è¡¨å¤šä¸Šä¸€å€‹ä»¥ä¸Šã€‚
+æ­¤é‹ç®—æ˜¯åœ¨é—œè¯è¡¨ R1 ä¸­æ‰¾å‡ºç¬¦åˆé—œè¯è¡¨ R2 ä¸­å±¬æ€§å€¼çš„å€¼çµ„ã€‚
+% end
+% end
+% end
+% section 'åˆä½µé‹ç®—å­' do
+% section 'å¤–éƒ¨åˆä½µ' do
+% paragraph do
+å¤–éƒ¨åˆä½µæ˜¯ä½œç”¨åœ¨å…©å€‹é—œé€£ä¸Šçš„é‹ç®—å­ï¼Œ
+å…¶å°‡é—œé€£åˆ†æˆä¸»é—œé€£åŠå‰¯é—œé€£ï¼Œ
+åŽŸæœ¬ç›¸ç­‰åˆä½µé™¤åŽ»æ‰€æœ‰ä¸æ»¿è¶³åˆä½µæ¢ä»¶çš„åˆ—ï¼Œ
+è€Œå¤–éƒ¨åˆä½µå‰‡ä¿ç•™ä¸»é—œé€£çš„æ‰€æœ‰åˆ—ï¼Œ
+è‹¥æ²’æœ‰å‰¯é—œé€£çš„åˆ—å‰‡å‰¯é—œé€£çš„æ¬„ä½è¨­ç‚º NULL å€¼ã€‚
+å·¦å¤–éƒ¨åˆä½µé‹ç®—å­å…¶å·¦æ–¹é—œé€£çš„æ˜¯ä¸»é—œé€£ï¼Œ
+å³æ–¹é—œé€£ç‚ºå‰¯é—œé€£ï¼›
+å³å¤–éƒ¨åˆä½µé‹ç®—å­å…¶å³æ–¹é—œé€£çš„æ˜¯ä¸»é—œé€£ï¼Œ
+å·¦æ–¹é—œé€£ç‚ºå‰¯é—œé€£ã€‚
+% end
+% end
+% end
+% table 'é—œè¯å¼ä»£æ•¸èˆ‡é—œè¯å¼è¨ˆç®—çš„æ¯”è¼ƒ', 'rel_alge_vs_rel_calc' do
+<tr><td></td><td>é—œè¯å¼ä»£æ•¸</td><td>é—œè¯å¼è¨ˆç®—</td></tr> 
+<tr><td>1</td> 
+<td>ç‚ºä¸€ç¨‹åºå¼çš„æŸ¥è©¢èªžè¨€ã€‚</td> 
+<td>ç‚ºä¸€éžç¨‹åºå¼æŸ¥è©¢èªžè¨€ã€‚</td></tr> 
+<tr><td>ï¼’</td> 
+<td>å¿…é ˆæ˜Žç™½åœ°æŒ‡å‡ºé‹ç®—çš„é †åºã€‚</td> 
+<td>ä¸é ˆæ˜Žç™½åœ°æŒ‡å‡ºé‹ç®—çš„é †åºã€‚</td></tr> 
+<tr><td>ï¼“</td> 
+<td>å¿…é ˆæä¾›åŸºæœ¬é‹ç®—ã€‚</td> 
+<td>ä¸é ˆæä¾›åŸºæœ¬é‹ç®—ã€‚</td></tr> 
+<tr><td>ï¼”</td> 
+<td>ä»¥é›†åˆçš„åŸºæœ¬é‹ç®—èˆ‡é—œè¯å¼é‹å­ç‚ºåŸºç¤Žã€‚</td> 
+<td>ä»¥é›†åˆè¡¨ç¤ºæ³•èˆ‡ predicate calculus  
+ç‚ºåŸºç¤Žã€‚</td></tr> 
+<tr><td>ï¼•</td> 
+<td>è¡¨ç¤ºèƒ½åŠ›èˆ‡é—œè¯å¼è¨ˆç®—ç›¸ç­‰ï¼Œè€Œä¸”æ¯ä¸€å€‹é—œè¯å¼ä»£æ•¸çš„æŸ¥è©¢çš†å¯è½‰æˆç›¸å°çš„é—œè¯å¼è¨ˆç®—æŸ¥è©¢ã€‚</td> 
+<td>è¡¨ç¤ºèƒ½åŠ›èˆ‡é—œè¯å¼ä»£æ•¸ç›¸ç­‰ï¼Œè€Œä¸”æ¯ä¸€å€‹é—œè¯å¼è¨ˆç®—çš„æŸ¥è©¢çš†å¯è½‰æˆç›¸å°çš„é—œè¯å¼ä»£æ•¸æŸ¥è©¢ã€‚</td></tr> 
+<tr><td>ï¼–</td> 
+<td>å¯ç›´æŽ¥å¯¦ç¾ï¼Œä¸¦å¯ä½œç‚ºæŸ¥è©¢æœ€ä½³åŒ–æ™‚çš„æ¨¹ç‹€çµæ§‹ä¸­é–“åž‹å¼ã€‚</td> 
+<td>é€šå¸¸æ˜¯ä»¥è½‰æˆé—œè¯å¼ä»£æ•¸ä¾†å¯¦ç¾ã€‚</td></tr>
+% end
+<%end%>
