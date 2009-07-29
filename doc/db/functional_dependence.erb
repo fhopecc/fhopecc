@@ -35,6 +35,14 @@
 若 a → b 且 b → c，則 a → c。
 % end
 % end
+% theorem '阿姆斯壯公理是健全的' do
+% paragraph do
+% end
+% end
+% theorem '阿姆斯壯公理是完備的' do
+% paragraph do
+% end
+% end
 % end
 % section '相關定理' do
 % theorem '自我定義' do
@@ -97,17 +105,51 @@ a → a
 % end
 % end
 % end
+% section '函數相依封閉集' do
 % define '函數相依封閉集' do
 % paragraph do
-令 F 為一組函數相依集合，
-F+ 為應用阿姆斯壯公理衍生的所有函數相依集合，
-且 F+ 無法再衍生出新的函數相依，
-則 F+ 為 F 函數相依封閉集。
+令 F 為一組函數相依，
+則 F 的函數相依封閉集 F+ 為應用阿姆斯壯公理衍生的所有函數相依集合，
+且 F+ 無法再衍生出新的函數相依。
 % end
 % end
-% theorem '阿姆斯壯公理是健全的' do
+% define '欄位封閉集' do
+% paragraph do
+令 F 為表格 T 的一組函數相依，
+C 為表格 T 的欄位集，
+則 C 的欄位封閉集 C+ 為以 C 為定義域並在函數相依下的最大值域欄位集，
+且 C+ 無法再加入新的欄位。
 % end
-% theorem '阿姆斯壯公理是完備的' do
+% end
+% code '計算欄位封閉集', 'attr_closure.rb' do
+<%#include attr_closure.rb#%>
+% end
+% paragraph do
+如<%=xref 'attr_closure.rb'%>所示，
+可以很簡單的用電腦算出欄位封閉集。
+% end
+% paragraph do
+因為欄位封閉集可以很簡單的用電腦算出來，
+便能用來測試某個函數相依是否為某函數相依封閉集裡，
+如<%=xref 'attr_clo_test'%>所示。
+% end
+% theorem '測試函數相依', 'attr_clo_test' do
+% paragraph do
+令 S 為一組函數相依，FD: X→Y 為一個函數相依， 
+則若 FD 屬於 S，則 Y 必為 X 在 S 下的 X+ 的子集。
+% end
+% end
+% paragraph do
+欄位封閉集也可用來判斷某欄位集是否為超鍵，
+如<%=xref 'attr_clo_test_superkey'%>所示。
+% end
+% theorem '測試超鍵', 'attr_clo_test_superkey' do
+% paragraph do
+令 S 為表格 T 的一組函數相依， C 為 T 的一組欄位集， 
+若 C+ 等於 T 的所有欄位，
+則 C 為 T 的超鍵。
+% end
+% end
 % end
 % example '95關3-1' do
 % paragraph do
@@ -126,24 +168,46 @@ F+ 為應用阿姆斯壯公理衍生的所有函數相依集合，
 答：
 % end
 % paragraph do
-* {A,B} → {A,B,C}
-
-由上可發現右方沒有 
-* {A},{B},{C},{A,B},{A,C},{B,C},{A,B,C}
-
-等自變集，所以 {A,B} 不是 Candidate Key。
+(1)
 % end
 % paragraph do
-* {A,B} → {A,B,C}
-* {A,B,D} → {A,B,C,D,E,F,G}
+先計算{A,B}的屬性封閉集 {A,B}+，
+* {A,B}→C
+* {A,B}→{A,B,C}
 
-故 {A,B,D} 為 Candidate Key。
-同理 {A,B,F}, {A,B,G} 也是。
-* {D,E} → {B,D,E,F,G}
-* {A,D,E} → {A,B,C,D,E,F,G}
+由上可發現右方沒有 
+{A},{B},{C},{A,B},{A,C},{B,C},{A,B,C}
+等自變集，所以 {A,B}+ = {A,B,C}，
+而非{A,B,C,D,E,F,G}，故 {A,B} 並非 Candidate Key。
+% end
+% paragraph do
+(2)
+% end
+% paragraph do
+* {A,B}+ = {A,B,C}
+* {A,B,C}+ = {A,B,C}
+* {A,B,D}+ = {A,B,C,D,E,F,G}
+* {A,B,E}+ = {A,B,C,E}
+* {A,B,F}+ = {A,B,C,D,E,F,G}
+* {A,B,G}+ = {A,B,C,D,E,F,G}
+* {D,E}+ = {B,D,E,F,G}
+* {A,D,E}+ = {A,B,C,D,E,F,G}
+* {A,F,E}+ = {A,B,C,D,E,F,G}
+* {A,G,E}+ = {A,B,C,D,E,F,G}
 
-故 {A,D,E} 為 Candidate Key。
-同理 {A,F,E}, {A,G,E} 也是。
+由以上的屬性封閉集可得
+{A,B,D}, {A,B,F}, {A,B,G},{A,D,E},{A,F,E},{A,G,E}
+為 Candidate Key。
+% end
+% end
+% section '最簡函數相依' do
+% paragraph do
+若是表格 T 的一組函數相依集 S 具有下列性質：
+* S 中每個函數相依 FD:X→Y，值域 Y 只有一個欄位。
+* X 是最簡，也就是刪除 X 任何一個欄位會改變 S+。
+* S 是最簡的，若刪除 S 中任何一個 FD 會改變 S+。
+
+我們稱 S 為 T 的最簡函數相依。
 % end
 % end
 <%end%> 

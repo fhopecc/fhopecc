@@ -1,248 +1,72 @@
-<li>(2 hrs)資料操作語法 DML
-  <ol>
-  <li>插入資料 INSERT</li>
-  <li>更新資料 UPDATE</li>
-  </ol>
-</li>
-</ol></h2>
-<li>(3 hrs)查詢語法與條件式
-  <ol>
-  <li>Select 與集合投影操作</li>
-  <li>Order by 與 Distinct</li>
-  <li>where 與集合限制操作</li>
-  <li>From 與集合的卡式積</li>
-  <li>JOIN</li>
-  <li>OUT JOIN</li>
-  <li>子查詢</li>
-  </ol>
-</li>
-<li>(1 hr)集合運算
-  <ol>
-  <li>Union ALL</li>
-  <li>聯集 Union</li>
-  <li>交集 Intersect</li>
-  <li>差集 Minus</li>
-  </ol>
-</li>
-
-
-2	資料操作語言 DML	
-2.1	投影、別名 Projection, Rename	
-2.2	限制 Restriction	
-2.3	合併 Join		
-2.4	卡積 Cartisian product	
-2.5	集合運算子 Set Operator	
-2.6	摘要 Summary	
-2.5	進階的 Summary				
-
-2.1	投影、別名 Projection, Rename	
-	投影就是將抽取表格上的欄位，組合成新的表格。在 SQL 中，我們
-	是利用 select 來完成此項運算。
-
-	*語法	
-	select [distinct] *|cex1,cex2... 
-	from table;
-
-	*
-	字元 * 表示選取所有的欄位
-
-  	distinct
-	若於 select 後加入 distinct 修飾，則合併重覆欄.
-
-	cex=col[[as]alias]
-	其中 col 為欄位名，alias 為欄位的別名, as 字可加可不加.
-
-	*ex1.	
-	select * from emp;
-	選出 emp 表所有的欄位.
-
-	*ex2.	
-	select id, name, deptno from emp;
-	從 emp 表中，選出 id, name 及 deptno 三欄成為新表.
-
-	*ex3.	
-	select distinct id, name, deptno from emp;
-	從 emp 表中，選出 id, name 及 deptno 三欄成為新表, 並合併重覆欄.
-
-	*ex4.	
-	select id as i, name n
-	from emp;
-	從 emp 表中選出 id 
-
-2.2	限制 Restriction	
-	
-	*語法	
-  	select *|cex1,cex2...
-  	from table
-  	where codition;
-
-	*ex	
-	select ename, sal, mgr, hiredate
-	from emp
-
-	where hiredate='01-Jan-95'; 
-  
-	where sal>=1500;
-
-	where ename='SMITH';
-
-	where sal between 1000 and 1500;
-
-2.2	集合運算子
-
-3	Oracle SQL 效能調校
-
-5	進階的 group 功能
-5.1	rollup
-5.2	cube
-5.3	grouping function
-
-	rollup 及 cube 是 Oracle8i 之後版本才支援。
-	
-5.1	rollup
-
-	語法：
-	select	[<key_columns>], <group_function(column)>
-	from <table>
-	[where <conditions>]
-	group by ROLLUP(<columns>)
-	[having <having_conditions>]
-	[order by <key_columns>]
-
-	此運算子能夠自動產生小計列，其產生小計是 key_columns
-	由右至左分層依次產生小計列。
-	
-	
-	若 columns 個數為 n ，則一個 rollup 等於 (n+1) select。
-	Ex. 在阮醫院的 opd 資料庫
-
-	select a.curr_dept_id dept, a.curr_title_id title, count(*) t
-	from hiatt0090 a
-	group by rollup(a.curr_dept_id, a.curr_title_id)
-	等於下列 3 行 select
-	select a.curr_dept_id dept, a.curr_title_id title, count(*) t
-	from hiatt0090 a
-	group by a.curr_dept_id, a.curr_title_id
-	union all
-	select a.curr_dept_id dept, '' title,count(*) t
-	from hiatt0090 a
-	group by a.curr_dept_id
-	union all
-	select '' dept, '' title, count(*) t
-	from hiatt0090 a
-	order by dept, title
-
-5.2	cube
-	
-	語法：
-	select	[<key_columns>], <group_function(column)>
-	from <table>
-	[where <conditions>]
-	group by CUBE(<columns>)
-	[having <having_conditions>]
-	
-	此運算子能夠自動產生小計列，除與 rollup 一樣是由
-	key_columns 由右至左分層依次產生小計列，並在後面
-	由左至右再產生一次小計列。
-
-5.3	grouping 函數 
-	
-	grouping 函數以 rollup 的 columns 作為參數，若此
-	行其參數欄為為小計層次，則傳為 1，否則為 0。
-		
-5.4	grouping sets
-	
-6	階層資料處理
-	
-	階層資料是自我指涉形成階層。
-
-3	DCL	
-3.1	主鍵 Primary key	
-	構成表格主鍵的欄位不得為虛值。
-	
-3.2	外鍵 Foreign key	
-	若表格 B 的外鍵 FK 與表格 A 的主鍵 PK 相配合 (亦即 FK 和
-	PK 為相同欄位)， 則 FK 的值必須等於表格 A 裡某筆記錄的 PK 值，
-	或者 FK 的每個成分欄位都為虛值。
-
-9	FAQ	
-9.1	ODBC 中，Embeded Oracle SQL 的日期格式必須限制為西元	
-9.2	Oracle 如何轉檔	
-
-9.1	ODBC 中，Embeded Oracle SQL 的日期格式必須限制為西元	
-	在 ODBC 中，日期格式僅能為 yyyy/mm/dd，其中 yyyy 為西元年，
-	即使 oracle 環境使用 ROC，在 ODBC 中還是要使用西元年。
-	
-	像在開發 asp 程式，利用 ODBC 則必須遵守上述格式設定。
-
-9.2	Oracle 如何轉檔	
-9.2.1	利用 DBMS_UTILITY.comma_to_table & table_to_comma	
-	*ex	
-	SET SERVEROUTPUT ON
-	DECLARE
-	  l_list1   VARCHAR2(50) := 'A,B,C,D,E,F,G,H,I,J';
-	  l_list2   VARCHAR2(50);
-	  l_tablen  BINARY_INTEGER;
-	  l_tab     DBMS_UTILITY.uncl_array;
-	BEGIN
-	  DBMS_OUTPUT.put_line('l_list1 : ' || l_list1);
-
-	  DBMS_UTILITY.comma_to_table (
-	     list   => l_list1,
-	     tablen => l_tablen,
-	     tab    => l_tab);
-
-	  FOR i IN 1 .. l_tablen LOOP
-	    DBMS_OUTPUT.put_line(i || ' : ' || l_tab(i));
-	  END LOOP;
-
-	  DBMS_UTILITY.table_to_comma (
-	     tab    => l_tab,
-	     tablen => l_tablen,
-	     list   => l_list2);
-
-	  DBMS_OUTPUT.put_line('l_list2 : ' || l_list2);
-	END;
-	/
-
-9.2.2	利用 SQL+ 的 SPOOL 指令	
-	語法：spo[ol] [file_name[.ext]|OFF|OUT]
-	*ex 將 species_ratings 轉至 csv 的程式	
-	spool species.csv
-	set termout off
-	set pagesize 0
-	set heading off
-	set feedback off
-	select species||','||count||','|| rating from species_ratings; 
-	quit	
-	
-6	資料的顯示設計	
-6.1	表單 Form	
-6.2	表格 Table	
-6.3	Master-Detail View	
-6.4	報表 Report	
-6.5	矩陣式報表 Martrix Report	
-6.6	圖表 Chart	 
-
-6.1	表單 Form	
-6.2	表格 Table	
-6.3	Master-Detail View	
-	使用Master/Detail方式來顯示資料可以說是在企業裡最常見的需求。所謂
-	Master/Detail指的是一對多的關係，例如一家出版商可能會出版多本書、
-	一個訂單裡可能會包含多個產品...等。以前面的例子來說，我們通常會希
-	望可以瀏覽所有的出版商，同時另外還可以檢視個別出版商所出版的書籍。	
-6.4	報表 Report	
-6.5	矩陣式報表 Martrix Report	
-6.6	圖表 Chart	 
-
--->
-
-</chapter>
-<li>(2 hrs)摘要查詢
-  <ol>
-  <li>Group by</li>
-  <li>摘要函數</li>
-  <li>Having 2</li>
-  </ol>
-</li>
-
+<%section '資料操作語言' do%>
+% section '投影、別名' do
+% paragraph do
+投影就是將抽取表格上的欄位，組合成新的表格。
+在 SQL 中，我們是利用 select 來完成此項運算。
+% end
+% code 'select 語法' do
+select [distinct] *|cex1,cex2... 
+from table;
+% end
+% paragraph do
+字元 * 表示選取所有的欄位
+% end
+% paragraph do
+若於 select 後加入 distinct 修飾，則合併重覆欄.
+% end
+% paragraph do
+cex=col[[as]alias]
+其中 col 為欄位名，alias 為欄位的別名, as 字可加可不加.
+% end
+% code 'select ex' do
+select * from emp;
+% end
+% paragraph do
+選出 emp 表所有的欄位.
+% end
+% code 'select ex2' do
+select id, name, deptno from emp;
+% end
+% paragraph do
+從 emp 表中，選出 id, name 及 deptno 三欄成為新表.
+% end
+% code 'select ex3' do
+select distinct id, name, deptno from emp;
+% end
+% paragraph do
+從 emp 表中，選出 id, name 及 deptno 三欄成為新表, 並合併重覆欄.
+% end
+% code 'select ex4' do
+select id as i, name n
+from emp;
+% end
+% paragraph do
+從 emp 表中選出 id 
+% end
+% end
+% section '限制' do
+% code 'select 語法' do
+select *|cex1,cex2...
+from table
+where codition;
+% end
+% code 'select ex5' do
+select ename, sal, mgr, hiredate
+from emp
+where hiredate='01-Jan-95'; 
+where sal>=1500;
+where ename='SMITH';
+where sal between 1000 and 1500;
+% end
+% end
+% section '合併' do
+% end
+% section '卡積' do
+% end
+% section '集合運算子' do
+% end
+% section	'摘要' do
+% end
+<%# include data_mining_sql.erb #%>
+<%# include sql_aggregator.erb #%>
+<%end%>
