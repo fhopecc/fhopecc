@@ -1,21 +1,180 @@
 <%section 'DDL' do%>
-% section '建立表格' do
-% end
-% section '修改表格' do
-% code '刪除表格欄位語法', 'sql' do
-ALTER TABLE tbl
-DROP COLUMN(col1,col2,...)
+% section '定義表格' do
+% paragraph do
+表格是資料庫中儲存資料的基本架構。
+分為欄位(column)及列(row)。
+每一列代表一筆紀錄，而每一欄代表一筆紀錄的一部份。
 % end
 % paragraph do
-*例一：刪除表格 employee，欄位 fee	
-ALTER TABLE employee
-DROP COLUMN(fee);
-註一：在 Oracle 中，當原本欄位的欄名是非法的如 to，	
-那麼要刪除時，必須加上雙引號 "" 才能刪除。
-EX 強制刪除非法欄名的欄位
-ALTER TABLE tbl DROP COLUMN("to");
-但是若是 peep/ps 這種則無法作用
+舉例來說，如果我們有一個記載顧客資料的表格，
+那欄位就有可能包括姓、名、地址、城市、國家、 生日等等。
+所以定義表格時，需要註明欄位的標題，
+以及那個欄位的資料類型。
+% end
+% paragraph do
+資料類型是什麼呢？就是所謂的定義域，定義了某個欄位所允許的可能值，
+詳請參見<%=xref 's_domain_integrity'%>。
+建立上面提過的顧客表格的 sql，如<%=xref 'create_table'%>所示。
+% end
+% code 'create table', 'create_table' do
+create table customers
+(first_name char(50),
+last_name char(50),
+address char(50),
+city char(50),
+country char(25),
+birth_date date) 
+% end
+% section '刪除表格欄位' do
+% paragraph do
+刪除表格 customers 的欄位 city 須用 alter table ，
+如<%=xref 'drop_column'%>所示。
+% end
+% code 'drop column', 'drop_column' do
+alter table customers
+drop column(city);
+% end
+% end
+% end
+% section '定義完整性' do
+% paragraph do
+如<%=xref 'relational_integrity'%>所述，
+完整性是確保資料正確性的方法，
+完整性包含在表格定義中，
+完整性限制可以在表格藉由 create table 語句來指定，
+或是之後藉由 alter table 語句來指定。
+% end
+% paragraph do
+常見的限制有以下幾種：
+* primary key 
+* foreign key
+* not null
+* unique
+* check
+% end
+% section 'primary key', 's_primary_key_sql' do
+% paragraph do 
+primary key 用來定義主鍵，請參見<%=xref 's_primary_key'%>。
+% end
+% paragraph do
+我們可以運用 create table 於建置新表格時設定主鍵，
+如<%=xref 'create_primary_key'%>所示
+% end
+% code 'create primary key', 'create_primary_key' do
+create table customer 
+(id integer, 
+last_name varchar(30), 
+first_name varchar(30), 
+primary key (id));
+% end
+% paragraph do
+以下則是以 alter table 來設定主鍵的方式：
+% end
+% code 'alter primary key', 'alter_primary_key' do
+alter table customer add primary key (id);
+% end
+% paragraph do
+請注意，在用 alter table 來添加主鍵之前，
+我們需要確認被用來當做主鍵的欄位是設定為 not null，
+也就是說，那個欄位一定不能沒有資料。 
+% end
+% end
+% section 'foreign key', 's_foreign_key_sql' do
+% paragraph do 
+foreign key 用來定義參考完整性，請參見<%=xref 's_referntial_integrity'%>。
+% end
+% paragraph do 
+假設有兩個表格：
+一個 customer 表格，
+裡面記錄了所有顧客的資料；
+另一個 orders 表格，裡面記錄了所有顧客訂購的資料。
+在這裡的一個限制，就是所有的訂購資料中的顧客，
+都一定是要跟在 customer 表格中存在。
+在這裡，我們就會在 orders 表格中設定一個外鍵，
+而這個外鍵是指向 customer 表格中的主鍵。
+這樣一來，我們就可以確定所有在 orders 表格中的顧客都存在 customer 表格中。
+換句話說，orders表格之中，不能有任何顧客是不存在於 customer 表格中的資料。
+% end
+% paragraph do 
+我們可以在 create table 語法指定外鍵，
+如 <%=xref 'alter_foreign_key'%> 所示，
+orders 表格中的 customer_id 欄位是一個指向 customers 表格中 id 欄位的外鍵。
+% end
+% code 'create foreign key', 'create_foreign_key' do
+create table orders 
+(order_id integer, 
+order_date date, 
+customer_sid integer, 
+amount double, 
+primary key (order_id), 
+foreign key (customer_id) references customer(id));
+% end
+% paragraph do 
+假設 orders 表格已經被建置，但外鍵尚未被指定，
+則可利用 alter table 來指定外鍵，如 <%=xref 'alter_foreign_key'%> 所示。
+% end
+% code 'alter foreign key', 'alter_foreign_key' do
+alter table orders 
+add foreign key (customer_id) references customer(id);
+% end
+% end
+% section 'not null' do
+% paragraph do
+一個欄位預設是允許有 null，
+如果不允許一個欄位含有 null，
+就需要對那個欄位做出 not null 的指定。
+% end
+% code 'not null', 'not_null' do
+create table customer 
+(id integer not null, 
+last_name varchar (30) not null, 
+first_name varchar(30));
+% end
+% paragraph do
+如<%=xref 'not_null'%>指出 id 和 last_name 不允許有 null，
+而 first_name 可以有 null。
+% end
+% paragraph do
+請注意，一個被指定為主鍵的欄位也一定會含有 not null 的特性。
+相對來說，一個 not null 的欄位並不一定會是一個主鍵。
+% end
+% end
+% section 'unique' do
+% paragraph do
+unique 限制是保證一個欄位沒有重複值。
+% end
+% code 'unique', 'unique' do
+create table customer 
+(id integer unique, 
+last_name varchar (30), 
+first_name varchar(30));
+% end
+% paragraph do
+如<%=xref 'unique'%>指出
+id 欄位不能有重複值存在，
+而 last_name 及 first_name 這兩個欄位則是允許有重複值存在。
+% end
+% paragraph do
+請注意，一個被指定為主鍵的欄位也一定會含有 unique 的特性。
+相對來說，一個 unique 的欄位並不一定會是一個主鍵。
+% end
+% end
+% section 'check', 's_check_sql' do
+% paragraph do
+check 限制是保證一個欄位中的所有資料都是符合某些條件。
+% end
+% code 'check', 'check' do
+create table customer 
+(id integer check (id > 0), 
+last_name varchar (30), 
+first_name varchar(30));
+% end
+% paragraph do
+id 欄只能包含大於 0 的整數。
+% end
+% paragraph do
+許多系統並未實作 check，例如 MySQL 資料庫上。
+% end
 % end
 % end
 <%end%>
-

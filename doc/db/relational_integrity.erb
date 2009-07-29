@@ -7,23 +7,23 @@
 其目的是檢查並保障資料庫儲存是否準確的限制，
 並避免表格間資料不一致。
 % end
-% paragraph do
-在關聯式模型中，有三類完整性限制，
-分別為鍵限制(Key Constraints)、
-實體完整性限制(Entity Integrity
-Constraints)及參考完整性限制(Referential Integrity
-Constraints)。
-詳述如下：
-% end
 <%# include key_constraint.erb #%>
-% section '定義域完整性限制' do
+% section '實體完整性限制', 's_entity_integrity' do
 % paragraph do
+表格主鍵不可為空值，
+因為一個實體至少須滿足能與其它實體區別的限制。
+% end
+% end
+<%# include referential_integrity.erb #%>
+% section '定義域完整性限制', 's_domain_integrity' do
+% paragraph do
+定義域定義了某個欄位所允許的可能值，
 表格的欄位值一定是屬於定義域的單元值。
 % end
-% end
-% section '實體完整性限制' do
 % paragraph do
-表格主鍵不可為空值。
+SQL 除了資料型態支持定義域，
+還能再加入 check 限制來更進一步限制資料型態的可能值，
+請參閱<%=xref 's_check_sql'%>
 % end
 % end
 % section '空值完整性限制' do
@@ -31,7 +31,6 @@ Constraints)。
 空值完整性用來限制某個欄位是否可為空值。
 % end
 % end
-<%# include referential_integrity.erb #%>
 % example '96高2-3' do
 % paragraph do
 在關聯式資料庫的綱要(Schema)中，
@@ -39,7 +38,16 @@ Constraints)。
 個體整合限制(Entity Integrity Constraint)以及參考整合限制(Referential Integrity Constraint)三種，試分別說明之。(30 分)
 % end
 % paragraph do
-答：請參考<%=xref 'relational_integrity'%>
+答：
+% end
+% paragraph do
+鍵值限制請參閱<%=xref 's_key_constraint'%>。
+% end
+% paragraph do
+個體整合限制請參閱<%=xref 's_entity_integrity'%>。
+% end
+% paragraph do
+參考整合限制請參閱<%=xref 's_referntial_integrity'%>。
 % end
 % end
 % example '96警2-4' do
@@ -78,7 +86,7 @@ DBMS 除了支援參考完整性外，還可能支援包括預設值、
 答：
 % end
 % paragraph do
-(1)請參考<%=xref 'relational_integrity'%>
+(1)
 % end
 % end
 <%end%>
