@@ -1,0 +1,15 @@
+<%section '限制' do%>
+% paragraph do
+從一個表格中取出符合條件的紀錄。
+% end
+% section 'SQL' do
+% paragraph do
+限制運算以 SQL 表示如<%=xref 'restriction_sql'%>，
+此 SQL 表示取出位於高雄的供應商。
+% end
+% code 'restriction sql', 'restriction_sql' do
+select * from suppliers
+where city='高雄'
+% end
+% end
+<%end%>

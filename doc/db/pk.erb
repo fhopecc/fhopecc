@@ -1,7 +1,4 @@
-<%section '鍵限制', 's_key_constraint' do%>
-% paragraph do
-鍵限制規定表格要有一個滿足唯一性和最小性的主鍵。
-% end
+<%section '主鍵' do%>
 % section '超鍵' do
 % paragraph do
 超鍵(Superkeys)是表格中單一欄位或一組欄位的集合，
@@ -59,6 +56,17 @@
 主鍵可以包含一或多個欄位。
 當主鍵包含多個欄位時，
 稱為組合鍵 (Composite Key)。
+% end
+% end
+% section '鍵限制', 's_key_constraint' do
+% paragraph do
+鍵限制規定表格要有一個滿足唯一性和最小性的主鍵。
+% end
+% end
+% section '實體完整性限制', 's_entity_integrity' do
+% paragraph do
+表格主鍵不可為空值，
+因為一個實體至少須滿足能與其它實體區別的限制。
 % end
 % end
 <%end%>

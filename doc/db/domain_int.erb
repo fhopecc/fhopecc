@@ -1,0 +1,16 @@
+<%section '定義域完整性限制', 's_domain_integrity'  do%>
+% paragraph do
+定義域定義了某個欄位所允許的可能值，
+表格的欄位值一定是屬於定義域的單元值。
+% end
+% paragraph do
+SQL 除了資料型態支持定義域，
+還能再加入 check 限制來更進一步限制資料型態的可能值，
+請參閱<%=xref 's_check_sql'%>
+% end
+% section '空值完整性限制' do
+% paragraph do
+空值完整性用來限制某個欄位是否可為空值。
+% end
+% end
+<%end%>

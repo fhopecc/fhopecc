@@ -7,30 +7,9 @@
 其目的是檢查並保障資料庫儲存是否準確的限制，
 並避免表格間資料不一致。
 % end
-<%# include key_constraint.erb #%>
-% section '實體完整性限制', 's_entity_integrity' do
-% paragraph do
-表格主鍵不可為空值，
-因為一個實體至少須滿足能與其它實體區別的限制。
-% end
-% end
+<%# include domain_int.erb #%>
+<%# include pk.erb #%>
 <%# include fk.erb #%>
-% section '定義域完整性限制', 's_domain_integrity' do
-% paragraph do
-定義域定義了某個欄位所允許的可能值，
-表格的欄位值一定是屬於定義域的單元值。
-% end
-% paragraph do
-SQL 除了資料型態支持定義域，
-還能再加入 check 限制來更進一步限制資料型態的可能值，
-請參閱<%=xref 's_check_sql'%>
-% end
-% end
-% section '空值完整性限制' do
-% paragraph do
-空值完整性用來限制某個欄位是否可為空值。
-% end
-% end
 % example '96高2-3' do
 % paragraph do
 在關聯式資料庫的綱要(Schema)中，
