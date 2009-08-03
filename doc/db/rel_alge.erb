@@ -10,8 +10,14 @@ E.F.Codd 對於關連式代數最原始的定義中包含了八個運算，分�
 因為可以組成套疊運算，所以其文法類似基礎運算。
 % end
 % code '文法' do
-Term := 
-
+expr        := monadic | dyadic
+monadic     := renaming| restriction | projection
+renaming    := term RENAME col as col
+term        := table | (expr)
+restriction := term WHERE codition
+projection  := term | term[c1,c2,...]
+dyadic      := projection dop expr
+dop         := UNION | INTERSECT | MINUS | TIMES | JOIN | DIVEDBY
 % end
 % section '集合運算子' do
 % paragraph do

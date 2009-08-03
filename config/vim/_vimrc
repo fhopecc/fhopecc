@@ -4,6 +4,7 @@ source $VIM/vimfiles/plugin/refactoring.vim
 let g:xml_namespace_transparent=1
 let g:xml_syntax_folding = 1
 set foldmethod=syntax
+set et
 let javaScript_fold=1
 
 set nocompatible
