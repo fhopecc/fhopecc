@@ -4,6 +4,7 @@
 投影就是將抽取表格上的欄位，組合成新的表格。
 在 SQL 中，我們是利用 select 來完成此項運算。
 % end
+
 % code 'select 語法' do
 select [distinct] *|cex1,cex2... 
 from table;
@@ -17,6 +18,14 @@ from table;
 % paragraph do
 cex=col[[as]alias]
 其中 col 為欄位名，alias 為欄位的別名, as 字可加可不加.
+% end
+% code 'projection sql', 'projection_sql' do
+select id, name from suppliers
+% end
+% paragraph do
+投影運算以 SQL 表示如<%=xref 'projection_sql'%>所示，
+此 SQL 表示取出供應商的編號及名稱組成新的表格，
+其等同於<%=xref 'projection_alge'%>之代數式。
 % end
 % code 'select ex' do
 select * from emp;

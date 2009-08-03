@@ -3,7 +3,21 @@
 E.F.Codd 對於關連式代數最原始的定義中包含了八個運算，分為兩組：
 集合運算子及特殊運算子。
 % end
+% paragraph do
+關連式運算子其運算結果均為一個表格，所以幾個運算子可以組成套疊運算。
+% end
+% paragraph do
+因為可以組成套疊運算，所以其文法類似基礎運算。
+% end
+% code '文法' do
+Term := 
+
+% end
 % section '集合運算子' do
+% paragraph do
+集合運算子都為二元運算子，
+接受二個表格型態的參數，並傳回一個結果表格。
+% end
 % section '卡式積 ' do
 % paragraph do
 運算以集合論中所定義的「卡式積」，
@@ -32,11 +46,7 @@ E.F.Codd 對於關連式代數最原始的定義中包含了八個運算，分�
 % end
 % section '特殊運算子' do
 <%#include rel_alge_select.erb #%>
-% section '投影' do
-% paragraph do
-從一個表格中取出所需要的欄位。
-% end
-% end
+<%#include rel_alge_project.erb #%>
 % section '除法' do
 % paragraph do
 運算有兩個運算元：
