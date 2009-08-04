@@ -4,7 +4,6 @@
 投影就是將抽取表格上的欄位，組合成新的表格。
 在 SQL 中，我們是利用 select 來完成此項運算。
 % end
-
 % code 'select 語法' do
 select [distinct] *|cex1,cex2... 
 from table;
@@ -19,7 +18,7 @@ from table;
 cex=col[[as]alias]
 其中 col 為欄位名，alias 為欄位的別名, as 字可加可不加.
 % end
-% code 'projection sql', 'projection_sql' do
+% code '投影 SQL', 'projection_sql' do
 select id, name from suppliers
 % end
 % paragraph do
@@ -27,17 +26,11 @@ select id, name from suppliers
 此 SQL 表示取出供應商的編號及名稱組成新的表格，
 其等同於<%=xref 'projection_alge'%>之代數式。
 % end
-% code 'select ex' do
-select * from emp;
+% code '選取所有欄位' do
+select * from suppliers;
 % end
 % paragraph do
-選出 emp 表所有的欄位.
-% end
-% code 'select ex2' do
-select id, name, deptno from emp;
-% end
-% paragraph do
-從 emp 表中，選出 id, name 及 deptno 三欄成為新表.
+選出 suppliers 所有的欄位.
 % end
 % code 'select ex3' do
 select distinct id, name, deptno from emp;
@@ -45,27 +38,16 @@ select distinct id, name, deptno from emp;
 % paragraph do
 從 emp 表中，選出 id, name 及 deptno 三欄成為新表, 並合併重覆欄.
 % end
-% code 'select ex4' do
-select id as i, name n
-from emp;
-% end
-% paragraph do
-從 emp 表中選出 id 
-% end
 % end
 % section '限制' do
-% code 'select 語法' do
-select *|cex1,cex2...
-from table
-where codition;
+% paragraph do
+限制運算以 SQL 表示如<%=xref 'restriction_sql'%>，
+在 where 字後面加上條件，
+此 SQL 表示取出位於高雄的供應商。
 % end
-% code 'select ex5' do
-select ename, sal, mgr, hiredate
-from emp
-where hiredate='01-Jan-95'; 
-where sal>=1500;
-where ename='SMITH';
-where sal between 1000 and 1500;
+% code 'restriction sql', 'restriction_sql' do
+select * from suppliers
+where city='高雄'
 % end
 % end
 % section '合併' do

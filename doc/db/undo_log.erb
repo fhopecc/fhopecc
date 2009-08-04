@@ -1,0 +1,127 @@
+<%section '取消日誌' do%>
+% paragraph do
+取消日誌是當機時，取消未完成交易，
+實作則需定義了一個日誌項目如下：
+* [T,X,v]：表示交易 T 更動資料項目 X ，其舊值為 v
+
+% end 
+% code '取消日誌資料項目存入磁碟的順序', 'undo_log' do
+log [T,X,v]
+write X
+log [COMMIT T]
+% end
+% paragraph do
+由<%=xref "undo_log"%>可知更動的資料項目存到磁碟前，
+會先寫日誌，這稱為日誌先寫原則，
+且只有所有更動的資料項目都存到磁碟，
+才會存入 [COMMIT T]。
+% end
+% code '取消日誌當機復原程序', 'undo_log_recover' do
+File.open('undo.log', 'r').each do |l|
+  case l
+  when [COMMIT T]
+    Transaction('T').commit
+  when [T,X,v]
+    unless Transaction('T').commit?
+      write(v)
+    end
+  end
+end
+Transaction.all.each do |t|
+  unless t.commit?
+    log [ABORT t]
+  end
+end
+% end
+% paragraph do
+由下而上讀取日誌項目，並重覆以下的判斷程序，
+讀到 [COMMIT T]，則標誌 T 為已交付，
+讀到 [T,X,v]，若 T 尚未交付，則將 v 存入 X 的磁碟位置，
+讀取完成後，對每個未完成交易 Ta 寫入[ABORT Ta] 。
+% end
+% paragraph do
+日誌檔會隨著時間變得越來越大，
+若每次復原程序要讀完全部的日誌檔，
+則會使復原時間變得越來越長。
+因此每間隔一段時間，
+系統會插入一個檢核點(Checkpoint)，
+使檢核點之前的交易全部都已交付，
+則復原系統只需要復原至檢核點，
+如此則避免了復原時都要讀完全部的日誌檔，
+實作則需定義了一個日誌項目如下：
+% end
+% paragraph do
+[CKPT]：檢核點，表此日誌項目之前的交易全部都已交付
+% end 
+
+% code '取消日誌使用靜止檢核點' do
+% paragraph do
+靜止檢核點資料項目存入磁碟的順序
+% end 
+% paragraph do
+等待所有未完成交易完成工作，並停止啟動任何新交易
+% end
+% paragraph do
+存入[CKPT]
+% end
+% paragraph do
+可以啟動新交易
+% end
+% end
+% paragraph do
+靜止檢核點的當機復原程序
+% end
+% paragraph do
+執行正常當機復原程序
+% end
+% paragraph do
+讀到 [CKPT] 時，對每個未交付交易，存入 [ABORT T]
+% end
+% end
+% section '取消日誌使用動態檢核點' do
+% paragraph do
+靜止檢核點的缺點是每次要檢核時，
+都得等待全部未完成交易完成，
+並停止所有新交易啟動，造成檢核時可能會發生較長的延遲，
+動態檢核點則可允許新交易啟動，
+其額外定義的日誌項目如下：
+% end 
+% paragraph do[START CKPT T1T2...Tn]：檢核點開始，
+T1T2...Tn 表示當下的未完成交易
+% end 
+% paragraph do[END CKPT>]：檢核點完成，
+且T1T2...Tn 均已交易完成
+% end 
+% paragraph do
+動態檢核點資料項目存入磁碟的順序
+% end 
+% paragraph do
+存入[START CKPT T1T2...Tn]
+% end
+% paragraph do
+正常交易程序
+% end
+% paragraph do
+待 T1T2...Tn 交易完成後，插入 [END CKPT]
+% end
+% paragraph do 
+'動態檢核點取消日誌的當機復原程序' 
+由下而上讀取日誌項目，並重覆以下的判斷程序
+% paragraph do
+若讀到[END CKPT]，
+指對應的 [START CKPT T...] 之前的交易都交付了，
+故持續作復原動作，直到讀到[START CKPT T...]，
+再插入必要的 [ABORT T]，便復原完成
+% end
+% paragraph do
+若讀到 [START CKPT T...]，
+除 T... 以外的交易都交付了，
+令 Ti 為 T... 中最早的交易，
+故持續作復原動作，直到讀到 [START Ti]，
+再插入必要的 [ABORT T]，便復原完成
+% end
+% paragraph do
+執行取消日誌的當機復原程序
+% end
+% end
+

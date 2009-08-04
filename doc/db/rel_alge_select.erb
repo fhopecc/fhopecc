@@ -2,14 +2,40 @@
 % paragraph do
 從一個表格中取出符合條件的紀錄。
 % end
-% section 'SQL' do
+% code '相等條件', 'restriction_alge' do
+suppliers where city='高雄'
+% end
 % paragraph do
-限制運算以 SQL 表示如<%=xref 'restriction_sql'%>，
-此 SQL 表示取出位於高雄的供應商。
+上述代數式表示取出位於高雄的供應商。
 % end
-% code 'restriction sql', 'restriction_sql' do
-select * from suppliers
-where city='高雄'
+% paragraph do
+條件是作用於某個定義域上布林函數，
+像是<%=xref 'restriction_alge'%>中的條件為相等條件，
+若某紀錄的 city 欄位值等於右端的'高雄'字串，
+則此紀錄會被選擇出來。
 % end
+% code '範圍條件', 'range_codition' do
+suppliers where id < 100
 % end
+% paragraph do
+上述代數式表示取出位於供應商編號小於 100 的所有供應商。
+此類條件稱為範圍條件，用來測試值是否符合指定範圍，
+分別有大於、小於、大於等於及小於等於，
+對應的符號分別為 '>', '<', '>=' 及 '<='。
+% end
+% code '布林運算子', 'bollean_operator' do
+suppliers where id < 100 and city='高雄'
+% end
+% paragraph do
+上述代數式表示取出位於供應商編號小於 100 且位於高雄的所有供應商。
+因為條件都是布林函數，所以可以用布林運算子串接。
+% end
+% code '集合運算等式', 'set_operator_equation' do
+suppliers where city='高雄' intersect suppliers where id < 100 
+% end
+% paragraph do
+布林運算子串接的條件，可用集合運算表示出來，
+如<%=xref 'set_operator_equation'%>為<%=xref 'bollean_operator'%>的等式。
+% end
+
 <%end%>

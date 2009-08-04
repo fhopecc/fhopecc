@@ -1,0 +1,49 @@
+<%section '交易' do%>
+% paragraph do
+交易(Transaction)是一組資料庫操作的邏輯單元(logic unit)，
+如<%=xref "DBTransactionSTD"%>所示，
+每個交易有三種狀態，
+分別是初始(Begin)、
+交易中以及交付(Commited)，
+而且必須滿足下列條件：
+% end
+% paragraph do
+單元性(Atomic)：
+交易內的操作，不是全部執行，就是全部不執行。
+若單元內其中一個操作未完成，則整個交易必須回到初始狀態，
+回到初始狀態的程序稱為復原(Recovery, Rollback)。
+% end
+% paragraph do
+一致性(Consistency)：
+交易前後資料的必須維持一致。
+像是銀行的轉帳，轉帳兩帳戶其金額加總在轉帳前後必須相等。
+% end
+% paragraph do
+隔離性(Isolation)：
+對交易外的操作而言，只能看到交易的兩種終止狀態，初始及交付。
+這意指交易排程(Transaction Schedule)
+必須維持可序列化(Serializable)。
+為了資料庫效能，隔離性通常會比較寬鬆。
+% end
+% paragraph do
+持久性(Durability)：
+一旦交付，則交易狀態會永久保存且不能復原。
+% end
+% paragraph do
+目前的計算機組織採用雙層式的記憶體，
+分別為隨機存取記憶體 (RAM,Random Access Memory)
+及磁碟，
+RAM 存取快，但電源關閉則資料狀態就消失，
+磁碟存取慢，但可保存寫入的資料狀態，不會因電源關閉而消失，
+通常 CPU 可以直接存取 RAM 的資料，
+而 CPU 在讀取磁碟資料時，
+會先載入(load)磁碟資料到 RAM，再從 RAM
+讀取(read)載入的資料；
+CPU 寫入資料到磁碟時，
+會先寫入(write)資料到 RAM，
+再儲存(store)RAM 中的資料到磁碟。
+故在此機制下，交易要達到交付狀態，
+即是保證交易的所有資料操作的結果，
+已經寫入到磁碟，才能達到單元性及持久性的需求。
+% end
+<%end%>
