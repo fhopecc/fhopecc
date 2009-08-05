@@ -5,6 +5,7 @@
 :%s/屬性/欄位
 :%s/表格式代數/關連式代數
 :%s/表格式計算/關連式計算
+:%s/參數/運算元/cg
 :%s/<chapter><title>/<%section '
 :%s/<\/chapter>/<%end%>
 :%s/<sect1><title>/% section '

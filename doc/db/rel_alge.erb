@@ -1,13 +1,15 @@
 <%section '關連式代數' do%>
 % paragraph do
-E.F.Codd 對於關連式代數最原始的定義中包含了八個運算，分為兩組：
-集合運算子及特殊運算子。
+E.F.Codd 對於關連式代數最原始的定義中包含了八個運算，
+分為兩組，集合運算子及特殊運算子。
 % end
 % paragraph do
-關連式運算子其運算結果均為一個表格，所以幾個運算子可以組成套疊運算。
-% end
-% paragraph do
-因為可以組成套疊運算，所以其文法類似基礎運算。
+表格式運算子至少接受一個表格運算元，
+且運算結果均為一個表格，
+表式表格式運算子是封閉的，
+所以幾個運算子可以組成套疊公式，
+以基礎運算比擬，加法、減法及乘法在整數下是封閉的，
+使得運算元及結果都為整數，所以可組成套疊公式。
 % end
 % code '文法' do
 expr        := monadic | dyadic
@@ -22,9 +24,9 @@ dop         := UNION | INTERSECT | MINUS | TIMES | JOIN | DIVEDBY
 % section '集合運算子' do
 % paragraph do
 集合運算子都為二元運算子，
-接受二個表格型態的參數，並傳回一個結果表格。
+接受二個表格型態的運算元，並傳回一個結果表格。
 % end
-% section '卡式積 ' do
+% section '積 ' do
 % paragraph do
 運算以集合論中所定義的「卡式積」，
 將兩個表格組合成一個表格，
@@ -53,15 +55,7 @@ dop         := UNION | INTERSECT | MINUS | TIMES | JOIN | DIVEDBY
 % section '特殊運算子' do
 <%#include rel_alge_select.erb #%>
 <%#include rel_alge_project.erb #%>
-% section '除法' do
-% paragraph do
-運算有兩個運算元：
-第一個表格當作是「被除表」，
-第二個表格當作是「除表」。
-被除表的欄位必須要比除表多上一個以上。
-此運算是在表格 R1 中找出符合表格 R2 中紀錄值的值組。
-% end
-% end
+<%#include rel_alge_divideby.erb #%>
 % section '外部合併' do
 % paragraph do
 外部合併是作用在兩個表格上的運算子，
@@ -77,6 +71,22 @@ dop         := UNION | INTERSECT | MINUS | TIMES | JOIN | DIVEDBY
 % end
 % end
 % section '原始運算子' do
+% paragraph do
+原始運算子無法以其他的運算子來定義，
+而非原始運算子可由原始運算子上述推演出來。
+原始運算子包含：
+* UNION
+* MINUS
+* TIMES
+* PROJECT
+* RESTRICT
+
+非原始運算子包含：
+* INTERSECT
+* JOIN
+* DIVIDEBY
+
+% end
 % paragraph do
 「原始運算子」這些運算子無法以其他的運算子來定義。
 % end
