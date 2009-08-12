@@ -3,9 +3,9 @@ require 'net/http'
 require 'uri'
 require 'ping'
 require 'log4r'
-docdate  = '0980703' #來文日期
-docno    = '0980008582' #文號
-password = '52628'   #密碼
+docdate  = '0980805' #來文日期
+docno    = '0980010209' #文號
+password = '53627'   #密碼
 
 tmpdir   = 'tmp/hlland'
 libdir   = "#{tmpdir}/lib"
