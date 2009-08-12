@@ -6,6 +6,7 @@ let g:xml_syntax_folding = 1
 set foldmethod=syntax
 set et
 let javaScript_fold=1
+lang mes en_US
 
 set nocompatible
 source $VIMRUNTIME/vimrc_example.vim
@@ -25,7 +26,7 @@ set textwidth=70
 map T F<lyeF<d/<\/<C-R>">/0<CR>
 " Q 自動 yank cursor 停留的 xml tag 所包的整個內容
 map Q F<lyeF<y/<\/<C-R>">/0<CR>
-"fhope@2006/9/14 上午 09:12:18
+"fhope@2006/9/14  09:12:18 am
 "map <F2> :cal ChangeStamp()<CR>
 "map <F2> :w<enter>:!rake<enter>
 "svn up

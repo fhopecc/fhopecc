@@ -19,7 +19,7 @@ namespace "vim" do
   vimhome   = ENV["VIMHOME"] 
 	vimhome ||= 'c:/vim'
 	version ||= ENV["VERSION"] 
-	version ||= '72' 
+	version ||= '71' 
 	vimsys = "#{vimhome}/vim#{version}"
   here = File.dirname(__FILE__) + '/../../config/vim'
 
