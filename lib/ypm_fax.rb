@@ -41,6 +41,8 @@ class YPMFAX
 		selection.font.nameascii = "Times New Roman"
 		selection.font.size = 12 
 		selection.font.italic = false 
+
+    word.options.defaulttray = "°e¯È§X 2"
 		selection.typeText(ic.iconv(mail.subject.to_s << "\n" << 
 				("-"*mail.subject.length) << "\n" <<
 				mail.from.to_s << "\n" <<

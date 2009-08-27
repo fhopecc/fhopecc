@@ -1,5 +1,4 @@
 require 'ypm_fax'
-
 def getypmno first, second
 	first = first.to_s
 	second = second.to_s
@@ -13,8 +12,6 @@ def config_sharing_dir
 	system 'net use L: \\\\10.66.249.1\\D$\\docbatch\\template'
 	system 'net use M: \\\\10.66.249.1\\D$\\Inetpub\\wwwroot\\JAVADOC\\Template'
 end
-
-
 namespace "ypm" do
 	eltap1 = ['10.66.251.1', 'apsvr', 'ci$11111']
 	doc_src = "/elt/eltapp/bin" + "/rgm"

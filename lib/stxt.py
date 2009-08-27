@@ -36,25 +36,36 @@ class Lexer:
     lexeme = m.group(0)
     tok = Token('sect1Head', lexeme, 0, self.cur+1, len(lexeme))
     self.tokens.append(tok)
-    print tok.token+'['+tok.lexeme.decode('utf8').encode('cp950')+']'
   def codeHead(self,m):
-    print 'codeHead['+m.group(0).decode('utf8').encode('cp950')+']'
+    lexeme = m.group(0)
+    tok = Token('codeHead', lexeme, 0, self.cur+1, len(lexeme))
+    self.tokens.append(tok)
   def codeBlock(self,m):
-    print 'codeBlock['+m.group(0).decode('utf8').encode('cp950')+']'
+    lexeme = m.group(0)
+    tok = Token('codeBlock', lexeme, 0, self.cur+1, len(lexeme))
+    self.tokens.append(tok)
   def para(self,m):
-    print 'para['+m.group(0).decode('utf8').encode('cp950')+']'
+    lexeme = m.group(0)
+    tok = Token('para', lexeme, 0, self.cur+1, len(lexeme))
+    self.tokens.append(tok)
   def listItem(self,m):
-    print 'listItem['+m.group(0).decode('utf8').encode('cp950')+']'
+    lexeme = m.group(0)
+    tok = Token('listItem', lexeme, 0, self.cur+1, len(lexeme))
+    self.tokens.append(tok)
   def emptyLine(self,m):
-    print 'emptyLine'
+    lexeme = m.group(0)
+    tok = Token('emptyLine', lexeme, 0, self.cur+1, len(lexeme))
+    self.tokens.append(tok)
   def lexError(self,m):
     raise ValueError('LexError at (' + 
           str(self.src[self.cur:]).decode('utf8').encode('cp950')+')')
-
 class RTxtLexerTest(unittest.TestCase):
-  def testDStar(self):
+  def testSource(self):
     l = Lexer(src='abcd')
     self.assertEqual('abcd', l.src)
     l.run()
+    for t in l.tokens:
+      print t.token+'['+t.lexeme.decode('utf8').encode('cp950')+']'
+    print 'There are ' + str(len(l.tokens)) + ' tokens.'
 if __name__ == '__main__':
   unittest.main()
