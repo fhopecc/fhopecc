@@ -3,9 +3,9 @@ require 'net/http'
 require 'uri'
 require 'ping'
 require 'log4r'
-docdate  = '0980805' #來文日期
-docno    = '0980010209' #文號
-password = '53627'   #密碼
+docdate  = '0981007' #來文日期
+docno    = '0980013104' #文號
+password = '28537'   #密碼
 
 tmpdir   = 'tmp/hlland'
 libdir   = "#{tmpdir}/lib"
@@ -84,6 +84,6 @@ namespace 'hlland' do
 		copy_to '97tt025'
 		copy_to '97tt027'
 		copy_to '97tt040'
-	  Rake::Task["hlland:clear"].invoke
+	  #Rake::Task["hlland:clear"].invoke
   end
 end

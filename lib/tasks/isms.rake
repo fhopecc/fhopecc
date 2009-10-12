@@ -11,6 +11,5 @@ namespace 'isms' do
 		`ruby #{root}/word_script.rb`
 		`gerbil #{root}/isms.fmt #{root}/group4.erb > #{root}/word_script.rb`
 		`ruby #{root}/word_script.rb`
-
 	end
 end
