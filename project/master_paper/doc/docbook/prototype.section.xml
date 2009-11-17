@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="Big5"?>
+<sect1><title>系統實作</title>
+<sect2><title>建置本體</title>
+<para>
+<figure id="protege"><title>protege 建置知識本體的 OWL</title>
+	<imagedata fileref="images/paper/protege.JPG"/>
+</figure>
+本體的建置主要採取 protege 這個工具，它為圖形化介面，
+使用簡易，並支援多種插件，像是 SPARQL 插件可以輔助寫作 SQPRQL
+查詢指令。
+並根據上文的知識本體設計，實作出健保規則的形式化本體的 OWL 文件，
+<xref linkend="protege"/>則為 protege 建置本體畫面。
+</para>
+<!--
+-->
+</sect2>
+<sect2><title>推理機測試</title>
+<para>
+<figure id="ReqPropsTest">
+<title>求出非類固醇抗發炎劑之注射劑合法性判斷所需的醫療狀態</title>
+<imagedata fileref="images/paper/ReqPropsTest.PNG"/>
+</figure>
+需求醫療狀態測試會要求輸入一顆藥，
+系統則會傳回判斷此藥物合法性運算所需要輸入的屬性值。
+<xref linkend="ReqPropsTest"/>中顯示使用者輸入欲檢測的藥物「非類固醇抗發炎劑之注射劑」，
+按下「查詢」後，系統則會回傳此藥物限定的四個屬性如下：
+<itemizedlist>
+<listitem>用法</listitem>
+<listitem>疾病</listitem>
+<listitem>用藥</listitem>
+<listitem>用藥天數</listitem>
+</itemizedlist>
+</para>
+<para>
+<figure id="PassLegalityTest">
+<title>通過非類固醇抗發炎劑之注射劑合法性判斷的醫療狀態</title>
+<imagedata fileref="images/paper/PassLegalityTest.PNG"/>
+</figure>
+<figure id="FailLegalityTest">
+<title>藥物使用日期不合法的醫療狀態</title>
+<imagedata fileref="images/paper/FailLegalityTest.PNG"/>
+</figure>
+<figure id="FailLegalityTest2">
+<title>病患疾病不合法的醫療狀態</title>
+<imagedata fileref="images/paper/FailLegalityTest2.PNG"/>
+</figure>
+<figure id="ReqInfoLegalityTest">
+<title>缺乏需求屬性的不合法醫療狀態</title>
+<imagedata fileref="images/paper/ReqInfoLegalityTest.PNG"/>
+</figure>
+<xref linkend="PassLegalityTest"/>顯示判斷用藥合法性測試的畫面，
+其有一組表單讓使用者輸入必要屬性值以建立一個醫療狀態個案，
+本雛型僅包含幾個測試屬性，分為病患狀態及用藥資訊等兩大類屬性，
+當表單輸入完成後，
+系統便會將使用者於表單上填入的醫療狀態傳入至 MRAS 作推理，
+來回答用藥是否合法。
+<xref linkend="PassLegalityTest"/>就是一個合法的醫療狀態個案。
+而<xref linkend="FailLegalityTest"/>是一個與<xref linkend="PassLegalityTest"/>
+相同藥物但不合法的醫療個案，
+因為其「用藥天數」違反了「使用本類藥品，每次不可連續超過五天」的規定，
+<xref linkend="FailLegalityTest2"/>主要是違反了「不可患有急性上呼吸道感類別的疾病」，
+<xref linkend="ReqInfoLegalityTest"/>是缺乏了「用法」、
+及「疾病」兩個需求屬性值，
+而無法作判斷，同時系統會提醒使用者補入缺乏的需求屬性值，
+上述的測試可以看出語意網路可以描述很精細的邏輯。
+</para>
+</sect2>
+</sect1>

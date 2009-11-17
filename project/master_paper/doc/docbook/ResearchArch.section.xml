@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding="Big5"?>
+<sect2><title>研究架構</title>
+<para>
+<figure id="ResearchArch"><title>研究架構</title>
+	<imagedata fileref="images/paper/ResearchArch.png" />
+</figure>	
+本文研究目的主要是利用語意網模型來解決醫療法規同步的問題，
+故如<xref linkend="ResearchArch"/>所示，
+在文獻探討我們討論了醫令支援系統現況、
+醫療資訊共享現況及語意網的研究現況，
+之後再進行系統設計，
+再依系統設計雛型系統來實證。
+</para>
+</sect2>

@@ -1,0 +1,52 @@
+8
+
+dir
+682
+http://OpenSVN.csie.org/fhopecc/master_paper/lib/tasks
+http://OpenSVN.csie.org/fhopecc
+
+
+
+2008-07-31T01:05:23.722033Z
+625
+fhopecc
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+da78c009-b120-0410-8547-b4bf9ef8360b
+
+docbook.rake
+file
+
+
+
+
+2008-06-12T09:21:55.953125Z
+f65428a9e84c320114ae259e9648cd8e
+2008-03-05T06:53:17.442365Z
+471
+fhopecc
+
+mras.rake
+file
+
+
+
+
+2008-08-04T00:25:18.765625Z
+b41f605fecb663f1eaa89eb3066ea217
+2008-07-31T01:05:23.722033Z
+625
+fhopecc
+

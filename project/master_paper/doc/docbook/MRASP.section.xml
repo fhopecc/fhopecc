@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding="Big5"?>
+<sect2 id="MRASProtocol"><title>MRASP</title>
+<sect3><title>銀行櫃檯模式</title>
+<para>
+MRASP 為一個通用標準介面，
+此介面定義了醫院原生應用系統要如何取得MRAS服務的規格，
+每間醫院若想取得MRAS的服務，便需要實作此協定。
+</para>
+<figure id="NSAIDsRule"><title>非類固醇抗發炎劑(NSAIDs)之注射劑給付規定</title>
+<programlisting>
+1.1.2.非類固醇抗發炎劑(NSAIDs)之注射劑給付規定：(88/12/1)
+1.限不能口服，且不能使用肛門栓劑之病患使用。
+2.本類藥品不可作為急性上呼吸道感染之例行或長期性使用。
+3.使用本類藥品，每次不可連續超過五天。
+...
+...
+...
+1.2.2.1. clozapine（如Clozaril）
+1.限精神科專科醫師使用。
+2.前18週使用時，每週須作白血球檢驗，每次處方以七日為限，使用18週後，每月作一次白血球檢驗。
+3.申報費用時，應檢附白血球檢驗報告。
+</programlisting>
+</figure>
+<para>
+而MRAS要能替醫院判斷臨床醫療行為是否合法，
+必須先取得必要的醫療狀態資訊，
+如<xref linkend="NSAIDsRule"/>的健保藥品給付規定可得知，
+不同的用藥所要求的病歷資訊的大不相同，
+NSAIDs 限於某類病患，且限定不能使用超過五天，
+客戶端就要提供病患資訊，及藥品用法資訊給MRAS。
+clozapine 則要提供醫師資訊，及白血球檢驗報告等資訊。
+</para>
+<para>
+若是每次要求服務都得把整個藥品給付規定所要求的病歷資訊都上傳至MRAS，
+則會造成太多冗餘的資訊傳遞，
+增加網路傳輸及主機運算的負擔，相當沒有效率。
+所以本文會以下面的模式來取得法規服務，
+稱為<emphasis>銀行櫃檯模式</emphasis>，其流程如下所述：
+</para>
+<para>
+當客戶至銀行櫃檯辦理業務，會先告知行員要辦理何項業務，
+行員會依客戶的需求給予客戶一張業務申請單（例如開戶申請單），
+上面會指示客戶填入辦理此業務所必須要提供的資訊，
+在客戶填完必要的資訊後，
+行員便能依此資訊完成請求的業務，並告知客戶執行情形及結果，
+（例如完成開戶手續便給予客戶存簿）。
+</para>
+<figure id="BankClerkSequence">
+<title>銀行櫃檯模式循序圖</title>
+<imagedata
+	fileref="images/paper/trans_and_rule_agents_sequence.jpg" />
+</figure>
+<para>
+由<xref linkend="BankClerkSequence"/>可了解，
+雖然院內系統必須執行二次連線要求，
+但之後只要上傳判斷用藥合法性之必要的資訊給MRAS，
+這可大幅減少許多不必要的流量，增進處理的效率。 
+</para>
+</sect3>
+<sect3><title>MRAS 協定訊息格式</title>
+<para>
+MRAS 協定定義了五個訊息來實現上述的銀行櫃檯模式，
+分別是 USEMED, REQ_PROPS, MED_STATUS, LEGALITY 
+及 INVALID，其說明如下。
+</para>
+<para><emphasis>USEMED 訊息</emphasis>是醫令系統傳給MRAS的資訊，
+用來指明醫令系統那個用藥需要判定合法性，
+之後MRAS應傳回判定合法性所需要的醫療狀態。
+其語法如下：
+<programlisting>
+USEMED = usemed MEDNAME
+</programlisting>
+本文訊息語法利用 BNF 語言定義，
+其中大寫為非終端字元，其餘為終端字元。
+MEDNAME 為要判定合法性的用藥名稱，
+下列為一個 USEMED 訊息的例子：
+<programlisting>
+usemed 制酸劑
+</programlisting>
+上面的 USEMED 訊息表示醫令系統要判定合法性的藥物為制酸劑。
+</para>
+<para><emphasis>REQ_PROPS 訊息</emphasis>是MRAS用來回覆醫令系統傳來的 
+USEMED 訊息，指明判定傳來用藥合法性所需要的醫療狀態。
+之後醫令系統應傳入要求的病歷資訊，
+以讓MRAS完成用藥合法性判斷。
+其語法如下：
+<programlisting>
+REQ_PROPS := req_props PROPLIST
+PROPLIST := PROP | PROP, PROPLIST
+</programlisting>
+PROP 為要求的病歷屬性。
+下列為一個 REQ_PROPS 訊息的例子：
+<programlisting>
+req_props 用法,限制天數,疾病
+</programlisting>
+上面的 REQ_PROPS 訊息表示醫令系統需要傳給MRAS用法，
+限制天數，疾病等病歷資訊。
+</para>
+<para><emphasis>MED_STATUS 訊息</emphasis>可讓醫令系統用來傳入個案醫療狀態，
+之後MRAS便據以完成用藥合法性的判斷。
+其語法如下：
+<programlisting>
+MED_STATUS := med_status PVLIST
+PVLIST := PV | PV, PVLIST
+PV := PROP:VALUE
+</programlisting>
+VALUE 為個案對應 PROP 的屬性值，
+下列為一個 MED_STATUS 訊息的例子：
+<programlisting>
+med_status 用法:口服,限制天數:13,疾病:疝氣
+</programlisting>
+上面的 MED_STATUS 訊息表示醫令系統傳給MRAS要求的醫療狀態，
+其中用法的值為口服，限制天數的值為 13，疾病的值為疝氣。
+</para>
+<para><emphasis>LEGALITY 訊息</emphasis>是MRAS用來回覆用藥是否合法。 
+其語法如下：
+<programlisting>
+LEGALITY := legality BOOLEAN
+BOOLEAN := true | false
+</programlisting>
+BOOLEAN 為用藥是否合法的真值，
+true 表示合法用藥，false 則反之。
+下列為一個 LEGALITY 訊息的例子：
+<programlisting>
+legality true
+</programlisting>
+上面的 LEGALITY 訊息表示醫令系統的用藥合法。
+</para>
+<para><emphasis>INVALID 訊息</emphasis>是雙方用來回覆訊息錯誤。 
+其語法如下：
+<programlisting>
+INVALID := invalid MESSAGE
+</programlisting>
+MESSAGE 為原本錯誤的訊息
+下列為一個 INVALID 訊息的例子：
+<programlisting>
+invalid error_message
+</programlisting>
+上面的 invalid 訊息表示 error_message 為不合法的訊息。
+</para>
+</sect3>
+</sect2>

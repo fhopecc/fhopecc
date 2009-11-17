@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding="Big5"?>
+<sect2><title>推理引擎</title>
+<para>
+前述銀行櫃檯模式，已預設MRAS具備專家系統的特性，
+行員是辦理銀行業務的專家，提供客戶辦理銀行業務的服務，
+而MRAS是健保藥品法規的專家，
+提供醫師藥品法規的專業諮詢及資訊服務。
+依一般專家系統的架構，
+MRAS至少需具備兩類元件，
+分別是知識庫以及推理引擎<biblioref linkend="Jackson90"/>，
+如同<xref linkend="HRPS_ARCH"/>所示，
+MRAS的架構包含以下模組：
+</para>
+<orderedlist>
+<listitem><emphasis>知識庫</emphasis>
+<itemizedlist>
+<listitem>就是上述建立的醫療法規知識本體</listitem>
+</itemizedlist>
+</listitem>
+<listitem><emphasis>推理引擎</emphasis>
+<itemizedlist>
+<listitem>RAA 模組：判斷必要屬性拮取運算</listitem>
+<listitem>Case Classifier 模組：個案分類運算</listitem>
+<listitem>NA Classifier 模組：數值屬性限制運算</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+<sect3><title>RAA 模組</title>
+<figure id="RAALogic"><title>RAA 模組運算邏輯</title>
+<programlisting>
+usemed=傳入的藥物
+SELECT ?requireProp 
+WHERE { 
+?medres owl:allValuesFrom usemed.
+?medcls rdfs:subClassOf ?medres . 
+?medcls rdfs:subClassOf ?restrict . 
+?restrict rdf:type owl:Restriction . 
+?restrict owl:onProperty ?prop . 
+}
+</programlisting>
+</figure>
+<para>
+RAA 模組的運算邏輯如上述的<xref linkend="RAALogic"/>SPARQL 
+碼<biblioref linkend="sparql"/>所描述，
+如前所述為了能達成銀行櫃檯溝通模式，
+推理機必需能夠根據「醫療狀態」個案的「用藥」屬性，
+來推論出MRAS需要使用者提供的資訊。
+此模組定義了 medres，
+代表用藥與使用者所傳入的藥物相同的所有「醫療法規」類別；
+再由 medres 定義其所有子類別 medcls，
+則 medcls 表示所有限制此顆藥物的類別，
+再求出 medcls 所繼承的所有屬性限制類別 restrict，
+由 restrict 類別的 onProperty 屬性值，
+表示限制這個用藥的所有屬性限制。
+上述架構可以發現在 OWL 模型中要組合不同的限制，
+是由多重繼承關係來實作。
+這是因為 OWL 模型中，每一個屬性限制類別僅能限制某個屬性，
+所以使用多重繼承關係來實作重合限制的類別定義。
+</para>
+</sect3>
+<sect3><title>Case Classifer 運算</title>
+<para>
+<figure id="CaseClassiferLogic"><title>Case Classifer 運算邏輯</title>
+<programlisting>
+if 傳入「醫療狀態」個案屬於描述任一法規的「醫療法規」類別 then 
+  此「醫療狀態」個案合乎法規
+else 
+  此「醫療狀態」個案不合乎法規
+end if
+</programlisting>
+</figure>
+Case Classifier 模組其運算邏輯如同<xref linkend="HRPSCaseClassiferFlow"/>所示，
+其能夠剖析 OWL 文件，
+並依照 OWL 文件所描述的本體模型，
+對傳入的「醫療狀態」個案作分類運算來模擬法規審查運算，
+其虛擬碼如<xref linkend="CaseClassiferLogic"/>：
+</para>
+</sect3>
+<sect3><title>NA Classifier運算</title>
+<figure id="NALogic"><title>NA Classifier運算邏輯</title>
+<programlisting>
+boolean resualt=true
+for 「個案數值區間屬性值」 in 「醫療狀態個案」.「屬性集合」 do
+  find 「醫療法規類別」.「對應之數值區間屬性限制值」
+  if 「個數值區間屬性值」 between  「對應之數值區間屬性限制」 then
+    resualt and true
+  else 
+    resualt and false
+end 
+return resualt
+</programlisting>
+</figure>
+<para>NA Classifier 模組其運算邏輯如同<xref linkend="NALogic"/>所示，
+從所有的「醫療法規類別」中，
+對每個「醫療狀態個案」的「數值區間屬性」，
+找出其「對應之數值區間屬性限制值」，
+再來判斷「個案數值屬性值」是否在「對應之數值區間屬性限制」值之間，
+若是，則傳回此「醫療狀態個案」是屬於某一個「醫療法規」，
+這意指此「醫療狀態個案」是合法的。
+推理機必須對每個「數值區間屬性限制」作出以上處理是因為
+OWL 沒有定義數值區間類別的語法。
+</para>
+</sect3>
+</sect2>

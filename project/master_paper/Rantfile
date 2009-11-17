@@ -1,0 +1,112 @@
+require 'java'
+require 'xslt'
+require "windot"
+require "fhope_conf"
+require 'test/unit'
+require 'fileutils'
+require 'socket'
+require 'image'
+include FileUtils
+sys.ignore ".svn", /~$/
+
+docbkxslt=DocbkXSLT.new
+docbkxslt.xalan_home="c:/xalan-j_2_7_0"
+docbkxslt.docbkxsl_home=$docbkXSLHome
+docbkxslt.custom_xsl='doc/fhope.docbk.xsl'
+
+java = Java.new
+java.jars.include 'jars/*.jar'
+
+task :default => :deploy_web
+task :deploy => :deploy_web
+desc "start the mraserver"
+task :mraserver do
+	java.run 'mras.MedRuleAgentServer'
+end
+task :mraserver => :javac
+task :javac do
+	java.compile
+end
+task :java do
+  java.run 'mras.NHIMedRuleAgent'
+end
+task :java => :javac
+# a question exe javac will replace the process of rant, 
+# so we cannot let javac be the pre task of unit_test
+task :unit_test => :javac
+task :unit_test => :NHIMedRuleAgentTest
+task :NHIMedRuleAgentTest do
+	java.test_runner = Java::TextRunner
+  cls = Java.class_name "NHIMedRuleAgentTest.java"
+	java.unit_test cls
+end
+task :runit do
+ tf = var[:test]
+ system "testrb #{tf}"
+end
+docbksrc=proc {|tn| 
+	bn =File.basename tn, File.extname(tn) 
+	["doc/#{bn}.xml", 'doc/fhope.docbk.xsl', "#{bn}html"] +
+  FileList["doc/*.xml", "doc/*.inc"].exclude("doc/#{bn}.xml").to_a
+}
+gen Rule, '.html' => docbksrc do |t|
+	docbkxslt.to_html t.source, t.name
+end
+dots=sys['**/*.dot']
+task :dot => :dotTrans
+task :dotTrans do 
+  dots.each do |f|
+	  png="#{File.dirname(f)}/#{File.basename(f,'.dot')}.png" 
+	  dot2png(f,png)
+	end
+end
+docbkxhtmls = ["mras.html"]
+task :xslt => docbkxhtmls
+task :xslt => "mrashtml"
+var[:web_dir] = "WEBAPP"
+gen Directory, "#{var[:web_dir]}/public/mras"
+desc "deploy the document to web_dir"
+
+task :deploy_web => :dot
+task :deploy_web => "#{var[:web_dir]}/public/mras"
+task :deploy_web => :xslt do
+  fs = %w(mras.html)
+  pics = FileList["doc/*.PNG", "doc/*.jpeg", "doc/*.png", "doc/*.JPG", "doc/*.gif"]
+
+  dir = "#{var[:web_dir]}/public"
+  pdir = "#{dir}/mras"
+	fs.each do |f|
+		install f, dir
+	end
+	pics.each do |p|
+		cp p, pdir
+	end
+	# resize some pic 
+  resize_image "#{pdir}/SystemArchitecture.png", 0.6
+  resize_image "#{pdir}/HRPSCaseClassiferFlow.png", 0.5
+  resize_image "#{pdir}/DemoSiteDeploy.png", 0.6
+  crop_image "#{pdir}/ReqPropsTest.PNG", 200,100, 590, 300 
+  crop_image "#{pdir}/PassLegalityTest.PNG", 200,100, 590, 520 
+  crop_image "#{pdir}/FailLegalityTest.PNG", 200,100, 590, 520 
+  crop_image "#{pdir}/FailLegalityTest2.PNG", 200,100, 590, 520 
+  crop_image "#{pdir}/ReqInfoLegalityTest.PNG", 200,100, 590, 520 
+end
+gen Directory, "mrashtml"
+task "mrashtml" do |t|
+  pics = FileList["doc/*.PNG", "doc/*.jpeg", "doc/*.png", "doc/*.JPG", "doc/*.gif"]
+
+  pdir = "#{t.name}"
+
+	pics.each do |p|
+		cp p, pdir
+	end
+	# resize some pic 
+  resize_image "#{pdir}/SystemArchitecture.png", 0.6
+  resize_image "#{pdir}/HRPSCaseClassiferFlow.png", 0.5
+  resize_image "#{pdir}/DemoSiteDeploy.png", 0.6
+  crop_image "#{pdir}/ReqPropsTest.PNG", 200,100, 590, 300 
+  crop_image "#{pdir}/PassLegalityTest.PNG", 200,100, 590, 520 
+  crop_image "#{pdir}/FailLegalityTest.PNG", 200,100, 590, 520 
+  crop_image "#{pdir}/FailLegalityTest2.PNG", 200,100, 590, 520 
+  crop_image "#{pdir}/ReqInfoLegalityTest.PNG", 200,100, 590, 520 
+end

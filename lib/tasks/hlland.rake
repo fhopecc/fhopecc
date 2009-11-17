@@ -3,9 +3,9 @@ require 'net/http'
 require 'uri'
 require 'ping'
 require 'log4r'
-docdate  = '0981007' #來文日期
-docno    = '0980013104' #文號
-password = '28537'   #密碼
+docdate  = '0981106' #來文日期
+docno    = '0980014502' #文號
+password = '233196'   #密碼
 
 tmpdir   = 'tmp/hlland'
 libdir   = "#{tmpdir}/lib"
@@ -48,6 +48,7 @@ namespace 'hlland' do
 		res = Net::HTTP.start(url.host, url.port) {|http|
 	  	http.get("/SENDATT_FILE/#{docdate}/376550400A_#{docno}.zip")
 		}
+#http://att.hl.gov.tw/SENDATT_FILE/0981106/376550400A_0980014502.zip
 		unless res.is_a? Net::HTTPOK
 			msg = "Failed to download patchz, because #{res.class.to_s}"
 			logging msg

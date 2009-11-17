@@ -1,0 +1,147 @@
+<html>
+<head><title>MRAS 測試網頁目錄</title>
+<style>@import URL("stylesheets/fhope.purple.css");</style>
+<script type="text/javascript" src="javascripts/log4javascript.js"></script>
+<script type="text/javascript" src="javascripts/prototype.js"></script>
+<script>
+_s=0
+Home=_s++;
+ReqProps=_s++; 
+Legality=_s++; 
+Help=_s++; 
+WebTech=_s++; 
+DocSA=_s++;
+DocPSA=_s++;
+DocMRAS=_s++;
+DocSR=_s++;
+DocDFD=_s++;
+DocProtege=_s++;
+DocMedStat=_s++;
+DocMedRule=_s++;
+DocOntDesign=_s++;
+DocOntRelComp=_s++;
+DocOntology=_s++;
+LoadMain=_s++;
+log = log4javascript.getDefaultLogger();
+
+function doMenu(index) {
+
+  progtitle = "首頁";
+	switch(index) {
+		case ReqProps:
+			progtitle = "需求醫療狀態測試";
+			top.frames['content'].location.href="req_props.html";
+			break;
+		case Legality:
+			progtitle = "判斷用藥合法性測試"
+			top.frames['content'].location.href="legality.html";
+			break;
+		case WebTech:
+			progtitle = "系統使用的 Web 技術"
+			top.frames['content'].location.href="tech_used.html";
+			break;
+		case DocOntRelComp:
+			progtitle = "語義網與關連式模型比較";
+			top.frames['content'].location.href="mras.html#OntRelComp";
+			break;
+		case Help:
+			progtitle = "系統說明"
+			load_doc_menu();
+			break;
+		case DocOntDesign:
+			progtitle = "法規知識本體設計"
+			load_onto_doc_menu();
+			break;
+		case DocSR:
+			progtitle = "系統目標"
+			top.frames['content'].location.href="mras.html#TradRuleSyncDFD";
+			break;
+		case DocDFD:
+			progtitle = "系統流程"
+			top.frames['content'].location.href="mras.html#MedRuleAgentDFD";
+			break;
+		case DocSA:
+			progtitle = "系統架構"
+			top.frames['content'].location.href="mras.html#HRPS_ARCH";
+			break;
+		case DocPSA:
+			progtitle = "雛型系統架構"
+			top.frames['content'].location.href="mras.html#DemoSiteDeploy";
+			break;
+		case DocMRAS:
+			progtitle = "MRAS 協定"
+			top.frames['content'].location.href="mras.html#BankClerkSequence";
+			break;
+		case DocMedStat:
+			progtitle = "醫療狀態"
+			top.frames['content'].location.href="mras.html#N10177";
+			break;
+		case DocMedRule:
+			progtitle = "醫療法規"
+			top.frames['content'].location.href="mras.html#N10182";
+			break;
+		case DocProtege:
+			progtitle = "以 protege 建構本體"
+			top.frames['content'].location.href="mras.html#protege";
+			break;
+		case DocOntology:
+			progtitle = "法規本體類別階層"
+			top.frames['content'].location.href="mras.html#medRuleTaxnomy";
+			break;
+		case LoadMain:
+      load_main_menu();
+	  default:
+			top.frames['content'].location.href="welcome.html";
+	}
+	if(document.all)
+	  top.frames['topbar'].document.getElementById('subtitle').innerText='['+progtitle+']';
+	else 
+	  top.frames['topbar'].document.getElementById('subtitle').textContent='['+progtitle+']';
+}	
+function start()
+{
+  load_main_menu();
+}
+function load_main_menu()
+{
+	$('menu_pane').innerHTML=
+    "<p class='menuitem' onclick='doMenu(Home);'>　首頁</p>"
+    +"<p class='menuitem' onclick='doMenu(ReqProps);'>　需求醫療狀態測試</p>"
+    +"<p class='menuitem' onclick='doMenu(Legality);'>　判斷用藥合法性測試</p>"
+    +"<p class='menuitem' onclick='doMenu(Help);'>　系統說明</p>"
+    +"<p class='menuitem' onclick='doMenu(WebTech);'>　系統應用的 Web 技術</p>";
+
+}
+function load_doc_menu()
+{
+	$('menu_pane').innerHTML=
+		"<strong class='emphasis'>　系統說明</strong>"
+    +"<p class='menuitem' onclick='doMenu(DocSR);'>　系統目標</p>"
+    +"<p class='menuitem' onclick='doMenu(DocDFD);'>　系統流程</p>"
+    +"<p class='menuitem' onclick='doMenu(DocSA);'>　系統架構</p>"
+    +"<p class='menuitem' onclick='doMenu(DocMRAS);'>　MRAS 協定</p>"
+    +"<p class='menuitem' onclick='doMenu(DocPSA);'>　雛型系統架構</p>"
+    +"<p class='menuitem' onclick='doMenu(DocOntDesign);'>　法規知識本體設計</p>"
+    +"<p class='menuitem' onclick='doMenu(DocOntRelComp);'>　語義網與關連式模型比較</p>"
+    +"<p class='menuitem' onclick='doMenu(LoadMain);'>　<<回主選單</p>";
+
+}
+function load_onto_doc_menu()
+{
+	$('menu_pane').innerHTML=
+		"<strong class='emphasis'>　法規知識本體設計</strong>"
+    +"<p class='menuitem' onclick='doMenu(DocMedStat);'>　醫療狀態</p>"
+    +"<p class='menuitem' onclick='doMenu(DocMedRule);'>　法規與醫療狀態限制</p>"
+    +"<p class='menuitem' onclick='doMenu(DocProtege);'>　以 protege 建構本體</p>"
+    +"<p class='menuitem' onclick='doMenu(DocOntology);'>　法規本體的類別階層</p>"
+    +"<p class='menuitem' onclick='doMenu(Help);'>　<<回系統說明</p>";
+
+}
+</script>
+</head>
+<body onload="start()">
+<div id="menu_pane" class="menu_pane">
+</div>
+<div class="copyright">&copy;2007 by 張簡稜剛</div>
+</body>
+</html>

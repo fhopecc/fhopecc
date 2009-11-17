@@ -1,0 +1,5 @@
+090929 10:46:17 DEBUG: start logging
+090929 10:46:17 DEBUG: hash.new
+090929 10:46:17 DEBUG: nvps.mras.to_s =med_status 患有疾病:中風,醫令用藥:非類固醇抗發炎劑之注射劑,病患能接受的藥物用法:注射,連續使用天數:4
+090929 10:46:17 DEBUG: start logging
+090929 10:46:17 DEBUG: legality response = legality true

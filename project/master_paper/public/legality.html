@@ -1,0 +1,117 @@
+<html>
+<meta http-equiv="Content-type" content="text/html; charset=big5" />
+<head><title>判斷用藥合法性功能測試</title>
+<style>@import URL("stylesheets/fhope.purple.css");</style>
+<script type="text/javascript" src="javascripts/prototype.js"></script>
+<script type="text/javascript" src="javascripts/log4javascript.js"></script>
+<script>
+log = log4javascript.getDefaultLogger();
+function query() {
+	try {
+		//$('message').innerHTML="";
+		$('result').innerHTML="<strong>查詢中...</strong>";
+		url = 'MRAS/medstatus';
+	  var pars = Form.serialize("form");
+	  var myAjax = new Ajax.Updater( 'result', url, { method: 'post', parameters: pars });
+		//$('message').innerHTML="<span class='label'>判斷用藥<strong class='emphasis'>"
+		//	+$('usemed').value+"</strong>合法性需要輸入以下的醫療狀態</span>";
+	}catch(e) {
+		msg = "查詢必要醫療狀態錯誤："+e.message
+		log.error(msg);
+		alert(msg);
+	}
+}	
+/* below is test case */
+function test1() 
+{
+	Form.reset('form');
+  $('chart_no').value="0001";
+  $('pt_name').value="李德旺";
+  $('usemed').value="非類固醇抗發炎劑之注射劑";
+  $('usage').value="注射";
+  $('disease').value="中風";
+  $('usedays').value="4";
+}
+function test2() 
+{
+	Form.reset('form');
+  $('chart_no').value="0002";
+  $('pt_name').value="陳光中";
+  $('usemed').value="flurbiprofen_40mg_patch";
+  $('usage').value="口服";
+  $('disease').value="單一關節風溼症";
+	$('with_med').value="阿斯匹靈";
+	$('patch').value="16"
+}
+function test3() 
+{
+	Form.reset('form');
+  $('chart_no').value="0003";
+  $('pt_name').value="張至欣";
+  $('usemed').value="tramadol";
+  $('usage').value="口服";
+  $('disease').value="慢性頑固性疼痛";
+  $('disease_months').value="12";
+  $('report').value="VRS";
+}
+</script>
+</head>
+<body>
+<form id="form" name="form">
+<fieldset>
+<legend class='emphasis'>病患狀態</legend>
+<table>
+<!--
+<tr><th class="title" colspan="4"></th></tr>
+-->
+<tr>
+<td><span class="label">病歷號：</span></td>
+<td><input id="chart_no" name="chart_no"/></td>
+<td><span class="label">姓名：</span></td>
+<td><input id="pt_name" name="pt_name"/></td>
+</tr>
+<tr>
+<td><span class="label">疾病：</span></td>
+<td><input id="disease" name="disease"/></td>
+<td><span class="label">患病月數：</span></td>
+<td><input id="disease_months" name="disease_months"/></td>
+</tr>
+<tr>
+<td><span class="label">檢驗報告：</span></td>
+<td><input id="report" name="report"/></td>
+</tr>
+</table>
+</fieldset>
+<fieldset>
+<legend class='emphasis'>用藥資訊</legend>
+<table>
+<!--
+<tr><th class="title" colspan="4">用藥資訊</th></tr>
+-->
+<tr>
+<td><span class="label">用藥：</span></td>
+<td><input id="usemed" name="usemed"/></td>
+<td><span class="label">用法：</span></td>
+<td><input id="usage" name="usage"/></td>
+</tr>
+<tr>
+<td><span class="label">用藥片數：</span></td>
+<td><input id="patch" name="patch"/></td>
+<td><span class="label">用藥天數：</span></td>
+<td><input id="usedays" name="usedays"/></td>
+</tr>
+<tr>
+<td><span class="label">併用藥：</span></td>
+<td><input id="with_med" name="with_med"/></td>
+</tr>
+</table>
+</fieldset>
+<input type="button" onclick="query()" value="合法?"/>
+<input type="button" onclick="test1()" value="測試1"/>
+<input type="button" onclick="test2()" value="測試2"/>
+<input type="button" onclick="test3()" value="測試3"/>
+</form>
+<div id="message" class='label'></div>	
+<div id="result" class='label'></div>	
+</body>
+</html>

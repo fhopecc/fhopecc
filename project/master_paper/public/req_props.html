@@ -1,0 +1,34 @@
+<html>
+<meta http-equiv="Content-type" content="text/html; charset=big5" />
+<head><title>需求醫療狀態測試</title>
+<style>@import URL("stylesheets/fhope.purple.css");</style>
+<script type="text/javascript" src="javascripts/prototype.js"></script>
+<script type="text/javascript" src="javascripts/log4javascript.js"></script>
+<script>
+log = log4javascript.getDefaultLogger();
+function query() {
+	try {
+		//$('message').innerHTML="";
+		$('result').innerHTML="<strong>查詢中...</strong>";
+		url = 'MRAS/req_props';
+	  var pars = Form.serialize("form");
+	  var myAjax = new Ajax.Updater( 'result', url, { method: 'post', parameters: pars });
+		//$('message').innerHTML="<span class='label'>判斷用藥<strong class='emphasis'>"
+		//	+$('usemed').value+"</strong>合法性需要輸入以下的醫療狀態</span>";
+	}catch(e) {
+		msg = "查詢必要醫療狀態錯誤："+e.message
+		log.error(msg);
+		alert(msg);
+	}
+}	
+</script>
+</head>
+<body>
+<form id="form" name="form">
+<span class="label">請輸入用藥：</span>
+<input id="usemed" name="usemed"/><input type="button" onclick="query()" value="查詢"/>
+</form>
+<div id="message" class='label'></div>	
+<div id="result" class='label'></div>	
+</body>
+</html>

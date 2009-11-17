@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars
+END
+json.jar
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/json.jar
+END
+xercesImpl.jar
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/xercesImpl.jar
+END
+jenatest.jar
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/jenatest.jar
+END
+jena.jar
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/jena.jar
+END
+stax-api-1.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/stax-api-1.0.jar
+END
+concurrent.jar
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/concurrent.jar
+END
+iri.jar
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/iri.jar
+END
+icu4j_3_4.jar
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/icu4j_3_4.jar
+END
+arq.jar
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/arq.jar
+END
+wstx-asl-2.8.jar
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/wstx-asl-2.8.jar
+END
+antlr-2.7.5.jar
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/antlr-2.7.5.jar
+END
+junit.jar
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/junit.jar
+END
+xml-apis.jar
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/xml-apis.jar
+END
+log4j-1.2.12.jar
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/log4j-1.2.12.jar
+END
+commons-logging.jar
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/fhopecc/!svn/ver/471/master_paper/lib/java/jars/commons-logging.jar
+END

@@ -1,0 +1,73 @@
+mras 系統安裝步驟
+=================
+安裝 mras 系統
+--------------
+假設安裝在 d:\master_paper
+
+安裝 ruby
+---------
+至網路上下載 ruby 1.8.6 並安裝
+
+安裝 rake 0.8.4
+---------------
+於命令列輸入以下指令：
+
+code.install rake
+D:\master_paper>gem install rake
+Successfully installed rake-0.8.4
+1 gem installed
+::
+
+安裝 rails 1.2.3
+----------------
+於命令列輸入以下指令：
+
+code.install rails 1.2.3
+D:\master_paper>gem install -v=1.2.3 rails
+Successfully installed rails-1.2.3
+1 gem installed
+::
+
+啟動 mras:server
+----------------
+於命令列輸入以下指令：
+
+code.啟動 mras:server
+D:\master_paper>rake mras:server
+(in D:/master_paper)
+Gem::SourceIndex#search support for String patterns is deprecated
+D:/master_paper/config/boot.rb:25 is outdated
+java -classpath .;config;lib/java;lib/java/jars/antlr-2.7.5.jar;lib/java/jars/ar
+q.jar;lib/java/jars/commons-logging.jar;lib/java/jars/concurrent.jar;lib/java/ja
+rs/icu4j_3_4.jar;lib/java/jars/iri.jar;lib/java/jars/jena.jar;lib/java/jars/jena
+test.jar;lib/java/jars/json.jar;lib/java/jars/junit.jar;lib/java/jars/log4j-1.2.
+12.jar;lib/java/jars/stax-api-1.0.jar;lib/java/jars/wstx-asl-2.8.jar;lib/java/ja
+rs/xercesImpl.jar;lib/java/jars/xml-apis.jar mras.Server
+log4j:WARN No such property [conversionPattern] in org.apache.log4j.RollingFileA
+ppender.
+log4j:WARN No such property [conversionPattern] in org.apache.log4j.RollingFileA
+ppender.
+[MRAS Server]:server start in port 1729!
+::
+
+啟動網站系統
+------------
+於命令列輸入以下指令：
+
+code.啟動網站 
+D:\fhopecc\project\master_paper>ruby script\server
+Gem::SourceIndex#search support for String patterns is deprecated
+./script/../config/boot.rb:25 is outdated
+=> Booting WEBrick...
+=> Rails application started on http://0.0.0.0:3000
+=> Ctrl-C to shutdown server; call with --help for options
+[2009-09-29 10:52:30] INFO  WEBrick 1.3.1
+[2009-09-29 10:52:30] INFO  ruby 1.8.6 (2007-09-24) [i386-mswin32]
+[2009-09-29 10:52:30] INFO  WEBrick::HTTPServer#start: pid=316 port=3000
+::
+
+開啟網頁
+--------
+於 IE 輸入以下網址
+
+http://localhost:3000

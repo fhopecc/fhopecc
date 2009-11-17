@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="Big5"?>
+<!--<!DOCTYPE DocBook>-->
+<!DOCTYPE book
+[
+<!ENTITY Abstract SYSTEM "abstract.section.xml">
+<!ENTITY Introduction SYSTEM "introduction.section.xml">
+<!ENTITY ResearchProblem SYSTEM "ResearchProblem.section.xml">
+<!ENTITY DocumentsReview SYSTEM "DocumentsReview.section.xml">
+<!ENTITY SystemDesign SYSTEM "SystemDesign.section.xml">
+<!ENTITY MRASP SYSTEM "MRASP.section.xml">
+<!ENTITY OntRelCompTable SYSTEM "OntRelCompTable.section.xml">
+<!ENTITY SemanticWeb SYSTEM "OWL.section.xml">
+<!ENTITY projectplan SYSTEM "projectplan.section.xml">
+<!ENTITY ResearchArch SYSTEM "ResearchArch.section.xml">
+<!ENTITY MedRuleModelByRelAlg SYSTEM "MedRuleModelByRelAlg.section.xml">
+<!ENTITY MedRuleModelBySW SYSTEM "MedRuleModelBySW.section.xml">
+<!ENTITY OntologyDesign SYSTEM "OntologyDesign.section.xml">
+<!ENTITY InferenceEngine SYSTEM "InferenceEngine.section.xml">
+<!ENTITY Deploy SYSTEM "deploy.section.xml">
+<!ENTITY Prototype SYSTEM "prototype.section.xml">
+<!ENTITY Conclusion SYSTEM "conclusion.section.xml">
+<!ENTITY Bibliography SYSTEM "bibliography.section.xml">
+]>
+<article>
+<artheader><title>導入語義網技術於法規檢核系統同步化研究</title>
+<subtitle>以全民健康保險藥品給付規定及臨床醫令用藥檢核系統為例</subtitle>
+<authorgroup>
+<author>
+<firstname>張</firstname>
+<surname>儀興</surname>
+<affiliation>
+<orgname>南台科技大學</orgname>
+<orgdiv>資管系</orgdiv>
+</affiliation>
+</author>
+<author>
+<firstname>張簡</firstname>
+<surname>稜剛</surname>
+<affiliation>
+<orgname>南台科技大學</orgname>
+<orgdiv>資管所在職專班</orgdiv>
+<orgname>成功大學附屬醫院</orgname>
+<orgdiv>資訊室</orgdiv>
+</affiliation>
+</author>
+</authorgroup>
+</artheader>
+<articleinfo>
+<keywordset>
+<keyword>語義網</keyword>
+<keyword>智慧型代理人</keyword>
+<keyword>醫療資訊系統</keyword>
+<keyword>健保規則</keyword>
+<keyword>決策支緩系統</keyword>
+<keyword>專家系統</keyword>
+</keywordset>
+</articleinfo>
+&Abstract; 
+&Introduction; 
+&DocumentsReview; <!--文獻探討-->
+&SystemDesign; <!--系統設計-->
+&Prototype; <!--系統實作-->
+&Conclusion; 
+<ackno>
+感謝父母對我的培育，老婆及家人們在生命裡不停支持我，陪伴我。
+指導教授張儀興於學術上的督導，啟發我能在學術上更加精進。
+</ackno>
+&Bibliography;
+<glossary><title>術語</title>
+	<glossentry>
+		<glossterm>MRAS</glossterm>
+		<glossdef>
+				<para>醫療法規自動同步系統(Medical Regulations Autosynchronization System)</para>
+		</glossdef>
+	</glossentry>
+</glossary>
+</article>

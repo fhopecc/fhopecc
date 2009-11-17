@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="Big5"?>
+<sect2><title>研究問題與目的</title>
+<sect3><title>藥品法規人工更新作業</title>
+<para>
+<figure id="MedicalLawPublishSequence"><title>藥品法規人工更新循序圖</title>
+	<imagedata fileref="images/paper/MedicalLawPublishSequence.jpg" />
+</figure>
+<xref linkend="MedicalLawPublishSequence"/>
+描述了目前醫院系統健保局藥品規則異動時，
+系統更新藥品檢核規則的流程。當健保局藥品規則異動時，會以公文傳送到各相關單位，
+醫事行政人員接獲公文後，依醫院情形歸納出規則後，在醫院會議提出，
+並向醫院資訊室申請修改程式，在系統分析完畢後，程式設計師修改院內程式，
+再佈署上線，此時新規則才算真正的落實到某間醫院的資訊系統中。
+由於健保局常因新藥發明、政策改變、
+新醫學研究等異動健保藥品給付規則， 
+這使得臨床醫令程式的必須經常去維護藥品檢核程式，
+而且同樣的檢核程式，卻必須在每個醫院的系統實作，
+非常浪費人力。
+故本文目標為設計一個系統，
+其能將上述的藥品規則更新的人工過程自動化，
+</para>
+</sect3>
+<sect3><title>藥品法規自動同步</title>
+<para>
+<figure id="NewMedicalLawPublishSequence">
+<title>藥品法規自動同步循序圖</title>
+<imagedata fileref="images/paper/NewMedicalLawPublishSequence.jpg" />
+</figure>
+<xref linkend="NewMedicalLawPublishSequence"/>
+是本文提出的藥品法規自動同步系統的資料流程圖，
+如圖可知要達到法規的自動同步功能，
+系統可分成四個方面來看，
+分別是健保局、MRAS、醫院應用程式以及醫師， 
+每一方面執行特定獨立的功能，並以公眾網路連結起來，
+藉由功能分解並委任到不同獨立元件的機制，
+可減少醫院應用程式實作重覆的法規控管程式碼，
+以及健保局控管的幅度，
+這四方面的功能描述如下：
+<itemizedlist>
+<listitem>健保局
+<para>
+健保局所負責的業務如下：
+<orderedlist>
+<listitem>制定藥品給付規定。
+</listitem>
+<listitem>建立藥品給付規定的 OWL 文件。
+<para>
+OWL文件可由人工或者自然語言解譯器分析自然語言法規而得，
+OWL 文件是機器法規的一種，其規格為 W3C 所制定。
+<emphasis>機器法規</emphasis>為一串電子資料，當機器載入後，
+並能有效率直譯並執行自然語言法規所描述的邏輯。
+</para>
+</listitem>
+<listitem>維護藥品給付規定的 OWL 文件的檔案伺服器
+<para>
+維護藥品給付規定的 OWL 文件的檔案伺服器能持續在 Internet 運作，
+以供MRAS能夠取用藥品給付規定的 OWL 文件。
+</para>
+</listitem>
+<listitem>審核MRAS的推理引擎的合法性
+<para>
+審核MRAS接受藥品給付規定OWL文件後，
+其推理結果是否能符合於其制定的法規意義。
+</para>
+</listitem>
+</orderedlist>
+</para>
+</listitem>
+<listitem><emphasis>藥品法規自動同步系統</emphasis>(MRAS)
+<para>
+MRAS主要的業務如下：
+</para>
+<orderedlist>
+<listitem>
+定期至健保局更新藥品給付規定的 OWL 文件檔案
+</listitem>
+<listitem>
+實作能直譯上述藥品給付規定的 OWL 文件，
+並達到判別用藥行為是否合法功能的推理引擎。
+</listitem>
+<listitem>
+定義<emphasis>藥品法規自動同步系統協定</emphasis>(MRASP)，
+讓<emphasis>醫院應用程式系統</emphasis>只要遵行此協定，
+便能取得法規檢核同步服務。
+</listitem>
+</orderedlist>
+</listitem>
+<listitem>醫院應用程式(HIS)
+<para>
+醫院應用程式是指醫院內部使用的醫療資訊系統。
+若醫院應用程式想取得法規檢核同步功能必須實作 MRASP，
+與MRAS溝通，
+醫院可依法規服務所傳回的結果來執行健保法規管制。
+</para>
+</listitem>
+<listitem>醫師
+<para>
+醫師直接使用醫院應用系統，並能查看所開立藥物是否合乎法規。
+</para>
+</listitem>
+</itemizedlist>
+</para>
+<para>
+新系統必需並達到以下需求：
+<orderedlist>
+<listitem>
+健保規則能由 HIS 系統外部設定
+<para>
+HIS 系統定義為醫院內部的應用程式，
+此需求明定當規則更新時，不需更改醫院內部的 HIS，
+</para>
+</listitem>
+<listitem>
+醫院系統與健保規則自動同步
+<para>健保局規則發佈後，系統能自動下載並更新規則庫。</para>
+</listitem>
+<listitem><!--有研究可指出，醫師 care 醫令速度，加上論文來源佐證-->
+更新速度要快
+<para>
+由於醫師對醫令系統的操作速度相當在意，
+所以此系統必須以不減慢醫院原系統的速率為優先考量。
+</para>
+</listitem>
+<listitem>
+系統彼此間藕合度低
+<para>
+指彼此可獨立運作，
+但仍能由經由網路連結，
+這樣便可經由第三方來處理共同的法規處理程式，
+減輕醫院程式負擔。
+</para>
+</listitem>
+</orderedlist>
+</para>
+</sect3>
+<sect3><title>效益</title>
+<para>
+與傳統人工更新流程相較，
+本系統將法規更新及檢核服務功能自醫院資訊系統分離出來，
+獨立成為MRAS，
+並使醫院的臨床醫令系統其檢核藥物規則的功能能委由其代理，
+使加入系統的醫院可以不用負責法規庫的更新及直譯功能的更新，
+同時也可保證醫院系統能隨時取得到最新的健保規則；
+對健保局或相關管理單位而言，
+其只要確保MRAS的規則庫及推理引擎是符合健保規則，
+即能確信委任此代理人服務的醫事機構的用藥檢核系統是合乎現行法令的，
+藉由第三方的MRAS，
+健保局能大幅度減少管控範圍，
+原本管控全部醫院的用藥檢核系統是否合乎現行法令，
+必須一家一家醫院派人進行系統確認審核，
+轉變成只要確認審核少數MRAS即可，
+使得健保局可以大幅降低管理成本。
+這對藥品法規的確實執行是強而有力的管理工具，
+且對雙方面而言，都能大幅降低健保法規異動的系統更新成本。
+</para>
+</sect3>
+</sect2>

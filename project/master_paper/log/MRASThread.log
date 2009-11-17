@@ -1,0 +1,9 @@
+服務Thread[MRASThread,5,main]啟動成功
+健保法規知識庫:public/owls/NHIMedRule.rdf-xml.owl載入成功
+送出 hello 封包
+服務Thread[MRASThread,5,main]啟動成功
+健保法規知識庫:public/owls/NHIMedRule.rdf-xml.owl載入成功
+送出 hello 封包
+req_props 病患能接受的藥物用法,患有疾病,醫令用藥,連續使用天數
+legality true
+server closed.

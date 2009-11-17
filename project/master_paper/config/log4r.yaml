@@ -1,0 +1,112 @@
+purpose    : TestA
+description: This is the 1st YAML doc
+say        : Hi
+
+---
+# *** YAML2LOG4R ***
+log4r_config:
+  # define all pre config ...
+  pre_config:
+    custom_levels:
+      - DEBUG
+      - INFO
+      - WARN
+      - ERROR
+      - FATAL
+    global:
+      level: DEBUG
+    root  :
+      level: DEBUG
+    parameters:
+      - name   : x
+        value  : aaa
+      - name   : y
+        value  : bbb
+
+  # define all loggers ...
+  loggers:
+    - name      : mylogger
+      level     : DEBUG
+      additive  : 'false'
+      trace     : 'false'      
+      outputters:
+        - stderr
+        - logfile 
+        - email    
+
+    - name      : MedRuleAgentServerTest 
+      level     : DEBUG 
+      outputters: 
+        - mrastlogfile 
+
+    # mras controller 
+    - name      : mrasc 
+      level     : DEBUG 
+      outputters: 
+        - mrascfile 
+
+  # define all outputters (incl. formatters)      
+  outputters:
+    - type     : StderrOutputter
+      name     : stderr 
+      level    : DEBUG
+      only_at  :
+        - INFO
+        - WARN
+        - FATAL
+      formatter:
+        date_pattern: '%y%m%d %H:%M:%S'
+        pattern     : '%d %l: %m '
+        type        : PatternFormatter
+
+    - type        : DateFileOutputter
+      name        : logfile
+      level       : DEBUG
+      date_pattern: '%Y%m%d'
+      trunc       : 'false'
+      dirname     : "log"
+      formatter   :
+        date_pattern: '%y%m%d %H:%M:%S'
+        pattern     : '%d %l: %m'
+        type        : PatternFormatter
+  
+    - type        : DateFileOutputter
+      name        : mrastlogfile
+      level       : DEBUG
+      date_pattern: '%Y%m%d'
+      trunc       : 'false'
+      dirname     : "log"
+      formatter   :
+        date_pattern: '%y%m%d %H:%M:%S'
+        pattern     : '%d %l: %m'
+        type        : PatternFormatter
+
+    - type        : DateFileOutputter
+      name        : mrascfile
+      level       : DEBUG
+      date_pattern: '%Y%m%d'
+      trunc       : 'false'
+      dirname     : "log"
+      formatter   :
+        date_pattern: '%y%m%d %H:%M:%S'
+        pattern     : '%d %l: %m'
+        type        : PatternFormatter
+
+    - type        : EmailOutputter
+      name        : email
+      level       : FATAL
+      server      : localhost
+      subject     : 'Message from #{PN}:'
+      from        : test@localhost
+      to          : anhu@localhost
+      immediate_at: FATAL
+      formatfirst : 'true'
+      formatter   :
+        date_pattern: '%y%m%d %H:%M:%S'
+        pattern     : '%d %l: %m'
+        type        : PatternFormatter
+        
+---
+purpose    : TestB
+description: This is the last YAML doc
+say        : Bye

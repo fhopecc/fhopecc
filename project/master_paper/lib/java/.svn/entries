@@ -1,0 +1,34 @@
+8
+
+dir
+682
+http://OpenSVN.csie.org/fhopecc/master_paper/lib/java
+http://OpenSVN.csie.org/fhopecc
+
+
+
+2008-04-23T09:34:35.556594Z
+518
+fhopecc
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+da78c009-b120-0410-8547-b4bf9ef8360b
+
+jars
+dir
+
+mras
+dir
+

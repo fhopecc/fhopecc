@@ -1,0 +1,10 @@
+digraph ER {
+  rankdir="LR"
+  node[fontname="Arial"];
+  edge[fontname="Arial"];
+	node [shape=box]; W; F;
+	node [shape=ellipse]; R; 
+  R -> F;
+  edge[dir=none];
+  E -> R;
+}

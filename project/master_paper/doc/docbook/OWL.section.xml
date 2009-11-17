@@ -1,0 +1,655 @@
+<?xml version='1.0' encoding="Big5"?>
+<sect2><title>語意網</title>
+<para>
+柏納李(Tim Berners-Lee)對網路有二個夢想：
+</para>
+<para>
+第一個夢想是所有的人都可以透過一個共同的平台來分享知識，
+於是他提出以URI(Universal Resource Identifier)、
+HTTP(Hypertext Transform Protocol)以及HTML(Hypertext Markup
+Language)三要素所建構的全球資訊網(WWW)而改變了這個世界。
+</para>
+<para>
+柏納李的第一個夢想異常的成功，
+使得網頁幾乎無所不在，
+幾乎每個人都有自已的部落格(Blog)或自已的烘焙機(Homepage)，
+每個組織及公司都有自已的官方網站(WebSite)。
+成千上萬的資訊及網頁帶來新的問題，
+要怎麼找出我真正想要的資訊，
+這讓柏納李提出第二個夢想。
+</para>
+<para>
+第二個夢想是電腦可以自動找出人類想要的資訊，
+於是他提出未來的網路是語意網(Semantic Web)，
+意味著網站系統已由資訊檢索進步到提供更有價值的資訊。
+<biblioref linkend="BernersLee01"/>
+</para>
+<para>
+現在的網頁是提供人類閱讀的，
+要讓電腦能幫人類推理資訊，
+必需把全球資訊網上的資料，
+變成電腦所能理解的資料型態，
+讓網路能理解人類真正的意涵，
+進而提供更好、更方便的全球資訊網，
+而知識本體、知識表徵及描述邏輯等領域的研究進展，
+使得上述夢想幾乎可以成真。
+</para>
+<sect3><title>知識本體</title>
+<para>
+目前網站找尋知識的主流是關鍵字搜尋，
+不幸的是進行關鍵字搜尋時經常會獲得一大堆沒有用的資料。
+例如輸入「病毒」，
+也許指的是電腦中「病毒」，
+這是屬於電腦科學領域；
+但是也會找到醫學領域的資料，
+因為它們是使用相同的詞彙(lexeme)。
+電腦系統並不知道每個詞彙屬於哪個領域，
+所以搜尋者必須要知道這個詞彙代表什麼意義，
+屬於哪個領域，
+而且還要知道詞彙之間的關係，
+並有耐心的看著那成千上萬的搜尋結果。
+<biblioref linkend="DacontaObrstSmith03"/>
+</para>
+<para>
+<emphasis>知識本體</emphasis>(ontology)在電腦科學是指某一個領域
+(domain)知識中相關的詞彙的集合，
+這些專業詞彙都有明確定義與描述，
+可以用來陳述領域知識中的某一概念，也可以陳述概念與概念之間的關聯。
+<biblioref linkend="Sowa03"/>
+在真實世界的每一個領域都會有一個被定義的知識本體(Ontology)，
+同一個詞彙，在不同的領域、
+在不同的時代背景、不同的用法、其意義就不一樣。
+</para>
+<para>
+目前知識本體的文件大多數是以 XML 語法定義，
+W3C 已制定了 RDF(Resource Description Framework)、
+RDFS(Resource Description Framework Schema)及
+OWL 等知識本體語言。
+<biblioref linkend="OWLGuide"/>
+</para>
+</sect3>
+<sect3><title>描述邏輯</title>
+<para>
+早期電腦的商業應用主要是在記錄交易，
+關聯式模型能有效率且簡易的表達交易，故成為主流的知識表徵模型，
+但由於網站的快速成長，資料量大增，
+人們期望電腦能自動篩出需要的資料，
+這個需求在目前主流的關聯式模型很難辦到，
+是故以<emphasis>描述邏輯</emphasis>(Description Logic)
+為基礎的知識表徵模型開始受到注意。
+</para>
+<para>
+描述邏輯是一種知識表徵語言，
+延伸自框架系統及語意網路這兩種網路知識表徵模型，
+但又補足這兩個系統未有邏輯語意的缺陷。
+</para>
+<para>
+<emphasis>網路知識表徵模型</emphasis>一種知識表徵模型，
+就像是 OOP 中的類別，用來描述物件的結構，
+及物件與其它物件的關係。
+以框架系統為例，
+如同類別具有屬性，框架也有<emphasis>槽</emphasis>(slot)來存放不同的值，
+框架可以用來表達概念之間的關係，
+所以常選作為機器可處理的概念及結構的表達系統。
+</para>
+<para>
+例如現代程式設計上所導入的物件導向模型，
+現代軟體工程裡的 UML 模型，
+無不使用層級式網路知識表徵模型來描述事物，
+這也確實簡化了複雜程式的表達。
+關聯式模型無法表達複雜性資料的困境，
+也逐漸讓網路表徵模型成為下一代資料庫的主流，
+<xref linkend="OntRelComp"/>簡單的比較兩個模型的差異。
+&OntRelCompTable;
+</para>
+<para>
+描述邏輯以結構化及易理解的形式來描述某特定領域的術語知識。
+<emphasis>描述</emphasis>指的是概念結構，可用來描述某特定領域知識。
+<emphasis>邏輯</emphasis>指的是邏輯語意，可將其轉為對應的謂詞邏輯。
+是故描述邏輯可以讓人們自然的表達對真實世界物體的類別，
+以及這些類別間的關係，
+並以階層式的架構來組織這些類別，
+除了簡化複雜關係的表達外，
+還能使機器有效率的進行類別關係的推理<biblioref linkend="FranzDiegoETC03"/>。
+</para>
+</sect3>
+<sect3><title>RDF 語言</title>
+<para>
+RDF(Resource Description
+Framework，資源描述架構)是 W3C 用來描述資源的標準，
+為一種通用目的描述語言(general-purpose language)，
+描述全球資訊網的資源及其相關的描述性資訊。
+透過簡單與一致性的描述介面，
+使用屬性描述任何一種具有URI的資源，
+以及它與其他資源之間的關係。
+RDF 模型中最基本的元素是三元結構(triple)。
+三元結構的構成三要素是主詞(Subject)、謂詞(Predicate)、與受詞(Object)。
+</para>
+<para>
+RDF 無法描述一個資源所應擁有的屬性有哪些，
+以及這些屬性與其他資源之間的關係。
+RDFS(RDFSchema)是 RDF 的中介資料(meta-data)，其內容定義基礎的詞彙，
+RDF 可以依據這些辭彙來描述資源。
+RDF 語言(Resource Description Framework)
+<emphasis>資源(Resource)</emphasis>就是任何可與其它事物區分的事。
+RDF 其框架可用以下的有向圖來表示：
+</para>
+<figure id="john_rdf"><title>RDF</title>
+	<imagedata fileref="images/paper/rdf_ex1.png" />
+</figure>
+<para>
+其中橢圓表示資源，而弧線表示屬性(property)，
+線所指向的點表示屬性的值。
+上圖中是描述資源，其 ID 是 http://.../JohnSmith，
+具一個屬性，ID 為 vcard:FN，
+值為字串(Literial) "Jone Smith"。
+字串以方形表示。
+</para>
+<para>
+RDF 圖中的弧線稱為一項<emphasis>敘述(statement)</emphasis>，
+表示有關資源的一項事實。
+敘述包含三個部份：
+</para>
+<orderedlist>
+<listitem><emphasis>主詞(subject)</emphasis>
+<para>
+RDF 圖中弧線離開的節點。
+</para>
+</listitem>
+<listitem><emphasis>謂詞(predict)</emphasis>
+<para>
+RDF 圖中弧線的 ID 字串，如上面的 vcard:FN。 
+</para>
+</listitem>
+<listitem><emphasis>受詞(object)</emphasis>
+<para>
+RDF 圖中弧線所指向的節點。
+</para>
+</listitem>
+</orderedlist>
+<para>
+RDF 圖的字串表示法常用的有兩種，
+一種為 XML 表示法，
+另一種為 N3 表示法。
+</para>
+<para>
+N3 表示法如下：
+<programlisting>
+<![CDATA[
+<http://.../JohnSmith> vcard:FN "John Smith"
+]]>
+</programlisting>
+</para>
+</sect3>
+<sect3><title>SPARQL 語言簡介</title>
+<para>
+SPARQL是由 W3C 所制定的一種 RDF 查詢語言，
+可以從 RDF 圖中查詢信息。
+SPARQL 是基於以前的 RDF 查詢語言(如rdfDB、RDQL 和 SeRQL)發展而來的，
+擁有一些有價值的新特性，
+並且受到 Jena 開發團隊的鼎立支持。
+Jena 是 HP 公司語義網研究小組開發的一套 Java 工具包，
+用來支持人們進行語義網的相關研究和應用開發<biblioref
+linkend="sparql"/>。
+SPARQL 的語法和傳統 SQL 的語法還是有幾分相似的，如下例：
+</para>
+<programlisting>
+<![CDATA[
+BASE <http://my.donews.com/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+# 這是一個以 BASE 為根的相對 IRI
+PREFIX user: <users#>
+
+SELECT ?person ?name ?age
+FROM <users.rdf>
+WHERE {
+?person a foaf:Person ;
+foaf:name ?name .
+OPTIONAL { ?person user:age ?age } .
+FILTER (REGEX(?name, 「clickstone」))
+}
+ORDER BY ASC(?name)
+LIMIT 10
+OFFSET 10
+]]>
+</programlisting>
+<!--
+簡要的說明一下例子中出現的語法。
+   1. BASE，根 IRI，其他以此為根的 IRI 就可以寫成相對形式了，見例子裡面的註釋。一旦定義了 BASE，就可以在 SPARQL 的任何地方進行使用了，例子中共用到了 2 處。
+   2. 使用 # 進行註釋。
+   3. PREFIX，IRI 前綴的縮寫。
+   4. SELECT，查詢關鍵字，和 SQL 中的一個意思。
+   5. ?person ?name ?age，要查詢的變量，使用 ? 標識變量，也可以使用 $。變量間使用空白分隔（現在正在徵集意見，正式標準中使用空白還是逗號分隔尚未最終確定）。
+   6. FROM，從何處查詢數據。可以一次查詢多個 RDF 數據集，只需要使用 FROM 逐一列出即可。
+   7. WHERE，過濾條件集合，和 SQL 的 WHERE 一個意思。
+   8. ?person a foaf:Person，具體的過濾條件，使用 Turtle 語法。還記得「a」是什麼意思嗎？具體的介紹可以參看《RDF 實戰》。
+   9. 例子中兩個過濾條件的主語都是「?person」，因此，使用了簡寫的形式。如果主語不同，逐一列出檢索條件即可。
+  10. OPTIONAL，可選過濾條件。比如有些 ?person 可能沒有填寫 age 屬性，如果不使用 OPTIONAL，那麼查詢結果將不包含這些 ?person；使用了 OPTIONAL 關鍵字，沒有填寫 age 屬性的 ?person，同樣可以被查詢到。
+  11. FILTER (REGEX(?name, 「clickstone」))，明確化的過濾條件，類似於 SQL 中的 LIKE、=、> 等的左右。例子中的意思是說，返回的 ?name 變量中，必須包含「clickstone」。
+  12. ORDER BY，排序，可以指定多個排序，比如例子可以改為，ORDER BY ASC(?name) DESC(?age)。默認排序是 ASC。
+  13. LIMIT 10，將返回結果限定在 10 條，類似於 SQL 中的 SELECT TOP 10。
+  14. OFFSET 10，掠過前邊的 10 條，從 第 11 條開始返回。這個功能比 SQL 強大，SQL 要自己寫翻頁。
+
+其他的還有 UNION、DISTINCT 等的使用，大家就自己看文檔吧。但必須強調一點，SPARQL 的使用中和 SQL 一個非常大的區別，需要大家注意：SELECT 子句中出現的變量，比如例子中的 ?person ?name ?age，在 WHERE 子句中必須全部出現。為什麼會這樣呢？因為對於一個 SPARQL 查詢處理器來講，它不具備類似於關係數據庫中數據字典的東西以供參考，所以每一個 SELECT 的變量，在 WHERE 中必須指定一個用來匹配的triple。
+-->
+</sect3>
+</sect2>
+<sect2><title>OWL</title>
+<para>
+本文認為系統最適用 W3C 語義網專案中，所制定的 OWL 語言
+<citation>OWLGuide04</citation>
+作為規則的形式化表示法。OWL 語言可以支援完整的謂詞邏輯，
+同時也依計算複雜度定義了三個版本的 OWL
+語言，分別為：
+</para>
+<orderedlist>
+<listitem>
+OWL Lite
+<para>
+主要是給那些需要一個分類階層和簡單的限制條件的用戶使用。例如，
+當它支持基數限制條件時﹐它只允許基數的值是 0 或 1。
+與其他更具有表現能力的相關規格比較起來， 提供處理 OWL Lite
+的工具相形簡單多了， 而且，OWL Lite
+也給詞典和其他分類法提供一個可以迅速轉換的途徑。 在複雜程度上面﹐OWL Lite 也比
+OWL DL 來的低一些。
+</para>
+</listitem>
+<listitem>
+OWL DL
+<para>
+是給那些需要最強表現能力﹐卻必須維持計算機使用的完備性，
+「即所有的結論都能夠確保是可以被計算出來的」
+與可判定性「所有的計算都能在有限的時間內完成」的用戶使用。 OWL DL 包括 OWL
+語言所有的建構子，不過在使用時，
+必須符合某些限制，例如：當一個類別可能是許多類別的子類別時，
+這個類別就不能是其他類別的實體。 OWL DL 這麼命名是因為它與描述邏輯一致，
+這個領域所研究的是構成 OWL 主要基礎的邏輯。
+</para>
+</listitem>
+<listitem>
+OWL Full
+<para>
+其使用者需要最強表現能力與自由的 RDF 語法﹐ 即使沒有可計算保證也沒關係。例如﹐在
+OWL Full 裡面﹐
+一個類別可以同時被當成是許多個體的匯集並且自己也是裡面的一個個體。
+它允許一個本體去新增預先定義好的(RDF 或 OWL) 詞彙的含意。如此一來﹐
+不太可能有推理型的軟體可以完全支援 OWL Full 的推理特性。
+</para>
+</listitem>
+</orderedlist>
+<para>
+本文依需要則認為以 OWL DL 最適合作為健保規則的形式化語言。
+最後一個需滿足的限制是規則的形式化格式要是人為可讀的， 
+才能由人類專家驗證有效及合法。 OWL 可以使用 XML
+作為序列化標準，作為一種標籤語言， OWL 可以允許兩種不同語言合併在同一文件中，
+可由內容值搭戴人類可讀的語言，標籤再搭戴機器可讀語言， 
+可以滿足分析時所出現人類可讀需求。
+</para>
+<sect3><title>定義類別階層</title>
+<para>
+從哲學上來看，定義類別階層，有兩種方式，內涵式與外延式。
+內涵式就是用結構來定義類別。
+</para>
+</sect3>
+<sect3><title>定義屬性</title>
+<para>
+一個屬性(property)是一個二元關係，
+在 OWL 中有二類屬性：
+</para>
+<itemizedlist>
+<listitem><emphasis>資料型態屬性(datatype property)</emphasis>
+指類別實例(instances of classes)與 RDF 實字(literal)及 XML Scheme 資料型態的關係。
+</listitem>
+<listitem><emphasis>物件屬性(object property)</emphasis>
+指兩個類別實例間的關係。
+</listitem>
+</itemizedlist>
+<programlisting>
+<![CDATA[
+<owl:ObjectProperty rdf:ID="madeFromGrape"> 
+  <rdfs:domain rdf:resource="#Wine"/>
+  <rdfs:range rdf:resource="#WineGrape"/> 
+</owl:ObjectProperty> 
+
+<owl:ObjectProperty rdf:ID="course">
+  <rdfs:domain rdf:resource="#Meal" />
+  <rdfs:range rdf:resource="#MealCourse" />
+</owl:ObjectProperty>
+]]>
+</programlisting>
+<para>
+上面的程式碼描述 madeFromGrape 屬性是類別 Wine 的實例與類別 WineGrape 的實例間的關係。
+同樣的描述 course 屬性是類別 Meal 的實例與類別 MealCourse 的實例間的關係。
+OWL 具有許多語言能夠限制屬性關係。
+</para>
+</sect3>
+<sect3><title>定義實例(Instance)</title>
+<para>
+實例(Instance)就是類別的一個成員。
+</para>
+</sect3>
+<sect3><title>不同於(differentFrom)</title>
+實例能用 differentFrom 來作出與 sameAs 相反的效果。
+<programlisting>
+<![CDATA[
+<WineSugar rdf:ID="Dry" />
+
+<WineSugar rdf:ID="Sweet">  
+  <owl:differentFrom rdf:resource="#Dry"/>  
+</WineSugar> 
+
+<WineSugar rdf:ID="OffDry">
+  <owl:differentFrom rdf:resource="#Dry"/> 
+  <owl:differentFrom rdf:resource="#Sweet"/> 
+</WineSugar>
+>
+]]>
+</programlisting>
+<para>
+以上的程式碼描述了 Dry, Sweet, OffDry 是互斥的。
+</para>
+</sect3>
+<sect3><title>屬性限制(Property Restriction)</title>
+<para>
+一個屬性(property)是一個二元關係，
+在 OWL 中有二類屬性：
+</para>
+<itemizedlist>
+<listitem><emphasis>資料型態屬性(datatype property)</emphasis>
+指類別實例(instances of classes)與 RDF 實字(literal)及 XML Scheme 資料型態的關係。
+</listitem>
+<listitem><emphasis>物件屬性(object property)</emphasis>
+指兩個類別實例間的關係。
+</listitem>
+</itemizedlist>
+<programlisting>
+<![CDATA[
+<owl:ObjectProperty rdf:ID="madeFromGrape"> 
+  <rdfs:domain rdf:resource="#Wine"/>
+  <rdfs:range rdf:resource="#WineGrape"/> 
+</owl:ObjectProperty> 
+
+<owl:ObjectProperty rdf:ID="course">
+  <rdfs:domain rdf:resource="#Meal" />
+  <rdfs:range rdf:resource="#MealCourse" />
+</owl:ObjectProperty>
+]]>
+</programlisting>
+<para>
+上面的程式碼描述 madeFromGrape 屬性是類別 Wine 的實例與類別 WineGrape 的實例間的關係。
+同樣的描述 course 屬性是類別 Meal 的實例與類別 MealCourse 的實例間的關係。
+OWL 具有許多語言能夠限制屬性關係。
+</para>
+</sect3>
+<sect3><title>Jena函式庫</title>
+<para>
+Jena 是一組工具，Java 程式師只要具備少許的知識，
+便能處理 RDF 及 OWL 等語意網技術。
+此 API 對RDF 圖、資源、屬性、實字都有相對應的類別，
+如下表<biblioref linkend="jena"/><biblioref linkend="jena_ontology"/>：
+<table><title>Jena 相應 RDF 的類別</title>
+<tgroup cols="2">
+<tbody>
+<row>
+<entry>RDF</entry>
+<entry>JAVA</entry>
+</row>
+<row>
+<entry>圖</entry>
+<entry>Model</entry>
+</row>
+<row>
+<entry>資源</entry>
+<entry>Resource</entry>
+</row>
+<row>
+<entry>屬性</entry>
+<entry>Property</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+利用 Jena <xref linkend="john_rdf"/>可以下面的程式碼代替：
+</para>
+<programlisting>
+// some definitions
+static String personURI    = "http://somewhere/JohnSmith";
+static String fullName     = "John Smith";
+
+// create an empty Model
+Model model = ModelFactory.createDefaultModel();
+
+// create the resource
+Resource johnSmith = model.createResource(personURI);
+
+// add the property
+ johnSmith.addProperty(VCARD.FN, fullName);
+</programlisting>
+<para>
+上面資源的 addProperty 方法會資源增加一筆敘述。
+</para>
+</sect3>
+</sect2>
+<!--
+<sect2><title>描述邏輯(Description Logic)</title>
+<para>
+<emphasis>描述邏輯</emphasis>是一種知識表徵語言，
+以結構化及易理解的形式來描述某特定領域的術語知識。
+<emphasis>描述</emphasis>指的是概念結構，可用來描述某特定領域知識。
+<emphasis>邏輯</emphasis>指的是邏輯語意，可將其轉為對應的謂詞邏輯。
+描述邏輯通可視為框架系統及語意網路的延伸，
+補足這兩個系統未有邏輯語意的缺陷。
+</para>
+<sect3><title>語義</title>
+<para>
+描述邏輯包含三個主要元件，
+當然我們可以發現這三個元件在許多形式模型系統都有類似的名詞：
+</para>
+<sect4><title>概念(Concept)</title>
+<para>
+又稱作<emphasis>公式(formulae)</emphasis>、<emphasis>類別(class)</emphasis>，
+其語義為領域中一群實例的集合。
+例如：人、植物、醫師、護士、(內科醫師 union 外科醫師)。
+</para>
+</sect4>
+<sect4><title>角色(Role)</title>
+<para>
+又稱作<emphasis>模式(modalities)</emphasis>、<emphasis>關係(relation)</emphasis>，
+<listitem>角色其語義為領域中一組實例配對的集合</listitem>
+例如：人、植物、醫師、護士、(內科醫師 union 外科醫師)。
+</para>
+</sect4>
+<sect4><title>個體(Indiviual)</title>
+<para>
+又稱作<emphasis>名目(nominals)</emphasis>、<emphasis>事實(facts)</emphasis>，
+<listitem>為一個可以區分的事件</listitem>
+例如：陳水扁、小花、義大利。
+</para>
+</sect4>
+<sect4><title>運算子(Operator)</title>
+<para>
+用來建構描述邏輯元素
+</para>
+</sect4>
+</sect3>
+<sect3><title>語法</title>
+<para>
+包含
+</para>
+<itemizedlist>
+<listitem>一組單元謂詞來描述概念名詞</listitem>
+<listitem>一組二元謂詞來描述角色名詞</listitem>
+<listitem>能使用概念名詞及角色名詞遞迴的定義出術語</listitem>
+</itemizedlist>
+</sect3>
+<sect3><title>描述邏輯的家族</title>
+<sect4><title>ALC</title>
+<para>
+包含如下的運算子來建構概念：
+</para>
+<itemizedlist>
+<listitem>布林運算子：and, or, not</listitem>
+<listitem>限制量詞：TI(there is),FA(for all)</listitem>
+<listitem>單元角色(atomic role)</listitem>
+</itemizedlist>
+<para>
+例句：所有孩子是醫師或孩子的孩子是醫師的人。
+</para>
+<para>
+人 and FA有孩子.(醫師 or TI有孩子.醫師)
+</para>
+</sect4>
+<sect4><title>SHOIN</title>
+<para>
+<emphasis>S</emphasis>指 ALC 加上遞移性角色(transitive role)
+</para>
+<para>
+<emphasis>H</emphasis>指 ALC 加上角色階層(role hierarchy)，
+例如：有女兒 subclassof 有小孩
+</para>
+<para>
+<emphasis>O</emphasis>指 ALC 加上名目類別或獨子類別(nominal/singleton
+classes)
+例如：{陳水扁}
+</para>
+<para>
+<emphasis>I</emphasis>指 ALC 加上反向角色(inverse role)，相反的模式。
+</para>
+<para>
+<emphasis>S</emphasis>指 ALC 加上遞移性角色(transitive role)
+</para>
+<para>
+<emphasis>S</emphasis>指 ALC 加上遞移性角色(transitive role)
+</para>
+</sect4>
+</sect3>
+<sect3><title>實作模型</title>
+<para>
+其知識庫通常包含兩種元素：T-Box 及 A-Box，
+區分這兩者的理由能降低推理機實作的複雜度。
+</para>
+<sect4><title>T-Box</title>
+<para>
+一組描述綱要(Scheme)的公理，又稱為陳述(sentence)的集合，
+像是背景理論(background theory)，包含任何非邏輯公理(non-logical
+axioms)集合。
+</para>
+</sect4>
+<sect4><title>A-Box</title>
+<para>
+一組描述資料(Data)的公理，又稱為基本事實(ground facts)的集合。
+包含任何非邏輯公理(non-logical axioms)集合，但僅限於描述名目的公理。
+</para>
+</sect4>
+</sect3>
+<sect3><title>進度</title>
+<procedure>
+<step>實作 T-Box 及 A-Box 個案推理。</step>
+<step>作出 Congnitive Economics 概念經濟性的結果。</step>
+<step>實作使用者介面</step>
+</procedure>
+</sect3>
+</sect2>
+<sect2><title>資料交換架構</title>
+<sect3><title>TCP/IP</title>
+<para>
+健保法規其作用範圍是全國性的，
+所以法規與 HIS 的同步必須架基在網際網路之上，
+才能讓全國各地的醫院能輕易的加入本系統， 
+所以溝通協定基礎設施的選擇是 TCP/IP。
+</para>
+</sect3>
+<sect3><title>XML</title>
+<para>
+為了能在 HIS 系統外部動態設定健保法規，
+則需要能夠描述健保法規的外部檔案，
+HIS 系統必須能讀取並解譯此描述法規的檔案，
+從而動態更新法規設定。
+</para>
+<para>
+其次就是要能讓健保法規形式化，
+形式化表示規則可由有限的字串表達，
+並能由電腦系統處理， 
+否則無法開發出有效率的規則解譯器。
+最後規則其形式化格式要能輕易的讓人們解讀， 
+這樣規則的有效性及合法性才能交由人類專家驗證。
+<biblioref linkend="DacontaObrstSmith03"/>
+<biblioref linkend="Sowa99"/>
+</para>
+<para>
+由上述需求，
+本系統元件溝通法規資訊的編碼架構主要以 XML 為主，
+因為 XML 具有以下特性：<biblioref linkend="XMLWiki"/>
+</para>
+<orderedlist>
+<listitem>機器與人都能處理的格式</listitem>
+<listitem>異質資訊易於整合</listitem>
+<listitem>能表達通用的資料結構，例如記錄、樹和圖</listitem>
+<listitem>文件能自我描述</listitem>
+</orderedlist>
+</sect3>
+<sect3><title>HTTP</title>
+<para>
+上面提到規則會以 XML 文件作為主要資訊儲存及交換格式，
+則系統要能支援遠端文件上傳及下載功能，
+我們可以說規則自動同步系統本質上便是文件分散式知識庫。
+</para>
+<para>
+上面提到規則會以 OWL
+文件作為主要儲存格式，
+故系統要能支援遠端文件下載功能， 規則自動同步系統本質上便是文件分散式知識庫。
+</para>
+<para>
+而整個文件交換架構，本文選擇 HTTP 作為主要交換協定。
+因為 WWW 是世界最大的文件分散式系統，
+其使用的協定就是 HTTP <biblioref linkend="RFC1945"/>，
+此協定是以 TCP/IP 為基礎的遠端文件下載功能，
+滿足以上提出的兩種需求。
+除此之外最大的優勢是由於 WWW 的普及，
+使 HTTP 廣泛的使用在世界各個網站，
+高使用率讓 HTTP 的伺服器及客戶端應用程式等相關技術相當成熟，
+免費、穩定及最佳化的 HTTP 伺服器及客戶端應用程式可輕易取得，
+選擇 HTTP 協定來實作文件分散式同步功能，
+使本系統更具有成本及技術上優勢。
+</para>
+</sect3>
+</sect2>
+<sect2><title>知識表徵</title>
+<para>
+本系統主要目標之一是用來輔助醫師用藥行為相關法規知識，
+而用藥法規能讓電腦可處理，
+必需要有良好的<emphasis>知識表徵(Knowledge Representation-KR)</emphasis>
+轉換法規成為電腦可處理的數據，
+專家系統常使用的知識表徵有下面兩類<biblioref linkend="Wu04"/>
+<biblioref linkend="Jackson90"/>：
+</para>
+<orderedlist>
+<listitem><emphasis>生產系統</emphasis>(Prodution System)
+<figure>
+<title>生產系統</title>
+<imagedata
+fileref="mras/ProductionSystem.gif" />
+</figure>
+<para>
+如上圖，<emphasis>生產系統</emphasis>(Production System)
+由<emphasis>事實</emphasis>(Facts)及<emphasis>規則</emphasis>(Rules)所組成，
+在執行時，原有的事實可經由生產系統產生新的事實存放到<emphasis>工作記憶區</emphasis>
+(Working Memory)中，其法則常為<emphasis>前鏈式法則</emphasis>(Forwording Rule)，
+以IF......THEN 之子句建造所有的知識法則。
+生產系統較適合表達由情況引發動作的知識，
+如診斷流程常為判斷病人的情況，符合某個條件，便作出醫令執行。
+這使得決策支緩系統及專家系統相當適合用生產系統作為知識表徵。
+但其主要缺點在於：
+</para>
+<orderedlist>
+<listitem>不易表達推論中之不確定性</listitem>
+<listitem>若法則太多則不易修復，
+新舊法則可能含有相反或部份衝突之邏輯，
+需要撰寫<emphasis>衝突解決</emphasis>的邏輯。
+</listitem>
+</orderedlist>
+</listitem>
+</orderedlist>
+</sect2>
+-->

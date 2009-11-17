@@ -1,0 +1,174 @@
+ INFO [main] (Server.java:14) -- server start in port 1729!
+DEBUG [main] (FileManager.java:147) -- Add location: LocatorFile
+DEBUG [main] (FileManager.java:147) -- Add location: ClassLoaderLocator
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:location-mapping.rdf
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:location-mapping.rdf
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:location-mapping.n3
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:location-mapping.n3
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:location-mapping.ttl
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:location-mapping.ttl
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:etc/location-mapping.rdf
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:etc/location-mapping.rdf
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:etc/location-mapping.n3
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:etc/location-mapping.n3
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:etc/location-mapping.ttl
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:etc/location-mapping.ttl
+DEBUG [main] (LocationMapper.java:142) -- Failed to find configuration: file:location-mapping.rdf;file:location-mapping.n3;file:location-mapping.ttl;file:etc/location-mapping.rdf;file:etc/location-mapping.n3;file:etc/location-mapping.ttl
+DEBUG [main] (FileManager.java:147) -- Add location: LocatorFile
+DEBUG [main] (FileManager.java:147) -- Add location: LocatorURL
+DEBUG [main] (FileManager.java:147) -- Add location: ClassLoaderLocator
+DEBUG [main] (FileManager.java:147) -- Add location: LocatorFile
+DEBUG [main] (FileManager.java:147) -- Add location: LocatorURL
+DEBUG [main] (FileManager.java:147) -- Add location: ClassLoaderLocator
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:ont-policy.rdf
+DEBUG [main] (LocatorURL.java:34) -- Not found: file:ont-policy.rdf
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:ont-policy.rdf
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:etc/ont-policy.rdf
+DEBUG [main] (LocatorURL.java:34) -- Not found: file:etc/ont-policy.rdf
+DEBUG [main] (LocatorClassLoader.java:46) -- Found: file:etc/ont-policy.rdf
+DEBUG [main] (FileManager.java:517) -- Found: file:etc/ont-policy.rdf (ClassLoaderLocator)
+DEBUG [main] (FileManager.java:315) -- readModel(model,public/owls/NHIMedRule.rdf-xml.owl)
+DEBUG [main] (FileManager.java:331) -- readModel(model,public/owls/NHIMedRule.rdf-xml.owl, null)
+DEBUG [main] (FileManager.java:451) -- Not mapped: public/owls/NHIMedRule.rdf-xml.owl
+DEBUG [main] (FileManager.java:370) -- Syntax guess: RDF/XML
+DEBUG [main] (LocatorFile.java:116) -- Found: public/owls/NHIMedRule.rdf-xml.owl
+DEBUG [main] (FileManager.java:517) -- Found: public/owls/NHIMedRule.rdf-xml.owl (LocatorFile)
+ INFO [main] (Server.java:39) -- 服務Thread[MRASThread,5,main]啟動成功
+ INFO [main] (Server.java:40) -- 健保法規知識庫:public/owls/NHIMedRule.rdf-xml.owl載入成功
+ INFO [MRASThread] (Server.java:50) -- 送出 hello 封包
+DEBUG [MRASThread] (MRASP.java:61) -- token=usemed
+DEBUG [MRASThread] (MRASP.java:65) -- token2=usemed
+DEBUG [MRASThread] (MRASP.java:69) -- token3=usemed
+DEBUG [MRASThread] (MRASP.java:78) -- start parse
+DEBUG [MRASThread] (MRASP.java:81) -- strtype is usemed
+ INFO [main] (Server.java:14) -- server start in port 1729!
+DEBUG [main] (FileManager.java:147) -- Add location: LocatorFile
+DEBUG [main] (FileManager.java:147) -- Add location: ClassLoaderLocator
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:location-mapping.rdf
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:location-mapping.rdf
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:location-mapping.n3
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:location-mapping.n3
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:location-mapping.ttl
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:location-mapping.ttl
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:etc/location-mapping.rdf
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:etc/location-mapping.rdf
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:etc/location-mapping.n3
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:etc/location-mapping.n3
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:etc/location-mapping.ttl
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:etc/location-mapping.ttl
+DEBUG [main] (LocationMapper.java:142) -- Failed to find configuration: file:location-mapping.rdf;file:location-mapping.n3;file:location-mapping.ttl;file:etc/location-mapping.rdf;file:etc/location-mapping.n3;file:etc/location-mapping.ttl
+DEBUG [main] (FileManager.java:147) -- Add location: LocatorFile
+DEBUG [main] (FileManager.java:147) -- Add location: LocatorURL
+DEBUG [main] (FileManager.java:147) -- Add location: ClassLoaderLocator
+DEBUG [main] (FileManager.java:147) -- Add location: LocatorFile
+DEBUG [main] (FileManager.java:147) -- Add location: LocatorURL
+DEBUG [main] (FileManager.java:147) -- Add location: ClassLoaderLocator
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:ont-policy.rdf
+DEBUG [main] (LocatorURL.java:34) -- Not found: file:ont-policy.rdf
+DEBUG [main] (LocatorClassLoader.java:41) -- Failed to open: file:ont-policy.rdf
+DEBUG [main] (LocatorFile.java:97) -- Not found: file:etc/ont-policy.rdf
+DEBUG [main] (LocatorURL.java:34) -- Not found: file:etc/ont-policy.rdf
+DEBUG [main] (LocatorClassLoader.java:46) -- Found: file:etc/ont-policy.rdf
+DEBUG [main] (FileManager.java:517) -- Found: file:etc/ont-policy.rdf (ClassLoaderLocator)
+DEBUG [main] (FileManager.java:315) -- readModel(model,public/owls/NHIMedRule.rdf-xml.owl)
+DEBUG [main] (FileManager.java:331) -- readModel(model,public/owls/NHIMedRule.rdf-xml.owl, null)
+DEBUG [main] (FileManager.java:451) -- Not mapped: public/owls/NHIMedRule.rdf-xml.owl
+DEBUG [main] (FileManager.java:370) -- Syntax guess: RDF/XML
+DEBUG [main] (LocatorFile.java:116) -- Found: public/owls/NHIMedRule.rdf-xml.owl
+DEBUG [main] (FileManager.java:517) -- Found: public/owls/NHIMedRule.rdf-xml.owl (LocatorFile)
+ INFO [main] (Server.java:39) -- 服務Thread[MRASThread,5,main]啟動成功
+ INFO [main] (Server.java:40) -- 健保法規知識庫:public/owls/NHIMedRule.rdf-xml.owl載入成功
+ INFO [MRASThread] (Server.java:50) -- 送出 hello 封包
+DEBUG [MRASThread] (MRASP.java:61) -- token=usemed
+DEBUG [MRASThread] (MRASP.java:65) -- token2=usemed
+DEBUG [MRASThread] (MRASP.java:69) -- token3=usemed
+DEBUG [MRASThread] (MRASP.java:61) -- token=非類固醇抗發炎劑之注射劑
+DEBUG [MRASThread] (MRASP.java:65) -- token2=非類固醇抗發炎劑之注射劑
+DEBUG [MRASThread] (MRASP.java:69) -- token3=非類固醇抗發炎劑之注射劑
+DEBUG [MRASThread] (MRASP.java:78) -- start parse
+DEBUG [MRASThread] (MRASP.java:81) -- strtype is usemed
+DEBUG [MRASThread] (LockMRSW.java:45) -- Lock : MRASThread
+DEBUG [MRASThread] (QueryEngine.java:107) -- External data source for query
+DEBUG [MRASThread] (PlanGroup.java:109) -- New group stage (1 step)
+DEBUG [MRASThread] (Server.java:70) -- req_props 病患能接受的藥物用法,患有疾病,醫令用藥,連續使用天數
+DEBUG [MRASThread] (MRASP.java:61) -- token=med_status
+DEBUG [MRASThread] (MRASP.java:65) -- token2=med_status
+DEBUG [MRASThread] (MRASP.java:69) -- token3=med_status
+DEBUG [MRASThread] (MRASP.java:61) -- token=患有疾病:中風,醫令用藥:非類固醇抗發炎劑之注射劑,病患能接受的藥物用法:注射,連續使用天數:4
+DEBUG [MRASThread] (MRASP.java:65) -- token2=患有疾病:中風
+DEBUG [MRASThread] (MRASP.java:69) -- token3=患有疾病
+DEBUG [MRASThread] (MRASP.java:69) -- token3=:
+DEBUG [MRASThread] (MRASP.java:69) -- token3=中風
+DEBUG [MRASThread] (MRASP.java:65) -- token2=,
+DEBUG [MRASThread] (MRASP.java:69) -- token3=,
+DEBUG [MRASThread] (MRASP.java:65) -- token2=醫令用藥:非類固醇抗發炎劑之注射劑
+DEBUG [MRASThread] (MRASP.java:69) -- token3=醫令用藥
+DEBUG [MRASThread] (MRASP.java:69) -- token3=:
+DEBUG [MRASThread] (MRASP.java:69) -- token3=非類固醇抗發炎劑之注射劑
+DEBUG [MRASThread] (MRASP.java:65) -- token2=,
+DEBUG [MRASThread] (MRASP.java:69) -- token3=,
+DEBUG [MRASThread] (MRASP.java:65) -- token2=病患能接受的藥物用法:注射
+DEBUG [MRASThread] (MRASP.java:69) -- token3=病患能接受的藥物用法
+DEBUG [MRASThread] (MRASP.java:69) -- token3=:
+DEBUG [MRASThread] (MRASP.java:69) -- token3=注射
+DEBUG [MRASThread] (MRASP.java:65) -- token2=,
+DEBUG [MRASThread] (MRASP.java:69) -- token3=,
+DEBUG [MRASThread] (MRASP.java:65) -- token2=連續使用天數:4
+DEBUG [MRASThread] (MRASP.java:69) -- token3=連續使用天數
+DEBUG [MRASThread] (MRASP.java:69) -- token3=:
+DEBUG [MRASThread] (MRASP.java:69) -- token3=4
+DEBUG [MRASThread] (MRASP.java:78) -- start parse
+DEBUG [MRASThread] (MRASP.java:81) -- strtype is med_status
+DEBUG [MRASThread] (MRASP.java:92) -- test log
+DEBUG [MRASThread] (MRASP.java:116) -- test log2
+DEBUG [MRASThread] (MRASP.java:128) -- prop=#{prop}
+DEBUG [MRASThread] (MRASP.java:131) -- val=#{val}
+DEBUG [MRASThread] (MRASP.java:116) -- test log2
+DEBUG [MRASThread] (MRASP.java:128) -- prop=#{prop}
+DEBUG [MRASThread] (MRASP.java:131) -- val=#{val}
+DEBUG [MRASThread] (MRASP.java:116) -- test log2
+DEBUG [MRASThread] (MRASP.java:128) -- prop=#{prop}
+DEBUG [MRASThread] (MRASP.java:131) -- val=#{val}
+DEBUG [MRASThread] (MRASP.java:116) -- test log2
+DEBUG [MRASThread] (MRASP.java:128) -- prop=#{prop}
+DEBUG [MRASThread] (MRASP.java:131) -- val=#{val}
+DEBUG [MRASThread] (Agent.java:164) -- lpropname = 患有疾病
+ INFO [MRASThread] (Agent.java:140) -- create indvidual:p is患有疾病v is中風
+ INFO [MRASThread] (Agent.java:152) -- create indvidual:prop is患有疾病valIns is中風
+DEBUG [MRASThread] (Agent.java:164) -- lpropname = 病患能接受的藥物用法
+ INFO [MRASThread] (Agent.java:140) -- create indvidual:p is病患能接受的藥物用法v is注射
+ INFO [MRASThread] (Agent.java:152) -- create indvidual:prop is病患能接受的藥物用法valIns is注射
+DEBUG [MRASThread] (Agent.java:164) -- lpropname = 連續使用天數
+ INFO [MRASThread] (Agent.java:140) -- create indvidual:p is連續使用天數v is4
+FATAL [MRASThread] (Agent.java:143) -- 
+FATAL [MRASThread] (Agent.java:144) -- 4
+FATAL [MRASThread] (Agent.java:145) -- literal
+FATAL [MRASThread] (Agent.java:146) -- val:4
+DEBUG [MRASThread] (Agent.java:164) -- lpropname = 醫令用藥
+ INFO [MRASThread] (Agent.java:140) -- create indvidual:p is醫令用藥v is非類固醇抗發炎劑之注射劑
+ INFO [MRASThread] (Agent.java:152) -- create indvidual:prop is醫令用藥valIns is非類固醇抗發炎劑之注射劑
+DEBUG [MRASThread] (Agent.java:241) -- http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#中風與類別 url:http://www.stut.edu.tw/NHIMedRule.owl#急性上呼吸道感染不相等，歸屬失敗！
+DEBUG [MRASThread] (Agent.java:252) -- http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#中風與超類別 url:http://www.stut.edu.tw/NHIMedRule.owl#疾病不相等，歸屬失敗！
+DEBUG [MRASThread] (Agent.java:252) -- http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#中風與超類別 url:http://www.stut.edu.tw/NHIMedRule.owl#醫療不相等，歸屬失敗！
+DEBUG [MRASThread] (Agent.java:255) -- http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890未歸屬到任一類別，失敗!
+DEBUG [MRASThread] (Agent.java:199) -- http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890與互補類別:http://www.stut.edu.tw/NHIMedRule.owl#急性上呼吸道感染相斥，歸屬通過!
+DEBUG [MRASThread] (Agent.java:283) -- http://www.stut.edu.tw/NHIMedRule.owl#醫療狀態:1254192377858屬性[http://www.stut.edu.tw/NHIMedRule.owl#患有疾病]的值為[http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890] 符合all value from [5d367122:12403b0ecf5:-7ff6] 
+DEBUG [MRASThread] (Agent.java:241) -- http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#中風與類別 url:http://www.stut.edu.tw/NHIMedRule.owl#急性上呼吸道感染不相等，歸屬失敗！
+DEBUG [MRASThread] (Agent.java:252) -- http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#中風與超類別 url:http://www.stut.edu.tw/NHIMedRule.owl#疾病不相等，歸屬失敗！
+DEBUG [MRASThread] (Agent.java:252) -- http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#中風與超類別 url:http://www.stut.edu.tw/NHIMedRule.owl#醫療不相等，歸屬失敗！
+DEBUG [MRASThread] (Agent.java:255) -- http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890未歸屬到任一類別，失敗!
+DEBUG [MRASThread] (Agent.java:199) -- http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890與互補類別:http://www.stut.edu.tw/NHIMedRule.owl#急性上呼吸道感染相斥，歸屬通過!
+DEBUG [MRASThread] (Agent.java:237) -- http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑:1254192377905的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑與類別 url:http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑相等，歸屬通過！
+DEBUG [MRASThread] (Agent.java:283) -- http://www.stut.edu.tw/NHIMedRule.owl#醫療狀態:1254192377858屬性[http://www.stut.edu.tw/NHIMedRule.owl#醫令用藥]的值為[http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑:1254192377905] 符合all value from [http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑] 
+DEBUG [MRASThread] (Agent.java:237) -- http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑:1254192377905的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑與類別 url:http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑相等，歸屬通過！
+DEBUG [MRASThread] (Agent.java:228) -- http://www.stut.edu.tw/NHIMedRule.owl#注射:1254192377890不在列舉類別:5d367122:12403b0ecf5:-7fcf中，歸屬失敗
+DEBUG [MRASThread] (Agent.java:199) -- http://www.stut.edu.tw/NHIMedRule.owl#注射:1254192377890與互補類別:5d367122:12403b0ecf5:-7fcf相斥，歸屬通過!
+DEBUG [MRASThread] (Agent.java:283) -- http://www.stut.edu.tw/NHIMedRule.owl#醫療狀態:1254192377858屬性[http://www.stut.edu.tw/NHIMedRule.owl#病患能接受的藥物用法]的值為[http://www.stut.edu.tw/NHIMedRule.owl#注射:1254192377890] 符合all value from [5d367122:12403b0ecf5:-7f92] 
+DEBUG [MRASThread] (Agent.java:228) -- http://www.stut.edu.tw/NHIMedRule.owl#注射:1254192377890不在列舉類別:5d367122:12403b0ecf5:-7fcf中，歸屬失敗
+DEBUG [MRASThread] (Agent.java:199) -- http://www.stut.edu.tw/NHIMedRule.owl#注射:1254192377890與互補類別:5d367122:12403b0ecf5:-7fcf相斥，歸屬通過!
+DEBUG [MRASThread] (Agent.java:164) -- lpropname = 值大於
+DEBUG [MRASThread] (Agent.java:164) -- lpropname = 值小於
+ WARN [MRASThread] (Agent.java:339) -- http://www.stut.edu.tw/NHIMedRule.owl#醫療狀態:1254192377858.http://www.stut.edu.tw/NHIMedRule.owl#連續使用天數=4 restriction on http://www.stut.edu.tw/NHIMedRule.owl#連續使用天數小於 < 5
+DEBUG [MRASThread] (Server.java:70) -- legality true
+ INFO [MRASThread] (Server.java:79) -- server closed.
+ INFO [main] (Server.java:14) -- server start in port 1729!

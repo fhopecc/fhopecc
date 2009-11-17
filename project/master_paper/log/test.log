@@ -1,0 +1,21 @@
+D:\fhopecc\master_paper\lib\java\MRAS.java:29: duplicate class: mras.MRASThread
+class MRASThread extends Thread {
+^
+D:\fhopecc\master_paper\lib\java\mras\Server.java:38: cannot find symbol
+symbol  : constructor MRAS(java.lang.String)
+location: class mras.MRAS
+		agent=new MRAS(onturl);
+		      ^
+D:\fhopecc\master_paper\lib\java\mras\Server.java:58: cannot find symbol
+symbol  : method getRequireProperties(java.lang.String)
+location: class mras.MRAS
+            Set properties = agent.getRequireProperties(mras.getUsemed());
+                                  ^
+D:\fhopecc\master_paper\lib\java\mras\Server.java:63: cannot find symbol
+symbol  : method checkValid(java.util.Map)
+location: class mras.MRAS
+            mras.setLegality(agent.checkValid(mras.props));
+                                  ^
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+4 errors

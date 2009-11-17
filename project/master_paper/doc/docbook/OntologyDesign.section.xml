@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding="Big5"?>
+<sect2><title>醫療法規知識本體</title>
+&MedRuleModelBySW;
+<sect3><title>醫療狀態</title>
+<para>
+「醫療狀態」包含所有醫療行為應紀錄的資訊，
+這些資訊有法律、研究及會計等用途。
+例如用藥、用藥量、開藥醫師、病患性別、病患年齡、病患身高、
+病患體重、病患疾病、病徵、疾病發生位置及生理各項生化檢驗值。
+疾病狀態目前已有一組標準的診斷碼來表示，ICD9，
+這對「醫療狀態」的形式化有很大的助益，並簡化了許多工作。 
+「醫療狀態」就是醫師執行醫療行為所有與法規有關的事實，
+由<xref linkend="MedRuleAgentDFD"/>
+也可以看出「醫療狀態」可再區分為病患狀態以及醫令狀態，
+醫令狀態包含用藥、用藥量、開藥醫師等等資訊。
+病患狀態又可細分為性別、年齡、身高、體重、疾病狀態。
+而疾病狀態其描述相當複雜，像是要描述病徵、 
+發生位置及生理各項生化檢驗值， 
+</para>
+</sect3>
+<sect3><title>醫療法規</title>
+<para>
+「全民健康保險藥品給付規定」是健保局制定的一組法規， 
+主要利用申報給付與否來控制醫事服務機構用藥行為，
+其目的在於保障病患健康，導引合理用藥，並提供審查給付之依據
+<biblioref linkend="NHI05"/>。
+</para>
+<para>
+此法規核心在於管控用藥行為，
+其管控手段在於對不合規定的用藥行為不給付健保費用，
+這是對用藥行為的限制，
+而用藥行為也是一種「醫療狀態」，
+由此可推論出每個「醫療法規」定義了所允許的「醫療狀態」，
+是故「醫療法規」<emphasis>本質上是對「醫療狀態」的分類</emphasis>，
+於是用藥法規檢核運算便可以<emphasis>輸入的
+「醫療狀態」個案是否屬於「醫療法規」所定義的「醫療狀態」類別
+</emphasis>來實作，
+若醫師輸入的個案「醫療狀態」不屬於法規的分類範圍內，
+則視為不合法，
+其邏輯如<xref linkend="HRPSCaseClassiferFlow"/>所示。
+</para>
+<figure id="HRPSCaseClassiferFlow"><title>個案分類運算</title>
+	<imagedata fileref="images/paper/HRPSCaseClassiferFlow.png"/>
+</figure>
+</sect3>
+<sect3><title>描述醫療法規模型的需求</title>
+<para>
+由於「醫療法規」本質上為「醫療狀態」的類別，
+是故描述法規的模型必須能夠支援定義類別的語法，
+且能<emphasis>有效的執行某執行個體是否屬於某定義類別的運算</emphasis>，以期能利用此形式知識本體語言來模擬法規檢核運算。
+</para>
+</sect3>
+<sect3><title>使用屬性值限制來定義「醫療法規」</title>
+<figure id="ClassDefByEnum"><title>以列舉法定義區間類別 1..10</title>
+<programlisting>
+Class Range(1..10)={1,2,3,4,5,6,7,8,9,10}
+</programlisting>
+</figure>
+<figure id="ClassDefByStructureConstrain"><title>以屬性值限制法定義區間類別 1..10</title>
+<programlisting>
+Class Range(1..10)={for t of Range(1..10), 1&lt;= t &lt;=10}
+</programlisting>
+</figure>
+<para>
+類別本質上是一群個案的集合，
+描述集合的方法主要為屬性值限制、列舉法。
+如<xref linkend="ClassDefByEnum"/>，
+為以列舉法定義區間類別 1..10，
+而<xref linkend="ClassDefByStructureConstrain"/>，
+則是以屬性值限制定義區間類別 1..10。
+</para>
+<figure id="MRNervousSystem"><title>神經系統藥物的藥品給付規定</title> 
+<programlisting>
+第1章 神經系統藥物 Drugs acting on the nervous system
+1.1. 疼痛解除劑 Drugs used for pain relief 
+1.1.1. 非類固醇抗發炎劑外用製劑給付規定: (88/09/01、92/2/1)
+1.外用非類固醇抗發炎軟膏，限不適合口服非類固醇抗發炎製劑之軟組織風濕症或關節炎病患使用，每月至多以處方一支(每支最大包裝量不得大於40gm)為限。
+</programlisting>
+</figure>
+<para>
+<xref linkend="MRNervousSystem"/>為神經系統藥物的藥品給付規定，
+假設我們要列舉所有合法的「醫療狀態」來定義上述法令的類別，
+幾乎是不可能的，
+所以我們應該使用<emphasis>屬性值限制</emphasis>來定義類別，
+例如<xref linkend="MRNervousSystemClassDef"/>的虛擬碼，
+便是使用屬性值限制法來定義上述的法規類別，
+而且可以很輕易的轉成如<xref linkend="MRNervousSystemOWL"/>的 OWL 語言碼。
+</para>
+<figure id="MRNervousSystemClassDef"><title>以屬性值限制來定義神經系統藥物規定</title> 
+<programlisting>
+class "規定1.1.1.1" subclassof 「醫療法規」
+  "用藥"值等於"外用非類固醇抗發炎軟膏"
+  "藥品用法"值不等於"口服"
+  "每次用量"值小於"一支"
+    "一支"的"每次用量"值小於"40gm"
+    "使用週期"值等於"一個月"
+  "疾病"值必須等於"軟組織風濕症" or "關節炎"
+end class
+</programlisting>
+</figure>
+<figure id="MRNervousSystemOWL"><title>神經系統藥物規定的OWL碼</title> 
+<programlisting>
+<![CDATA[
+<owl:Class rdf:about="#規定1.1.1.1外用非類固醇抗發炎軟膏">
+  <rdfs:subClassOf rdf:resource="#規定1.1.1非類固醇抗發炎劑外用製劑給付規定"/>
+
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#藥物用量小於"/>
+      <owl:hasValue rdf:resource="#每月一支_支小於四十公克"/>
+    </owl:Restriction>
+  </rdfs:subClassOf/>
+
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#病患適合藥物"/>
+      <owl:allValuesFrom>
+        <owl:complementOf rdf:resource="#口服非類固醇抗發炎製劑"/>
+      </owl:allValuesFrom>
+    </owl:Restriction>
+  </rdfs:subClassOf/>
+
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#患有疾病"/>
+      <owl:allValuesFrom>
+        <owl:unionOf rdf:parseType="Collection>
+          <owl:Class rdf:Id="#軟組織風溼症"/>
+          <olw:Class rdf:Id="#關節炎"/>
+        </owl:unionOf>
+      </owl:allValuesFrom>
+    </owl:Restriction>
+  </rdfs:subClassOf/>
+
+  <rdfs:subClassOf>
+    <owl:Restriction rdf:nodeID="A60">
+      <owl:onProperty rdf:resource="#醫令用藥"/>
+      <owl:allValuesFrom rdf:resource="#外用非類固醇抗發炎軟膏"/>
+    </owl:Restriction>
+  </rdfs:subClassOf/>
+</owl:Class>
+]]>
+</programlisting>
+</figure>
+</sect3>
+<sect3><title>OWL 的限制：無法定義數值區間的類別</title>
+<para>
+在利用 OWL 來建構法規的形式化知識本體時，
+出現一個嚴重的限制，
+我們<emphasis>無法僅用類別運算來定義數值區間類別</emphasis>，
+如「病患年齡」值小於「70」的「醫療法規」類別，
+便無法用 OWL 來定義。
+因此如<xref linkend="NumberRangeClassifyLogic"/>所描述的數值區間類別分類邏輯所示，
+要進行數值區間類別的分類，
+必須為「醫療法規」定義新的屬性「病患年齡小於」，
+其屬性值範圍和「病患年齡」相同，
+且其語義超越 OWL 模型所定義的分類語義
+我們直接於推理機賦予屬性值限制新的語義為，
+輸入「醫療狀態」個案的「病患年齡」的屬性值若小於「病患年齡小於」的屬性值，
+則此「醫療狀態」個案便屬於上述的類別。
+<emphasis>這讓我們無法僅使用 OWL 類別運算來描述數值區間的語意邏輯，
+必須額外在推理機上，實作數值區間類別的限制屬性的語意邏輯</emphasis>。
+這造成了必須在法規的醫療法規類別上，
+額外定義許多諸如「病患體重大於」、「病患服用週期長於」等有關數值比較的屬性，
+並且必須於推理機中額外實作運算邏輯。
+</para>
+<figure id="NumberRangeClassifyLogic"><title>數值區間類別分類邏輯</title> 
+<programlisting>
+「醫療狀態」個案A.病患年齡=50;        # A 個案的年齡為 50
+「醫療狀態」限制B.病患年齡小於=70;    # B 限制的「病患年齡小於」值為 70
+A 屬於 B = true;                      #則 A 屬於 B 的類別
+</programlisting>
+</figure>
+<!--
+有個解決辦法，我們可以直接在 OWL:Restriction 
+定義以數值區間定義 class 的邏輯
+-->
+</sect3>
+<sect3><title>健保規則的本體類別階層設計</title>
+<figure id="TopMedRuleTaxnomy">
+<title>基礎類別階層</title>
+<imagedata fileref="images/paper/TopMedRuleTaxnomy.png" />
+</figure>
+<figure id="NHIMedRuleTaxnomy">
+<title>全民健保給付規定的類別階層</title>
+<imagedata fileref="images/paper/NHIMedRuleTaxnomy.png" />
+</figure>
+<para>
+所有在類別階層，
+都有一個根類別，
+由<xref linkend="TopMedRuleTaxnomy"/>可看出，
+繼承根類別的第一層為「醫療」的子類別，
+來表示此類別以下的概念類別是屬於醫療業的領域知識。
+於是像是「檢驗」、「週期」、「疾病」、「藥物」、「藥物用法」、
+「藥物用量」、
+「醫師專科」、「醫療報告」、「醫療狀態」等在法規內容出現的概念，
+都繼承「醫療」來表示這些概念專屬於醫療領域。
+</para>
+<para>
+「醫療狀態」是整個醫事活動的重心，指每個人就醫的狀態。
+所以「醫療狀態」類別定義許多屬性，
+例如用藥、用藥量、開藥醫師、病患性別、病患年齡、
+病患身高、病患體重、疾病狀態，用以精確描述醫事活動。
+</para>
+<para>
+前文提到「醫療法規」<emphasis>本質上是對醫療狀態的分類</emphasis>，
+所以本文將「醫療法規」定義為「醫療狀態」的子類別。
+是故「醫療法規」繼承「醫療狀態」的所有屬性，
+並比新增了數值區間限制相關屬性，
+像是「病患體重大於」、「病患服用週期長於」等有關數值比較的屬性。
+</para>
+<para>
+<emphasis>因為「醫療法規」可用來描述「健保法規」</emphasis>，
+本文便將「全民健康保險藥品給付規定」作為「醫療法規」的子類別。
+而「全民健康保險藥品給付規定」以下類別階層，
+則大致上依照規定本文的章節階層而定，
+如<xref linkend="NHIMedRuleTaxnomy"/>所示的類別階層就和健保規則本文章節階層類似。
+</para>
+</sect3>
+<sect3><title>未能作法律歸類成員的處置</title>
+<para>
+於文獻探討有提到，法規檢核系統必須實作法規推論功能，才能對用藥行為作出檢核，
+法規推論系統可視為將個案的情況，歸類到適用何條法規，並歸類後，
+依個案是在法規限制內(合法行為)，或法規限制外(非法行為)應受到何種處置的過程。
+</para>
+<para>
+本文把上述法規推論的兩個程序，分別稱作「法律歸類」及「法律處置」。
+首先是法律歸類，
+其為依個案情況，找出適用的法條，
+也就是對個案作分法律歸類，而每一條法規視為一個類別。
+例如：某甲若是一個公務人員，
+且他在執行業務時，接受廠商的招待，
+事後並作出對廠商有利的裁決，
+此個案便可歸類為「貪污治罪條例」上的貪汙罪，
+</para>
+<para>
+其次是法律處置，法律歸類完後，依照法條上的定義，
+對類別成員所產生的效力。
+例如：上例的行為，
+可以判處無期徒刑或十年以上有期徒刑，得併科新台幣一億元以下罰金。
+</para>	
+<para>
+最後法律處置有兩種效果，
+本文分別稱為「法律剝奪」與「法律給付」，
+前者是剝奪法律分類成員的權利，
+後者給予法律分類成員特殊資源。
+本文歸納出，
+在現代法律制度下，
+此兩種效果對其未能作法律歸類成員（即找不到適用法條的個案），
+前者是不剝奪，後者是不給付。
+</para>	
+<para>
+在法律剝奪上，對未能作法律歸類成員的重要規範，
+稱為罪刑法定主義(legality)，這是現代法律體系的重要本質，
+其意義為「法無明文規定不為罪，法無明文規定不處罰」，
+我們可以將這句說分別看成罪的法定和刑的法定，罪的法定是指只有當一人之行為符合刑法明文規定的犯罪構成要件，
+才能將該之視為犯罪；刑之法定是指當行為人被認定犯罪，亦必須依照刑法的規定將之處罰，
+在刑種、刑期、量刑等方面都不能超過刑法的明文規定。
+</para>	
+<para>
+故若法律其法律處置是屬於法律剝奪，
+則法規知識模型以反面列表為佳，未列表者，視為合法，
+較能簡單符合法無明文規定不處罰。
+</para>	
+<para>
+法律給付的法條其目的通常是防止濫用資源，例如「全民健康保險藥品給付規定」是用來防止濫用醫療資源， 
+是故法條的重點是要明確定出那些情況是可以動用資源的，
+法律未定義，即不能申請給付。
+</para>	
+<para>
+故若法律其法律處置是屬於法律給付，
+則法規知識模型以正面列表為佳，未列表者，視為不合法，
+較能簡單符合法無明文規定不給付。
+</para>	
+</sect3>
+</sect2>

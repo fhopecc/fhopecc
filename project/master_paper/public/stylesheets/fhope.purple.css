@@ -1,0 +1,18 @@
+.menu_pane {background:LightGrey; 
+	          border-color: purple; border-width: 2;
+          	border-style:solid}
+.menuitem {color:purple}
+.bartitle {color:purple;
+	         font-family:標楷體;
+           font-size:xx-large}
+.barsubtitle {color:purple;
+	         font-family:標楷體;
+           font-size:large}
+.copyright {color:purple;text-align:right}
+
+/*label is normal text*/
+.label {color:purple;text-align:left}
+.title {color:green;text-align:center}
+/*emphasis is strong text, its color should be label's complement*/
+.emphasis  {color:green}
+

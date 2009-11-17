@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding="Big5"?>
+<bibliography><title>參考文獻</title>
+<biblioentry id="LinChen05"><abbrev>林建05</abbrev>
+<author>
+<firstname>林</firstname>
+<surname>建良</surname>
+</author>
+<title>以知識本體提供代理人建構共通之協商環境－以生產排程協商為例</title>
+<publisher>
+<publishername>中原大學資訊研究所碩士論文</publishername>
+<pubdate>2005</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="U04"><abbrev>尤04</abbrev>
+<author>
+<firstname>尤</firstname>
+<surname>進泰</surname>
+</author>
+<title>健保 IC 卡內存醫令與醫師處方用藥安全檢核系統設計實作</title>
+<publisher>
+<publishername>成功大學工程科學研究所碩士論文</publishername>
+<pubdate>2004</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="Lai03"><abbrev>賴03</abbrev>
+<author>
+<firstname>賴</firstname>
+<surname>昆汕</surname>
+</author>
+<title>藥品交互作用資料庫應用系統設計與實作</title>
+<publisher>
+<publishername>臺灣大學資訊工程研究所碩士論文</publishername>
+<pubdate>2003</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="Li01"><abbrev>李01</abbrev>
+<author>
+<firstname>李</firstname>
+<surname>彥良</surname>
+</author>
+<title>Web-based診間醫令之開發與建置</title>
+<publisher>
+<publishername>臺北醫學大學醫學資訊研究所碩士論文</publishername>
+<pubdate>2001</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="Wu04"><abbrev>吳04</abbrev>
+<author>
+<firstname>吳</firstname>
+<surname>立雅</surname>
+</author>
+<title>以人機介面觀點探討醫令資訊系統 的用藥疏失因素及介面設計原則</title>
+<publisher>
+<publishername>元智大學資訊傳播研究所碩士論文</publishername>
+<pubdate>2004</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="Tang02"><abbrev>湯02</abbrev>
+<author>
+<firstname>湯</firstname>
+<surname>進聖</surname>
+</author>
+<title>醫院醫囑藥物交互作用提示系統</title>
+<publisher>
+<publishername>國立陽明大學公共衛生研究所碩士論文</publishername>
+<pubdate>2002</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="Wei05"><abbrev>魏05</abbrev>
+<author>
+<firstname>魏</firstname>
+<surname>怡嘉</surname>
+</author>
+<title>自由電子報20050914:健保胃藥 10月起不給付</title>
+<bibliosource class="uri">
+http://www.libertytimes.com.tw/2005/new/sep/14/today-life1.htm
+</bibliosource>
+</biblioentry>
+<biblioentry id="Lin05"><abbrev>林05</abbrev>
+<author>
+<firstname>林</firstname>
+<surname>東清</surname>
+</author>
+<title>資訊管理--e化企業的核心競爭能力</title>
+<publisher>
+<publishername>智勝出版社</publishername>
+<pubdate>2005</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="chen97"><abbrev>簡李唐胡97</abbrev>
+<authorgroup>
+<author>
+<firstname>簡</firstname>
+<surname>文山</surname>
+</author>
+<author>
+<firstname>李</firstname>
+<surname>友專</surname>
+</author>
+<author>
+<firstname>唐</firstname>
+<surname>大鈿</surname>
+</author>
+<author>
+<firstname>胡</firstname>
+<surname>俊弘</surname>
+</author>
+</authorgroup>
+<biblioset relation='article'>
+<title>建立臺灣醫療資訊交換中心之藍圖</title>
+</biblioset>
+<biblioset relation='journal'>
+<title>醫療資訊雜誌</title>
+<pagenums>54-66</pagenums>
+<publisher>
+<publishername>中華民國醫療資訊學會</publishername>
+</publisher>
+</biblioset>
+</biblioentry>
+<biblioentry id="NHI05">
+<abbrev>健05</abbrev>
+<orgname class='corporation'>中央健康保險局</orgname>
+<title>全民健康保險藥品給付規定</title>
+</biblioentry>
+<biblioentry id="BernersLee01"><abbrev>BernersLee01</abbrev>
+<authorgroup>
+<author>
+<firstname>Tim </firstname>
+<surname>Berners-Lee</surname>
+</author>
+<author>
+<firstname>James </firstname>
+<surname>Hendler </surname>
+</author>
+<author>
+<firstname>Ora</firstname>
+<surname>Lassila</surname>
+</author>
+</authorgroup>
+<biblioset relation='article'>
+<title>The Semantic Web</title>
+</biblioset>
+<biblioset relation='journal'>
+<title>Scientific American</title>
+<publisher>
+<publishername>SCIENTIFIC AMERICAN, Inc</publishername>
+</publisher>
+</biblioset>
+</biblioentry>
+<biblioentry id="UML2.0"><abbrev>UML2.0</abbrev>
+<orgname class='corporation'>
+Object Management Group
+</orgname>
+<title>UML Superstructure Specification, v2.0</title>
+<bibliosource class="url">
+http://www.omg.org/cgi-bin/doc?formal/05-07-04
+</bibliosource>
+</biblioentry>
+<biblioentry id="Ambler06"><abbrev>Ambler06</abbrev>
+<author>
+<firstname>Scott W.</firstname>
+<surname>Ambler</surname>
+</author>
+<title>A UML Profile for Data Modeling</title>
+<bibliosource class="url">
+http://www.agiledata.org/essays/umlDataModelingProfile.html
+</bibliosource>
+</biblioentry>
+<biblioentry id="DacontaObrstSmith03">
+<abbrev>DacontaObrstSmith03</abbrev>
+<authorgroup>
+<author>
+<firstname>Michael C.</firstname>
+<surname>Daconta</surname>
+</author>
+<author>
+<firstname>Leo J.</firstname>
+<surname>Obrst</surname>
+</author>
+<author>
+<firstname>Kevin T.</firstname>
+<surname>Smith</surname>
+</author>
+</authorgroup>
+<title>The Semantic Web</title>
+<subtitle>
+A Guide to the Future of XML, Web Services, and
+Knowledge Management
+</subtitle>
+<publisher>
+<publishername>Wiley Publishing, Inc</publishername>
+<pubdate>May 30, 2003</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="FranzDiegoETC03">
+<abbrev>FranzDiegoETC03</abbrev>
+<authorgroup>
+<author>
+<firstname>Franz</firstname>
+<surname>Baader</surname>
+</author>
+<author>
+<firstname>Diego</firstname>
+<surname>Calvanese</surname>
+</author>
+<author>
+<firstname>Deborah L.</firstname>
+<surname>McGuinness</surname>
+</author>
+<author>
+<firstname>Daniele</firstname>
+<surname>Nardi</surname>
+</author>
+<author>
+<firstname>Peter F.</firstname>
+<surname>Patel-schneider</surname>
+</author>
+</authorgroup>
+<title>THE DESCRIPTION LOGIC HANDBOOK</title>
+<subtitle>
+Theory, implementation, and applications
+</subtitle>
+<publisher>
+<publishername>Cambridge University Press</publishername>
+<pubdate>2003</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="AhoSethiUllman86">
+<abbrev>AhoSethiUllman86</abbrev>
+<authorgroup>
+<author>
+<firstname>Alfred V. </firstname>
+<surname>Aho</surname>
+</author>
+<author>
+<firstname>Ravi</firstname>
+<surname>Sethi</surname>
+</author>
+<author>
+<firstname>Jeffrey D</firstname>
+<surname>Ullman</surname>
+</author>
+</authorgroup>
+<title>Compilers, principles, techniques, and tools</title>
+<publisher>
+<publishername>Addison-Wesley Pub. Co</publishername>
+<pubdate>1986</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="Jackson90">
+<abbrev>Jackson90</abbrev>
+<author>
+<firstname>Peter</firstname>
+<surname>Jackson</surname>
+</author>
+<title>Introduction to Expert Systems</title>
+<publisher>
+<publishername>Addison-Wesley</publishername>
+<pubdate>1990</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="Skalak89">
+<abbrev>Skalak89</abbrev>
+<author>
+<firstname>David B.</firstname>
+<surname>Skalak</surname>
+</author>
+<biblioset relation='article'>
+<title>Taking Advantage of Models for Legal Classification</title>
+</biblioset>
+<biblioset relation='journal'>
+<title>Proceedings of the 2nd international conference on Artificial intelligence and law</title>
+<pagenums>234-241</pagenums>
+<publisher>
+<publishername>ACM Press</publishername>
+<pubdate>1989</pubdate>
+</publisher>
+</biblioset>
+</biblioentry>
+<biblioentry id="Sowa99">
+<abbrev>Sowa99</abbrev>
+<author>
+<firstname>John F.</firstname>
+<surname>Sowa</surname>
+</author>
+<title>Knowledge Representation</title>
+<subtitle>
+Logical, Philosophical, and Computational
+Foundations
+</subtitle>
+<publisher>
+<publishername>Course Technology</publishername>
+<pubdate>Aug 16 1999</pubdate>
+</publisher>
+</biblioentry>
+<biblioentry id="XMLWiki">
+<abbrev>XMLWiki</abbrev>
+<orgname>Wikipedia</orgname>
+<title>XML</title>
+<bibliosource class="uri">
+http://en.wikipedia.org/wiki/Xml
+</bibliosource>
+</biblioentry>
+<biblioentry id="RFC1945">
+<abbrev>RFC1945</abbrev>
+<author>
+<firstname>H.</firstname>
+<surname>Frystyk</surname>
+</author>
+<title>Hypertext Transfer Protocol</title>
+<bibliosource class="url">
+http://www.ietf.org/rfc/rfc1945.txt
+</bibliosource>
+</biblioentry>
+<biblioentry id="OWLGuide"><abbrev>OWLGuide04</abbrev>
+<editor>
+<firstname>Michael K.</firstname>
+<surname>Smith</surname>
+</editor>
+<title>OWL Web Ontology Language Guide</title>
+<bibliosource class="uri">
+http://www.w3.org/TR/2004/REC-owl-guide-20040210/
+</bibliosource>
+</biblioentry>
+<biblioentry id="sparql"><abbrev>SPARQL</abbrev>
+<authorgroup>
+<editor>
+<firstname>Eric</firstname>
+<surname>Prud'hommeaux</surname>
+</editor>
+<editor>
+<firstname>Andy</firstname>
+<surname>Seaborne</surname>
+</editor>
+</authorgroup>
+<title>SPARQL Query Language for RDF</title>
+<bibliosource class="uri">
+http://www.w3.org/TR/rdf-sparql-query/
+</bibliosource>
+</biblioentry>
+<biblioentry id="jena"><abbrev>Jena</abbrev>
+<editor>
+<firstname>Brian</firstname>
+<surname>McBride</surname>
+</editor>
+<title>An Introduction to RDF and the Jena RDF API</title>
+<bibliosource class="uri">
+http://jena.sourceforge.net/tutorial/RDF_API/index.html
+</bibliosource>
+</biblioentry>
+<biblioentry id="jena_ontology"><abbrev>Jena Ontology</abbrev>
+<editor>
+<firstname>Brian</firstname>
+<surname>McBride</surname>
+</editor>
+<title>Jena 2 Ontology API</title>
+<bibliosource class="uri">
+http://jena.sourceforge.net/ontology/index.html
+</bibliosource>
+</biblioentry>
+<biblioentry id="Sowa03"><abbrev>Sowa03</abbrev>
+<author>
+<firstname>John F.</firstname>
+<surname>Sowa</surname>
+</author>
+<title>Ontology</title>
+<bibliosource class="uri">
+http://www.jfsowa.com/ontology/index.htm
+</bibliosource>
+</biblioentry>
+</bibliography>

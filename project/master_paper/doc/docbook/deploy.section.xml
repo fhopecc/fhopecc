@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding="Big5"?>
+<sect2><title>系統元件佈署</title>
+<figure id="DemoSiteDeploy"><title>法規代理人實作佈署圖</title>
+	<imagedata fileref="images/paper/DemoSiteDeploy.png"/>
+</figure>
+<para>
+本文依上述的系統設計建構一簡易的雛型來實現上述的法規自動更新系統，
+<xref linkend="DemoSiteDeploy"/>為系統各元件的佈署圖，
+首先可以看到雛型系統分為三個主元件，
+一個是運行在 JVM 上的藥品法規代理人伺服器(MRAS)，提供上述的法規代理人服務，
+中間為運行在 Ruby 端的應用程式伺服器(APS)，模擬醫院的應用程式系統，
+MRAS 和 APS 利用 MRAS 協定作溝通，所以雙方均有一程式庫 MRASP 實作
+MRAS 協定。
+第三方為瀏覽器，為醫師或其它醫事人員使用的客戶終端，
+主要使用 HTTP 協定與 APS 溝通。
+原本全部想利用 ruby 語言實作雛型，但 ruby 語言缺乏適合的 OWL 文件剖析器，
+故 MRAS 使用 Java 語言來實作，並搭配 Jena 的 OWL 文件剖析器，
+APS 到採用 ruby 語言實作，
+其說明如下：
+<itemizedlist>
+<listitem>
+MRAS 是代理人伺服端的主體，
+開啟後會在 TCP 的 1729 埠等待客戶端連線，
+當客戶端發出要求後，
+會把要求訊息利用 MRASP 剖析，
+再傳給 MRASEgine 處理客戶端的要求，
+實現法規代理服務，
+並將服務結果以 MRASP 轉為 MRAS 協定訊息，
+再回覆給客戶端。
+</listitem>
+<listitem>
+MRASEgine 實作法規的推理功能，
+並利用 jena 函式庫來剖析健保法規的 OWL 檔，
+並進行 OWL DL 層級的推理，
+並將剖析結果載入到推理機的知識庫。
+</listitem>
+<listitem>
+MRASP 是藥品法規代理人服務協定的剖析器，
+用來剖析協定的訊息，並實現上述的銀行櫃檯模式。
+所以在伺服端及客戶端各有 Java 語言及 Ruby 語言的實作。
+剖析演算法主要實現<emphasis>預測遞降法(predictive dscent-down parsing)</emphasis>
+<biblioref linkend="AhoSethiUllman86"/>。
+</listitem>
+<listitem>
+本系統利用 Jena RDF <biblioref linkend="jena"/>以及 Jena Ontology
+的函式庫，來分析健保規則的 OWL 檔案
+xercesImpl 為 XML 的剖析器，
+這是由於 OWL 本身即為使用 RDF 定義，
+而 RDF 又是使用 XML 的格式。
+故 jena 會利用 xercesImpl 剖析 OWL 成為 RDF 模型，
+再利用 OWL 推理引擎求出整個本體的 OWL 模型，
+以利 MRASEgine 使用。
+</listitem>
+<listitem>
+TestWebSiteFiles 則為簡易的 WEB 應用程式，
+會使用到上述的推理機功能，
+本雛型有兩個測試，需求醫療狀態測試，及判斷用藥合法性測試，
+測試過程會在文後描述。
+</listitem>
+</itemizedlist>
+</para>
+</sect2>

@@ -1,0 +1,37 @@
+lpropname = 患有疾病
+create indvidual:p is患有疾病v is中風
+create indvidual:prop is患有疾病valIns is中風
+lpropname = 病患能接受的藥物用法
+create indvidual:p is病患能接受的藥物用法v is注射
+create indvidual:prop is病患能接受的藥物用法valIns is注射
+lpropname = 連續使用天數
+create indvidual:p is連續使用天數v is4
+
+4
+literal
+val:4
+lpropname = 醫令用藥
+create indvidual:p is醫令用藥v is非類固醇抗發炎劑之注射劑
+create indvidual:prop is醫令用藥valIns is非類固醇抗發炎劑之注射劑
+http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#中風與類別 url:http://www.stut.edu.tw/NHIMedRule.owl#急性上呼吸道感染不相等，歸屬失敗！
+http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#中風與超類別 url:http://www.stut.edu.tw/NHIMedRule.owl#疾病不相等，歸屬失敗！
+http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#中風與超類別 url:http://www.stut.edu.tw/NHIMedRule.owl#醫療不相等，歸屬失敗！
+http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890未歸屬到任一類別，失敗!
+http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890與互補類別:http://www.stut.edu.tw/NHIMedRule.owl#急性上呼吸道感染相斥，歸屬通過!
+http://www.stut.edu.tw/NHIMedRule.owl#醫療狀態:1254192377858屬性[http://www.stut.edu.tw/NHIMedRule.owl#患有疾病]的值為[http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890] 符合all value from [5d367122:12403b0ecf5:-7ff6] 
+http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#中風與類別 url:http://www.stut.edu.tw/NHIMedRule.owl#急性上呼吸道感染不相等，歸屬失敗！
+http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#中風與超類別 url:http://www.stut.edu.tw/NHIMedRule.owl#疾病不相等，歸屬失敗！
+http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#中風與超類別 url:http://www.stut.edu.tw/NHIMedRule.owl#醫療不相等，歸屬失敗！
+http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890未歸屬到任一類別，失敗!
+http://www.stut.edu.tw/NHIMedRule.owl#中風:1254192377890與互補類別:http://www.stut.edu.tw/NHIMedRule.owl#急性上呼吸道感染相斥，歸屬通過!
+http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑:1254192377905的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑與類別 url:http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑相等，歸屬通過！
+http://www.stut.edu.tw/NHIMedRule.owl#醫療狀態:1254192377858屬性[http://www.stut.edu.tw/NHIMedRule.owl#醫令用藥]的值為[http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑:1254192377905] 符合all value from [http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑] 
+http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑:1254192377905的 RDF 型態:http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑與類別 url:http://www.stut.edu.tw/NHIMedRule.owl#非類固醇抗發炎劑之注射劑相等，歸屬通過！
+http://www.stut.edu.tw/NHIMedRule.owl#注射:1254192377890不在列舉類別:5d367122:12403b0ecf5:-7fcf中，歸屬失敗
+http://www.stut.edu.tw/NHIMedRule.owl#注射:1254192377890與互補類別:5d367122:12403b0ecf5:-7fcf相斥，歸屬通過!
+http://www.stut.edu.tw/NHIMedRule.owl#醫療狀態:1254192377858屬性[http://www.stut.edu.tw/NHIMedRule.owl#病患能接受的藥物用法]的值為[http://www.stut.edu.tw/NHIMedRule.owl#注射:1254192377890] 符合all value from [5d367122:12403b0ecf5:-7f92] 
+http://www.stut.edu.tw/NHIMedRule.owl#注射:1254192377890不在列舉類別:5d367122:12403b0ecf5:-7fcf中，歸屬失敗
+http://www.stut.edu.tw/NHIMedRule.owl#注射:1254192377890與互補類別:5d367122:12403b0ecf5:-7fcf相斥，歸屬通過!
+lpropname = 值大於
+lpropname = 值小於
+http://www.stut.edu.tw/NHIMedRule.owl#醫療狀態:1254192377858.http://www.stut.edu.tw/NHIMedRule.owl#連續使用天數=4 restriction on http://www.stut.edu.tw/NHIMedRule.owl#連續使用天數小於 < 5

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding="Big5"?>
+<sect2><title>研究方法</title>
+<!--補足 SDLC 文獻，並說明採用 SDLC 之理由-->
+<!--法規為一形式化且明確的知識領域-->
+<para>
+本文目標是建構一個軟體系統來實現健保局與醫院間法規檢核系統的自動更新，
+所以選用 SDLC 模型來規劃此系統的基本開發步驟及必要工作
+<biblioref linkend="Lin05"/>；
+另外，法規檢核系統本質上為專家系統，
+主要的知識領域是藥品法規，
+故在系統發展流程上，
+也必須考慮了知識工程的活動，
+一般知識工程包含以下活動：
+<itemizedlist>
+<listitem>問題評估</listitem>
+<listitem>知識系統介面/結構的發展</listitem>
+<listitem>將結構化知識實作進知識庫</listitem>
+<listitem>獲取並組織相關的資訊、知識及特殊領域知識</listitem>
+<listitem>測識並確認新加入的知識</listitem>
+<listitem>整合及維護系統</listitem>
+<listitem>修訂及評量系統</listitem>
+</itemizedlist>
+整合 SDLC 模型及知識工程，
+本文規劃出主要的研究步驟及說明如下：
+<procedure><title>研究步驟</title>
+<step><title>專案計畫</title>
+<para>
+此步驟規畫研究計畫必要的工作，及工作的排程，
+應產出甘特圖及研究計畫書。
+</para>
+</step>
+<step><title>文獻收集</title>
+<para>
+此步驟收集研究相關的文獻，以確立研究的基礎，
+目前規劃應收集的領域如下條列：
+<itemizedlist>
+<listitem>法規專家系統</listitem>
+<listitem>語意網</listitem>
+<listitem>描述邏輯</listitem>
+<listitem>OWL 語言</listitem>
+<listitem>健保藥品法規</listitem>
+<listitem>藥品檢核係統</listitem>
+<listitem>臨床醫令診斷系統</listitem>
+</itemizedlist>
+</para>
+</step>
+<step><title>系統分析</title>
+<substeps>
+  <step><title>法規知識介面分析</title>
+  <para>
+  分析出醫院藥品檢核系統，
+  要如何取用法規代理人的服務。
+  </para>
+  </step>
+  <step><title>法規知識表徵分析</title>
+  <para>
+  此步驟主要是分析法規條文，及其控管的標的，
+  從而設計出符合效率及能達成目標的法規表徵。
+  </para>
+  </step>
+</substeps>
+</step>
+<step><title>系統設計</title>
+</step>
+<step><title>系統實作</title>
+<substeps>
+  <step><title>實作法規 OWL 文件</title>
+  <para>
+  OWL 即為知識庫，
+  此工作將目前法規依上述設計編碼成 OWL 文件。
+  </para>
+  </step>
+  <step><title>實作推理機</title>
+  </step>
+</substeps>
+</step>
+<step><title>論文撰寫</title>
+</step>
+</procedure>
+</para>
+<para>
+依上面主要研究步驟規劃，
+本論文的預定進度表如以下甘特圖所示：
+<figure><title>研究時程甘特圖</title>
+<imagedata fileref="pic/nhi_gantt.JPG" />
+</figure>
+</para>
+<para>
+由於當前主流開發平台，均是以物件導向為核心，
+本系統也會使用物件導向語言來實作，
+因此系統分析及設計會採用 UML2.0 標準來塑模
+<biblioref linkend="UML2.0"/>，
+而資料庫塑模會依 Ambler 提出的方法
+<biblioref linkend="Ambler06"/>，
+以 UML 取代傳統的實體關係圖。
+</para>
+</sect2>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding="Big5"?>
+<sect1><title>系統設計</title>
+<sect2><title>系統架構</title>
+<para>
+<figure id="HRPS_ARCH">
+<title>藥品法規自動同步系統架構</title>
+<imagedata fileref="images/paper/SystemArchitecture.png" />
+</figure>
+依據<xref linkend="NewMedicalLawPublishSequence"/>，
+本文設計 MRAS 系統架構及模組如<xref linkend="HRPS_ARCH"/>，
+各個元件及模組說明如以下條列：
+<itemizedlist>
+<listitem>OWL文件
+<para>
+健保法規的機器儲存形式，
+能以檔案形式儲存，
+故可以容易進行重製、交換及保存在非揮發性的儲存體中，
+如光碟、硬碟或磁帶等，
+也能利用簡易的檔案傳輸協定在公眾網路上交換。
+</para>
+<para>
+同時此機器法規能輕易的由程式直譯出來，
+並能表達所有健保藥品法規的語意。
+</para>
+</listitem>
+<listitem>Jena函式庫
+<para>
+Jena 是一組工具，Java 程式師只要具備少許的知識，
+便能處理 RDF 及 OWL 等語意網技術<biblioref linkend="jena"/>，
+故本系統採取 Jena 函式庫作為 OWL 文件的剖析器。
+</para>
+</listitem>
+<listitem>醫療法規知識本體
+<para>
+醫療法規知識本體是表徵健保規則的推理事實，
+法規推理引擎依據本體的描述來檢核醫令用藥合法性。
+健保局先將醫療法規用 OWL 文件表示，
+MRAS 再以 Jena 剖析 OWL 文件戴入記憶體後，
+再利用 Jena 的 OWL 推理功能，
+將模型內的隱函規則一併推理出來，
+並存放在記憶體中，
+以加速法規推理引擎的效率。
+</para>
+<para>
+<emphasis>隱函規則</emphasis>(implicit rules)指的是未明確出現在原本的
+OWL 模型中，
+但可藉由 OWL 模型所定義的推理法則所推論出來的規則事實。
+</para>
+</listitem>
+<listitem>推理引擎
+<orderedlist>
+<listitem>
+<emphasis>RAA 模組</emphasis>能依據HIS
+經由 MRASP 所傳入的用藥計算出判別用藥合法性所需要的醫療狀態資訊。
+</listitem>
+<listitem><emphasis>Case Classifier 模組</emphasis>
+能依據 HIS 所傳入的用藥及醫療狀態作分類，
+若歸屬類別屬於合法的醫療狀態類別，則判別用藥合法，反之為違法用藥。
+</listitem>
+<listitem><emphasis>NA Classifier模組</emphasis>
+能修正原本OWL模型不支援的數值區間類別的歸屬問題，
+來支援Case Classifier的分類。
+</listitem>
+</orderedlist>
+</listitem>
+<listitem><emphasis>MRASP</emphasis>，
+醫院的HIS能以此協定來取得MRAS的法規檢核服務，
+並傳入藥物檢核推理所必要的資訊，
+本文會在<xref linkend="MRASProtocol"/>詳細說明。
+</listitem>
+</itemizedlist>
+</para>
+</sect2>
+&OntologyDesign;
+&MRASP;
+&InferenceEngine;
+&Deploy;
+</sect1>

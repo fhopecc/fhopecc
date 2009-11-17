@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding="Big5"?>
+<table id="OntRelComp"><title>網路知識表徵與關連式知識表徵比較</title>
+<tgroup cols="2">
+<thead>
+<row>
+<entry>網路知識表徵</entry>
+<entry>關連式知識表徵</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>具備認知經濟性效應<biblioref linkend="Jackson90"/>，
+		故編碼的法規其所佔位元較低</entry>
+<entry>需為每一類型法規製訂出表格，且要達到認知經濟性，
+必須將表格正規化程度提高，這會造成過多的表格要管理</entry>
+</row>
+<row>
+<entry>可輕易轉成關連圖，概念間的關係理解上較為簡單</entry>
+<entry>與關連圖(如 ERD)不存在一對一轉換，
+概念間關係理解較為困難</entry>
+</row>
+<row>
+<entry>能簡易的表達層級式的概念</entry>
+<entry>表格的欄位限定為
+Scalar，是故層級式均需使用表格間外鍵來表達，較為麻煩</entry>
+</row>
+<row>
+<entry>其模型的推理機製作單純、一致</entry>
+<entry>需對每種不同的情況作出特殊的推理</entry>
+</row>
+<row>
+<entry>對機器效能要求高，且處理查詢速度較慢</entry>
+<entry>對機器效能要求較低，且處理查詢速度較快</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
