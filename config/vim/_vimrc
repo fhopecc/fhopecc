@@ -1,83 +1,14 @@
-cd $fhope_home
-source $VIM/fhope.vim
-source $VIM/vimfiles/plugin/refactoring.vim
-let g:xml_namespace_transparent=1
-let g:xml_syntax_folding = 1
-set foldmethod=syntax
-set et
-let javaScript_fold=1
+cd c:\stxt
 lang mes en_US
-set encoding=utf8
 
 set nocompatible
-source $VIMRUNTIME/vimrc_example.vim
-source $VIMRUNTIME/mswin.vim
-behave mswin
-colo darkblue
-
-set guifont=Lucida_Console:h14:cANSI
-set tabstop=2
-set shiftwidth=2
-"set diffexpr=MyDiff()
-"英文字打到 70 自動插入換行服號
+set encoding=utf8
+set foldmethod=syntax
+set expandtab
 set textwidth=70
+set shiftwidth=2
 
-" T 自動 del cursor 停留的 xml tag 所包的整個內容
-" 因為有兩次 del action，要貼回來使用 p 及 "2p
-map T F<lyeF<d/<\/<C-R>">/0<CR>
-" Q 自動 yank cursor 停留的 xml tag 所包的整個內容
-map Q F<lyeF<y/<\/<C-R>">/0<CR>
-"fhope@2006/9/14  09:12:18 am
-"map <F2> :cal ChangeStamp()<CR>
-"map <F2> :w<enter>:!rake<enter>
-"svn up
-"map <F3> :cal InsFName()<CR>
-"make a deploy function by fhopecc modified at 2006-10-12
-"map <F4> :w<CR>:!rant deploy<CR>
-"run ruby script in current buffer
-map <F5> :w<CR>:make<CR>
-"make a deploy function by fhopecc modified at 2006-10-13
-map <F6> :w<CR>:!rant run<CR>
-"add the editing file into svn control, fhopecc modified at 2006-11-15
-map <F8> :w<CR>:!svn %<CR>
-"fhopecc modified at 2006-09-20
-map <F12> :w<CR>:!svn ci -m "file:[%] has been modified"<CR>
-"fhopecc modified at 2006-10-04
-map <F11> :w<CR>:!rant<CR>
+color darkblue
+set guifont=Lucida_Console:h14:cANSI
 
-function MyDiff()
-  let opt = '-a --binary '
-	if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-  let arg1 = v:fname_in
-  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-  let arg2 = v:fname_new
-  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-  let arg3 = v:fname_out
-  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-  silent execute '!c:\vim\vim71\diff ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
-endfunction
-
-function! OutlineToggle()
-    if (! exists ("b:outline_mode"))
-        let b:outline_mode = 0
-    endif
-
-    if (b:outline_mode == 0)
-        syn region myFold start="{" end="}" transparent fold
-        syn sync fromstart
-        set foldmethod=syntax
-
-        silent! exec "%s/{{{/<<</"
-        silent! exec "%s/}}}/>>>/"
-
-        let b:outline_mode = 1
-    else
-        set foldmethod=marker
-
-        silent! exec "%s/<<</{{{/"
-        silent! exec "%s/>>>/}}}/"
-
-        let b:outline_mode = 0
-    endif
-endfunction
+syntax on
