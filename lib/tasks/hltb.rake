@@ -3,7 +3,7 @@ Tmp = "tmp/hltb"
 Jpg = File.join(Tmp, 'jpg') 
 directory Tmp
 directory Jpg
-amespace "tax_report" do
+namespace "tax_report" do
 	desc "download and load tax report"
 	task :print, [:docn] => [Tmp, Jpg] do |t, args|
     Hltb.download_tax_report args.docn[0..9]
